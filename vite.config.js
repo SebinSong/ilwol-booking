@@ -9,11 +9,11 @@ export default defineConfig(({ mode }) => {
     env[key] = `"${env[key]}"`
   }
 
-  console.log('loaded env: ', env)
   return ({
     plugins: [react()],
     root: 'frontend',
     public: path.resolve(__dirname, 'frontend/public'),
+    base: mode === 'staging' ? '/ilwol-booking/' : undefined,
     define: {
       '$TEST': '"test-string"',
       ...env

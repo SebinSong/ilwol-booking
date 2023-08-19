@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
     define: {
       '$TEST': '"test-string"',
       ...env
+    },
+    build: {
+      outDir: path.resolve(__dirname, './dist')
     }
   })
 })

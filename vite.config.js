@@ -21,11 +21,20 @@ export default defineConfig(({ mode }) => {
       '$TEST': '"test-string"',
       ...env
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          includePaths: [ resolvePath('styles') ],
+          additionalData: '@import "variables";'
+        }
+      }
+    },
     resolve: {
       alias: {
         '~': appSrc,
         '@components': resolvePath('components'),
         '@pages': resolvePath('pages'),
+        '@utils': resolvePath('utilities.js'),
         '@styles': resolvePath('styles')
       }
     },

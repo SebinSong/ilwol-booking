@@ -1,10 +1,9 @@
 // z-index constraints
-
-
 $zindex-toolbar: 10;
 $zindex-tooltip: 20;
 $zindex-modal: 30;
 
+// breakpoints
 $small-phone: 576px;
 $large-phone: 768px;
 $tablet: 992px;
@@ -16,3 +15,11 @@ $breakpoint-map: (
   tablet: $tablet,
   desktop: $desktop
 );
+
+// miscellaneous
+$toolbar-height: 80px;
+$page-max-content-width: 1600px;
+$page-common-side-padding: 2rem;
+$page-common-side-padding-mobile: 1.5rem;
+
+@import "mixins";

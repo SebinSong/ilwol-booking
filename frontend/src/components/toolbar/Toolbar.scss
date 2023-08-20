@@ -1,0 +1,20 @@
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .left-group,
+  .right-group {
+    position: relative;
+    height: 100%;
+  }
+
+  .left-group {
+    flex-grow: 1;
+  }
+
+  .right-group {
+    flex-shrink: 0;
+    width: max-content;
+  }
+}

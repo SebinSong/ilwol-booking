@@ -1,0 +1,10 @@
+// various global utility classes
+
+@for $n from 1 through 5 {
+  $val: $n * 10;
+
+  .mt-#{$val} { margin-top: #{$n}rem !important; }
+  .mb-#{$val} { margin-bottom: #{$n}rem !important; }
+  .pt-#{$val} { padding-top: #{$n}rem !important; }
+  .pb-#{$val} { padding-bottom: #{$n}rem !important; }
+}

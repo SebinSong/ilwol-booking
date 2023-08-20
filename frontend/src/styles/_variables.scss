@@ -1,0 +1,18 @@
+// z-index constraints
+
+
+$zindex-toolbar: 10;
+$zindex-tooltip: 20;
+$zindex-modal: 30;
+
+$small-phone: 576px;
+$large-phone: 768px;
+$tablet: 992px;
+$desktop: 1200px;
+
+$breakpoint-map: (
+  small-phone: $small-phone,
+  large-phone: $large-phone,
+  tablet: $tablet,
+  desktop: $desktop
+);

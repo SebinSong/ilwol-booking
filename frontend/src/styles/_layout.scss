@@ -13,7 +13,7 @@
 }
 
 .l-toolbar {
-  grid-area: "l-toolbar";
+  grid-area: l-toolbar;
   position: sticky;
   top: 0;
   width: 100%;
@@ -23,6 +23,6 @@
 }
 
 .l-page {
-  grid-area: "l-page";
+  grid-area: l-page;
   position: relative;
 }

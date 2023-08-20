@@ -5,8 +5,12 @@ import {
   createBrowserRouter
 } from 'react-router-dom'
 
+// root component
+import Root from '@components/root/Root'
+
 // pages
 import Home from '@pages/home/Home.jsx'
+import Booking from '@pages/booking/Booking.jsx'
 
 // import global styles
 import './styles/main.scss'
@@ -14,7 +18,17 @@ import './styles/main.scss'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: '/booking',
+        element: <Booking />
+      }
+    ]
   }
 ])
 

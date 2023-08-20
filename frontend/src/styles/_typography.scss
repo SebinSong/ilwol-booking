@@ -50,6 +50,7 @@ body {
   font-style: normal;
   font-weight: normal;
   font-size: $size_4;
+  color: $text_0;
   line-height: 1.5;
 }
 
@@ -61,4 +62,8 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
     font-weight: bold;
     font-size: $size;
   }
+}
+
+.has-text-bold {
+  font-weight: bold !important;
 }

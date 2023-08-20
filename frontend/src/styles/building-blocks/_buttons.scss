@@ -1,0 +1,46 @@
+@mixin addButtonColorStyles ($type: 'primary') {
+  background-color: var(--button-bg-#{$type});
+  color: var(--button-text-#{$type});
+  border-color: var(--button-border-#{$type});
+
+  &:focus,
+  &:hover,
+  &:active {
+    box-shadow: 0px 0px 1px 2px var(--button-shadow-on-focus-#{$type});
+  }
+
+  &:active {
+    background-color: var(--button-bg-on-active-#{$type});
+  }
+}
+
+button,
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  @include unselectable;
+  height: auto;
+  min-height: 5.2rem;
+  border-radius: 0.4rem;
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+  border: {
+    width: 1px;
+    style: solid;
+  }
+  transition: box-shadow 150ms ease-in;
+  white-space: nowrap;
+  font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
+  font-size: $size_5;
+  outline: none;
+
+  @include addButtonColorStyles('primary');
+
+  &.is-secondary {
+    @include addButtonColorStyles('secondary');
+  }
+}

@@ -15,8 +15,9 @@ export default function Home () {
 
       <div className='button-container'>
         <button type='button'
+          className='booking-btn'
           onClick={() => navigate('/booking')}
-          className='booking-btn'>예약하기</button>
+        >예약하기</button>
       </div>
     </PageTemplate>
   )

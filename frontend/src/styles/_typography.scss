@@ -1,0 +1,64 @@
+// Noto Sans KR
+@font-face {
+  src: url(/fonts/NotoSansKR/NotoSansKR-Light.ttf);
+  font-family: "Noto Sans KR";
+  font-weight: 300;
+}
+
+@font-face {
+  src: url(/fonts/NotoSansKR/NotoSansKR-Medium.ttf);
+  font-family: "Noto Sans KR";
+  font-weight: 500;
+}
+
+@font-face {
+  src: url(/fonts/NotoSansKR/NotoSansKR-ExtraBold.ttf);
+  font-family: "Noto Sans KR";
+  font-weight: 800;
+}
+
+// Lato - fallback font for english text
+@font-face {
+  src: url(/fonts/Lato/Lato-Light.ttf);
+  font-family: "Lato";
+  font-weight: 300;
+}
+
+@font-face {
+  src: url(/fonts/Lato/Lato-Regular.ttf);
+  font-family: "Lato";
+  font-weight: 400;
+}
+
+@font-face {
+  src: url(/fonts/Lato/Lato-Bold.ttf);
+  font-family: "Lato";
+  font-weight: 700;
+}
+
+html {
+  font-size: 10px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  min-width: 19rem;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: $size_4;
+  line-height: 1.5;
+}
+
+$titles: $size_1, $size_2, $size_3, $size_4, $size_5;
+@each $size in $titles {
+  $i: index($titles, $size);
+
+  .is-title-#{$i} {
+    font-weight: bold;
+    font-size: $size;
+  }
+}

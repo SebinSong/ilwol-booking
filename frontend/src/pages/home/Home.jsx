@@ -11,9 +11,8 @@ export default function Home () {
 
   return (
     <PageTemplate classes='page-home'>
-      <h2 className='is-title-2'>
-        <i class='icon-info-circle is-prefix'></i>
-        <span>랜딩 페이지</span>
+      <h2 className='is-title-2 page-title'>
+        <span>일월선녀<br />해달별<sup class='c-logo'>&copy;</sup></span>
       </h2>
 
       <div className='button-container'>

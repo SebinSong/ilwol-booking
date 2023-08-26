@@ -1,14 +1,14 @@
 :root {
   // buttons
-  --button-bg-primary: #CC009C;
-  --button-bg-on-active-primary: #800062;
+  --button-bg-primary: #C4237C;
+  --button-bg-on-hover-primary: #A81E6A;
   --button-text-primary: #FFFFFF;
-  --button-border-primary: #CC009C;
-  --button-shadow-on-focus-primary: rgba(204, 0, 156, 0.185);
+  --button-border-primary: #C4237C;
+  --button-shadow-on-active-primary: rgba(153, 37, 101, 0.275);
   --button-bg-secondary: rgba(0, 0, 0, 0);
-  --button-bg-on-active-secondary: #F6F5FF;
+  --button-bg-on-hover-secondary: #F6F5FF;
   --button-text-secondary: #450A37;
   --button-border-secondary: #450A37;
-  --button-border-on-active-primary: #800062;
-  --button-shadow-on-focus-secondary: rgba(69, 10, 55, 0.15);
+  --button-border-on-hover-primary: #A81E6A;
+  --button-shadow-on-active-secondary: rgba(69, 10, 55, 0.2);
 }

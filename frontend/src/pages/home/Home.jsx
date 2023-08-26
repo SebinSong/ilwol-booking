@@ -11,7 +11,10 @@ export default function Home () {
 
   return (
     <PageTemplate classes='page-home'>
-      <h2 className='is-title-2'>랜딩 페이지</h2>
+      <h2 className='is-title-2'>
+        <i class='icon-info-circle is-prefix'></i>
+        <span>랜딩 페이지</span>
+      </h2>
 
       <div className='button-container'>
         <button type='button'

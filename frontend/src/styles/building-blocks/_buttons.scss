@@ -6,11 +6,11 @@
   &:focus,
   &:hover,
   &:active {
-    box-shadow: 0px 0px 1px 2px var(--button-shadow-on-focus-#{$type});
+    background-color: var(--button-bg-on-hover-#{$type});
   }
 
   &:active {
-    background-color: var(--button-bg-on-active-#{$type});
+    box-shadow: 0px 0px 1px 2px var(--button-shadow-on-active-#{$type});
   }
 }
 

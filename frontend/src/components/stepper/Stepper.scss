@@ -1,0 +1,120 @@
+$circle-diameter: 2.4rem;
+
+.stepper-container {
+  position: relative;
+  width: 100%;
+  height: max-content;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4rem;
+
+  .stepper-track {
+    position: absolute;
+    display: block;
+    width: calc(100% - #{$circle-diameter});
+    height: 4px;
+    border-radius: 2px;
+    background-color: $inactive-grey;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+
+    &__bar {
+      position: relative;
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background-color: $magenta;
+    }
+  }
+
+  .stepper-list {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.stepper-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  height: max-content;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &.no-link,
+  &.is-none {
+    pointer-events: none;
+  }
+
+  &__name {
+    position: absolute;
+    width: max-content;
+    max-width: 4 * $circle-diameter;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0.8rem);
+    color: $text_0;
+    font-size: $size_7;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+    text-decoration: inherit;
+  }
+}
+
+.stepper-unit__circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $circle-diameter;
+  height: $circle-diameter;
+  border-radius: $circle-diameter;
+  border-width: 2px;
+  border-style: solid;
+  color: $inactive-grey;
+  border-color: currentColor;
+  background-color: $background_0;
+
+  .is-visited &,
+  .is-active & {
+    color: $magenta-dark;
+  }
+
+  .is-visited & {
+    background-color: $magenta-dark;
+  }
+
+  &-btn,
+  &-check {
+    display: inline-block;
+  }
+
+  &-btn {
+    $side: calc(#{$circle-diameter} / 2.25);
+    width: $side;
+    height: $side;
+    border-radius: $side;
+    color: inherit;
+    background-color: currentColor;
+  }
+
+  &-check {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $background_0;
+  }
+}

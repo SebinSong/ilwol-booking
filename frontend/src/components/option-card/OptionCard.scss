@@ -1,0 +1,23 @@
+.option-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  height: max-content;
+  border: 1rem;
+  padding: 1rem;
+  background-color: $background_1;
+  border: 1px solid $divider-color;
+  color: $text_0;
+
+  &__details {
+    display: block;
+    flex-grow: 1;
+    margin-right: 1.6rem;
+  }
+
+  &__price {
+    font-size: $size_5;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+}

@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 1.6rem;
 
   .left-group,
   .right-group {
@@ -10,11 +11,29 @@
   }
 
   .left-group {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
   }
 
   .right-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: max-content;
     flex-shrink: 0;
     width: max-content;
+
+    .nav-item {
+      button {
+        height: max-content;
+        padding: 0.8rem 1.4rem;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }

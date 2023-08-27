@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // z-index constraints
 $zindex-toolbar: 10;
 $zindex-tooltip: 20;
@@ -26,7 +28,7 @@ $size_6: 1.4rem;  // 14px
 $size_7: 1.2rem;  // 12px
 
 // miscellaneous
-$toolbar-height: 80px;
+$toolbar-height: 5.2rem;
 $page-max-content-width: 1620px;
 $page-common-side-padding: 2rem;
 $page-common-side-padding-mobile: 1.5rem;

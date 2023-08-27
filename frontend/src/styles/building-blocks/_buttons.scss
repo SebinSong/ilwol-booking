@@ -39,6 +39,24 @@ button,
   font-size: $size_5;
   outline: none;
 
+  &.is-serif {
+    font-family: "Noto Serif KR";
+  }
+
+  &.is-unstyled {
+    background-color: rgba(0,0,0,0);
+    border: none;
+    border-radius: 0;
+    color: $text_0;
+    min-width: 0;
+    padding: 0;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0);
+      box-shadow: none;
+    }
+  }
+
   @include addButtonColorStyles('primary');
 
   &.is-secondary {

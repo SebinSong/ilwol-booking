@@ -1,3 +1,5 @@
+import { parse } from "dotenv"
+
 export function classNames (...args) {
   // simplified version of 'classnames' npm package (https://www.npmjs.com/package/classnames) 
   const isObjectLiteral = (val) => {
@@ -16,4 +18,8 @@ export function classNames (...args) {
         return validKeyArr.join(' ')
       }
     }).join(' ')
+}
+
+export function moneyWithSymbol (val) {
+  return `$#8631;${val}`
 }

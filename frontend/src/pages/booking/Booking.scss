@@ -1,4 +1,16 @@
 .page-booking {
   position: relative;
   border: 1px solid $magenta-dark;
+
+  .page-title {
+    i {
+      font-size: 1.5em;
+      margin-right: 0.8rem;
+      transform: translateY(0.6rem);
+    }
+  }
+
+  .booking-stepper {
+    width: calc(100% - 2rem);
+  }
 }

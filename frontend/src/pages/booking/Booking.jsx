@@ -3,7 +3,8 @@ import React from 'react'
 import Stepper from '@components/stepper/Stepper'
 import OptionCard from '@components/option-card/OptionCard'
 import PageTemplate from '../PageTemplate'
-import { BOOKING_STEPS } from '~/constants.js'
+import { BOOKING_STEPS } from '@view-data/constants.js'
+import bookingOptions from '@view-data/booking-options.js'
 
 import './Booking.scss'
 
@@ -20,9 +21,12 @@ export default function Booking () {
         <Stepper classes='booking-stepper mb-60' list={BOOKING_STEPS} current={3} />
 
         <div className='counsel-option-container'>
-          <OptionCard name='1인 개인 상담'
-            description='개인 운세, 취업, 학업, 연애 상담'
-            price='100,000' />
+          {
+            bookingOptions.map(
+              option => <OptionCard key={option.id} {...option} />
+            )
+          }
+          
         </div>
       </div>
     </PageTemplate>

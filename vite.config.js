@@ -34,7 +34,8 @@ export default defineConfig(({ mode }) => {
         '~': appSrc,
         '@components': resolvePath('components'),
         '@pages': resolvePath('pages'),
-        '@utils': resolvePath('utilities.js'),
+        '@utils': resolvePath('utilities.jsx'),
+        '@view-data': resolvePath('view-data'),
         '@styles': resolvePath('styles')
       }
     },

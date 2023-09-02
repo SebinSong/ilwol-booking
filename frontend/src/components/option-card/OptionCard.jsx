@@ -1,5 +1,5 @@
 import React from 'react'
-import { moneyWithSymbol, classNames as cn } from '@utils'
+import { formatMoney, classNames as cn } from '@utils'
 import './OptionCard.scss'
 
 export default function OptionCard ({
@@ -17,8 +17,10 @@ export default function OptionCard ({
       </div>
 
       <div className='option-card__price'>
-        <span className='price-val' dangerouslySetInnerHTML={{ __html: moneyWithSymbol(price) }} />
-        <span className='price-per-hr'>/ 시간</span>
+        <span className='price-val'>
+          {formatMoney(price, { minimumFractionDigits: 0 })}
+        </span>
+        <span className='price-per-hr'> / 시간</span>
       </div>
     </div>
   )

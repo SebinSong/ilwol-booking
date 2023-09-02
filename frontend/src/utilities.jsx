@@ -20,6 +20,20 @@ export function classNames (...args) {
     }).join(' ')
 }
 
-export function moneyWithSymbol (val) {
-  return `$#8631;${val}`
+export function formatMoney(val, opts = {}) {
+  let value = parseFloat(val)
+
+  if (isNaN(value)) {
+    value = 0.00
+  }
+
+  return new Intl.NumberFormat(
+    'ko-KR',
+    {
+      style: 'currency',
+      currency: 'KRW',
+      minimumFractionDigits: 2,
+      ...opts
+    }
+  ).format(value)
 }

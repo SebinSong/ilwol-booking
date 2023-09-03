@@ -1,6 +1,8 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
+import store from '@store/index.js'
 import { classNames as cn } from '@utils'
 
 // components
@@ -11,12 +13,13 @@ export default function Root () {
   const location = useLocation()
   const hideToolbar = ['/'].includes(location.pathname)
 
-  console.log('current location: ', location)
   return (
-    <div className={cn('app-layout', hideToolbar && 'toolbar-hidden')}>
-      { !hideToolbar && <Toolbar classes='l-toolbar' /> }
+    <Provider store={store}>
+      <div className={cn('app-layout', hideToolbar && 'toolbar-hidden')}>
+        { !hideToolbar && <Toolbar classes='l-toolbar' /> }
 
-      <Outlet />
-    </div>
+        <Outlet />
+      </div>
+    </Provider>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { formatMoney, classNames as cn } from '@utils'
 import './OptionCard.scss'
 
-export default function OptionCard ({
+function OptionCard ({
   classes = '',
   isSelected = false,
   name = '',
@@ -40,7 +40,7 @@ export default function OptionCard ({
 
       <div className='option-card__input'>
         <label className='radio'>
-          <input type='radio' checked={isSelected} />
+          <input type='radio' checked={isSelected} readOnly={true} />
   
           <span className='radio__label'></span>
         </label>
@@ -48,3 +48,5 @@ export default function OptionCard ({
     </div>
   )
 }
+
+export default React.memo(OptionCard)

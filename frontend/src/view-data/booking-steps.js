@@ -8,7 +8,7 @@ export const BOOKING_STEPS = [
   },
   {
     name: '날짜 및 개인정보',
-    id: 'date-and-personal-info',
+    id: 'date-and-personal-details',
     order: 2
   },
   {
@@ -22,3 +22,9 @@ export const BOOKING_STEPS = [
     order: 4
   }
 ]
+
+export const getStepOrder = targetId => {
+  const found = BOOKING_STEPS.find(step => step.id === targetId)
+
+  return found ? found.order : 0
+}

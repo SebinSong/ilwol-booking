@@ -47,9 +47,9 @@ export default function Booking () {
           </div>
         </div>
 
-        <div className='buttons-container'>
+        <div className='buttons-container mt-60'>
           <button type='button'
-            className='continue-btn'
+            className='is-primary continue-btn'
             disabled={!selectedOptionid}
             onClick={onContinueClick}
           >다음</button>

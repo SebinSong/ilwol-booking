@@ -13,6 +13,13 @@
   &:active {
     box-shadow: 0px 0px 1px 2px var(--button-shadow-on-active-#{$type});
   }
+
+  &[disabled] {
+    background-color: var(--button-bg-disabled-#{$type});
+    border-color: var(--button-border-disabled-#{$type});
+    cursor: not-allowed;
+    opacity: 0.675;
+  }
 }
 
 button,
@@ -41,12 +48,6 @@ button,
 
   @include from ($tablet) {
     min-width: 15.2rem;
-  }
-
-  &[disabled] {
-    opacity: 0.725;
-    cursor: not-allowed;
-    pointer-events: none;
   }
 
   &.is-serif {

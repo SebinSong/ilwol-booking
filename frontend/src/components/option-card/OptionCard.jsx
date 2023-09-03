@@ -7,20 +7,43 @@ export default function OptionCard ({
   isSelected = false,
   name = '',
   description = '',
-  price = ''
+  price = '',
+  type = 'individual',
+  id = '',
+  onSelect = null
 }) {
   return (
-    <div className={cn('option-card', classes, isSelected && 'is-selected')}>
-      <div className='option-card__details'>
-        <h5 className='is-title-5 option-card__name'>{name}</h5>
-        <div className='option-card__desc text-color-grey'>{description}</div>
+    <div className={cn(
+        'option-card',
+        classes,
+        isSelected && 'is-selected',
+        'is-type-' + type
+      )}
+      onClick={() => { onSelect && onSelect(id) }}
+    >
+      <div className='option-card__icon'>
+        <i className='icon-cart'></i>
       </div>
 
-      <div className='option-card__price'>
-        <span className='price-val'>
-          {formatMoney(price, { minimumFractionDigits: 0 })}
-        </span>
-        <span className='price-per-hr'> / 시간</span>
+      <div className='option-card__details'>
+        <h5 className='is-title-3 is-sans option-card__name'>{name}</h5>
+
+        <div className='option-card__desc'>{description}</div>
+
+        <div className='option-card__price is-bold'>
+          <span className='price-val'>
+            {formatMoney(price, { minimumFractionDigits: 0 })}
+          </span>
+          <span className='price-per-hr'> /시간</span>
+        </div>
+      </div>
+
+      <div className='option-card__input'>
+        <label className='radio'>
+          <input type='radio' checked={isSelected} />
+  
+          <span className='radio__label'></span>
+        </label>
       </div>
     </div>
   )

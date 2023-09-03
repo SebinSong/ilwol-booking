@@ -11,7 +11,7 @@ export default function Home () {
 
   return (
     <PageTemplate classes='page-home'>
-      <h2 className='is-title-2 page-title mb-30'>
+      <h2 className='is-title-2 is-serif page-title mb-30'>
         <span>일월선녀<br />해달별<sup class='c-logo'>&copy;</sup></span>
       </h2>
 

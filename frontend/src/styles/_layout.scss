@@ -26,6 +26,8 @@
   grid-area: l-page;
   position: relative;
   min-height: calc(100% - #{$toolbar-height});
+  height: max-content;
+  padding-bottom: 5.6rem;
 
   .toolbar-hidden & {
     min-height: 100%;

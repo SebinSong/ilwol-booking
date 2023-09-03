@@ -3,22 +3,22 @@
 export const BOOKING_STEPS = [
   {
     name: '상담 옵션',
-    id: 'option',
+    id: 'counsel-option',
     order: 1
   },
   {
-    name: '날짜/시간',
-    id: 'date',
+    name: '날짜 및 개인정보',
+    id: 'date-and-personal-info',
     order: 2
-  },
-  {
-    name: '개인 정보',
-    id: 'personal-info',
-    order: 3
   },
   {
     name: '결제',
     id: 'payment',
+    order: 3
+  },
+  {
+    name: '내역 확인',
+    id: 'confirmation',
     order: 4
   }
 ]

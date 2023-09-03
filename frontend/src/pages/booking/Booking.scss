@@ -1,6 +1,5 @@
 .page-booking {
   position: relative;
-  border: 1px solid $magenta-dark;
 
   .page-title {
     i {
@@ -10,7 +9,34 @@
     }
   }
 
+  .page-section-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    i {
+      font-size: 1.25em;
+      transform: translateY(1px);
+      margin-right: 0.6rem;
+    }
+  }
+
   .booking-stepper {
     width: calc(100% - 2rem);
+  }
+
+  .counsel-option-container {
+    margin-top: 10rem;
+  }
+
+  .counsel-option-card {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .buttons-container {
+    margin-top: 4rem;
   }
 }

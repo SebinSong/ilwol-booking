@@ -59,7 +59,7 @@ html {
 }
 
 body {
-  font-family: "Noto Serif KR", "Lato", "Helvetica Neue", "sans-serif";
+  font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
   font-style: normal;
   font-weight: normal;
   font-size: $size_4;
@@ -75,8 +75,8 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
     font-weight: bold;
     font-size: $size;
 
-    &.is-sans {
-      font-family: "Noto Sans KR";
+    &.is-serif {
+      font-family: "Noto Serif KR";
     }
   }
 }
@@ -85,8 +85,8 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   font-weight: bold !important;
 }
 
-.has-text-sans {
-  font-family: "Noto Sans KR";
+.has-text-serif {
+  font-family: "Noto Serif KR";
   font-weight: 500;
 
   &.is-bold {

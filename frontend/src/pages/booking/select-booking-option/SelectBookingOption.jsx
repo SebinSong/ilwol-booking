@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
 import { selectCounselOption, addOption } from '@store/features/counselDetailsSlice.js'
 
@@ -9,15 +10,22 @@ import './SelectBookingOption.scss'
 
 export default function SelectBookingOption () {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // local-state
   const optionInStore = useSelector(selectCounselOption)
   const [selectedOptionid, setSelectedOptionId] = useState(optionInStore?.id || '')
 
   // methods
-  const onContinueClick = () => {
-    if (selectedOptionid) {
-      dispatch(addOption({ id: selectedOptionid }))
+  const onContinueClick = async () => {
+    try {
+      if (selectedOptionid) {
+        dispatch(addOption({ id: selectedOptionid }))
+        navigate('/booking/date-and-time')
+      }
+    } catch (err) {
+      // TODO! : replace below with a toaster component.
+      alert(`Something gone wrong: ${JSON.stringify(err)}`)
     }
   }
 
@@ -25,7 +33,7 @@ export default function SelectBookingOption () {
     <div className='counsel-option-container'>
       <h3 className='is-title-4 is-sans page-section-title'>
         <i className='icon-chevron-right-circle is-prefix'></i>
-        <span>상담 옵션</span>
+        <span>상담 옵션 선택</span>
       </h3>
 
       <div className='counsel-option-list'>

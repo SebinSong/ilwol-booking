@@ -23,3 +23,6 @@ https://www.jisr.net/
 https://www.altamira.ai/cases
 
 coloring the UI components: https://www.bookingfactory.io/
+
+### React-calendar wiki
+https://github.com/wojtekmaj/react-calendar/wiki/Recipes#display-simple-calendar

@@ -1,4 +1,19 @@
-import { parse } from "dotenv"
+'use strict'
+
+export const MINS_MILLIS = 60000
+export const HOURS_MILLIS = 60 * MINS_MILLIS
+export const DAYS_MILLIS = 24 * HOURS_MILLIS
+export const MONTHS_MILLIS = 30 * DAYS_MILLIS
+
+export function addTimeToDate (date, timeMillis) {
+  const d = new Date(date)
+  d.setTime(d.getTime() + timeMillis)
+  return d
+}
+
+export function addDaysToDate (date, days) {
+  return addTimeToDate(date, DAYS_MILLIS * days)
+}
 
 export function classNames (...args) {
   // simplified version of 'classnames' npm package (https://www.npmjs.com/package/classnames) 

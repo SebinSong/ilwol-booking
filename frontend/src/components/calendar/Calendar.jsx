@@ -1,8 +1,13 @@
 import React from 'react'
 import ReactCalendar from 'react-calendar'
+import dayjs from 'dayjs'
 import { addDaysToDate } from '@utils'
 
+// [ reference: wiki-page for react-calendar ] - https://github.com/wojtekmaj/react-calendar/wiki/Recipes
+
 import './Calendar.scss'
+
+const dayFormatter = (locale, date) => dayjs(date).format('DD')
 
 export default function Calendar ({
   value = null,
@@ -18,6 +23,7 @@ export default function Calendar ({
       locale='ko'
       className={`ilwol-calendar ${classes}`}
       minDate={tomorrow}
+      formatDay={dayFormatter}
       minDetail='year' />
   )
 }

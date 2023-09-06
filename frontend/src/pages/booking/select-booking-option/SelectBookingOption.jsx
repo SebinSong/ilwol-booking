@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
-import { selectCounselOption, addOption } from '@store/features/counselDetailsSlice.js'
+import { selectCounselOption, addCounselOption } from '@store/features/counselDetailsSlice.js'
 
 import OptionCard from '@components/option-card/OptionCard'
 
@@ -20,7 +20,7 @@ export default function SelectBookingOption () {
   const onContinueClick = async () => {
     try {
       if (selectedOptionid) {
-        dispatch(addOption({ id: selectedOptionid }))
+        dispatch(addCounselOption({ id: selectedOptionid }))
         navigate('/booking/date-and-time')
       }
     } catch (err) {

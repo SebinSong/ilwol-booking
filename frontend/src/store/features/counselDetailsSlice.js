@@ -10,20 +10,30 @@ const counselDetailsSlice = createSlice({
     personalDetails: null
   },
   reducers: {
-    addOption (state, action) {
+    addCounselOption (state, action) {
       const optionId = action.payload.id
       state.option = bookingOptions.find(entry => entry.id === optionId)
+    },
+    addCounselDate (state, action) {
+      state.date = new Date(action.payload.date).getTime()
+    },
+    addCounselTimeSlot (state, action) {
+      state.timeSlot = action.payload
     }
   }
 })
 
 // action creators
 export const {
-  addOption
+  addCounselOption,
+  addCounselDate,
+  addCounselTimeSlot
 } = counselDetailsSlice.actions
 
 // selectors
 export const selectCounselOption = state => state.counselDetails.option 
+export const selectCounselDate = state => state.counselDetails.date 
+export const selectCounselTimeSlot = state => state.counselDetails.timeSlot
 
 // reducer
 export default counselDetailsSlice.reducer

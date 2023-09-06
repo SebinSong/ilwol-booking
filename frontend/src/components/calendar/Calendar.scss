@@ -13,7 +13,7 @@
   border-radius: 0.8rem;
   line-height: 1.125;
 
-  @include tablet {
+  @include from($small-phone) {
     width: 40rem;
   }
 
@@ -21,6 +21,8 @@
     color: var(--calendar-btn-text-color);
     background-color: var(--calendar-btn-bg-color);
     border-radius: 0.8rem;
+    min-height: unset;
+    min-width: unset;
     border: none;
     outline: none;
     letter-spacing: 0.5px;
@@ -44,7 +46,7 @@
 .react-calendar--doubleView {
   width: 64rem;
 
-  @include tablet {
+  @include from($small-phone) {
     width: 80rem;
   }
 
@@ -78,6 +80,8 @@
     &:enabled:hover,
     &:enabled:focus {
       background-color: $magenta-bg;
+      color: $magenta;
+      box-shadow: none;
     }
 
     &.react-calendar__navigation__arrow {

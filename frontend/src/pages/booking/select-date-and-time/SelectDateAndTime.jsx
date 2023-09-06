@@ -1,11 +1,55 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import Calendar from '@components/calendar/Calendar'
+import TimeSlot from '@components/time-slot/TimeSlot'
+import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
+import {
+  addCounselDate,
+  addCounselTimeSlot,
+  selectCounselDate,
+  selectCounselOption,
+  selectCounselTimeSlot
+} from '@store/features/counselDetailsSlice.js'
 
 import './SelectDateAndTime.scss'
 
 export default function SelectDateAndTime () {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   // local-state
-  const [date, setDate] = useState(new Date())
+  const counselOptionInstore = useSelector(selectCounselOption)
+  const counselDateInStore = useSelector(selectCounselDate)
+  const counselTimeSlotInStore = useSelector(selectCounselTimeSlot)
+
+  const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
+  const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
+
+  // computed-state
+  const enableContinueBtn = Boolean(date) && Boolean(timeSlot)
+
+  // methods
+  const onContinueClick = () => {
+    try {
+      dispatch(addCounselDate({ date }))
+      dispatch(addCounselTimeSlot(timeSlot))
+      navigate('/booking/personal-details')
+    } catch (err) {
+      alert(JSON.stringify(err))
+    }
+  }
+
+  const backToPreviousStep = () => {
+    navigate('/booking/counsel-option')
+  }
+
+  // effects
+  useEffect(() => {
+    if (!counselOptionInstore) {
+      backToPreviousStep()
+    }
+  }, [])
 
   return (
     <div className='select-date-and-time'>
@@ -16,6 +60,31 @@ export default function SelectDateAndTime () {
 
       <div className='calendar-container'>
         <Calendar onChange={setDate} value={date} />
+      </div>
+
+      {
+        Boolean(date) &&
+        <div className='time-selection-container'>
+          <TimeSlot classes='time-slot'
+            slotList={DEFAULT_TIME_SLOTS}
+            value={timeSlot}
+            onSelect={setTimeSlot} />
+        </div>
+      }
+
+      <div className='buttons-container is-row mt-60'>
+        <button type='button'
+          className='is-secondary back-btn'
+          onClick={backToPreviousStep}>
+          뒤로 가기
+        </button>
+
+        <button type='button'
+          className='is-primary continue-btn'
+          disabled={!enableContinueBtn}
+          onClick={onContinueClick}>
+          다음
+        </button>
       </div>
     </div>
   )

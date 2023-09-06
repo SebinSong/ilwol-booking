@@ -7,6 +7,7 @@ import { BOOKING_STEPS, getStepOrder } from '@view-data/booking-steps.js'
 import Stepper from '@components/stepper/Stepper'
 import SelectBookingOption from './select-booking-option/SelectBookingOption'
 import SelectDateAndTime from './select-date-and-time/SelectDateAndTime'
+import EnterPersonalDetails from './enter-personal-details/EnterPersonalDetails'
 
 import PageTemplate from '../PageTemplate'
 
@@ -15,7 +16,8 @@ import './Booking.scss'
 const getContentComponentById = stepId => {
   return ({
     'counsel-option': SelectBookingOption,
-    'date-and-time': SelectDateAndTime
+    'date-and-time': SelectDateAndTime,
+    'personal-details': EnterPersonalDetails
   })[stepId] || null
 }
 

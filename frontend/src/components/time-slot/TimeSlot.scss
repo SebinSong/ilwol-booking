@@ -1,0 +1,35 @@
+.time-slot-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+
+  .time-slot-item {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 0.8rem;
+    border: 1px solid var(--timeslot-border-color);
+    background-color: var(--timeslot-bg-color);
+    box-shadow: $box-shadow_deep-light;
+    padding: 1rem 1.6rem;
+    font-size: $size_6;
+    outline: none;
+
+    &:active,
+    &:hover {
+      background-color: $magenta-bg;
+      color: $magenta;
+      border-color: rgba(0, 0, 0, 0);
+    }
+
+    &:focus {
+      border-color: var(--timeslot-border-color_active);
+    }
+
+    &.is-active {
+      color: var(--timeslot-text-color_active);
+      background-color: var(--timeslot-bg-color_active);
+      border-color: var(--timeslot-border-color_active);
+    }
+  }
+}

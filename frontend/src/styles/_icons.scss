@@ -117,6 +117,7 @@ $icon-map: (
 
 @mixin icon($name) {
   content: map-get($icon-map, $name);
+  display: inline-block;
   line-height: 1;
   font-family: "Ilwol Icons";
   font-weight: 600;

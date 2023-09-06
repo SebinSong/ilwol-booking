@@ -24,6 +24,6 @@ export default function Calendar ({
       className={`ilwol-calendar ${classes}`}
       minDate={tomorrow}
       formatDay={dayFormatter}
-      minDetail='year' />
+      minDetail='decade' />
   )
 }

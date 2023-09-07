@@ -1,4 +1,5 @@
 $radio-color: #322940;
+$radio-border-color: #64748B;
 
 /* radio-button */
 
@@ -53,7 +54,7 @@ $radio-color: #322940;
 }
 
 .radio {
-  --radio-diameter: 2rem;
+  --radio-diameter: 1.8rem;
 
   position: relative;
   display: inline-flex;
@@ -120,7 +121,7 @@ $radio-color: #322940;
   &:hover .radio__label::before,
   input:focus + .radio__label::before,
   input:checked + .radio__label::before {
-    border-color: $radio-color;
+    border-color: $radio-border-color;
     box-shadow: $box-shadow_light;
   }
 
@@ -135,7 +136,7 @@ $radio-color: #322940;
   position: relative;
   display: flex;
   justify-content: center;
-  height: 5.6rem;
+  height: 5.2rem;
   border-radius: 1rem;
   padding: 0.8rem 1.6rem;
   background-color: var(--custom-input-bg-color);

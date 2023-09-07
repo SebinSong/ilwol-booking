@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 
 import './EnterPersonalDetails.scss'
 
 export default function EnterPersonalDetails () {
+  // local-state
+  const { checkStepStateAndGo } = useCounselOptionSteps()
+
+  // effects
+  useEffect(() => {
+    checkStepStateAndGo('date-and-time')
+  }, [])
+
   return (
     <div className='enter-personal-details'>
       <h3 className='is-title-4 is-sans page-section-title'>

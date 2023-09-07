@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { resolve } from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -37,7 +37,8 @@ export default defineConfig(({ mode }) => {
         '@utils': resolvePath('utilities.jsx'),
         '@view-data': resolvePath('view-data'),
         '@styles': resolvePath('styles'),
-        '@store': resolvePath('store')
+        '@store': resolvePath('store'),
+        '@hooks': resolvePath('hooks')
       }
     },
     build: {

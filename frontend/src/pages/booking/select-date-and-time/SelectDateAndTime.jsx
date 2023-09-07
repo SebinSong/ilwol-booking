@@ -6,11 +6,9 @@ import TimeSlot from '@components/time-slot/TimeSlot'
 import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
 import {
   addCounselDate,
-  addCounselTimeSlot,
-  selectCounselDate,
-  selectCounselOption,
-  selectCounselTimeSlot
+  addCounselTimeSlot
 } from '@store/features/counselDetailsSlice.js'
+import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 
 import './SelectDateAndTime.scss'
 
@@ -19,9 +17,11 @@ export default function SelectDateAndTime () {
   const dispatch = useDispatch()
 
   // local-state
-  const counselOptionInstore = useSelector(selectCounselOption)
-  const counselDateInStore = useSelector(selectCounselDate)
-  const counselTimeSlotInStore = useSelector(selectCounselTimeSlot)
+  const {
+    counselDateInStore,
+    counselTimeSlotInStore,
+    checkStepStateAndGo
+  } = useCounselOptionSteps()
 
   const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
@@ -46,9 +46,7 @@ export default function SelectDateAndTime () {
 
   // effects
   useEffect(() => {
-    if (!counselOptionInstore) {
-      backToPreviousStep()
-    }
+    checkStepStateAndGo('counsel-option')
   }, [])
 
   return (

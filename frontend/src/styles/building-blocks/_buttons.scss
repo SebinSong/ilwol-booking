@@ -35,7 +35,7 @@ button,
   @include unselectable;
   height: auto;
   min-height: 4.6rem;
-  border-radius: 0.4rem;
+  border-radius: 1rem;
   padding-left: 2.4rem;
   padding-right: 2.4rem;
   border: {
@@ -45,7 +45,7 @@ button,
   transition: box-shadow 150ms ease-in;
   white-space: nowrap;
   font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
-  font-size: $size_5;
+  font-size: $size_6;
   outline: none;
 
   @include from ($tablet) {

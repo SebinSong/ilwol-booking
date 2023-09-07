@@ -102,3 +102,14 @@ $desktop: 1200px;
   -moz-osx-font-smoothing: grayscale;
   transform: translateY(0.2rem);
 }
+
+@mixin width-limited {
+  width: 100%;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include from($small-phone) {
+    max-width: 42rem;
+  }
+}

@@ -5,7 +5,12 @@ import './EnterPersonalDetails.scss'
 
 export default function EnterPersonalDetails () {
   // local-state
-  const { checkStepStateAndGo } = useCounselOptionSteps()
+  const {
+    checkStepStateAndGo,
+    counselOptionInstore
+  } = useCounselOptionSteps()
+  const isOverseasCounsel = counselOptionInstore &&
+    counselOptionInstore.id === 'overseas-counsel'
 
   // effects
   useEffect(() => {
@@ -18,6 +23,10 @@ export default function EnterPersonalDetails () {
         <i className='icon-chevron-right-circle is-prefix'></i>
         <span>개인 정보</span>
       </h3>
+
+      <form className='page-form-constraints'>
+        테스트 해보기.
+      </form>
     </div>
   )
 }

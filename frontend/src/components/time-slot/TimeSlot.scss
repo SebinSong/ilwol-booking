@@ -1,7 +1,11 @@
 .time-slot-container {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  justify-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
   gap: 1.2rem;
 
   .time-slot-item {
@@ -13,6 +17,7 @@
     box-shadow: $box-shadow_deep-light;
     padding: 1rem 1.6rem;
     font-size: $size_6;
+    text-align: center;
     outline: none;
 
     &:active,

@@ -6,16 +6,12 @@
 }
 
 .react-calendar {
-  width: 32rem;
-  max-width: 100%;
+  width: 100%;
+  max-width: 42rem;
   background: var(--calender-bg-color);
   border: 1px solid var(--calendar-border-color);
   border-radius: 0.8rem;
   line-height: 1.125;
-
-  @include from($small-phone) {
-    width: 40rem;
-  }
 
   button {
     color: var(--calendar-btn-text-color);
@@ -45,6 +41,7 @@
 
 .react-calendar--doubleView {
   width: 64rem;
+  max-width: 100%;
 
   @include from($small-phone) {
     width: 80rem;

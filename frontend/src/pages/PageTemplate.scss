@@ -13,4 +13,8 @@
       padding: 0 1.5rem;
     }
   }
+
+  .page-form-constraints {
+    @include width-limited;
+  }
 }

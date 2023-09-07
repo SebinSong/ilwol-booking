@@ -1,14 +1,3 @@
-@mixin width-limited {
-  width: 100%;
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
-
-  @include from($small-phone) {
-    max-width: 40rem;
-  }
-}
-
 .select-date-and-time {
   position: relative;
 
@@ -21,10 +10,5 @@
   .time-selection-container {
     position: relative;
     margin-top: 2.6rem;
-    @include width-limited;
-  }
-
-  .buttons-container {
-    @include width-limited;
   }
 }

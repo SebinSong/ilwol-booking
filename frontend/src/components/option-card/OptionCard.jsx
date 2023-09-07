@@ -39,7 +39,7 @@ function OptionCard ({
       </div>
 
       <div className='option-card__input'>
-        <label className='radio'>
+        <label className='radio is-large'>
           <input type='radio' checked={isSelected} readOnly={true} />
   
           <span className='radio__label'></span>

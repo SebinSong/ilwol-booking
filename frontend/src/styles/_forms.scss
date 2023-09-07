@@ -1,14 +1,68 @@
-$radio-diameter: 2.6rem;
-$radio-color: $magenta-dark;
+$radio-color: #322940;
+
+/* radio-button */
+
+.form-field {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 2.4rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .helper {
+    display: block;
+    margin-top: 0.6rem;
+    color: $text_grey;
+    font-size: $size_7;
+    line-height: 1.5;
+    padding-left: 0.2rem;
+    user-select: none;
+
+    &::before {
+      @include has-icon;
+    }
+
+    &.info::before {
+      content: "\e922";
+      margin-right: 0.4rem;
+      transform: translateY(1px);
+    }
+  }
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  font-size: $size_6;
+  padding-left: 0.2rem;
+}
 
 .radio {
+  --radio-diameter: 2rem;
+
   position: relative;
   display: inline-flex;
   align-items: flex-start;
   width: max-content;
-  min-width: $radio-diameter;
-  min-height: $radio-diameter;
-  padding-left: $radio-diameter;
+  min-width: var(--radio-diameter);
+  min-height: var(--radio-diameter);
+  padding-left: var(--radio-diameter);
+  font-size: $size_6;
+
+  &.is-large {
+    --radio-diameter: 2.6rem;
+    font-size: $size_5;
+  }
+
+  &:not(:empty) {
+    padding-left: calc(var(--radio-diameter) * 1.25);
+  }
+
   cursor: pointer;
 
   input {
@@ -29,8 +83,8 @@ $radio-color: $magenta-dark;
     }
 
     &::before {
-      width: $radio-diameter;
-      height: $radio-diameter;
+      width: var(--radio-diameter);
+      height: var(--radio-diameter);
       left: 0;
       top: 0;
       border: 1px solid $text_grey;
@@ -41,10 +95,10 @@ $radio-color: $magenta-dark;
     }
 
     &::after {
-      width: $radio-diameter * 0.5;
-      height: $radio-diameter * 0.5;
-      left: $radio-diameter * 0.25;
-      top: $radio-diameter * 0.25;
+      width: calc(var(--radio-diameter) * 0.5);
+      height: calc(var(--radio-diameter) * 0.5);
+      left: calc(var(--radio-diameter) * 0.25);
+      top: calc(var(--radio-diameter) * 0.25);
       background-color: $radio-color;
       transform-origin: center;
       transform: scale(0.25);
@@ -63,5 +117,37 @@ $radio-color: $magenta-dark;
   input:checked + .radio__label::after {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+.textarea,
+.input {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 5.6rem;
+  border-radius: 1rem;
+  padding: 0.8rem 1.6rem;
+  background-color: var(--custom-input-bg-color);
+  border: 1px solid var(--custom-input-border-color);
+  color: var(--custom-input-text-color);
+  font-size: $size_5;
+  transition:
+    border-color 200ms linear,
+    box-shadow 200ms linear;
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--custom-input-border-color_focus);
+    box-shadow: $box-shadow_deep-light;
+  }
+
+  &:hover {
+    border-color: var(--custom-input-border-color_hover);
+  }
+
+  @include placeholder {
+    color: var(--custom-input-placeholder-color);
   }
 }

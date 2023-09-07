@@ -20,16 +20,24 @@
   --button-shadow-on-active-secondary: rgba(69, 10, 55, 0.2);
 
   // calendar
-  --calender-bg-color: #FFFFFF;
-  --calendar-border-color: #FFFFFF;
-  --calendar-btn-bg-color: #FFFFFF;
+  --calender-bg-color: #F6F5FF;
+  --calendar-border-color: #F6F5FF;
+  --calendar-btn-bg-color: #F6F5FF;
   --calendar-btn-text-color: #450A37;
   --calendar-btn-text-color_disabled: #988D99;
 
   // time-slot
-  --timeslot-bg-color: #FFFFFF;
+  --timeslot-bg-color: #F6F5FF;
   --timeslot-bg-color_active: #E3199C;
   --timeslot-text-color_active: #FFFFFF;
-  --timeslot-border-color: #FFFFFF;
+  --timeslot-border-color: #F6F5FF;
   --timeslot-border-color_active: #E3199C;
+
+  // custom input
+  --custom-input-bg-color: #F6F5FF;
+  --custom-input-border-color: #CBD5E1;
+  --custom-input-border-color_focus: #64748B;
+  --custom-input-border-color_hover: #94A3B8;
+  --custom-input-text-color: #322940;
+  --custom-input-placeholder-color: #94A3B8; 
 }

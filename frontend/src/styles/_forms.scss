@@ -7,7 +7,7 @@ $radio-color: #322940;
   display: block;
   max-width: 100%;
   width: 100%;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2.6rem;
 
   &:last-of-type {
     margin-bottom: 0;
@@ -30,6 +30,16 @@ $radio-color: #322940;
       content: "\e922";
       margin-right: 0.4rem;
       transform: translateY(1px);
+    }
+
+    &.error {
+      color: $warning;
+
+      &::before {
+        content: "\e929";
+        margin-right: 0.4rem;
+        transform: translateY(1px);
+      }
     }
   }
 }

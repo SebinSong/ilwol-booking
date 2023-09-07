@@ -14,13 +14,26 @@ export default function EnterPersonalDetails () {
     counselOptionInstore.id === 'overseas-counsel'
   const [details, setDetails] = useImmer({
     name: '',
-    gender: ''
+    gender: '',
+    dob: {
+      system: 'lunar',
+      year: '',
+      month: '',
+      date: ''
+    }
   })
 
   const updateFactory = key => {
     return e => {
       setDetails(draft => {
         draft[key] = e.target.value
+      })
+    }
+  }
+  const updateDobFactory = key => {
+    return e => {
+      setDetails(draft => {
+        draft.dob[key] = e.target.value
       })
     }
   }
@@ -70,6 +83,30 @@ export default function EnterPersonalDetails () {
               onChange={updateFactory('gender')} />
             <span className='radio__label'>여자</span>
           </label>
+        </div>
+
+        <div className='form-field'>
+          <span className='label'>생년월일</span>
+
+          <div className='dob-system-selection'>
+            <label className='radio dob-radio-item'>
+              <input type='radio'
+                checked={details.dob?.system === 'lunar'}
+                value='lunar'
+                name='dob-system'
+                onChange={updateDobFactory('system')} />
+              <span className='radio__label'>양력</span>
+            </label>
+
+            <label className='radio dob-radio-item'>
+              <input type='radio'
+                checked={details.dob?.system === 'solar'}
+                value='solar'
+                name='dob-system'
+                onChange={updateDobFactory('system')} />
+              <span className='radio__label'>음력</span>
+            </label>
+          </div>
         </div>
       </form>
     </div>

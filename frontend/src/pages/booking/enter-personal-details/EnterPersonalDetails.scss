@@ -1,7 +1,8 @@
 .enter-personal-details {
   position: relative;
 
-  .gender-radio-item:first-of-type {
+  .gender-radio-item:first-of-type,
+  .dob-radio-item:first-of-type {
     margin-right: 3rem;
   }
 }

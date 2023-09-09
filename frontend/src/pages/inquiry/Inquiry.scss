@@ -6,4 +6,26 @@
       transform: translateY(0.4rem);
     }
   }
+
+  .name-and-email-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 3rem;
+    gap: 3rem;
+
+    @include from(500px) {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .name-field {
+        width: 18rem;
+      }
+
+      .email-field {
+        flex-grow: 1;
+      }
+    }
+  }
 }

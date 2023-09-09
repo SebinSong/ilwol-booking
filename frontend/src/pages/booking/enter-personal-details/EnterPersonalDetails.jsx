@@ -92,7 +92,7 @@ export default function EnterPersonalDetails () {
         <span>개인 정보</span>
       </h3>
 
-      <form className='personal-details-form mt-40'>
+      <div className='personal-details-form mt-40'>
         <div className='form-field'>
           <label>
             <span className='label'>
@@ -275,7 +275,7 @@ export default function EnterPersonalDetails () {
             <span className='has-text-bold'>{'(200자 이내)'}</span>
           </p>
         </div>
-      </form>
+      </div>
 
       <div className='buttons-container is-row mt-60'>
         <button type='button'

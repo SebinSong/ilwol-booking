@@ -56,3 +56,8 @@ export function formatMoney(val, opts = {}) {
 export function isStringNumberOnly (val) {
   return /^\d*\.?\d*$/.test(val)
 }
+
+export function validateEmail (str) {
+  const emailRegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  return emailRegExp.test(str)
+}

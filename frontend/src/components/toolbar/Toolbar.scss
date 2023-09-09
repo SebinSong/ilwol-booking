@@ -16,6 +16,10 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
+
+    .toolbar-title {
+      user-select: none;
+    }
   }
 
   .right-group {

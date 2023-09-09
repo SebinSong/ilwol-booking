@@ -11,6 +11,7 @@ import Root from '@components/root/Root'
 // pages
 import Home from '@pages/home/Home.jsx'
 import Booking from '@pages/booking/Booking.jsx'
+import Inquiry from '@pages/inquiry/Inquiry'
 
 // import global styles
 import './styles/main.scss'
@@ -27,6 +28,14 @@ const router = createBrowserRouter([
       {
         path: '/booking/:id',
         element: <Booking />
+      },
+      {
+        path: '/booking',
+        element: <Booking />
+      },
+      {
+        path: '/inquiry',
+        element: <Inquiry />
       }
     ]
   }

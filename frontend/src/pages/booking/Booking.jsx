@@ -22,7 +22,7 @@ const getContentComponentById = stepId => {
 }
 
 export default function Booking () {
-  const { id: stepId } = useParams()
+  const { id: stepId = 'counsel-option' } = useParams()
 
   // local-state
   const currentStepNum = getStepOrder(stepId)

@@ -1,25 +1,54 @@
 import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { classNames as cn } from '@utils'
 import './Toolbar.scss'
 
+const navigationList = [
+  {
+    id: 'home',
+    linkTo: '/',
+    name: '홈',
+    disableCondition: currPath => currPath === '/'
+  },
+  {
+    id: 'booking',
+    linkTo: '/booking/counsel-option',
+    name: '예약',
+    disableCondition: currPath => currPath.includes('/booking')
+  },
+  {
+    id: 'inquiry',
+    linkTo: '/inquiry',
+    name: '문의',
+    disableCondition: currPath => currPath === '/inquiry'
+  },
+]
+
 export default function Toolbar ({ hidden = false , classes = '' }) {
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const clickHandler = entry => {
+    if (entry.disableCondition(pathname)) { return }
+
+    navigate(entry.linkTo)
+  }
+
   return (
     <div className={cn('app-toolbar', classes)}>
       <div className='left-group'>
-        <h1 className='is-title-4 is-serif'>일월선녀 해달별</h1>
+        <h1 className='is-title-4 is-serif toolbar-title'>일월선녀 해달별</h1>
       </div>
       <ul className='right-group'>
-        <li className='nav-item'>
-          <button className='is-unstyled is-serif'>홈</button>
-        </li>
-
-        <li className='nav-item'>
-          <button className='is-unstyled is-serif'>예약</button>
-        </li>
-
-        <li className='nav-item'>
-          <button className='is-unstyled is-serif'>문의</button>
-        </li>
+        {
+          navigationList.map(entry => (
+            <li key={entry.id}
+              className='nav-item'
+              onClick={() => clickHandler(entry)}>
+              <button className='is-unstyled is-serif'>{entry.name}</button>
+            </li>
+          ))
+        }
       </ul>
     </div>
   )

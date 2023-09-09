@@ -25,15 +25,33 @@
     width: max-content;
     flex-shrink: 0;
     width: max-content;
+    gap: 0.4rem;
 
     .nav-item {
       button {
         height: max-content;
-        padding: 0.8rem 1.4rem;
+        padding: 0.4rem 0.8rem;
+        font-family: "Noto Sans KR";
         font-weight: bold;
+        border-radius: 1rem;
+        box-shadow: none;
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0);
+        min-height: 3.2rem;
+        min-width: 4.6rem;
+        color: $text_0;
+        transition: border-color 120ms linear;
 
-        &:hover {
-          text-decoration: underline;
+        &:hover,
+        &:active,
+        &:focus {
+          border-color: $divider-color;
+        }
+
+        &:active,
+        &:focus {
+          border-color: $text_0;
+          background-color: rgba(0, 0, 0, 0);
         }
       }
     }

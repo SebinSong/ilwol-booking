@@ -1,5 +1,6 @@
 $radio-color: #322940;
 $radio-border-color: #64748B;
+$form-border: 1rem;
 
 /* radio-button */
 
@@ -51,6 +52,22 @@ $radio-border-color: #64748B;
   margin-bottom: 0.8rem;
   font-size: $size_6;
   padding-left: 0.2rem;
+
+  .mandatory,
+  .optional {
+    display: inline-block;
+    margin-left: 0.4rem;
+    font-size: 0.875em;
+  }
+
+  .mandatory {
+    color: $magenta;
+    opacity: 0.7;
+  }
+  .optional {
+    color: $text_grey;
+    opacity: 0.775;
+  }
 }
 
 .radio {
@@ -132,12 +149,13 @@ $radio-border-color: #64748B;
 }
 
 .textarea,
-.input {
+.input,
+.select {
   position: relative;
   display: flex;
   justify-content: center;
-  height: 5.2rem;
-  border-radius: 1rem;
+  height: 4.8rem;
+  border-radius: $form-border;
   padding: 0.8rem 1.6rem;
   background-color: var(--custom-input-bg-color);
   border: 1px solid var(--custom-input-border-color);
@@ -160,5 +178,63 @@ $radio-border-color: #64748B;
 
   @include placeholder {
     color: var(--custom-input-placeholder-color);
+    font-size: 0.825em;
+  }
+}
+
+.textarea {
+  height: auto;
+  min-height: 9.6rem;
+  resize: vertical;
+}
+
+.select {
+  padding-right: 3.2rem;
+  min-width: 8.2rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &::after {
+    @include has-icon;
+    content: "\e925";
+    position: absolute;
+    color: $text_grey;
+    opacity: 0.75;
+    font-size: $size_4;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+    transition: color 200ms linear;
+  }
+
+  &:hover::after {
+    color: currentColor;
+    opacity: 1;
+  }
+}
+
+.selectgroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .select {
+    flex-shrink: 0;
+    border-radius: $form-border 0 0 $form-border;
+  }
+
+  .input {
+    flex-grow: 1;
+    border-radius: 0 $form-border $form-border 0;
   }
 }

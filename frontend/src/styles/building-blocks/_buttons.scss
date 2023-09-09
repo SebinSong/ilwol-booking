@@ -42,7 +42,10 @@ button,
     width: 1px;
     style: solid;
   }
-  transition: box-shadow 150ms ease-in;
+  transition:
+    box-shadow 150ms ease-in,
+    border-color 150ms ease-in,
+    background-color 150ms ease-in;
   white-space: nowrap;
   font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
   font-size: $size_6;

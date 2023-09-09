@@ -52,3 +52,7 @@ export function formatMoney(val, opts = {}) {
     }
   ).format(value)
 }
+
+export function isStringNumberOnly (val) {
+  return /^\d*\.?\d*$/.test(val)
+}

@@ -1,8 +1,40 @@
 .enter-personal-details {
   position: relative;
 
-  .gender-radio-item:first-of-type,
-  .dob-radio-item:first-of-type {
+  .gender-radio-item:not(:last-of-type),
+  .method-radio-item:not(:last-of-type) {
     margin-right: 3rem;
+  }
+
+  .dob-group {
+    position: relative;
+    width: 100%;
+    display: flex;
+    gap: 0.6rem;
+
+    &__year {
+      flex-grow: 1;
+    }
+
+    &__month,
+    &__date {
+      width: 27%;
+      min-width: 5.8rem;
+    }
+  }
+
+  .contact-field {
+    display: block;
+    margin-top: 1.4rem;
+
+    &__label {
+      display: block;
+      line-height: 1.5;
+      color: $text_grey;
+      font-size: $size_7;
+      font-weight: bold;
+      padding-left: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
   }
 }

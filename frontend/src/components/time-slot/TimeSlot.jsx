@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { classNames as cn } from '@utils'
 
 import './TimeSlot.scss'
@@ -9,8 +9,15 @@ export default function TimeSlot ({
   onSelect = null,
   classes = ''
 }) {
+  const rootEl = useRef(null)
+
+  useEffect(() => {
+    // make sure it's noticeable by user
+    rootEl.current && rootEl.current.scrollIntoView(true)
+  }, [])
+
   return (
-    <div className={cn('time-slot-container', classes)}>
+    <div ref={rootEl} className={cn('time-slot-container', classes)}>
       {
         slotList.map(entry => (
           <div className={cn('time-slot-item', value === entry && 'is-active')}

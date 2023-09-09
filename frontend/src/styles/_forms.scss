@@ -87,6 +87,11 @@ $form-border: 1rem;
     display: inline-block;
     font-size: 1.15em;
   }
+
+  .form-field + & {
+    margin-top: -1.6rem;
+    margin-bottom: 2.6rem;
+  }
 }
 
 /* radio-button */

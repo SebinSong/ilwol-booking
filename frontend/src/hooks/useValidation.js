@@ -9,7 +9,14 @@ export function useValidation (targetState = {}, validationEntries = []) {
         setFormError({ errKey: key, errMsg })
 
         const fieldEl = document.querySelector(`[data-vkey="${key}"]`)
-        fieldEl && fieldEl?.focus()
+        
+        if (fieldEl) {
+          fieldEl.focus && fieldEl.focus()
+          fieldEl.scrollIntoView({
+            block: 'center',
+            inline: "nearest"
+          })
+        }
 
         return false
       }

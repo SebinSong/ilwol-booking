@@ -2,10 +2,16 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
-import { isStringNumberOnly } from '@utils'
+import { isStringNumberOnly, validateEmail, classNames as cn } from '@utils'
 import { MOBILE_PREFIXES, COUNSEL_METHOD } from '@view-data/constants.js'
+import { useValidation } from '@hooks/useValidation'
 
 import './EnterPersonalDetails.scss'
+
+const { WarningMessage } = React.Global
+
+// helper
+const isNumberLessThan = (val, num) => Boolean(val.length) && parseInt(val) > 0 && parseInt(val) < num
 
 export default function EnterPersonalDetails () {
   const navigate = useNavigate()
@@ -39,12 +45,40 @@ export default function EnterPersonalDetails () {
     ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
     : COUNSEL_METHOD.filter(entry => 'voice-talk' !== entry.id)
 
+  // validation
+  const {
+    formError,
+    validateAll,
+    clearFormError,
+    isErrorActive
+  } = useValidation(details, [
+    {
+      key: 'name',
+      check: val => val.length >= 2,
+      errMsg: '이름은 2글자 이상 입력해야 합니다.'
+    },
+    {
+      key: 'email',
+      check: val => !val || validateEmail(val),
+      errMsg: '올바른 포맷의 이메일을 입력하세요.'
+    },
+    {
+      key: 'dob',
+      check: ({ year, month, date }) => year.length === 4 &&
+        isNumberLessThan(month, 13) &&
+        isNumberLessThan(date, 32),
+      errMsg: '생년월일을 바로 입력하세요. (연도 4자, 월/일 2자 이내)'
+    }
+  ])
+
   // methods
   const updateFactory = key => {
     return e => {
       setDetails(draft => {
         draft[key] = e.target.value
       })
+
+      if (formError?.errKey === key) { clearFormError() }
     }
   }
 
@@ -57,6 +91,8 @@ export default function EnterPersonalDetails () {
       setDetails(draft => {
         draft.dob[key] = val
       })
+
+      if (formError?.errKey === 'dob') { clearFormError() }
     }
   }
 
@@ -68,7 +104,9 @@ export default function EnterPersonalDetails () {
 
       setDetails(draft => {
         draft.mobile[key] = val
-      }) 
+      })
+
+      if (formError?.errKey === 'mobile') { clearFormError() }
     }
   }
 
@@ -77,7 +115,7 @@ export default function EnterPersonalDetails () {
   }
 
   const onContinueClick = () => {
-    alert('TODO: Implement!')
+    validateAll()
   }
 
   // effects
@@ -100,16 +138,22 @@ export default function EnterPersonalDetails () {
               <span className='mandatory'>{'(필수)'}</span>
             </span>
 
-            <input type='text' className='input'
+            <input type='text'
+              className={cn('input', isErrorActive('name') && 'is-error')}
+              data-vkey='name'
               value={details.name}
               onInput={updateFactory('name')}
               placeholder='이름을 입력하세요' />
           </label>
 
-          <p className='helper info'>띄어쓰기 없이 성 이름 붙여서 입력하세요.</p>
+          {
+            isErrorActive('name')
+              ? <WarningMessage toggle={true} message={formError?.errMsg} />
+              : <p className='helper info'>띄어쓰기 없이 성 이름 붙여서 입력하세요.</p>
+          }
         </div>
 
-        <div className='form-field'>
+        <div className='form-field' data-vkey='gender'>
           <span className='label'>
             성별
             <span className='mandatory'>{'(필수)'}</span>
@@ -134,6 +178,7 @@ export default function EnterPersonalDetails () {
           </label>
         </div>
 
+
         <div className='form-field'>
           <span className='label'>
             생년월일
@@ -144,6 +189,7 @@ export default function EnterPersonalDetails () {
             <div className='selectgroup dob-group__year'>
               <div className='selectbox'>
                 <select className='select'
+                  tabIndex='0'
                   value={details.dob.system}
                   onChange={updateDobFactory('system')}>
                   <option value='lunar'>양력</option>
@@ -152,6 +198,7 @@ export default function EnterPersonalDetails () {
               </div>
 
               <input type='text' className='input'
+                data-vkey='dob'
                 value={details.dob.year}
                 onInput={updateDobFactory('year', true)}
                 maxLength={4}
@@ -175,6 +222,8 @@ export default function EnterPersonalDetails () {
             </div>
           </div>
         </div>
+
+        <WarningMessage toggle={isErrorActive('dob')} message={formError?.errMsg} />
 
         <div className='form-field'>
           <span className='label'>
@@ -230,7 +279,7 @@ export default function EnterPersonalDetails () {
 
           {
             methodList.map(entry => (
-              <label className='radio method-radio-item'>
+              <label className='radio method-radio-item' key={entry.id}>
                 <input type='radio'
                   checked={details.method === entry.value}
                   value={entry.value}
@@ -255,6 +304,8 @@ export default function EnterPersonalDetails () {
               placeholder='이메일' />
           </label>
         </div>
+
+        <WarningMessage toggle={isErrorActive('email')} message={formError?.errMsg} />
 
         <div className='form-field'>
           <label>

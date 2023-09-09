@@ -121,6 +121,11 @@
   font-weight: bold;
 }
 
+.react-calendar__month-view__days {
+  // month view container
+  row-gap: 0.4rem;
+}
+
 /*
 NOTE: color the weekends differently.
 
@@ -192,5 +197,10 @@ button.react-calendar__tile--active {
     color: $text_1;
     font-weight: bold;
     box-shadow: none;
+  }
+
+  &:hover {
+    background-color: $magenta;
+    color: $text_1;
   }
 }

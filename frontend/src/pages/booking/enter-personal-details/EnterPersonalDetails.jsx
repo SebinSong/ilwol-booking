@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import { isStringNumberOnly } from '@utils'
@@ -7,6 +8,7 @@ import { MOBILE_PREFIXES, COUNSEL_METHOD } from '@view-data/constants.js'
 import './EnterPersonalDetails.scss'
 
 export default function EnterPersonalDetails () {
+  const navigate = useNavigate()
   // local-state
   const {
     checkStepStateAndGo,
@@ -29,13 +31,13 @@ export default function EnterPersonalDetails () {
       number: ''
     },
     kakaoId: '',
-    method: '',
+    method: isOverseasCounsel ? 'voice-talk' : '',
     email: '',
     memo: ''
   })
   const methodList = isOverseasCounsel
-    ? COUNSEL_METHOD.filter(entry => ['voice-talk', 'chat'].includes(entry.id))
-    : COUNSEL_METHOD
+    ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
+    : COUNSEL_METHOD.filter(entry => 'voice-talk' !== entry.id)
 
   // methods
   const updateFactory = key => {
@@ -177,57 +179,53 @@ export default function EnterPersonalDetails () {
         <div className='form-field'>
           <span className='label'>
             연락처
-            <span className='mandatory'>
-              {
-                isOverseasCounsel ? '(필수)' : '(최소 1개 필수)'
-              }
-            </span>
+            <span className='mandatory'>{'(필수)'}</span>
           </span>
 
           {
-            !isOverseasCounsel &&
-            <div className='contact-field'>
-              <span className='contact-field__label'>핸드폰</span>
+            isOverseasCounsel
+              ? <>
+                  <div className='contact-field'>
+                    <span className='contact-field__label'>카카오 ID</span>
 
-              <div className='selectgroup'>
-                <div className='selectbox'>
-                  <select className='select'
-                    value={details.mobile?.prefix}
-                    onChange={updateMobileFactory('prefix')}>
-                    {
-                      MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
-                    }
-                  </select>
-                </div>
+                    <input type='text' className='input'
+                      value={details.kakaoId}
+                      onInput={updateFactory('kakaoId')}
+                      placeholder='카카오톡 ID를 입력하세요' />
+                  </div>
 
-                <input type='text' className='input'
-                  value={details.mobile.number}
-                  onInput={updateMobileFactory('number')}
-                  maxLength={10}
-                  placeholder='번호를 입력하세요.' />
-              </div>
-            </div>
-          }
+                  <p className='helper info'>'해외 상담'의 경우, 카카오톡 ID가 정확하지 않아 상담이 취소된 사례가 있으니, 오타가 없는지 확인 꼭 부탁드립니다.</p>
+                </>
+              : <>
+                  <div className='contact-field'>
+                    <span className='contact-field__label'>핸드폰</span>
 
-          <div className='contact-field'>
-            <span className='contact-field__label'>카카오 ID</span>
+                    <div className='selectgroup'>
+                      <div className='selectbox'>
+                        <select className='select'
+                          value={details.mobile?.prefix}
+                          onChange={updateMobileFactory('prefix')}>
+                          {
+                            MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
+                          }
+                        </select>
+                      </div>
 
-            <input type='text' className='input'
-              value={details.kakaoId}
-              onInput={updateFactory('kakaoId')}
-              placeholder='카카오톡 ID를 입력하세요' />
-          </div>
-
-          {
-            isOverseasCounsel &&
-            <p className='helper info'>'해외 상담'의 경우, 카카오톡 ID가 정확하지 않아 상담이 취소된 사례가 있으니, 오타가 없는지 확인 꼭 부탁드립니다.</p>
+                      <input type='text' className='input'
+                        value={details.mobile.number}
+                        onInput={updateMobileFactory('number')}
+                        maxLength={10}
+                        placeholder='번호를 입력하세요' />
+                    </div>
+                  </div>
+                </>
           }
         </div>
 
         <div className='form-field'>
           <span className='label'>
             상담 방식
-            <span className='mandatory'>{'(필수)'}</span>
+            { !isOverseasCounsel && <span className='mandatory'>{'(필수)'}</span> }
           </span>
 
           {
@@ -268,7 +266,7 @@ export default function EnterPersonalDetails () {
             <textarea type='text' className='textarea'
               value={details.memo}
               onInput={updateFactory('memo')}
-              placeholder='메모를 입력하세요.'
+              placeholder='메모를 적어주세요'
               maxLength={200} />
           </label>
 

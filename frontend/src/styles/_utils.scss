@@ -8,3 +8,6 @@
   .pt-#{$val} { padding-top: #{$n}rem !important; }
   .pb-#{$val} { padding-bottom: #{$n}rem !important; }
 }
+
+.mt-0 { margin-top: 0 !important; }
+.mb-0 { margin-bottom: 0 !important; }

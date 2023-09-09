@@ -1,8 +1,11 @@
 import React from 'react'
-import { validateEmail } from '@utils'
+import { validateEmail, classNames as cn } from '@utils'
 import { useImmer } from 'use-immer'
+import { useValidation } from '@hooks/useValidation'
 
 import PageTemplate from '../PageTemplate'
+
+const { WarningMessage } = React.Global
 
 import './Inquiry.scss'
 
@@ -13,6 +16,25 @@ export default function Inquiry () {
     email: '',
     message: ''
   })
+
+  // validation setup
+  const { 
+    formError,
+    validateAll,
+    clearFormError,
+    isErrorActive
+  } = useValidation(details, [
+    {
+      key: 'name',
+      check: val => val.length >= 2,
+      errMsg: '이름은 2글자 이상 입력해야 합니다.'
+    },
+    {
+      key: 'email',
+      check: val => validateEmail(val),
+      errMsg: '올바른 포맷의 이메일을 입력하세요.'
+    }
+  ])
 
   // computed state
   const enableSubmitBtn = Boolean(details.name) &&
@@ -25,11 +47,17 @@ export default function Inquiry () {
       setDetails(draft => {
         draft[key] = e.target.value
       })
+
+      if (formError?.errKey === key) {
+        clearFormError()
+      }
     }
   }
 
-  const submitHandler = () => {
-    alert('Coming soon.')
+  const submitHandler = (e) => {
+    e.preventDefault()
+
+    validateAll()
   }
 
   return (
@@ -48,9 +76,11 @@ export default function Inquiry () {
                 <span className='mandatory'>{'(필수)'}</span>
               </span>
 
-              <input type='text' className='input'
+              <input type='text'
+                className={cn('input', isErrorActive('name') && 'is-error')}
                 value={details.name}
                 onInput={updateFactory('name')}
+                data-vkey='name'
                 placeholder='이름을 입력하세요' />
             </label>
 
@@ -60,14 +90,20 @@ export default function Inquiry () {
                 <span className='mandatory'>{'(필수)'}</span>
               </span>
 
-              <input type='text' className='input'
+              <input type='text'
+                data-vkey='email'
+                className={cn('input', isErrorActive('email') && 'is-error')}
                 value={details.email}
                 onInput={updateFactory('email')}
                 placeholder='이메일' />
             </label>
           </div>
 
-          <div className='form-field'>
+          <WarningMessage classes='inquiry-form-warning'
+            toggle={isErrorActive('email') || isErrorActive('name')}
+            message={formError?.errMsg} />
+
+          <div className='form-field mb-0 mt-30'>
             <label>
               <span className='label'>
                 문의 사항
@@ -87,7 +123,7 @@ export default function Inquiry () {
             </p>
           </div>
 
-          <div className='buttons-container mt-50'>
+          <div className='buttons-container mt-40'>
             <button type='submit'
               className='is-primary submit-btn'
               disabled={!enableSubmitBtn}>

@@ -2,8 +2,6 @@ $radio-color: #322940;
 $radio-border-color: #64748B;
 $form-border: 1rem;
 
-/* radio-button */
-
 .form-field {
   position: relative;
   display: block;
@@ -46,6 +44,8 @@ $form-border: 1rem;
   }
 }
 
+/* form label */
+
 .label {
   display: block;
   font-weight: bold;
@@ -69,6 +69,27 @@ $form-border: 1rem;
     opacity: 0.775;
   }
 }
+
+/* form warning */
+.warning-message {
+  position: relative;
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+  color: $warning;
+  font-size: $size_7;
+  padding-left: 0.2rem;
+  opacity: 0;
+  animation: warning-reveal 350ms ease-out forwards;
+
+  i {
+    display: inline-block;
+    font-size: 1.15em;
+  }
+}
+
+/* radio-button */
 
 .radio {
   --radio-diameter: 1.8rem;
@@ -174,6 +195,11 @@ $form-border: 1rem;
 
   &:hover {
     border-color: var(--custom-input-border-color_hover);
+  }
+
+  &.is-error {
+    border-color: $warning;
+    color: $warning;
   }
 
   @include placeholder {

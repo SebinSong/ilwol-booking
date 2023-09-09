@@ -5,6 +5,9 @@ import {
   createBrowserRouter
 } from 'react-router-dom'
 
+// define global components
+import './components/global/index.js'
+
 // root component
 import Root from '@components/root/Root'
 

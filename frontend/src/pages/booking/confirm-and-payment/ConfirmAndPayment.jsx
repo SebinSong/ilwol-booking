@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 
 import './ConfirmAndPayment.scss'
 
 export default function ConfirmAndPayment () {
+  const {
+    counselOptionInstore,
+    counselDateInStore,
+    counselTimeSlotInStore,
+    counselPersonalDetailsInStore,
+    checkStepStateAndGo
+  } = useCounselOptionSteps()
+
+  // effects
+  useEffect(() => {
+    checkStepStateAndGo('personal-details')
+  }, [])
+
   return (
     <div className='confirm-and-payment page-form-constraints'>
       <h3 className='is-title-4 is-sans page-section-title'>
@@ -11,7 +25,7 @@ export default function ConfirmAndPayment () {
       </h3>
 
       <div className='booking-details-container'>
-        
+
       </div>
     </div>
   )

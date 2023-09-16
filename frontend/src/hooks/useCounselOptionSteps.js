@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 import {
   selectCounselDate,
   selectCounselOption,
-  selectCounselTimeSlot
+  selectCounselTimeSlot,
+  selectCounselPersonalDetails
 } from '@store/features/counselDetailsSlice.js'
 
 export default function useCounselOptionSteps () {
@@ -13,6 +14,7 @@ export default function useCounselOptionSteps () {
   const counselOptionInstore = useSelector(selectCounselOption)
   const counselDateInStore = useSelector(selectCounselDate)
   const counselTimeSlotInStore = useSelector(selectCounselTimeSlot)
+  const counselPersonalDetailsInStore = useSelector(selectCounselPersonalDetails)
 
   const stateCheckFunc = {
     'counsel-option': () => Boolean(counselOptionInstore),
@@ -28,6 +30,7 @@ export default function useCounselOptionSteps () {
     counselOptionInstore,
     counselDateInStore,
     counselTimeSlotInStore,
+    counselPersonalDetailsInStore,
     checkStepStateAndGo
   }
 }

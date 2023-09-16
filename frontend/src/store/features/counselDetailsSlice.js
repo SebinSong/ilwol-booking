@@ -19,6 +19,9 @@ const counselDetailsSlice = createSlice({
     },
     addCounselTimeSlot (state, action) {
       state.timeSlot = action.payload
+    },
+    addPersonalDetails (state, action) {
+      state.personalDetails = action.payload
     }
   }
 })
@@ -27,13 +30,15 @@ const counselDetailsSlice = createSlice({
 export const {
   addCounselOption,
   addCounselDate,
-  addCounselTimeSlot
+  addCounselTimeSlot,
+  addPersonalDetails
 } = counselDetailsSlice.actions
 
 // selectors
 export const selectCounselOption = state => state.counselDetails.option 
 export const selectCounselDate = state => state.counselDetails.date 
 export const selectCounselTimeSlot = state => state.counselDetails.timeSlot
+export const selectCounselPersonalDetails = state => state.counselDetails.personalDetails
 
 // reducer
 export default counselDetailsSlice.reducer

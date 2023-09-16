@@ -18,7 +18,13 @@
     flex-grow: 1;
 
     .toolbar-title {
+      display: inline-flex;
+      align-items: center;
       user-select: none;
+
+      .toolbar-logo {
+        margin-right: 0.6rem;
+      }
     }
   }
 

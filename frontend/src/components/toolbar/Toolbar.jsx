@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { classNames as cn } from '@utils'
 import './Toolbar.scss'
 
+const { IlwolLogo } = React.Global
+
 const navigationList = [
   {
     id: 'home',
@@ -37,7 +39,10 @@ export default function Toolbar ({ hidden = false , classes = '' }) {
   return (
     <div className={cn('app-toolbar', classes)}>
       <div className='left-group'>
-        <h1 className='is-title-4 is-serif toolbar-title'>일월선녀 해달별</h1>
+        <h1 className='is-title-4 is-serif toolbar-title'>
+          <IlwolLogo classes='toolbar-logo' width={16} />
+          <span>일월선녀 해달별</span>
+        </h1>
       </div>
       <ul className='right-group'>
         {

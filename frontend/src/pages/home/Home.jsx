@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import Toolbar from '@components/toolbar/Toolbar.jsx'
 import PageTemplate from '../PageTemplate'
 
+const { IlwolLogo } = React.Global
+
 import './Home.scss'
 
 export default function Home () {
@@ -11,8 +13,11 @@ export default function Home () {
 
   return (
     <PageTemplate classes='page-home'>
+      <IlwolLogo classes='project-logo' width={56} />
+
       <h2 className='is-title-2 is-serif page-title mb-30'>
-        <span>일월선녀<br />해달별<sup className='c-logo'>&copy;</sup></span>
+        <span>일월선녀</span>
+        <span>해달별</span>
       </h2>
 
       <div className='button-container'>

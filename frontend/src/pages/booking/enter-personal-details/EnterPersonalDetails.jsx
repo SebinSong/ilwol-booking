@@ -20,8 +20,11 @@ export default function EnterPersonalDetails () {
     checkStepStateAndGo,
     counselOptionInstore
   } = useCounselOptionSteps()
-  const isOverseasCounsel = counselOptionInstore &&
-    counselOptionInstore.id === 'overseas-counsel'
+
+  // computed state
+  const { id: optionId = '', type: optionType = '' } = counselOptionInstore || {}
+  const isOverseasCounsel = optionId === 'overseas-counsel'
+  const isGroupOption = optionType === 'group'
 
   const [details, setDetails] = useImmer({
     name: '',
@@ -32,6 +35,7 @@ export default function EnterPersonalDetails () {
       month: '',
       date: ''
     },
+    numAttendee: isGroupOption ? 2 : 1,
     mobile: {
       prefix: '',
       number: ''
@@ -290,6 +294,25 @@ export default function EnterPersonalDetails () {
             ))
           }
         </div>
+
+        { optionId === 'family-counsel' &&
+          <div className='form-field'>
+            <span className='label'>
+              총 인원 (본인 포함)
+              <span className='mandatory'>{'(필수)'}</span>
+            </span>
+
+            <div className='selectbox num-attendee-select'>
+              <select className='select'
+                value={details.numAttendee}
+                onChange={updateFactory('numAttendee')}>
+                {
+                  [2, 3, 4, 5].map(num => <option key={num} value={num}>{num}</option>)
+                }
+              </select>
+            </div>
+          </div>
+        }
 
         <div className='form-field'>
           <label>

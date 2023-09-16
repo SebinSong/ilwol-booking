@@ -1,0 +1,12 @@
+.ilwol-logo-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  height: auto;
+  flex-shrink: 0;
+
+  svg {
+    fill: currentColor;
+  }
+}

@@ -20,10 +20,10 @@ export const BOOKING_STEPS = [
     linkTo: '/booking/personal-details'
   },
   {
-    name: '결제',
-    id: 'payment',
+    name: '예약 및 결제',
+    id: 'confirm-and-payment',
     order: 4,
-    linkTo: '/booking/payment'
+    linkTo: '/booking/confirm-and-payment'
   }
 ]
 

@@ -8,6 +8,7 @@ import Stepper from '@components/stepper/Stepper'
 import SelectBookingOption from './select-booking-option/SelectBookingOption'
 import SelectDateAndTime from './select-date-and-time/SelectDateAndTime'
 import EnterPersonalDetails from './enter-personal-details/EnterPersonalDetails'
+import ConfirmAndPayment from './confirm-and-payment/ConfirmAndPayment'
 
 import PageTemplate from '../PageTemplate'
 
@@ -17,7 +18,8 @@ const getContentComponentById = stepId => {
   return ({
     'counsel-option': SelectBookingOption,
     'date-and-time': SelectDateAndTime,
-    'personal-details': EnterPersonalDetails
+    'personal-details': EnterPersonalDetails,
+    'confirm-and-payment': ConfirmAndPayment
   })[stepId] || null
 }
 

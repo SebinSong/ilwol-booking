@@ -57,6 +57,14 @@ export function isStringNumberOnly (val) {
   return /^\d*\.?\d*$/.test(val)
 }
 
+export function isObject (value) {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    !Array.isArray(value)
+  )
+}
+
 export function validateEmail (str) {
   const emailRegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   return emailRegExp.test(str)

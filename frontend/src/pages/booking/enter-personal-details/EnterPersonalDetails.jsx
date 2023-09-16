@@ -2,7 +2,12 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
-import { isStringNumberOnly, validateEmail, classNames as cn } from '@utils'
+import {
+  isStringNumberOnly,
+  validateEmail,
+  isObject,
+  classNames as cn
+} from '@utils'
 import { MOBILE_PREFIXES, COUNSEL_METHOD } from '@view-data/constants.js'
 import { useValidation } from '@hooks/useValidation'
 
@@ -37,7 +42,7 @@ export default function EnterPersonalDetails () {
     },
     numAttendee: isGroupOption ? 2 : 1,
     mobile: {
-      prefix: '',
+      prefix: '010',
       number: ''
     },
     kakaoId: '',
@@ -48,6 +53,21 @@ export default function EnterPersonalDetails () {
   const methodList = isOverseasCounsel
     ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
     : COUNSEL_METHOD.filter(entry => 'voice-talk' !== entry.id)
+
+  // computed state
+  const enableContinueBtn = [
+    'name',
+    'gender',
+    'dob',
+    isOverseasCounsel ? 'kakaoId' : 'mobile',
+    'method'
+  ].every(key => {
+    const targetField = details[key]
+
+    return isObject(targetField)
+      ? Object.keys(targetField).every(innerKey => Boolean(targetField[innerKey]))
+      : Boolean(targetField)
+  })
 
   // validation
   const {
@@ -119,7 +139,9 @@ export default function EnterPersonalDetails () {
   }
 
   const onContinueClick = () => {
-    validateAll()
+    if (validateAll()) {
+      navigate('/booking/confirm-and-payment')
+    }
   }
 
   // effects
@@ -360,6 +382,7 @@ export default function EnterPersonalDetails () {
 
         <button type='button'
           className='is-primary continue-btn'
+          disabled={!enableContinueBtn}
           onClick={onContinueClick}>
           다음
         </button>

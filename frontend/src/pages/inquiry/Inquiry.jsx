@@ -57,7 +57,9 @@ export default function Inquiry () {
   const submitHandler = (e) => {
     e.preventDefault()
 
-    validateAll()
+    if (validateAll()) {
+      alert('Coming soon!')
+    }
   }
 
   return (

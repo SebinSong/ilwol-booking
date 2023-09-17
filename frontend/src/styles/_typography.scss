@@ -95,5 +95,9 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
 }
 
 .text-color-grey {
-  color: $text_grey;
+  color: $text_grey !important;
+}
+
+.text-color-magenta {
+  color: $magenta !important;
 }

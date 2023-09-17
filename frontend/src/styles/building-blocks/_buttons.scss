@@ -73,6 +73,13 @@ button,
     }
   }
 
+  &.is-small {
+    border-radius: 1rem;
+    padding: 0.4rem 0.8rem;
+    min-height: 2.8rem;
+    min-width: 3.6rem;
+  }
+
   @include addButtonColorStyles('primary');
 
   &.is-secondary {

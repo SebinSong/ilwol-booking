@@ -69,3 +69,30 @@ export function validateEmail (str) {
   const emailRegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   return emailRegExp.test(str)
 }
+
+// localStorage related utilities.
+export function checkAndParseFromLocalStorage (key, defaultValue = null) {
+  const fetched = window.localStorage.getItem(key)
+
+  return fetched ? JSON.parse(fetched) : defaultValue
+}
+
+export function saveToLocalStorage (key, value) {
+  return window.localStorage.setItem(key, JSON.stringify(value))
+}
+
+export function removeFromLocalStorage (key) {
+  if (localStorage.getItem(key)) {
+    return localStorage.removeItem(key)
+  }
+}
+
+export function cloneDeep(obj) {
+  if (!obj) return obj;
+
+  return JSON.parse(JSON.stringify(obj));
+}
+
+export function humanDate (date, options = { month: 'short', day: 'numeric' }, locale = 'ko-KR') {
+  return new Date(date).toLocaleDateString(locale, options)
+}

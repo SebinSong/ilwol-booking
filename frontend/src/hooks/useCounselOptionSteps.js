@@ -18,8 +18,10 @@ export default function useCounselOptionSteps () {
 
   const stateCheckFunc = {
     'counsel-option': () => Boolean(counselOptionInstore),
-    'date-and-time': () => (Boolean(counselDateInStore) && Boolean(counselTimeSlotInStore))
+    'date-and-time': () => (Boolean(counselDateInStore) && Boolean(counselTimeSlotInStore)),
+    'personal-details': () => Boolean(counselPersonalDetailsInStore)
   }
+
   const checkStepStateAndGo = (stepId) => {
     if (!stateCheckFunc[stepId]()) {
       navigate(`/booking/${stepId}`)

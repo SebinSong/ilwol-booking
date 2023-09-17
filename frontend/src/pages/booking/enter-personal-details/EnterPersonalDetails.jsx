@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import {
@@ -8,6 +9,7 @@ import {
   isObject,
   classNames as cn
 } from '@utils'
+import { addPersonalDetails } from '@store/features/counselDetailsSlice.js'
 import { MOBILE_PREFIXES, COUNSEL_METHOD } from '@view-data/constants.js'
 import { useValidation } from '@hooks/useValidation'
 
@@ -20,10 +22,13 @@ const isNumberLessThan = (val, num) => Boolean(val.length) && parseInt(val) > 0 
 
 export default function EnterPersonalDetails () {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   // local-state
   const {
     checkStepStateAndGo,
-    counselOptionInstore
+    counselOptionInstore,
+    counselPersonalDetailsInStore: detailsInStore = {}
   } = useCounselOptionSteps()
 
   // computed state
@@ -32,23 +37,27 @@ export default function EnterPersonalDetails () {
   const isGroupOption = optionType === 'group'
 
   const [details, setDetails] = useImmer({
-    name: '',
-    gender: '',
-    dob: {
+    name: detailsInStore?.name || '',
+    gender: detailsInStore?.gender || '',
+    dob: detailsInStore?.dob || {
       system: 'lunar',
       year: '',
       month: '',
       date: ''
     },
-    numAttendee: isGroupOption ? 2 : 1,
-    mobile: {
+    numAttendee: detailsInStore?.numAttendee || isGroupOption ? 2 : 1,
+    mobile: detailsInStore?.mobile || {
       prefix: '010',
       number: ''
     },
-    kakaoId: '',
-    method: isOverseasCounsel ? 'voice-talk' : '',
-    email: '',
-    memo: ''
+    kakaoId: detailsInStore?.kakaoId || '',
+    method: detailsInStore?.method
+      ? detailsInStore?.method
+      : isOverseasCounsel
+        ? 'voice-talk'
+        : '',
+    email: detailsInStore?.email || '',
+    memo: detailsInStore?.memo || ''
   })
   const methodList = isOverseasCounsel
     ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
@@ -140,7 +149,12 @@ export default function EnterPersonalDetails () {
 
   const onContinueClick = () => {
     if (validateAll()) {
-      navigate('/booking/confirm-and-payment')
+      try {
+        dispatch(addPersonalDetails(details))
+        navigate('/booking/reserve')
+      } catch (err) {
+        alert(`error while storing data to the store! : ${JSON.stringify(err)}`)
+      }
     }
   }
 

@@ -22,3 +22,9 @@ export const COUNSEL_METHOD = [
   { id: 'phone', value: 'phone', name: '전화 통화' },
   { id: 'voice-talk', value: 'voice-talk', name: '보이스톡' }
 ]
+
+export const COUNSEL_METHOD_ID_NAME_MAP = {
+  'visit': '방문',
+  'phone': '전화 통화',
+  'voice-talk': '보이스톡'
+}

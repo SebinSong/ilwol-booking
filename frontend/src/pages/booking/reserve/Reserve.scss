@@ -1,0 +1,130 @@
+.reserve-step {
+  position: relative;
+  
+  @include from ($small-phone) {
+    max-width: 52rem !important;
+  }
+
+  .confirm-page__header {
+    position: relative;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    .step-title {
+      margin-top: 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid $text_0;
+      user-select: none;
+    }
+
+    .confirm-page__cart-icon {
+      @include phone {
+        transform: scale(0.825);
+      }
+    }
+  }
+
+  .confirm-page__details-table {
+    position: relative;
+    padding: 2rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid $divider-color;
+    margin-top: 3.2rem;
+
+    @include phone {
+      padding: 2rem 1.2rem;
+    }
+  }
+
+  button.modify-btn {
+    margin-left: 0.8rem;
+    font-size: $size_7;
+  }
+
+  .unit-append {
+    display: inline-block;
+    margin-left: 0.4rem;
+  }
+
+  .confirm-page__details-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.2rem;
+    font-size: $size_6;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+
+    &:not(:last-of-type) {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $divider-color;
+      margin-bottom: 1rem;
+    }
+
+    &.date-and-time {
+      .date-value {
+        display: inline-block;
+        margin-right: 0.4rem;
+      }
+    }
+
+    .label {
+      min-width: 5.6rem;
+      margin-bottom: 0;
+    }
+
+    .details-value {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      row-gap: 0.6rem;
+      font-size: 1.15em;
+      color: $text_0;
+    }
+  }
+
+  .confirm-page__personal-details {
+    padding-top: 1rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+
+    .personal-details-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .personal-details-item {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+
+      &:first-of-type {
+        margin-top: 2rem;
+      }
+
+      .sub-label {
+        display: inline-block;
+        font-size: $size_6;
+        font-weight: bold;
+        color: $text_grey;
+        margin-right: 1.2rem;
+      }
+
+      .sub-value {
+        display: inline-flex;
+        font-size: $size_6;
+        font-weight: bold;
+        color: $text_0;
+      }
+    }
+  }
+}

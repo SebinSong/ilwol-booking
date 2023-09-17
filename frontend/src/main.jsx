@@ -21,7 +21,7 @@ import './styles/main.scss'
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: import.meta.env.MODE === 'staging' ? '/ilwol-booking' : '/',
     element: <Root />,
     children: [
       {

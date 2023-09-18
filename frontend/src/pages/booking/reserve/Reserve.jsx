@@ -97,7 +97,7 @@ export default function ConfirmAndPayment () {
               <span className='unit-append'>원</span>
             </span>
             {
-              isFamilyCounsel &&
+              (isFamilyCounsel && additionalAttendee > 0) &&
               <span className='family-counsel-price-info'>
                 {`(${displayMoney(counselOption.price)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
               </span>

@@ -144,7 +144,7 @@ export default function EnterPersonalDetails () {
   }
 
   const backToPreviousStep = () => {
-    navigate('/booking/counsel-option')
+    navigate('/booking/date-and-time')
   }
 
   const onContinueClick = () => {

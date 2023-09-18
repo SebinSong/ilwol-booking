@@ -21,7 +21,7 @@ import './styles/main.scss'
 
 const router = createBrowserRouter([
   {
-    path: import.meta.env.MODE === 'staging' ? '/ilwol-booking' : '/',
+    path: '/',
     element: <Root />,
     children: [
       {
@@ -42,7 +42,9 @@ const router = createBrowserRouter([
       }
     ]
   }
-])
+], {
+  basename: import.meta.env.MODE === 'staging' ? import.meta.env.BASE_URL : '/'
+})
 
 const AppRoot = createRoot(document.querySelector('#root'))
 AppRoot.render(

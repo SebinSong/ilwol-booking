@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { humanDate } from '@utils'
+import { humanDate, formatMoney } from '@utils'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import CartIcon from '@components/svg-icons/CartIcon'
 import { COUNSEL_METHOD_ID_NAME_MAP } from '@view-data/constants.js'
 
 import './Reserve.scss'
+
+// helper
+const displayMoney = val => formatMoney(val, { minimumFractionDigits: 0 })
 
 export default function ConfirmAndPayment () {
   const navigate = useNavigate()
@@ -27,7 +30,14 @@ export default function ConfirmAndPayment () {
   // computed-states
   const optionId = counselOption?.id || ''
   const isOverseasCounsel = optionId === 'overseas-counsel'
+  const isFamilyCounsel = optionId === 'family-counsel'
 
+  const additionalAttendee = Math.max(personalDetails.numAttendee - 2, 0)
+  const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
+  const totalPrice = counselOption.price + additionalFee
+
+  console.log('@@ additionalAttendee; ', additionalAttendee)
+  console.log('@@ additionalFee; ', additionalFee)
   // methods
   const onReserveClick = () => {
     alert('Coming soon!')
@@ -72,9 +82,25 @@ export default function ConfirmAndPayment () {
             <span className='unit-append'>명</span>
 
             {
-              optionId === 'family-counsel' &&
+              isFamilyCounsel &&
               <button className='is-secondary is-small modify-btn'
                 onClick={navigateFactory('/booking/personal-details')}>변경</button>
+            }
+          </span>
+        </div>
+
+        <div className='confirm-page__details-item'>
+          <span className='label'>총 가격:</span>
+          <span className='details-value is-for-total-price has-text-bold text-color-magenta'>
+            <span className='total-price-value'>
+              {displayMoney(totalPrice)}
+              <span className='unit-append'>원</span>
+            </span>
+            {
+              isFamilyCounsel &&
+              <span className='family-counsel-price-info'>
+                {`(${displayMoney(counselOption.price)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
+              </span>
             }
           </span>
         </div>

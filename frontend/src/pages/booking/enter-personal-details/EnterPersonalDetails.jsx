@@ -45,7 +45,7 @@ export default function EnterPersonalDetails () {
       month: '',
       date: ''
     },
-    numAttendee: detailsInStore?.numAttendee || isGroupOption ? 2 : 1,
+    numAttendee: isGroupOption ? 2 : 1,
     mobile: detailsInStore?.mobile || {
       prefix: '010',
       number: ''
@@ -306,6 +306,8 @@ export default function EnterPersonalDetails () {
                         maxLength={10}
                         placeholder='번호를 입력하세요' />
                     </div>
+
+                    <p className='helper info'>띄어쓰기 또는 "-" 없이 숫자만 입력해 주세요.</p>
                   </div>
                 </>
           }

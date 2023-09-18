@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { BOOKING_STEPS, getStepOrder } from '@view-data/booking-steps.js'
@@ -29,6 +29,15 @@ export default function Booking () {
   // local-state
   const currentStepNum = getStepOrder(stepId)
   const ContentComponent = getContentComponentById(stepId)
+
+  // effects
+  useEffect(() => {
+    const layoutEl = document.querySelector('.app-layout')
+
+    if (layoutEl) {
+      layoutEl.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [stepId])
 
   return (
     <PageTemplate classes='page-booking'>

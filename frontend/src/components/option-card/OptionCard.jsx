@@ -8,6 +8,7 @@ function OptionCard ({
   name = '',
   description = '',
   price = '',
+  duration = 0.5,
   type = 'individual',
   id = '',
   onSelect = null
@@ -33,8 +34,11 @@ function OptionCard ({
         <div className='option-card__price is-bold'>
           <span className='price-val'>
             {formatMoney(price, { minimumFractionDigits: 0 })}
+            { id === 'family-counsel' && <span>~</span> }
           </span>
-          <span className='price-per-hr'> /30분</span>
+          <span className='price-per-hr'>
+            { duration === 1 ? '/시간' : '/30분'}
+          </span>
         </div>
       </div>
 

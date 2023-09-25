@@ -32,12 +32,11 @@ export default function ConfirmAndPayment () {
   const isOverseasCounsel = optionId === 'overseas-counsel'
   const isFamilyCounsel = optionId === 'family-counsel'
 
-  const additionalAttendee = Math.max(personalDetails.numAttendee - 2, 0)
+  const additionalAttendee = isFamilyCounsel ? Math.max(personalDetails.numAttendee - 1, 0) : 0
+  const defaultPrice = isFamilyCounsel ? counselOption.price -  counselOption.additionalPrice : counselOption.price
   const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
-  const totalPrice = counselOption.price + additionalFee
+  const totalPrice = defaultPrice + additionalFee
 
-  console.log('@@ additionalAttendee; ', additionalAttendee)
-  console.log('@@ additionalFee; ', additionalFee)
   // methods
   const onReserveClick = () => {
     alert('Coming soon!')
@@ -97,9 +96,9 @@ export default function ConfirmAndPayment () {
               <span className='unit-append'>원</span>
             </span>
             {
-              (isFamilyCounsel && additionalAttendee > 0) &&
+              isFamilyCounsel &&
               <span className='family-counsel-price-info'>
-                {`(${displayMoney(counselOption.price)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
+                {`(${displayMoney(defaultPrice)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
               </span>
             }
           </span>

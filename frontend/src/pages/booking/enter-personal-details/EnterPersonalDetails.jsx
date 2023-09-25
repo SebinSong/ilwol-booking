@@ -51,11 +51,9 @@ export default function EnterPersonalDetails () {
       number: ''
     },
     kakaoId: detailsInStore?.kakaoId || '',
-    method: detailsInStore?.method
-      ? detailsInStore?.method
-      : isOverseasCounsel
-        ? 'voice-talk'
-        : '',
+    method: isOverseasCounsel
+      ? 'voice-talk'
+      : detailsInStore?.method || '',
     email: detailsInStore?.email || '',
     memo: detailsInStore?.memo || ''
   })
@@ -310,6 +308,15 @@ export default function EnterPersonalDetails () {
                     <p className='helper info'>띄어쓰기 또는 "-" 없이 숫자만 입력해 주세요.</p>
                   </div>
                 </>
+          }
+
+          {
+            isOverseasCounsel &&
+            <p className='owner-kakao-id'>
+              <label>선녀님 카카오 ID: <span className='text-color-grey'>(미리 친구추가 해주시면, 원활한 진행에 도움이 됩니다)</span>
+              </label>
+              <span className='value'>dragonrex</span>
+            </p>
           }
         </div>
 

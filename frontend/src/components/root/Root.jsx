@@ -6,6 +6,12 @@ import store from '@store/index.js'
 import { classNames as cn } from '@utils'
 
 // components
+import ToastContainer from '@components/toast/ToastContainer'
+
+// hooks
+import { useToast, ToastContext } from '@hooks/useToast.js'
+
+// components
 import Toolbar from '../toolbar/Toolbar'
 
 export default function Root () {
@@ -13,12 +19,18 @@ export default function Root () {
   const location = useLocation()
   const hideToolbar = ['/'].includes(location.pathname)
 
+  // toast-utils
+  const toastUtils = useToast([])
+
   return (
     <Provider store={store}>
       <div className={cn('app-layout', hideToolbar && 'toolbar-hidden')}>
-        { !hideToolbar && <Toolbar classes='l-toolbar' /> }
+        <ToastContext.Provider value={toastUtils}>
+          { !hideToolbar && <Toolbar classes='l-toolbar' /> }
 
-        <Outlet />
+          <Outlet />
+          <ToastContainer />
+        </ToastContext.Provider>
       </div>
     </Provider>
   )

@@ -34,7 +34,7 @@ function OptionCard ({
           <span className='price-val'>
             {formatMoney(price, { minimumFractionDigits: 0 })}
           </span>
-          <span className='price-per-hr'> /시간</span>
+          <span className='price-per-hr'> /30분</span>
         </div>
       </div>
 

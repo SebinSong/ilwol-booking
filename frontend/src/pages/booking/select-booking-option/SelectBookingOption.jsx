@@ -21,6 +21,12 @@ export default function SelectBookingOption () {
     try {
       if (selectedOptionid) {
         dispatch(addCounselOption({ id: selectedOptionid }))
+        addToastItem({
+          type: 'success',
+          heading: '성공!',
+          content: '저장되었습니다.'
+        })
+
         navigate('/booking/date-and-time')
       }
     } catch (err) {

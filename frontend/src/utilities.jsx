@@ -96,3 +96,8 @@ export function cloneDeep(obj) {
 export function humanDate (date, options = { month: 'short', day: 'numeric' }, locale = 'ko-KR') {
   return new Date(date).toLocaleDateString(locale, options)
 }
+
+export function genId () {
+  const random = () => Math.random().toString(20).slice(2)
+  return `${random()}_${random()}`
+}

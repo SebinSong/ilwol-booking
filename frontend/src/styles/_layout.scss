@@ -10,6 +10,28 @@
     "l-page";
   overflow-x: hidden;
   overflow-y: auto;
+
+  .toast-container {
+    position: fixed;
+    z-index: $zindex_toast;
+    left: 50%;
+    bottom: 1.6rem;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 42rem;
+    height: max-content;
+    max-height: 50vh;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 1.2rem;
+
+    &.is-empty {
+      pointer-events: none;
+    }
+  }
 }
 
 .l-toolbar {

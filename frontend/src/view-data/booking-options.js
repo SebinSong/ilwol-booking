@@ -11,7 +11,7 @@ const COUNSEL_OPTIONS_LIST = [
     name: '개인 상담 (해외)',
     id: 'overseas-counsel',
     type: 'individual',
-    description: '해외 카카오톡 전화/채팅 상담 옵션입니다.',
+    description: '해외 카카오 보이스톡 신점 상담입니다.',
     price: 150000,
     additionalPrice: 0
   },
@@ -19,7 +19,7 @@ const COUNSEL_OPTIONS_LIST = [
     name: '커플 궁합 상담',
     id: 'couple-counsel',
     type: 'group',
-    description: '2인 커플의 궁합 및 결혼운 등을 주제로 신점 상담합니다.',
+    description: '2인 커플의 사주, 궁합 및 결혼운 등을 주제로 신점 상담합니다.',
     price: 150000,
     additionalPrice: 0
   },

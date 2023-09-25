@@ -4,5 +4,8 @@
 
 ### 1. Front-end
 
-- add 'copy-text-to-clipboard' component
-- add 'Toast' component
+- code-split the JS into <= 500 kB chunks
+
+### 2. Back-end
+
+- implement json webtoken in the project

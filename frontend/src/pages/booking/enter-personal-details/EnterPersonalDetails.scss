@@ -51,7 +51,7 @@
     
     label {
       display: block;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.8rem;
       color: $text_0;
 
       &::before {
@@ -62,11 +62,15 @@
       }
     }
 
-    .value {
+    .id-value {
       display: block;
       font-size: 1.35em;
       color: $magenta;
-      margin-left: 1.6rem;
+      text-decoration: underline;
     }
+  }
+
+  .copy-kakao-id-el {
+    margin-left: 1.6rem;
   }
 }

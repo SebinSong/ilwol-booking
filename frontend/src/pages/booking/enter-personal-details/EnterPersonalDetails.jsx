@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
@@ -9,9 +9,11 @@ import {
   isObject,
   classNames as cn
 } from '@utils'
+import { ToastContext } from '@hooks/useToast.js'
 import { addPersonalDetails } from '@store/features/counselDetailsSlice.js'
 import { MOBILE_PREFIXES, COUNSEL_METHOD } from '@view-data/constants.js'
 import { useValidation } from '@hooks/useValidation'
+import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 
 import './EnterPersonalDetails.scss'
 
@@ -23,6 +25,7 @@ const isNumberLessThan = (val, num) => Boolean(val.length) && parseInt(val) > 0 
 export default function EnterPersonalDetails () {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { addToastItem } = useContext(ToastContext)
 
   // local-state
   const {
@@ -151,7 +154,12 @@ export default function EnterPersonalDetails () {
         dispatch(addPersonalDetails(details))
         navigate('/booking/reserve')
       } catch (err) {
-        alert(`error while storing data to the store! : ${JSON.stringify(err)}`)
+        console.error('error: ', err)
+        addToastItem({
+          type: 'warning',
+          heading: '에러 발생!',
+          content: err?.message || '예기치 못한 이슈가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+        })
       }
     }
   }
@@ -312,11 +320,19 @@ export default function EnterPersonalDetails () {
 
           {
             isOverseasCounsel &&
-            <p className='owner-kakao-id'>
+            <div className='owner-kakao-id'>
               <label>선녀님 카카오 ID: <span className='text-color-grey'>(미리 친구추가 해주시면, 원활한 진행에 도움이 됩니다)</span>
               </label>
-              <span className='value'>dragonrex</span>
-            </p>
+
+              <CopyToClipboard classes='copy-kakao-id-el'
+                textToCopy='dragonrex'
+                toastOpt={{
+                  heading: 'ID 복사',
+                  content: '카카오 ID가 클립보드에 저장 되었습니다.'
+                }}>
+                <span className='id-value'>dragonrex</span>
+              </CopyToClipboard>
+            </div>
           }
         </div>
 

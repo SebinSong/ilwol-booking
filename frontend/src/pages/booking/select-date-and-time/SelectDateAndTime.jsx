@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Calendar from '@components/calendar/Calendar'
 import TimeSlot from '@components/time-slot/TimeSlot'
 import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
+import { ToastContext } from '@hooks/useToast.js'
 import {
   addCounselDate,
   addCounselTimeSlot
@@ -15,6 +16,7 @@ import './SelectDateAndTime.scss'
 export default function SelectDateAndTime () {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { addToastItem } = useContext(ToastContext)
 
   // local-state
   const {
@@ -36,7 +38,12 @@ export default function SelectDateAndTime () {
       dispatch(addCounselTimeSlot(timeSlot))
       navigate('/booking/personal-details')
     } catch (err) {
-      alert(JSON.stringify(err))
+      console.error('error: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '에러 발생!',
+        content: err?.message || '예기치 못한 이슈가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+      })
     }
   }
 

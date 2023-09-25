@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
 import { selectCounselOption, addCounselOption } from '@store/features/counselDetailsSlice.js'
+import { ToastContext } from '@hooks/useToast.js'
 
 import OptionCard from '@components/option-card/OptionCard'
 
@@ -11,6 +12,7 @@ import './SelectBookingOption.scss'
 export default function SelectBookingOption () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { addToastItem } = useContext(ToastContext)
 
   // local-state
   const optionInStore = useSelector(selectCounselOption)
@@ -21,17 +23,15 @@ export default function SelectBookingOption () {
     try {
       if (selectedOptionid) {
         dispatch(addCounselOption({ id: selectedOptionid }))
-        addToastItem({
-          type: 'success',
-          heading: '성공!',
-          content: '저장되었습니다.'
-        })
-
         navigate('/booking/date-and-time')
       }
     } catch (err) {
-      // TODO! : replace below with a toaster component.
-      alert(`Something gone wrong: ${JSON.stringify(err)}`)
+      console.error('error: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '에러 발생!',
+        content: err?.message || '예기치 못한 이슈가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+      })
     }
   }
 

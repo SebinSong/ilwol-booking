@@ -72,6 +72,10 @@ button,
       background-color: rgba(0, 0, 0, 0);
       box-shadow: none;
     }
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 
   &.is-small {

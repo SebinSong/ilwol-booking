@@ -1,0 +1,50 @@
+.ctc-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+
+  .ctc-content {
+    position: relative;
+    display: block;
+    margin-right: 0.4rem;
+    width: max-content;
+    cursor: pointer;
+
+    .ctc-value {
+      font-size: $size_6;
+      color: $text_dark_grey;
+    }
+  }
+
+  button.ctc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $size_4;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.8rem;
+    border: 1px solid $divider-color;
+    color: $text_0;
+    background-color: $background_0;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      border-color: $text_0;
+    }
+  }
+
+  &:hover {
+    .ctc-value {
+      text-decoration: underline;
+      color: $text_0;
+    }
+
+    button.ctc-btn {
+      border-color: $text_0;
+    }
+  }
+ 
+}

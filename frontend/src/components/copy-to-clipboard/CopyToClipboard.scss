@@ -1,7 +1,7 @@
 .ctc-container {
   position: relative;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   width: max-content;
 
   .ctc-content {
@@ -9,6 +9,7 @@
     display: block;
     margin-right: 0.4rem;
     width: max-content;
+    min-height: 2.4rem;
     cursor: pointer;
 
     .ctc-value {

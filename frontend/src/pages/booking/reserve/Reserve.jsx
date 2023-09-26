@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { humanDate, formatMoney } from '@utils'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
-import CartIcon from '@components/svg-icons/CartIcon'
+import ConfirmIcon from '@components/svg-icons/ConfirmIcon'
 import { COUNSEL_METHOD_ID_NAME_MAP } from '@view-data/constants.js'
 
 import './Reserve.scss'
@@ -46,7 +46,7 @@ export default function ConfirmAndPayment () {
   return (
     <div className='reserve-step page-form-constraints'>
       <div className='confirm-page__header'>
-        <CartIcon classes='confirm-page__cart-icon'
+        <ConfirmIcon classes='confirm-page__confirm-icon'
           width={82} />
 
         <h3 className='is-title-2 is-sans step-title'>예약 정보</h3>

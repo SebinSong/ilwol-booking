@@ -44,15 +44,19 @@
 
   .owner-kakao-id {
     position: relative;
-    font-weight: bold;
     margin-top: 2.6rem;
     margin-left: 0.2rem;
-    font-size: $size_7;
+    font-size: $size_6;
     
     label {
       display: block;
       margin-bottom: 0.8rem;
       color: $text_0;
+      font-weight: bold;
+
+      > span {
+        font-size: 0.875em;
+      }
 
       &::before {
         @include has-icon;
@@ -64,13 +68,13 @@
 
     .id-value {
       display: block;
-      font-size: 1.35em;
-      color: $magenta;
+      font-size: 1.5em;
+      color: $text_0;
       text-decoration: underline;
     }
   }
 
   .copy-kakao-id-el {
-    margin-left: 1.6rem;
+    margin-left: 2rem;
   }
 }

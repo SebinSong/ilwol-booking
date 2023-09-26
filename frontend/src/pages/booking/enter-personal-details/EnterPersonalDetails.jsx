@@ -321,7 +321,7 @@ export default function EnterPersonalDetails () {
           {
             isOverseasCounsel &&
             <div className='owner-kakao-id'>
-              <label>선녀님 카카오 ID: <span className='text-color-grey'>(미리 친구추가 해주시면, 원활한 진행에 도움이 됩니다)</span>
+              <label>선녀님 카카오 ID <span className='text-color-magenta'>(미리 친구추가 해주시면, 원활한 진행에 도움이 됩니다)</span>
               </label>
 
               <CopyToClipboard classes='copy-kakao-id-el'

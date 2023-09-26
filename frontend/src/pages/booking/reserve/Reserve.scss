@@ -1,8 +1,10 @@
 .reserve-step {
   position: relative;
+  margin-top: -2rem;
   
   @include from ($small-phone) {
     max-width: 52rem !important;
+    margin-top: 0rem;
   }
 
   .confirm-page__header {
@@ -21,7 +23,7 @@
       user-select: none;
     }
 
-    .confirm-page__cart-icon {
+    .confirm-page__confirm-icon {
       @include phone {
         transform: scale(0.825);
       }

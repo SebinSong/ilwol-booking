@@ -13,6 +13,8 @@ function OptionCard ({
   id = '',
   onSelect = null
 }) {
+  const iconClass = type === 'individual' ? 'icon-user' : 'icon-group'
+
   return (
     <div className={cn(
         'option-card',
@@ -23,7 +25,7 @@ function OptionCard ({
       onClick={() => { onSelect && onSelect(id) }}
     >
       <div className='option-card__icon'>
-        <i className='icon-cart'></i>
+        <i className={iconClass}></i>
       </div>
 
       <div className='option-card__details'>

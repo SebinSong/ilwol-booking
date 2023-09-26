@@ -115,7 +115,7 @@ export default function Inquiry () {
               <textarea type='text' className='textarea'
                 value={details.message}
                 onInput={updateFactory('message')}
-                placeholder='문의 하실 사항을 남겨주세요'
+                placeholder='문의하실 사항을 남겨주세요'
                 maxLength={500} />
             </label>
 

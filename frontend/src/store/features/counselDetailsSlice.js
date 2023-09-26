@@ -8,7 +8,8 @@ import {
 
 // helper
 export const BOOKING_DETAILS_LOCAL_STORAGE_KEY = 'ilwol-booking-store'
-const isDEV = process.env.NODE_ENV === 'development'
+const isDEV = import.meta.env.DEV
+
 const defaultState = {
   option: null,
   date: null,

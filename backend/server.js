@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const express = require('express')
 
 // importing .env file
-dotenv.config({ path: path.resolve(__dirname, '../.env') })
+dotenv.config({ path: path.resolve(__dirname, './.env') })
 
 // routers
 const authRouter = require('./routes/authRoutes')

@@ -7,7 +7,8 @@ const resolvePath = relPath => path.join(appSrc, relPath)
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv('', process.cwd()) || {}
+  const env = loadEnv(mode, './env') || {}
+
   for (const key in env) {
     env[key] = `"${env[key]}"`
   }

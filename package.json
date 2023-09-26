@@ -7,7 +7,7 @@
     "dev:server": "nodemon backend/server",
     "start": "node backend/server",
     "build": "vite build --mode production --emptyOutDir",
-    "deploy-staging": "vite build --mode staging && gh-pages -d dist",
+    "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

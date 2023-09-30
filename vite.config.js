@@ -8,11 +8,13 @@ const resolvePath = relPath => path.join(appSrc, relPath)
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, './env') || {}
+  const env_repl = {}
 
   for (const key in env) {
-    env[key] = `"${env[key]}"`
+    env_repl[key] = `"${env[key]}"`
   }
 
+  console.log('envs: ', env)
   return ({
     plugins: [react()],
     root: 'frontend',
@@ -20,7 +22,7 @@ export default defineConfig(({ mode }) => {
     base: mode === 'staging' ? '/ilwol-booking/' : undefined,
     define: {
       '$TEST': '"test-string"',
-      ...env
+      ...env_repl
     },
     css: {
       preprocessorOptions: {
@@ -44,6 +46,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: path.resolve(__dirname, './dist')
+    },
+    server: {
+      // dev-server configuration
+      proxy: {
+        '/api': `http://127.0.0.1:${env.VITE_DEV_API_PORT}`
+      }
     }
   })
 })

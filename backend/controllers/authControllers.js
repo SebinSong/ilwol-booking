@@ -27,22 +27,37 @@ const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
 }
 
 const signup_post = asyncHandler(async (req, res, next) => {
-  const { type } = req.params
+  const { type = '' } = req.params || {}
   const { email, password, username } = req.body
+  const isTypeAdmin = type === 'admin'
+
+  // check type param
+  if (!type) {
+    sendBadRequestErr(res, `user type must be specified`)
+  }
 
   // check required fields
   checkRequiredFieldsAndThrow(req, res, ['email', 'username', 'password'])
 
-  // check if it's existing user
-  // const existingUser = await User.findOne({ email })
-  // if (existingUser) {
-  //   sendBadRequestErr(res, `The email '${email}' is already in use. please use another one`, { errType: CLIENT_ERROR_TYPES.EXISTING_USER })
-  // }
-
   // create a user
-  res.status(200).json({
-    message: `user for [${email}] successfully created`
+  const newUser = await User.create({
+    username,
+    password,
+    email,
+    userType: isTypeAdmin ? 'admin-full' : 'customer',
+    isPermitted: isTypeAdmin ? false : true
+  }).catch(err => {
+    // check if the email is already in use
+    if (err?.code === 11000) {
+      sendBadRequestErr(
+        res,
+        `The email '${email}' is already in use. please use another one`,
+        { errType: CLIENT_ERROR_TYPES.EXISTING_USER }
+      )
+    }
   })
+
+  res.status(201).json(newUser)
 })
 
 const login_post = asyncHandler((req, res, next) => {

@@ -1,9 +1,11 @@
 const path = require('path')
 const dotenv = require('dotenv')
 const express = require('express')
+const colors = require('colors')
+const { connectDB } = require('./db.js')
 
 // importing .env file
-dotenv.config({ path: path.resolve(__dirname, './.env') })
+dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 // routers
 const authRouter = require('./routes/authRoutes')
@@ -28,7 +30,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // attaching routes
-app.use('/auth', authRouter)
+app.use('/api/auth', authRouter)
 app.get('/', (req, res) => {
   res.status(200).send(`server is running...`)
 })
@@ -37,6 +39,14 @@ app.get('/', (req, res) => {
 app.use(notFound)
 app.use(globalErrorHandler)
 
-app.listen(API_PORT, () => {
-  console.log(`server is listening on the PORT ${API_PORT}.`)
+connectDB((err) => {
+  if (err) {
+    console.error('error ocurred while connecting to DB: '.underline.bold.red, err)
+    process.exit(1)
+  }
+
+  console.log('\n\n- successfully connected to DB..!'.brightYellow.underline)
+  app.listen(API_PORT, () => {
+    console.log(`Server running in ${NODE_ENV} mode on port ${API_PORT}.`.bold.yellow.underline)
+  })
 })

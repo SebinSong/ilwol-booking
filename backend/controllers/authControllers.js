@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const { CLIENT_ERROR_TYPES } = require('../utils/constants')
@@ -24,6 +25,10 @@ const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
       )
     }
   }
+}
+
+const createToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET)
 }
 
 const signup_post = asyncHandler(async (req, res, next) => {

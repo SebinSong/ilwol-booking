@@ -2,6 +2,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const express = require('express')
 const colors = require('colors')
+const cookieParser = require('cookie-parser')
 const { connectDB } = require('./db.js')
 
 // importing .env file
@@ -28,6 +29,7 @@ const app = express()
 app.use(logger)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // attaching routes
 app.use('/api/auth', authRouter)

@@ -33,7 +33,6 @@ const UserSchema = new mongoose.Schema({
 
 // attach middlewares
 UserSchema.pre('save', async function () {
-  console.log('pre-save hook: ', this)
   if (this.isNew) {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(this.password, salt)

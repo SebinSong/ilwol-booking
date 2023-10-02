@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
-const { CLIENT_ERROR_TYPES } = require('../utils/constants')
+const { CLIENT_ERROR_TYPES, JWT_MAX_AGE } = require('../utils/constants')
+
+const isEnvProduction = process.env.NODE_ENV === 'production'
 
 // helpers
 const sendBadRequestErr = (res, msg, errObj = null) => {
@@ -28,7 +30,13 @@ const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
 }
 
 const createToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET)
+  return jwt.sign(
+    { userId },
+    process.env.JWT_SECRET,
+    { 
+      expiresIn: JWT_MAX_AGE // in seconds 
+    }
+  )
 }
 
 const signup_post = asyncHandler(async (req, res, next) => {
@@ -45,13 +53,30 @@ const signup_post = asyncHandler(async (req, res, next) => {
   checkRequiredFieldsAndThrow(req, res, ['email', 'username', 'password'])
 
   // create a user
-  const newUser = await User.create({
-    username,
-    password,
-    email,
-    userType: isTypeAdmin ? 'admin-full' : 'customer',
-    isPermitted: isTypeAdmin ? false : true
-  }).catch(err => {
+  try {
+    const newUser = await User.create({
+      username,
+      password,
+      email,
+      userType: isTypeAdmin ? 'admin-full' : 'customer',
+      isPermitted: isTypeAdmin ? false : true
+    })
+
+    const jwtToken = createToken(newUser._id)
+    res.cookie('jwt', jwtToken, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: JWT_MAX_AGE * 1000,
+      secure: isEnvProduction
+    })
+    res.status(201).json({
+      username: newUser.username,
+      email: newUser.email,
+      _id: newUser._id,
+      userType: newUser.userType,
+      isPermitted: newUser.isPermitted
+    })
+  } catch (err) {
     // check if the email is already in use
     if (err?.code === 11000) {
       sendBadRequestErr(
@@ -60,9 +85,7 @@ const signup_post = asyncHandler(async (req, res, next) => {
         { errType: CLIENT_ERROR_TYPES.EXISTING_USER }
       )
     }
-  })
-
-  res.status(201).json(newUser)
+  }
 })
 
 const login_post = asyncHandler((req, res, next) => {

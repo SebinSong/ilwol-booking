@@ -27,4 +27,18 @@
       }
     }
   }
+
+  .msg-label {
+    position: relative;
+    width: 100%;
+
+    .length-indicator {
+      position: absolute;
+      bottom: 0;
+      right: 0.6rem;
+      display: block;
+      font-size: 0.85em;
+      font-weight: normal;
+    }
+  }
 }

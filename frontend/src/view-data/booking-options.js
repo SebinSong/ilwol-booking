@@ -9,12 +9,12 @@ const COUNSEL_OPTIONS_LIST = [
     duration: 0.5
   },
   {
-    name: '개인 상담 (해외)',
+    name: '해외 상담',
     id: 'overseas-counsel',
     type: 'individual',
-    description: '해외 카카오 보이스톡 신점 상담입니다.',
+    description: '해외 카카오 보이스톡 신점 상담입니다. 그룹 상담도 가능하며, 1인 추가당 5만원입니다. 그룹 상담시 1시간 상담입니다.',
     price: 150000,
-    additionalPrice: 0,
+    additionalPrice: 50000,
     duration: 0.5
   },
   {

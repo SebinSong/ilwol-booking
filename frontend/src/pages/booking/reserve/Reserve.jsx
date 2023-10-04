@@ -31,8 +31,9 @@ export default function ConfirmAndPayment () {
   const optionId = counselOption?.id || ''
   const isOverseasCounsel = optionId === 'overseas-counsel'
   const isFamilyCounsel = optionId === 'family-counsel'
+  const numAttendeeSelectable = isOverseasCounsel || isFamilyCounsel
 
-  const additionalAttendee = isFamilyCounsel ? Math.max(personalDetails.numAttendee - 1, 0) : 0
+  const additionalAttendee = numAttendeeSelectable ? Math.max(personalDetails.numAttendee - 1, 0) : 0
   const defaultPrice = isFamilyCounsel ? counselOption.price -  counselOption.additionalPrice : counselOption.price
   const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
   const totalPrice = defaultPrice + additionalFee
@@ -81,7 +82,7 @@ export default function ConfirmAndPayment () {
             <span className='unit-append'>명</span>
 
             {
-              isFamilyCounsel &&
+              numAttendeeSelectable &&
               <button className='is-secondary is-small modify-btn'
                 onClick={navigateFactory('/booking/personal-details')}>변경</button>
             }
@@ -96,10 +97,11 @@ export default function ConfirmAndPayment () {
               <span className='unit-append'>원</span>
             </span>
             {
-              isFamilyCounsel &&
-              <span className='family-counsel-price-info'>
-                {`(${displayMoney(defaultPrice)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
-              </span>
+              numAttendeeSelectable && additionalFee > 0
+              ? <span className='family-counsel-price-info'>
+                  {`(${displayMoney(defaultPrice)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
+                </span>
+              : null
             }
           </span>
         </div>

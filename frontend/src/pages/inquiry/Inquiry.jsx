@@ -37,9 +37,12 @@ export default function Inquiry () {
   ])
 
   // computed state
+  const msgLen = details.message.length
   const enableSubmitBtn = Boolean(details.name) &&
     details.email.length > 3 &&
-    details.message.length >= 20
+    msgLen >= 20
+
+  const lenIndicator = `${msgLen}/500`
 
   // methods
   const updateFactory = key => {
@@ -107,9 +110,13 @@ export default function Inquiry () {
 
           <div className='form-field mb-0 mt-30'>
             <label>
-              <span className='label'>
+              <span className='label msg-label'>
                 문의 사항
                 <span className='mandatory'>{'(필수)'}</span>
+
+                { msgLen > 0 &&
+                  <span className={cn('length-indicator', msgLen > 500 && 'is-over')}>{lenIndicator}</span>
+                }
               </span>
 
               <textarea type='text' className='textarea'

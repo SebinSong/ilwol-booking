@@ -38,6 +38,7 @@ export default function EnterPersonalDetails () {
   const { id: optionId = '', type: optionType = '' } = counselOptionInstore || {}
   const isOverseasCounsel = optionId === 'overseas-counsel'
   const isGroupOption = optionType === 'group'
+  const numAttendeeOptions = isGroupOption ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
   const [details, setDetails] = useImmer({
     name: detailsInStore?.name || '',
@@ -56,15 +57,15 @@ export default function EnterPersonalDetails () {
     kakaoId: detailsInStore?.kakaoId || '',
     method: isOverseasCounsel
       ? 'voice-talk'
-      : detailsInStore?.method || '',
+      : detailsInStore?.method !== 'voice-talk'
+        ? detailsInStore?.method || ''
+        : '',
     email: detailsInStore?.email || '',
     memo: detailsInStore?.memo || ''
   })
   const methodList = isOverseasCounsel
     ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
     : COUNSEL_METHOD.filter(entry => 'voice-talk' !== entry.id)
-
-  // computed state
   const enableContinueBtn = [
     'name',
     'gender',
@@ -356,7 +357,7 @@ export default function EnterPersonalDetails () {
           }
         </div>
 
-        { optionId === 'family-counsel' &&
+        { ['family-counsel', 'overseas-counsel'].includes(optionId) &&
           <div className='form-field'>
             <span className='label'>
               총 인원 (본인 포함)
@@ -368,7 +369,7 @@ export default function EnterPersonalDetails () {
                 value={details.numAttendee}
                 onChange={updateFactory('numAttendee')}>
                 {
-                  [2, 3, 4, 5].map(num => <option key={num} value={num}>{num}</option>)
+                  numAttendeeOptions.map(num => <option key={num} value={num}>{num}</option>)
                 }
               </select>
             </div>

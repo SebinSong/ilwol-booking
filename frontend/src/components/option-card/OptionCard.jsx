@@ -14,6 +14,7 @@ function OptionCard ({
   onSelect = null
 }) {
   const iconClass = type === 'individual' ? 'icon-user' : 'icon-group'
+  const isOverseas = id === 'overseas-counsel'
 
   return (
     <div className={cn(
@@ -36,10 +37,13 @@ function OptionCard ({
         <div className='option-card__price is-bold'>
           <span className='price-val'>
             {formatMoney(price, { minimumFractionDigits: 0 })}
-            { id === 'family-counsel' && <span>~</span> }
+            { ['family-counsel', 'overseas-counsel'].includes(id) && <span>~</span> }
           </span>
           <span className='price-per-hr'>
-            { duration === 1 ? '/시간' : '/30분'}
+            { isOverseas 
+                ? '/30분,시간'
+                : duration === 1 ? '/시간' : '/30분'
+            }
           </span>
         </div>
       </div>

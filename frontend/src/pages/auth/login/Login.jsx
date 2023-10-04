@@ -61,7 +61,7 @@ export default function Login () {
     e.preventDefault()
 
     if (validateAll()) {
-      // TODO!
+      alert('Coming Soon!')
     }
   }
 

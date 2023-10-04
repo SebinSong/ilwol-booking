@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import Toolbar from '@components/toolbar/Toolbar.jsx'
 import PageTemplate from '../PageTemplate'
 
 const { IlwolLogo } = React.Global
@@ -25,6 +24,13 @@ export default function Home () {
           className='booking-btn'
           onClick={() => navigate('/booking/counsel-option')}
         >예약하기</button>
+
+        <span className='link admin-login-cta'
+          tabIndex={0}
+          onClick={() => navigate('/admin-login')}>
+            <i className='icon-gear'></i>
+            <span>관리자 로그인</span>
+          </span>
       </div>
     </PageTemplate>
   )

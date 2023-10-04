@@ -19,7 +19,7 @@
   &[disabled] {
     background-color: var(--button-bg-disabled-#{$type});
     border-color: var(--button-border-disabled-#{$type});
-    cursor: not-allowed;
+    cursor: default;
     opacity: 0.675;
   }
 }
@@ -83,6 +83,29 @@ button,
     padding: 0.4rem 0.8rem;
     min-height: 2.8rem;
     min-width: 3.6rem;
+  }
+
+  &.is-icon-btn {
+    min-height: 4.6rem;
+    height: 4.6rem;
+    width: 4.6rem;
+    min-width: unset;
+
+    i {
+      font-size: $size_2;
+      line-height: 4.6rem;
+    }
+
+    &.is-small {
+      min-height: 3.2rem;
+      height: 3.2rem;
+      width: 3.2rem;
+  
+      i {
+        font-size: $size_4;
+        line-height: 3.2rem;
+      }
+    }
   }
 
   @include addButtonColorStyles('primary');

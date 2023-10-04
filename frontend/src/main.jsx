@@ -15,6 +15,7 @@ import Root from '@components/root/Root'
 import Home from '@pages/home/Home.jsx'
 import Booking from '@pages/booking/Booking.jsx'
 import Inquiry from '@pages/inquiry/Inquiry'
+import Login from '@pages/auth/login/Login'
 
 // import global styles
 import './styles/main.scss'
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: '/inquiry',
         element: <Inquiry />
+      },
+      {
+        path: '/admin-login',
+        element: <Login />
       }
     ]
   }

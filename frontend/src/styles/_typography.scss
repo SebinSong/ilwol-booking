@@ -94,10 +94,41 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   }
 }
 
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
 .text-color-grey {
   color: $text_grey !important;
 }
 
 .text-color-magenta {
   color: $magenta !important;
+}
+
+.link {
+  display: inline-block;
+  cursor: pointer;
+  color: $magenta;
+  height: auto;
+  width: max-content;
+  padding-bottom: 0.1rem;
+  transition: color 150ms linear;
+  border-bottom: 1px solid currentColor;
+
+  &:hover,
+  &:focus {
+    color: $magenta-deep-dark;
+  }
+
+  &:focus {
+    border-radius: 0.4rem;
+    border: 1px solid currentColor;
+    padding: 0.1rem 0.2rem;
+    outline: none;
+  }
 }

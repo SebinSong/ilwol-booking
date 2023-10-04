@@ -12,34 +12,35 @@ $form-border: 1rem;
   &:last-of-type {
     margin-bottom: 0;
   }
+}
 
-  .helper {
-    display: block;
-    margin-top: 0.6rem;
-    color: $text_grey;
-    font-size: $size_7;
-    line-height: 1.5;
-    padding-left: 0.2rem;
-    user-select: none;
+/* form field helper */
+.helper {
+  display: block;
+  margin-top: 0.6rem;
+  color: $text_grey;
+  font-size: $size_7;
+  line-height: 1.5;
+  padding-left: 0.2rem;
+  user-select: none;
+
+  &::before {
+    @include has-icon;
+  }
+
+  &.info::before {
+    content: "\e922";
+    margin-right: 0.4rem;
+    transform: translateY(1px);
+  }
+
+  &.error {
+    color: $warning;
 
     &::before {
-      @include has-icon;
-    }
-
-    &.info::before {
-      content: "\e922";
+      content: "\e929";
       margin-right: 0.4rem;
       transform: translateY(1px);
-    }
-
-    &.error {
-      color: $warning;
-
-      &::before {
-        content: "\e929";
-        margin-right: 0.4rem;
-        transform: translateY(1px);
-      }
     }
   }
 }
@@ -88,7 +89,7 @@ $form-border: 1rem;
     font-size: 1.15em;
   }
 
-  .form-field + & {
+  .form-field:not(:last-of-type) + & {
     margin-top: -1.6rem;
     margin-bottom: 2.6rem;
   }

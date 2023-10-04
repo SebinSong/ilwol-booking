@@ -18,4 +18,21 @@
   .project-logo {
     color: $magenta-deep-dark;
   }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    .admin-login-cta {
+      position: relative;
+      font-size: 0.7em;
+
+      i {
+        transform: scale(1.015) translateY(1px);
+        margin-right: 0.2rem;
+      }
+    }
+  }
 }

@@ -245,6 +245,7 @@ export default function EnterPersonalDetails () {
               </div>
 
               <input type='text' className='input'
+                inputMode='numeric'
                 data-vkey='dob'
                 value={details.dob.year}
                 onInput={updateDobFactory('year', true)}
@@ -254,6 +255,7 @@ export default function EnterPersonalDetails () {
 
             <div className='dob-group__month'>
               <input type='text' className='input'
+                inputMode='numeric'
                 value={details.dob.month}
                 onInput={updateDobFactory('month', true)}
                 maxLength={2}
@@ -262,6 +264,7 @@ export default function EnterPersonalDetails () {
 
             <div className='dob-group__date'>
               <input type='text' className='input'
+                inputMode='numeric'
                 value={details.dob.date}
                 onInput={updateDobFactory('date', true)}
                 maxLength={2}
@@ -311,6 +314,7 @@ export default function EnterPersonalDetails () {
                         value={details.mobile.number}
                         onInput={updateMobileFactory('number')}
                         maxLength={10}
+                        inputMode='numeric'
                         placeholder='번호를 입력하세요' />
                     </div>
 

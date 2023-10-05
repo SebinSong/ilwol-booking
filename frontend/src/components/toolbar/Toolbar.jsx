@@ -39,7 +39,8 @@ export default function Toolbar ({ hidden = false , classes = '' }) {
   return (
     <div className={cn('app-toolbar', classes)}>
       <div className='left-group'>
-        <h1 className='is-title-4 is-serif toolbar-title'>
+        <h1 className='is-title-4 is-serif toolbar-title'
+          onClick={() => navigate('/')}>
           <IlwolLogo classes='toolbar-logo' width={16} />
           <span>일월선녀 해달별</span>
         </h1>

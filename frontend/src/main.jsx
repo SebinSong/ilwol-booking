@@ -15,7 +15,8 @@ import Root from '@components/root/Root'
 import Home from '@pages/home/Home.jsx'
 import Booking from '@pages/booking/Booking.jsx'
 import Inquiry from '@pages/inquiry/Inquiry'
-import Login from '@pages/auth/login/Login'
+import Login from '@pages/auth/Login'
+import Signup from '@pages/auth/Signup'
 
 // import global styles
 import './styles/main.scss'
@@ -44,11 +45,17 @@ const router = createBrowserRouter([
       {
         path: '/admin-login',
         element: <Login />
+      },
+      {
+        path: '/admin-signup',
+        element: <Signup />
       }
     ]
   }
 ], {
-  basename: import.meta.env.MODE === 'staging' ? import.meta.env.BASE_URL : '/'
+  basename: import.meta.env.MODE === 'staging'
+    ? import.meta.env.BASE_URL
+    : '/'
 })
 
 const AppRoot = createRoot(document.querySelector('#root'))

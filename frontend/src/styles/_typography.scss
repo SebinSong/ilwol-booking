@@ -113,16 +113,17 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
 .link {
   display: inline-block;
   cursor: pointer;
-  color: $magenta;
+  color: $magenta-dark;
   height: auto;
   width: max-content;
   padding-bottom: 0.1rem;
   transition: color 150ms linear;
   border-bottom: 1px solid currentColor;
+  font-size: $size_6;
 
   &:hover,
   &:focus {
-    color: $magenta-deep-dark;
+    color: $text_0;
   }
 
   &:focus {

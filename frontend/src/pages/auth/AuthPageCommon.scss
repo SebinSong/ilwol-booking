@@ -1,7 +1,8 @@
-.page-login {
+.page-auth {
   position: relative;
 
-  .login-header {
+  .login-header,
+  .signup-header {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -15,10 +16,20 @@
     border-bottom: 2px solid currentColor;
   }
 
-  .login-form {
+  .login-form,
+  .signup-form {
     position: relative;
     margin-left: auto;
     margin-right: auto;
     max-width: 36rem;
+  }
+
+  .signup-link,
+  .login-link {
+    font-size: $size_7;
+  }
+
+  .buttons-container {
+    gap: 1.6rem;
   }
 }

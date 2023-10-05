@@ -12,7 +12,8 @@ function PasswordInput ({
   errorMsg = '',
   vKey = 'password',
   label = '비밀번호',
-  placeholder = '비밀번호'
+  placeholder = '비밀번호',
+  hideHelper = false
 }) {
   const [revealed, setRevealed] = useState(false)
 
@@ -42,13 +43,15 @@ function PasswordInput ({
             onInput={onInput}
             placeholder={placeholder} />
         </div>
-      </label>
 
-      {
-        errorMsg
-          ? <WarningMessage toggle={true} message={errorMsg} />
-          : <p className='helper info'>최소 6자 입력</p>
-      }
+        {
+          errorMsg
+            ? <WarningMessage toggle={true} message={errorMsg} />
+            : !hideHelper
+              ? <p className='helper info'>최소 6자 입력</p>
+              : null
+        }
+      </label>
     </>
   )
 }

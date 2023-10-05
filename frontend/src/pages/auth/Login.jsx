@@ -14,7 +14,7 @@ const { WarningMessage } = React.Global
 // hooks
 import { useValidation } from '@hooks/useValidation'
 
-import './Login.scss'
+import './AuthPageCommon.scss'
 
 export default function Login () {
   const navigate = useNavigate()
@@ -57,7 +57,7 @@ export default function Login () {
     }
   }
 
-  const submitHandler = e => {
+  const loginHandler = e => {
     e.preventDefault()
 
     if (validateAll()) {
@@ -66,14 +66,14 @@ export default function Login () {
   }
 
   return (
-    <PageTemplate classes='page-login'>
+    <PageTemplate classes='page-auth'>
       <div className='page-form-constraints'>
         <div className='login-header mt-40'>
           <ShieldIcon classes='shield-icon' />
           <h2 className='is-title-2 is-sans page-title'>관리자 로그인</h2>
         </div>
 
-        <form className='login-form mt-50' onSubmit={submitHandler}>
+        <form className='login-form mt-50' onSubmit={loginHandler}>
           <label className='form-field'>
             <span className='label'>이메일</span>
 
@@ -99,6 +99,9 @@ export default function Login () {
               disabled={!enableLoginBtn}>
               로그인
             </button>
+
+            <span className='link signup-link'
+              onClick={() => navigate('/admin-signup')}>계정 새로 만들기</span>
           </div>
         </form>
       </div>

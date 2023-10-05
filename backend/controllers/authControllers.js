@@ -58,7 +58,7 @@ const signup_post = asyncHandler(async (req, res, next) => {
       username,
       password,
       email,
-      userType: isTypeAdmin ? 'admin-full' : 'customer',
+      userType: isTypeAdmin ? 'admin-staff' : 'customer',
       isPermitted: isTypeAdmin ? false : true
     })
 

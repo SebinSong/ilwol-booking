@@ -1,25 +1,33 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
-import PageTemplate from '@pages/PageTemplate'
-import ShieldIcon from '@components/svg-icons/ShieldIcon'
-import PasswordInput from '@components/password-input/PasswordInput'
+import { useAdminLogin } from '@store/features/authApiSlice'
+import { setCredentials } from '@store/features/authDetailsSlice'
 import {
   validateEmail,
   classNames as cn
 } from '@utils'
-
-const { WarningMessage } = React.Global
-
+// components
+import PageTemplate from '@pages/PageTemplate'
+import ShieldIcon from '@components/svg-icons/ShieldIcon'
+import PasswordInput from '@components/password-input/PasswordInput'
+import StateButton from '@components/state-button/StateButton'
 // hooks
 import { useValidation } from '@hooks/useValidation'
+import { ToastContext } from '@hooks/useToast.js'
 
 import './AuthPageCommon.scss'
 
+const { WarningMessage } = React.Global
+
 export default function Login () {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { addToastItem } = useContext(ToastContext) 
 
-  // state
+  // local-state
+  const [adminLogin, { isLoading }] = useAdminLogin()
   const [details, setDetails] = useImmer({
     email: '',
     password: ''
@@ -57,11 +65,26 @@ export default function Login () {
     }
   }
 
-  const loginHandler = e => {
+  const loginHandler = async e => {
     e.preventDefault()
 
     if (validateAll()) {
-      alert('Coming Soon!')
+      try {
+        const res = await adminLogin({
+          email: details.email,
+          password: details.password
+        }).unwrap()
+
+        dispatch(setCredentials(res))
+        navigate('/admin/dashboard')
+      } catch (err) {
+        console.log('Login.jsx caught: ', err)
+        addToastItem({
+          type: 'warning',
+          heading: '로그인 오류!',
+          content: '계정 정보가 올바르지 않습니다. 확인 후 다시 시도해 주세요.'
+        })
+      }
     }
   }
 
@@ -94,11 +117,9 @@ export default function Login () {
             placeholder='비밀번호를 입력하세요' />
 
           <div className='buttons-container mt-40'>
-            <button type='submit'
-              className='is-primary'
-              disabled={!enableLoginBtn}>
-              로그인
-            </button>
+            <StateButton classes='is-primary'
+              type='submit'
+              disabled={!enableLoginBtn}>로그인</StateButton>
 
             <span className='link signup-link'
               onClick={() => navigate('/admin-signup')}>계정 새로 만들기</span>

@@ -18,6 +18,9 @@ import Inquiry from '@pages/inquiry/Inquiry'
 import Login from '@pages/auth/Login'
 import Signup from '@pages/auth/Signup'
 
+// admin pages
+import AdminDashboard from '@pages/admin/dashboard/AdminDashboard'
+
 // import global styles
 import './styles/main.scss'
 
@@ -49,6 +52,12 @@ const router = createBrowserRouter([
       {
         path: '/admin-signup',
         element: <Signup />
+      },
+
+      // admin pages
+      {
+        path: '/admin/dashboard',
+        element: <AdminDashboard />
       }
     ]
   }

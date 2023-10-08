@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
-const { CLIENT_ERROR_TYPES, JWT_MAX_AGE } = require('../utils/constants')
+const {
+  CLIENT_ERROR_TYPES,
+  JWT_MAX_AGE,
+  SEC_MILLIS
+} = require('../utils/constants')
 
 const isEnvProduction = process.env.NODE_ENV === 'production'
 
@@ -29,6 +33,30 @@ const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
   }
 }
 
+const generateAndSendToken = (user, res) => {
+  // reference (json web token): https://www.npmjs.com/package/jsonwebtoken
+  const token = jwt.sign(
+    { userId: user._id }, // payload
+    process.env.JWT_SECRET, // secret
+    { expiresIn: JWT_MAX_AGE }// options - expires in
+  )
+
+  // reference (http Cookies): https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: isEnvProduction,
+    sameSite: 'strict',
+    maxAge: JWT_MAX_AGE / SEC_MILLIS // NOTE: in seconds
+  })
+  res.status(201).json({
+    email: user.email,
+    _id: user._id,
+    userType: user.userType,
+    isPermitted: user.isPermitted,
+    tokenExpires: Date.now() + JWT_MAX_AGE
+  })
+}
+
 const createToken = (userId) => {
   return jwt.sign(
     { userId },
@@ -50,32 +78,18 @@ const signup_post = asyncHandler(async (req, res, next) => {
   }
 
   // check required fields
-  checkRequiredFieldsAndThrow(req, res, ['email', 'username', 'password'])
+  checkRequiredFieldsAndThrow(req, res, ['email', 'password'])
 
   // create a user
   try {
     const newUser = await User.create({
-      username,
       password,
       email,
       userType: isTypeAdmin ? 'admin-staff' : 'customer',
       isPermitted: isTypeAdmin ? false : true
     })
 
-    const jwtToken = createToken(newUser._id)
-    res.cookie('jwt', jwtToken, {
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: JWT_MAX_AGE * 1000,
-      secure: isEnvProduction
-    })
-    res.status(201).json({
-      username: newUser.username,
-      email: newUser.email,
-      _id: newUser._id,
-      userType: newUser.userType,
-      isPermitted: newUser.isPermitted
-    })
+    generateAndSendToken(newUser, res)
   } catch (err) {
     // check if the email is already in use
     if (err?.code === 11000) {
@@ -88,13 +102,38 @@ const signup_post = asyncHandler(async (req, res, next) => {
   }
 })
 
-const login_post = asyncHandler((req, res, next) => {
-  res.send('POST /auth/login called!')
-  console.log('body parsed: ', req.body)
+const login_post = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email })
+  if (user &&
+    (await user.matchPassword(password))
+  ) {
+    user.numLogin += 1
+    generateAndSendToken(user, res)
+    await user.save()
+  } else {
+    sendBadRequestErr(
+      res,
+      `invalid request.`,
+      { errType: CLIENT_ERROR_TYPES.INVALID_FIELD }
+    )
+  }
 })
 
 const logout_get = asyncHandler((req, res, next) => {
-  res.send('GET /auth/logout called!')
+  if (!req.cookies.jwt) {
+    res.status(401)
+    res.errObj = { errType: CLIENT_ERROR_TYPES.NO_TOKEN }
+
+    throw new Error('no token - The user has already been logged out.')
+  }
+
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0)
+  })
+  res.status(200).json({ message: 'Logged out successfully' })
 })
 
 module.exports = {

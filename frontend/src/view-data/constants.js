@@ -1,5 +1,10 @@
 'use strict'
 
+export const MINS_MILLIS = 60 * 1000
+export const HOURS_MILLIS = 60 * MINS_MILLIS
+export const DAYS_MILLIS = 24 * HOURS_MILLIS
+const MONTHS_MILLIS = 30 * DAYS_MILLIS
+
 export const DEFAULT_TIME_SLOTS = [
   '12:00',
   '13:00',
@@ -28,3 +33,7 @@ export const COUNSEL_METHOD_ID_NAME_MAP = {
   'phone': '전화 통화',
   'voice-talk': '보이스톡'
 }
+
+export const API_BASE_URL = '/api'
+export const AUTH_URL = '/auth'
+

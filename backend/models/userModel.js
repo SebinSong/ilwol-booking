@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt')
 const { isEmail } = require('validator')
 
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true },
   email: {
     type: String,
     required: true,
@@ -28,8 +27,17 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  numLogin: {
+    type: Number,
+    default: 0
+  },
   passwordHistory: { type: [String] }
 })
+
+// methods
+UserSchema.methods.matchPassword = async function (queryPassword) {
+  return await bcrypt.compare(queryPassword, this.password)
+}
 
 // attach middlewares
 UserSchema.pre('save', async function () {

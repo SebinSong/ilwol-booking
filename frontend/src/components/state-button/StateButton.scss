@@ -1,0 +1,12 @@
+.state-button {
+  &.is-submitting {
+    opacity: 0.775;
+    pointer-events: none;
+  }
+
+  &__loader {
+    position: relative;
+    margin-right: 0.6rem;
+    bottom: -2px;
+  }
+}

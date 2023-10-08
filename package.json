@@ -3,8 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --open",
-    "dev:server": "nodemon backend/server",
+    "dev": "concurrently \"npm:dev-server\" \"npm:dev-client\"",
+    "dev-client": "vite --open",
+    "dev-server": "nodemon backend/server",
     "start": "node backend/server",
     "build": "vite build --mode production --emptyOutDir",
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",

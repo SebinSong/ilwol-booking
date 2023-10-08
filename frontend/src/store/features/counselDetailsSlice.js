@@ -7,7 +7,7 @@ import {
 } from '@utils'
 
 // helper
-export const BOOKING_DETAILS_LOCAL_STORAGE_KEY = 'ilwol-booking-store'
+export const BOOKING_DETAILS_LOCAL_STORAGE_KEY = 'ilwol-booking.counsel-details'
 const isDEV = import.meta.env.DEV
 
 const defaultState = {

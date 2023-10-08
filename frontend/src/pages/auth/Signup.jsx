@@ -1,9 +1,16 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
+
+// components
 import PageTemplate from '@pages/PageTemplate'
 import ShieldIcon from '@components/svg-icons/ShieldIcon'
+import { useAdminSignup } from '@store/features/authApiSlice'
+import { setCredentials } from '@store/features/authDetailsSlice'
 import PasswordInput from '@components/password-input/PasswordInput'
+import StateButton from '@components/state-button/StateButton'
+
 import {
   validateEmail,
   classNames as cn
@@ -14,13 +21,17 @@ const ANSWER = '창원'
 
 // hooks
 import { useValidation } from '@hooks/useValidation'
+import { ToastContext } from '@hooks/useToast.js'
 
 import './AuthPageCommon.scss'
 
 export default function Signup () {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { addToastItem } = useContext(ToastContext)
 
   // local state
+  const [adminSignup, { isLoading }] = useAdminSignup()
   const [details, setDetails] = useImmer({
     email: '',
     password: '',
@@ -74,11 +85,31 @@ export default function Signup () {
     }
   }
 
-  const signupHandler = e => {
+  const signupHandler = async e => {
     e.preventDefault()
 
     if (validateAll()) {
-      alert('coming soon!')
+      try {
+        const res = await adminSignup({
+          email: details.email,
+          password: details.password
+        }).unwrap()
+
+        dispatch(setCredentials(res))
+        addToastItem({
+          type: 'success',
+          heading: '제출되었습니다!',
+          content: '계정은 오너 또는 타 관리자가 검토 후 승인이 이뤄집니다.'
+        })
+        navigate('/admin/dashboard')
+      } catch (err) {
+        console.error('Signup.jsx caught: ', err)
+        addToastItem({
+          type: 'warning',
+          heading: '제출 오류!',
+          content: '계정 생성 중 문제가 발생하였습니다. 입력 값들을 확인 후, 다시 시도해 주세요.'
+        })
+      }
     }
   }
 
@@ -133,11 +164,13 @@ export default function Signup () {
           <WarningMessage toggle={isErrorActive('quiz')} message={formError?.errMsg} />
 
           <div className='buttons-container mt-40'>
-            <button type='submit'
-              className='is-primary'
-              disabled={!enableSubmitBtn}>
+            <StateButton classes='is-primary'
+              type='submit'
+              disabled={!enableSubmitBtn}
+              displayLoader={isLoading}>
               제출
-            </button>
+            </StateButton>
+
 
             <span className='link login-link'
               onClick={() => navigate('/admin-login')}>로그인 화면으로</span>

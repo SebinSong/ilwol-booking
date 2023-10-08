@@ -28,7 +28,7 @@ export default function Home () {
 
       <span className='link admin-login-cta'
         tabIndex={0}
-        onClick={() => navigate('/admin-login')}>
+        onClick={() => navigate('/admin/dashboard')}>
           <i className='icon-gear'></i>
           <span>관리자 로그인</span>
       </span>

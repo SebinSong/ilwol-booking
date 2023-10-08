@@ -4,7 +4,7 @@ const express = require('express')
 const colors = require('colors')
 const cookieParser = require('cookie-parser')
 const { connectDB } = require('./db.js')
-const APP_CLIENT_PATH = path.resolve(__dirname, 'client')
+const APP_CLIENT_PATH = path.resolve(__dirname, '../dist')
 
 
 // importing .env file

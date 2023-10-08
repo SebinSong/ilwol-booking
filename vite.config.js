@@ -45,7 +45,9 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
-      outDir: path.resolve(__dirname, './dist')
+      outDir: mode === 'staging'
+        ? path.resolve(__dirname, './dist')
+        : path.resolve(__dirname, 'backend/client')
     },
     server: {
       // dev-server configuration

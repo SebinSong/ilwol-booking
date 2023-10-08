@@ -4,6 +4,8 @@ const express = require('express')
 const colors = require('colors')
 const cookieParser = require('cookie-parser')
 const { connectDB } = require('./db.js')
+const APP_CLIENT_PATH = path.resolve(__dirname, 'client')
+
 
 // importing .env file
 dotenv.config({ path: path.resolve(__dirname, '.env') })
@@ -33,8 +35,12 @@ app.use(cookieParser())
 
 // attaching routes
 app.use('/api/auth', authRouter)
-app.get('/', (req, res) => {
-  res.status(200).send(`server is running...`)
+
+// static server setup
+app.use(express.static(APP_CLIENT_PATH))
+app.get('*', (req, res) => {
+  // any route that is not api will be redirected to index.html
+  res.sendFile(path.join(APP_CLIENT_PATH, 'index.html'))
 })
 
 // error handlers

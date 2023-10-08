@@ -119,6 +119,7 @@ export default function Login () {
           <div className='buttons-container mt-40'>
             <StateButton classes='is-primary'
               type='submit'
+              displayLoader={isLoading}
               disabled={!enableLoginBtn}>로그인</StateButton>
 
             <span className='link signup-link'

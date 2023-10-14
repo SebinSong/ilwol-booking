@@ -14,7 +14,6 @@ function OptionCard ({
   onSelect = null
 }) {
   const iconClass = type === 'individual' ? 'icon-user' : 'icon-group'
-  const isOverseas = id === 'overseas-counsel'
 
   return (
     <div className={cn(
@@ -40,10 +39,7 @@ function OptionCard ({
             { ['family-counsel', 'overseas-counsel'].includes(id) && <span>~</span> }
           </span>
           <span className='price-per-hr'>
-            { isOverseas 
-                ? '/30분,시간'
-                : duration === 1 ? '/시간' : '/30분'
-            }
+            { duration === 1 ? '/시간' : '/30분' }
           </span>
         </div>
       </div>

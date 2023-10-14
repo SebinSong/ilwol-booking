@@ -11,6 +11,7 @@ const CLIENT_ERROR_TYPES = {
   INVALID_FIELD: 'invalid-field',
   EXISTING_USER: 'existing-user',
   NO_TOKEN: 'no-token',
+  INVALID_TOKEN: 'invalid-token',
   UNAUTHORIZED: 'unauthorized'
 }
 const JWT_MAX_AGE = 3 * DAYS_MILLIS // 3 days

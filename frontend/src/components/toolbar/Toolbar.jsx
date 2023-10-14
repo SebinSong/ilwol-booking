@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { classNames as cn } from '@utils'
-import './Toolbar.scss'
+import './ToolbarCommon.scss'
 
 const { IlwolLogo } = React.Global
 

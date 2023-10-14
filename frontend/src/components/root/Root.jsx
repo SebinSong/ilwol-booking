@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Provider } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
@@ -7,17 +7,23 @@ import { classNames as cn } from '@utils'
 
 // components
 import ToastContainer from '@components/toast/ToastContainer'
+import Toolbar from '../toolbar/Toolbar'
+import AdminToolbar from '../toolbar/AdminToolbar'
 
 // hooks
 import { useToast, ToastContext } from '@hooks/useToast.js'
 
-// components
-import Toolbar from '../toolbar/Toolbar'
-
 export default function Root () {
   // local state
   const location = useLocation()
-  const hideToolbar = ['/'].includes(location.pathname)
+  const hideToolbar = useMemo(
+    () => ['/'].includes(location.pathname),
+    [location]
+  )
+  const ToolbarType = useMemo(
+    () => (location.pathname || '').startsWith('/admin/') ? AdminToolbar : Toolbar,
+    [location]
+  )
 
   // toast-utils
   const toastUtils = useToast([])
@@ -26,7 +32,7 @@ export default function Root () {
     <Provider store={store}>
       <div className={cn('app-layout', hideToolbar && 'toolbar-hidden')}>
         <ToastContext.Provider value={toastUtils}>
-          { !hideToolbar && <Toolbar classes='l-toolbar' /> }
+          { !hideToolbar && <ToolbarType classes='l-toolbar' /> }
 
           <Outlet />
           <ToastContainer />

@@ -105,14 +105,14 @@ const signup_post = asyncHandler(async (req, res, next) => {
 const login_post = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body
 
-  const user = await User.findOne({ email })
-  if (user &&
-    (await user.matchPassword(password))
-  ) {
+  try {
+    const user = await User.login({ email, password })
+
     user.numLogin += 1
     generateAndSendToken(user, res)
     await user.save()
-  } else {
+  } catch (err) {
+    console.error('error caught in login_post: ', err)
     sendBadRequestErr(
       res,
       `invalid request.`,

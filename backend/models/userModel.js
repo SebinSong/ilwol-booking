@@ -34,7 +34,20 @@ const UserSchema = new mongoose.Schema({
   passwordHistory: { type: [String] }
 })
 
-// methods
+// static methods
+UserSchema.statics.login = async function ({ email, password }) {
+  const user = await this.findOne({ email })
+
+  if (user) {
+    const matches = await user.matchPassword(password, user.password)
+
+    if (matches) { return user }
+  }
+
+  throw new Error('invalid')
+}
+
+// document level methods
 UserSchema.methods.matchPassword = async function (queryPassword) {
   return await bcrypt.compare(queryPassword, this.password)
 }

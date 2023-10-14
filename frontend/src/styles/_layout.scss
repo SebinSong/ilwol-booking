@@ -32,7 +32,37 @@
       pointer-events: none;
     }
   }
+
+  &.is-admin-page {
+    @include from ($large-phone) {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "l-toolbar l-toolbar"
+        "l-navigation l-page";
+    }
+  }
 }
+
+.l-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  grid-area: l-navigation;
+  z-index: $zindex-navigation;
+  height: 100%;
+  width: 100vw;
+
+  @include from ($large-phone) {
+    position: relative;
+    left: unset;
+    top: unset;
+    display: block;
+    width: $navigation-width-desktop;
+  }
+}
+
+// toolbar
 
 .l-toolbar {
   grid-area: l-toolbar;
@@ -43,6 +73,8 @@
   overflow: hidden;
   z-index: $zindex-toolbar;
 }
+
+// page area
 
 .l-page {
   grid-area: l-page;

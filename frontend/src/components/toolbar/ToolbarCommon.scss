@@ -67,7 +67,9 @@
       }
     }
   }
+}
 
+.app-toolbar.is-admin-toolbar {
   .admin-level-badge {
     position: relative;
     margin-right: 0.4rem;
@@ -75,10 +77,10 @@
     align-items: center;
     gap: 0.3rem;
     pointer-events: cursor;
-    font-size: 1.325rem;
+    font-size: $size_6;
     font-weight: bold;
-    top: 0.2rem;
     cursor: pointer;
+    color: $magenta_dark;
 
     .badge-icon {
       display: inline-flex;
@@ -90,19 +92,31 @@
       height: 1.8rem;
       line-height: 1;
     }
-  }
-}
 
-.app-toolbar.is-admin-toolbar {
-  .nav-item button {
-    border: 1px solid $inactive-grey;
+    .badge-level {
+      border-bottom: 1px solid currentColor;
+    }
   }
 
-  button.nav-menu-btn {
-    min-width: 3.2rem;
-    padding: 0.4rem;
-    line-height: 1;
-    font-weight: bold;
-    font-size: 1.8rem;
+  .nav-item {
+    button {
+      border: 1px solid $inactive-grey;
+    }
+
+    &.nav-menu-btn {
+      display: block;
+
+      @include from ($large-phone) {
+        display: none;
+      }
+
+      button {
+        min-width: 3.2rem;
+        padding: 0.4rem;
+        line-height: 1;
+        font-weight: bold;
+        font-size: 1.8rem;
+      }
+    }
   }
 }

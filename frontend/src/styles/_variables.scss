@@ -3,8 +3,9 @@
 // z-index constraints
 $zindex-toolbar: 10;
 $zindex-tooltip: 20;
-$zindex_toast: 30;
-$zindex-modal: 40;
+$zindex-navigation: 30;
+$zindex_toast: 40;
+$zindex-modal: 50;
 
 // breakpoints
 $small-phone: 576px;
@@ -30,6 +31,8 @@ $size_7: 1.2rem;  // 12px
 
 // miscellaneous
 $toolbar-height: 5.2rem;
+$navigation-width-desktop: 17rem;
+$navigation-max-width: 26rem;
 $page-max-content-width: 1620px;
 $page-common-side-padding: 2rem;
 $page-common-side-padding-mobile: 1.5rem;

@@ -35,6 +35,12 @@
   }
 }
 
+@mixin until ($bp) {
+  @media screen and (max-width: $bp - 1px) {
+    @content;
+  }
+}
+
 @mixin from_v ($bp) {
   @media screen and (min-height: $bp) {
     @content;

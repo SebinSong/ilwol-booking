@@ -8,6 +8,7 @@ import { clearCredentials } from '@store/features/authDetailsSlice'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
+import { NavMenuContext } from '@hooks/useNavMenu.js'
 
 import './ToolbarCommon.scss'
 
@@ -20,6 +21,7 @@ function AdminToolbar ({
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { addToastItem } = useContext(ToastContext)
+  const { toggleNavMenu } = useContext(NavMenuContext)
 
   // local-state
   const [adminLogout, { isLoading: isLoggingOut }] = useAdminLogout()
@@ -60,7 +62,7 @@ function AdminToolbar ({
         <li className='admin-level-badge'
           onClick={toAdminHome}>
           <i className={cn(isOwner ? 'icon-star' : 'icon-user', 'badge-icon')}></i>
-          <span className='badge-level'>{ isOwner ? '주인장' : '스태프' }</span>
+          <span className='badge-level'>{ isOwner ? '주인장' : '스탭' }</span>
         </li>
 
         <li className='nav-item'>
@@ -69,8 +71,9 @@ function AdminToolbar ({
             onClick={logoutHandler}>로그아웃</button>
         </li>
 
-        <li className='nav-item'>
-          <button className='is-unstyled nav-menu-btn'>
+        <li className='nav-item nav-menu-btn'>
+          <button className='is-unstyled'
+            onClick={toggleNavMenu}>
             <i className='icon-menu'></i>
           </button>
         </li>

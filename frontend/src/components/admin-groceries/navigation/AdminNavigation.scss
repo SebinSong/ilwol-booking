@@ -1,0 +1,70 @@
+.admin-navigation {
+  display: flex;
+  align-items: stretch;
+
+  @include until ($large-phone) {
+    pointer-events: none;
+
+    &.is-open {
+      pointer-events: initial;
+    }
+  }
+}
+
+@mixin isOpen {
+  .admin-navigation.is-open & {
+    @content;
+  }
+}
+
+.admin-navigation__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  cursor: default;
+  background-color: rgba(96, 92, 96, 0.175);
+  pointer-events: inherit;
+
+  @include until ($large-phone) {
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+
+    @include isOpen {
+      opacity: 1;
+    }
+  }
+}
+
+.admin-navigation__list {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: $background_0;
+  max-width: $navigation-max-width;
+  border-right: 1px solid $text_grey;
+
+  @include until ($large-phone) {
+    transform: translateX(-110%);
+    transition: transform 350ms ease-out;
+
+    @include isOpen {
+      transform: translateX(0);
+    }
+  }
+}
+
+.admin-navigation__close-btn {
+  position: absolute;
+  background-color: $background_0;
+  display: block;
+  right: 1.2rem;
+  top: 1.2rem;
+
+  @include from ($large-phone) {
+    display: none;
+  }
+}

@@ -46,7 +46,7 @@ const generateAndSendToken = (user, res) => {
     httpOnly: true,
     secure: isEnvProduction,
     sameSite: 'strict',
-    maxAge: JWT_MAX_AGE / SEC_MILLIS // NOTE: in seconds
+    maxAge: JWT_MAX_AGE
   })
   res.status(201).json({
     email: user.email,

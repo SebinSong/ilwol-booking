@@ -8,7 +8,7 @@ import { API_BASE_URL } from '@view-data/constants.js'
 const apiSlice = createApi({
   reducerPath: API_BASE_URL,
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['Users'],
+  tagTypes: ['Users', 'Inquiries'],
   endpoints: builder => ({}) 
 })
 

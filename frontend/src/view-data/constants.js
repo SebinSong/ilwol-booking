@@ -36,4 +36,3 @@ export const COUNSEL_METHOD_ID_NAME_MAP = {
 
 export const API_BASE_URL = '/api'
 export const AUTH_URL = '/auth'
-

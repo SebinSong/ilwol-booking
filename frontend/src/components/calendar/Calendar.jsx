@@ -42,7 +42,7 @@ export default function Calendar ({
 
   return (
     <ReactCalendar onChange={changeHandler}
-      value={value}
+      value={allowMultiple ? null : value}
       locale='ko'
       className={`ilwol-calendar ${classes}`}
       minDate={minDate || tomorrow}

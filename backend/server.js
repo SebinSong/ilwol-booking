@@ -12,6 +12,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 // routers
 const authRouter = require('./routes/authRoutes')
+const inquiryRouter = require('./routes/inquiryRoutes')
 
 // middlewares
 const logger = require('./middlewares/logger')
@@ -35,6 +36,7 @@ app.use(cookieParser())
 
 // attaching routes
 app.use('/api/auth', authRouter)
+app.use('/api/inquiry', inquiryRouter)
 
 // static server setup
 app.use(express.static(APP_CLIENT_PATH))

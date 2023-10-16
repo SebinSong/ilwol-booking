@@ -13,7 +13,7 @@
 
   .toast-container {
     position: fixed;
-    z-index: $zindex_toast;
+    z-index: $zindex-toast;
     left: 50%;
     bottom: 1.6rem;
     transform: translateX(-50%);

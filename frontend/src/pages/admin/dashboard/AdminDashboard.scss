@@ -3,6 +3,8 @@
   display: block;
 
   .day-off-calendar {
-    margin-left: 0;
+    @include from ($large-phone) {
+      margin-left: 0;
+    }
   }
 }

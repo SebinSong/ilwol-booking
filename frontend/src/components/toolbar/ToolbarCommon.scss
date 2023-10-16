@@ -23,6 +23,10 @@
       user-select: none;
       cursor: pointer;
 
+      @include smallphone {
+        font-size: $size_5;
+      }
+
       .toolbar-logo {
         margin-right: 0.6rem;
       }
@@ -72,15 +76,17 @@
 .app-toolbar.is-admin-toolbar {
   .admin-level-badge {
     position: relative;
-    margin-right: 0.4rem;
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
     pointer-events: cursor;
-    font-size: $size_6;
+    font-size: $size_7;
     font-weight: bold;
     cursor: pointer;
-    color: $magenta_dark;
+    color: $background_0;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.6rem;
+    background-color: $magenta_dark;
 
     .badge-icon {
       display: inline-flex;
@@ -88,9 +94,11 @@
       justify-content: center;
       border-radius: 50%;
       border: 1px solid currentColor;
-      width: 1.8rem;
-      height: 1.8rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      transform: translateY(1px);
       line-height: 1;
+      font-weight: bold;
     }
 
     .badge-level {

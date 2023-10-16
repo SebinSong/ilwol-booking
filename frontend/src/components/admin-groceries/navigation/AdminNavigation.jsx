@@ -13,14 +13,14 @@ const adminNavList = [
     routeTo: '/admin/dashboard'
   },
   {
-    id: 'reservation',
+    id: 'manage-reservation',
     name: '예약 관리',
     icon: 'bulleted-list',
-    routeTo: '/admin/reservation'
+    routeTo: '/admin/manage-reservation'
   },
   {
     id: 'inquiry',
-    name: '고객 문의',
+    name: '고객 문의사항',
     icon: 'mail',
     routeTo: '/admin/inquiry'
   }

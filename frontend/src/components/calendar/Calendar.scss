@@ -157,7 +157,12 @@ button.react-calendar__month-view__days__day--neighboringMonth {
     color: $magenta;
   }
 
-  &:enabled:focus,
+  &:enabled:focus {
+    color: var(--calendar-btn-text-color);
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 1px 0 $text_grey;
+  }
+
   &:enabled:active {
     background-color: $magenta;
     color: $text_1;
@@ -176,13 +181,15 @@ button.react-calendar__tile--now {
   }
 }
 
-.react-calendar__tile--hasActive {
-  background-color: $success-bg;
+button.react-calendar__tile--hasActive,
+button.is-multiple-selected {
+  background-color: $magenta;
+  color: $text_1;
 
   &:enabled:hover,
   &:enabled:focus {
-    background-color: $magenta-bg;
-    color: $magenta;
+    background-color: $magenta;
+    color: $text_1;
   }
 }
 
@@ -191,15 +198,15 @@ button.react-calendar__tile--active {
   color: $text_1;
   font-weight: bold;
 
-  &:focus,
-  &:active {
+  &:enabled:focus,
+  &:enabled:active {
     background-color: $magenta;
     color: $text_1;
     font-weight: bold;
     box-shadow: none;
   }
 
-  &:hover {
+  &:enabled:hover {
     background-color: $magenta;
     color: $text_1;
   }

@@ -25,12 +25,12 @@
   height: 100%;
   z-index: 0;
   cursor: default;
-  background-color: rgba(96, 92, 96, 0.175);
+  background-color: rgba(96, 92, 96, 0.185);
   pointer-events: inherit;
 
   @include until ($large-phone) {
     opacity: 0;
-    transition: opacity 250ms ease-out;
+    transition: opacity 150ms ease-out;
 
     @include isOpen {
       opacity: 1;
@@ -45,11 +45,15 @@
   height: 100%;
   background-color: $background_0;
   max-width: $navigation-max-width;
-  border-right: 1px solid $text_grey;
+  border: 1px solid $text_grey;
+  padding: 1.2rem;
+  margin-top: -1px;
 
   @include until ($large-phone) {
     transform: translateX(-110%);
-    transition: transform 350ms ease-out;
+    transition: transform 250ms ease-out;
+    padding-top: 6.2rem;
+    margin-top: 0;
 
     @include isOpen {
       transform: translateX(0);
@@ -57,14 +61,82 @@
   }
 }
 
-.admin-navigation__close-btn {
+button.is-unstyled.admin-navigation__close-btn {
   position: absolute;
   background-color: $background_0;
-  display: block;
+  font-weight: bold;
+  color: $text_0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   right: 1.2rem;
   top: 1.2rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  border: 1px solid $text-grey;
+  font-size: $size_4;
+  line-height: 1;
+  transition: color 150ms linear, border-color 150ms linear;
+
+  &:hover,
+  &:focus {
+    color: $magenta-dark;
+    border-color: currentColor;
+    outline: none;
+  }
+
+  &:active {
+    background-color: $magenta-dim;
+  }
 
   @include from ($large-phone) {
     display: none;
+  }
+}
+
+.admin-navigation__nav-item {
+  position: relative;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid $text_grey;
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
+  transition:
+    border-color 150ms linear,
+    background-color 150ms linear;
+
+  &:hover,
+  &:focus {
+    border-color: $magenta-dark;
+    color: $magenta-dark;
+    background-color: $magenta-dim;
+    outline: none;
+  }
+
+  &.is-active {
+    border-color: $magenta-dark;
+    background-color: $magenta-dark;
+    color: $background_0;
+  }
+
+  &:active .nav-item-name {
+    text-decoration: underline;
+  }
+
+  .nav-item-name {
+    font-size: $size_6;
+  }
+
+  .nav-item-icon {
+    font-size: $size_3;
+    transform: translateY(1px);
   }
 }

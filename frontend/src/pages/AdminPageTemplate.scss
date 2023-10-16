@@ -1,7 +1,51 @@
 .admin-page-template {
   position: relative;
   display: block;
-  padding-top: 3.6rem;
+  padding: 2rem 3.2rem;
+
+  @include smallphone {
+    padding: 3.2rem 1.5rem;
+  }
+
+  .admin-page-title {
+    width: max-content;
+    font-size: 2.6rem;
+    font-weight: bold;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid $text-grey;
+    border-radius: 0.6rem;
+    margin-bottom: 4.2rem;
+
+    i {
+      display: inline-block;
+      transform: translateY(1px) scale(1.02);
+      margin-right: 0.6rem;
+    }
+  }
+
+  .admin-page-section-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2.4rem;
+    font-weight: bold;
+    font-size: $size_4;
+
+    i {
+      font-size: 1.25em;
+      transform: translateY(1px);
+      margin-right: 0.6rem;
+    }
+
+    span {
+      border-bottom: 1px solid $text-grey;
+    }
+  }
+
+  .admin-page-section:not(:last-of-type) {
+    margin-bottom: 3.2rem;
+    padding-bottom: 3.2rem;
+  }
 
   .page-width-constraints {
     position: relative;

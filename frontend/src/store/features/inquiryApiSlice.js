@@ -4,8 +4,10 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => {
     return {
       getInquiries: builder.query({
-        query: ({ limit = null, page = null } = {}) => ({
-          url: limit && page ? `/inquiry?limit=${limit}&page=${page}` : '/inquiry',
+        query: ({ page = null, limit = null } = {}) => ({
+          url: limit !== null && page !== null
+            ? `/inquiry?limit=${limit}&page=${page}`
+            : '/inquiry',
           method: 'GET'
         }),
         keepUnusedDataFor: 60, // seconds

@@ -24,6 +24,7 @@ export default function Inquiry () {
   // local-state
   const [details, setDetails] = useImmer({
     name: '',
+    title: '',
     email: '',
     message: ''
   })
@@ -52,6 +53,7 @@ export default function Inquiry () {
   // computed state
   const msgLen = details.message.length
   const enableSubmitBtn = Boolean(details.name) &&
+    Boolean(details.title) &&
     details.email.length > 3 &&
     msgLen >= 20
 
@@ -78,6 +80,7 @@ export default function Inquiry () {
         const res = await postInquiry({
           name: details.name,
           email: details.email,
+          title: details.title,
           message: details.message
         })
         setIsInquirySent(true)
@@ -152,9 +155,28 @@ export default function Inquiry () {
             </label>
           </div>
 
+          <div className='form-field mt-30'>
+            <label>
+              <span className='label'>
+                제목
+                <span className='mandatory'>{'(필수)'}</span>
+              </span>
+
+              <input type='text'
+                className='input'
+                value={details.title}
+                onInput={updateFactory('title')}
+                placeholder='제목' />
+            </label>
+          </div>
+
           <WarningMessage classes='inquiry-form-warning'
             toggle={isErrorActive('email') || isErrorActive('name')}
             message={formError?.errMsg} />
+
+          <div className='form-field mt-30'>
+
+          </div>
 
           <div className='form-field mb-0 mt-30'>
             <label>

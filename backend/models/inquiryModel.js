@@ -10,6 +10,10 @@ const InquirySchema = new mongoose.Schema({
     required: true,
     lowercase: true
   },
+  title: {
+    type: String,
+    required: true
+  },
   message: {
     type: String,
     required: true

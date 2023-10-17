@@ -23,5 +23,7 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
   }
 })
 
-export const useGetInquiries = inquiryApiSlice.useGetInquiriesQuery
-export const usePostInquiryMutation = inquirySlice.usePostInquiryMutation
+export const {
+  useGetInquiriesQuery: useGetInquiries,
+  usePostInquiryMutation: usePostInquiry
+} = inquiryApiSlice

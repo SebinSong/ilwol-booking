@@ -1,24 +1,37 @@
-import React from 'react'
-import { validateEmail, classNames as cn } from '@utils'
+import React, { useMemo, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
-import { useValidation } from '@hooks/useValidation'
+import { validateEmail, classNames as cn } from '@utils'
 
+// hooks
+import { ToastContext } from '@hooks/useToast.js'
+import { useValidation } from '@hooks/useValidation'
+import { usePostInquiry } from '@store/features/inquiryApiSlice.js'
+
+// components
 import PageTemplate from '../PageTemplate'
+import StateButton from '@components/state-button/StateButton'
+import CommunicationIcon from '@components/svg-icons/CommunicationIcon'
 
 const { WarningMessage } = React.Global
 
 import './Inquiry.scss'
 
 export default function Inquiry () {
+  const navigate = useNavigate()
+  const { addToastItem } = useContext(ToastContext)
+
   // local-state
   const [details, setDetails] = useImmer({
     name: '',
     email: '',
     message: ''
   })
+  const [isInquirySent, setIsInquirySent] = useState(false)
+  const [postInquiry, { isLoading }] = usePostInquiry()
 
   // validation setup
-  const { 
+  const {
     formError,
     validateAll,
     clearFormError,
@@ -57,12 +70,47 @@ export default function Inquiry () {
     }
   }
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
 
     if (validateAll()) {
-      alert('Coming soon!')
+      try {
+        const res = await postInquiry({
+          name: details.name,
+          email: details.email,
+          message: details.message
+        })
+        setIsInquirySent(true)
+      } catch (e) {
+        console.error('submitHandler in Inquiry.jsx caught: ', e)
+        addToastItem({
+          type: 'warning',
+          heading: '제출 오류!',
+          content: '문의 사항 접수 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+        })
+      }
     }
+  }
+
+  if (isInquirySent) {
+    return (
+      <PageTemplate classes='page-inquiry'>
+        <div className='page-width-constraints'>
+          <div className='inquiry-sent-container'>
+            <CommunicationIcon classes='sent-icon' width='80' />
+
+            <div className='sent-paragraph'>
+              <h3 className='is-title-3'>문의사항/의견이 접수 되었습니다.</h3>
+              <span>접수된 내용은 선녀님 또는 관리자가 검토 후에 답변/피드백 드리겠습니다.</span>
+            </div>
+
+            <button className='is-secondary'
+              type='button'
+              onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
+          </div>
+        </div>
+      </PageTemplate>
+    )
   }
 
   return (
@@ -133,11 +181,9 @@ export default function Inquiry () {
           </div>
 
           <div className='buttons-container mt-40'>
-            <button type='submit'
-              className='is-primary submit-btn'
-              disabled={!enableSubmitBtn}>
-              제출
-            </button>
+            <StateButton type='submit'
+              classes='is-primary submit-btn'
+              disabled={!enableSubmitBtn}>제출</StateButton>
           </div>
         </form>
       </div>

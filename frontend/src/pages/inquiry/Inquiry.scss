@@ -41,4 +41,46 @@
       font-weight: normal;
     }
   }
+
+  .inquiry-sent-container {
+    position: relative;
+    margin-top: 6.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.2rem;
+    padding: 0 2rem;
+
+    > * {
+      opacity: 0;
+      animation: sent-content-ani 400ms ease-in-out forwards;
+
+      &:nth-child(2) { animation-delay: 150ms; }
+      &:nth-child(3) { animation-delay: 300ms; }
+    }
+
+
+    .sent-paragraph {
+      text-align: center;
+
+      span {
+        display: block;
+        margin-top: 0.6rem;
+        font-size: $size_6;
+        color: $text_dark_grey;
+      }
+    }
+
+    @keyframes sent-content-ani {
+      0% {
+        opacity: 0;
+        transform: translateY(1.2rem);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
 }

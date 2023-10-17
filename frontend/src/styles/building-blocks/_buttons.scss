@@ -79,10 +79,18 @@ button,
   }
 
   &.is-small {
-    border-radius: 1rem;
+    border-radius: 0.8rem;
     padding: 0.4rem 0.8rem;
     min-height: 2.8rem;
     min-width: 3.6rem;
+  }
+
+  &.is-table-btn {
+    border-radius: 0.8rem;
+    padding: 0.2rem 0.8rem;
+    min-height: 2rem;
+    min-width: 3.6rem;
+    font-size: $size_7;
   }
 
   &.is-icon-btn {

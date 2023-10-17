@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { classNames as cn } from '@utils'
+import {
+  classNames as cn,
+  humanDate
+} from '@utils'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
+import TextLoader from '@components/text-loader/TextLoader'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
@@ -18,21 +22,14 @@ export default function AdminInquiry ({ classes = '' }) {
   const { addToastItem } = useContext(ToastContext)
 
   // local-state
-  const [queryArgs, setQueryArgs] = useState({ page: 0, limit: 3 })
+  const [search, setSearch] = useState('')
+  const [queryArgs, setQueryArgs] = useState({})
   const {
     data = [],
     isLoading,
     isFetching
   } = useGetInquiries(queryArgs)
-
-  // methods
-  const loadData = async () => {
-    try {
-      setQueryArgs({ page: 1, limit: 4 })
-    } catch (e) {
-      console.error('error caught while fetching inquiry data: ', e)
-    }
-  }
+  const isLoadingData = isLoading || isFetching
 
   return (
     <AdminPageTemplate classes={cn('page-admin-inquiry', classes)}>
@@ -41,15 +38,63 @@ export default function AdminInquiry ({ classes = '' }) {
         <span>고객 문의사항</span>
       </h2>
 
-      <p>
-        { isFetching ? <span>Loading...</span> : <span>{data.length} inquiries fetched.</span> }
-      </p>
+      <div className='page-admin-inquiry-content'>
+        {
+          isLoadingData
+            ? <div className='inquiry-loading-indicator'>
+                <TextLoader>
+                  문의사항 데이터 로딩중...
+                </TextLoader>
+              </div>
+            : <>
+                <div className='search-input-container'>
+                  <div className='input-with-pre-icon'>
+                    <i className='icon-search pre-icon'></i>
 
-      <div className='buttons-container'>
-        <button className='is-primary'
-          type='button'
-          disabled={isFetching}
-          onClick={loadData}>데이터 로드</button>
+                    <input className='input inquiry-search-input'
+                      type='text'
+                      value={search}
+                      onInput={e => setSearch(e.target.value)} />
+                  </div>
+                </div>
+
+                <div className='ilwol-table-container inquiry-list-table'>
+                  <div className='ilwol-table-inner'>
+                    <table className='ilwol-table'>
+                      <thead>
+                        <tr>
+                          <th className='th-title'>제목</th>
+                          <th className='th-date'>날짜</th>
+                          <th className='th-name'>이름</th>
+                          <th className='th-email'>이메일</th>
+                          <th className='th-action'></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {
+                          data.map(entry => {
+                            const { name, email, createdAt, title } = entry
+
+                            return (
+                              <tr>
+                                <td className='td-title'>{ title }</td>
+                                <td className='td-date'>{ humanDate(createdAt, { month: 'short', day: 'numeric', year: 'numeric' }) }</td>
+                                <td className='td-name'>{ name }</td>
+                                <td className='td-email'>{ email }</td>
+                                <td className='td-action'>
+                                  <button className='is-primary is-table-btn'>답변</button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
+        }
       </div>
     </AdminPageTemplate>
   )

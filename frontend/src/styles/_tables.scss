@@ -1,0 +1,59 @@
+table.ilwol-table {
+  position: relative;
+  width: max-content;
+  background-color: $background_0;
+
+  thead {
+    border-bottom: 1px solid $text_0;
+  }
+
+  tr {
+    height: 3.6rem;
+    vertical-align: middle;
+  }
+
+  tbody > tr:not(:last-of-type) {
+    border-bottom: 1px solid $text_grey;
+  }
+
+  th,
+  td {
+    padding: 0 0.4rem;
+    background-color: $background_0;
+    letter-spacing: 0.5px;
+  }
+
+  th {
+    font-size: $size_6;
+    font-weight: bold;
+    color: $text_0;
+  }
+
+  td {
+    line-height: 3.6rem; // same as the tr default height.
+    font-size: 1.3rem;
+    color: $text_dark_grey;
+
+    &:not(:last-of-type) {
+      padding-right: 1.2rem;
+    }
+  }
+}
+
+.ilwol-table-container {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid $text_0;
+  border-radius: 0.8rem;
+  width: max-content;
+  max-width: calc(100vw - 3rem);
+  height: auto;
+
+  .ilwol-table-inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    height: max-content;
+  }
+}

@@ -1,0 +1,16 @@
+.text-loader-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  width: max-content;
+  max-width: 16rem;
+  padding: 0 1rem;
+
+  .loader-text {
+    font-size: $size_7;
+    font-weight: bold;
+    text-align: center;
+  }
+}

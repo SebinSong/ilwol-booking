@@ -119,3 +119,9 @@ $desktop: 1200px;
     max-width: 42rem;
   }
 }
+
+@mixin truncate-text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -82,7 +82,7 @@ button.is-unstyled.admin-navigation__close-btn {
 
   &:hover,
   &:focus {
-    color: $magenta-dark;
+    color: $magenta;
     border-color: currentColor;
     outline: none;
   }
@@ -115,15 +115,15 @@ button.is-unstyled.admin-navigation__close-btn {
 
   &:hover,
   &:focus {
-    border-color: $magenta-dark;
-    color: $magenta-dark;
+    border-color: $magenta;
+    color: $magenta;
     background-color: $magenta-dim;
     outline: none;
   }
 
   &.is-active {
-    border-color: $magenta-dark;
-    background-color: $magenta-dark;
+    border-color: $magenta;
+    background-color: $magenta;
     color: $background_0;
   }
 

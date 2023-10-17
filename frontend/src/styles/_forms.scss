@@ -270,3 +270,26 @@ $form-border: 1rem;
     border-radius: 0 $form-border $form-border 0;
   }
 }
+
+.input-with-pre-icon {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  height: auto;
+
+  .input {
+    padding-left: 3.2rem;
+  }
+
+  i.pre-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.8rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 1;
+  }
+}

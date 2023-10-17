@@ -16,6 +16,13 @@ import { useGetInquiries } from '@store/features/inquiryApiSlice.js'
 
 import './AdminInquiry.scss'
 
+const NoDataToShow = () => (
+  <div className='no-data-feedback'>
+    <i className='icon-close-circle'></i>
+    <span>보일 데이터가 없습니다.</span>
+  </div>
+)
+
 export default function AdminInquiry ({ classes = '' }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -31,6 +38,18 @@ export default function AdminInquiry ({ classes = '' }) {
   } = useGetInquiries(queryArgs)
   const isLoadingData = isLoading || isFetching
 
+  const feedbackEl = isLoadingData
+    ? <div className='inquiry-feeback'>
+        <TextLoader>
+          문의사항 데이터 로딩중...
+        </TextLoader>
+      </div>
+    : !Boolean(data.length)
+        ? <div className='inquiry-feeback'>
+            <NoDataToShow />
+          </div>
+        : null
+
   return (
     <AdminPageTemplate classes={cn('page-admin-inquiry', classes)}>
       <h2 className='admin-page-title'>
@@ -40,12 +59,8 @@ export default function AdminInquiry ({ classes = '' }) {
 
       <div className='page-admin-inquiry-content'>
         {
-          isLoadingData
-            ? <div className='inquiry-loading-indicator'>
-                <TextLoader>
-                  문의사항 데이터 로딩중...
-                </TextLoader>
-              </div>
+          feedbackEl
+            ? feedbackEl
             : <>
                 <div className='search-input-container'>
                   <div className='input-with-pre-icon'>

@@ -17,6 +17,9 @@ const InquirySchema = new mongoose.Schema({
   message: {
     type: String,
     required: true
+  },
+  replies: {
+    type: [{ reply: String, repliedAt: Date }]
   }
 }, {
   timestamps: true

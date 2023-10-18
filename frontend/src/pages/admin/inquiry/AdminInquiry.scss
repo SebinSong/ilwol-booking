@@ -87,5 +87,30 @@
     .th-name {
       min-width: 7.2rem;
     }
+
+    .th-replied,
+    .td-replied {
+      text-align: center;
+      width: 7.8rem;
+    }
+
+    .td-replied {
+      font-size: $size_5;
+      font-weight: bold;
+      line-height: 1;
+      padding: 0 0.4rem;
+
+      &.has-reply {
+        color: $success;
+      }
+
+      &.no-reply {
+        color: $warning;
+      }
+    }
+
+    .td-action {
+      padding-left: 0.8rem;
+    }
   }
 }

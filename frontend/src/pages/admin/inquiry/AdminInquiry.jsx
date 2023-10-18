@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useMemo } from 'react'
 import {
   classNames as cn,
   humanDate
@@ -16,12 +16,25 @@ import { useGetInquiries } from '@store/features/inquiryApiSlice.js'
 
 import './AdminInquiry.scss'
 
+// helpers
 const NoDataToShow = () => (
   <div className='no-data-feedback'>
     <i className='icon-close-circle'></i>
     <span>보일 데이터가 없습니다.</span>
   </div>
 )
+const transformListEntry = entry => {
+  const r = {
+    title: entry.title,
+    name: entry.name,
+    email: entry.email,
+    date: humanDate(entry.createdAt, { month: 'short', day: 'numeric', year: 'numeric' }),
+    hasReply: Array.isArray(entry.replies) && entry.replies.some(reply => Boolean(reply.repliedAt))
+  }
+  r.searchable = `${r.title}-${r.name}-${r.email}-${r.date}`
+
+  return r
+}
 
 export default function AdminInquiry ({ classes = '' }) {
   const dispatch = useDispatch()
@@ -37,6 +50,14 @@ export default function AdminInquiry ({ classes = '' }) {
     isFetching
   } = useGetInquiries(queryArgs)
   const isLoadingData = isLoading || isFetching
+
+  // computed state
+  const dataToDisplay = useMemo(
+    () => {
+      return data.map(transformListEntry)
+        .filter(entry => entry.searchable.includes(search.trim()))
+    }, [data, search]
+  )
 
   const feedbackEl = isLoadingData
     ? <div className='inquiry-feeback'>
@@ -82,21 +103,23 @@ export default function AdminInquiry ({ classes = '' }) {
                           <th className='th-date'>날짜</th>
                           <th className='th-name'>이름</th>
                           <th className='th-email'>이메일</th>
+                          <th className='th-replied'>답변됨</th>
                           <th className='th-action'></th>
                         </tr>
                       </thead>
 
                       <tbody>
                         {
-                          data.map(entry => {
-                            const { name, email, createdAt, title } = entry
-
+                          dataToDisplay.map(entry => {
                             return (
                               <tr>
-                                <td className='td-title'>{ title }</td>
-                                <td className='td-date'>{ humanDate(createdAt, { month: 'short', day: 'numeric', year: 'numeric' }) }</td>
-                                <td className='td-name'>{ name }</td>
-                                <td className='td-email'>{ email }</td>
+                                <td className='td-title'>{ entry.title }</td>
+                                <td className='td-date'>{ entry.date }</td>
+                                <td className='td-name'>{ entry.name }</td>
+                                <td className='td-email'>{ entry.email }</td>
+                                <td className={cn('td-replied', entry.hasReply ? 'has-reply' : 'no-reply' )}>
+                                  <i className={entry.hasReply ? 'icon-check-circle' : 'icon-close-circle'}></i>
+                                </td>
                                 <td className='td-action'>
                                   <button className='is-primary is-table-btn'>답변</button>
                                 </td>

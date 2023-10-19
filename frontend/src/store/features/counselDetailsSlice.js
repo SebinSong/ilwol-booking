@@ -42,7 +42,7 @@ const counselDetailsSlice = createSlice({
       saveStoreToLocalStorage(state)
     },
     addCounselDate (state, action) {
-      state.date = new Date(action.payload.date).getTime()
+      state.date = action.payload.date
 
       saveStoreToLocalStorage(state)
     },

@@ -94,43 +94,54 @@ export default function AdminInquiry ({ classes = '' }) {
                   </div>
                 </div>
 
-                <div className='ilwol-table-container inquiry-list-table'>
-                  <div className='ilwol-table-inner'>
-                    <table className='ilwol-table'>
-                      <thead>
-                        <tr>
-                          <th className='th-title'>제목</th>
-                          <th className='th-date'>날짜</th>
-                          <th className='th-name'>이름</th>
-                          <th className='th-email'>이메일</th>
-                          <th className='th-replied'>답변됨</th>
-                          <th className='th-action'></th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {
-                          dataToDisplay.map(entry => {
-                            return (
+                {
+                  !dataToDisplay.length
+                    ? <div className='inquiry-feeback'>
+                        <NoDataToShow />
+                      </div>
+                    : <div className='ilwol-table-container inquiry-list-table'>
+                        <div className='ilwol-table-inner'>
+                          <table className='ilwol-table'>
+                            <thead>
                               <tr>
-                                <td className='td-title'>{ entry.title }</td>
-                                <td className='td-date'>{ entry.date }</td>
-                                <td className='td-name'>{ entry.name }</td>
-                                <td className='td-email'>{ entry.email }</td>
-                                <td className={cn('td-replied', entry.hasReply ? 'has-reply' : 'no-reply' )}>
-                                  <i className={entry.hasReply ? 'icon-check-circle' : 'icon-close-circle'}></i>
-                                </td>
-                                <td className='td-action'>
-                                  <button className='is-primary is-table-btn'>답변</button>
-                                </td>
+                                <th className='th-title'>제목</th>
+                                <th className='th-date'>날짜</th>
+                                <th className='th-name'>이름</th>
+                                <th className='th-email'>이메일</th>
+                                <th className='th-replied'>답변됨</th>
+                                <th className='th-action'></th>
                               </tr>
-                            )
-                          })
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                            </thead>
+      
+                            <tbody>
+                              {
+                                dataToDisplay.map(entry => {
+                                  return (
+                                    <tr>
+                                      <td className='td-title'>{ entry.title }</td>
+                                      <td className='td-date'>{ entry.date }</td>
+                                      <td className='td-name'>{ entry.name }</td>
+                                      <td className='td-email'>{ entry.email }</td>
+                                      <td className={cn('td-replied', entry.hasReply ? 'has-reply' : 'no-reply' )}>
+                                        <i className={entry.hasReply ? 'icon-check-circle' : 'icon-close-circle'}></i>
+                                      </td>
+                                      <td className='td-action'>
+                                        {
+                                          entry.hasReply
+                                            ? <button className='is-secondary is-table-btn'>보기</button>
+                                            : <button className='is-primary is-table-btn'>답변</button>
+                                        }
+                                        
+                                      </td>
+                                    </tr>
+                                  )
+                                })
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                }
               </>
         }
       </div>

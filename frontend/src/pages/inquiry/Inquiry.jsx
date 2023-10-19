@@ -83,7 +83,14 @@ export default function Inquiry () {
           title: details.title,
           message: details.message
         })
-        setIsInquirySent(true)
+
+        console.log('@@@ res: ', res)
+        if (res.error) {
+          throw new Error(res.error.error)
+
+        } else {
+          setIsInquirySent(true)
+        }
       } catch (e) {
         console.error('submitHandler in Inquiry.jsx caught: ', e)
         addToastItem({

@@ -34,5 +34,8 @@ export const COUNSEL_METHOD_ID_NAME_MAP = {
   'voice-talk': '보이스톡'
 }
 
-export const API_BASE_URL = '/api'
-export const AUTH_URL = '/auth'
+// API paths
+export const API_BASE_PATH = '/api'
+export const AUTH_PATH = '/auth'
+export const RESERVATION_PATH = '/reservation'
+export const INQUIRY_PATH = '/inquiry'

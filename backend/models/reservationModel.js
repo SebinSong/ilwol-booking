@@ -5,7 +5,7 @@ const ReservationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  reservedDate: {
+  counselDate: {
     type: String,
     required: true
   },
@@ -20,7 +20,7 @@ const ReservationSchema = new mongoose.Schema({
       system: {
         type: String,
         required: true,
-        enum: enum: {
+        enum: {
           values: ['lunar', 'solar'],
           message: '{VALUE} is not supported'
         }
@@ -35,14 +35,14 @@ const ReservationSchema = new mongoose.Schema({
     },
     mobile: {
       prefix: { type: String, default: '010' },
-      number: { type: String, required: true }
+      number: { type: String }
     },
     kakaoId: String,
     method: { type: String, default: 'visit' },
     email: String,
-    memo: String,
-    totalPrice: { type: Number, required: true }
-  }
+    memo: String
+  },
+  totalPrice: { type: Number, required: true }
 })
 
 const ReservationModel = mongoose.model('Reservation', ReservationSchema)

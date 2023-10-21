@@ -1,11 +1,11 @@
 import apiSlice from './apiSlice.js'
-import { AUTH_URL, DAYS_MILLIS } from '@view-data/constants.js'
+import { AUTH_PATH, DAYS_MILLIS } from '@view-data/constants.js'
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     adminLogin: builder.mutation({
       query: payload => ({
-        url: `${AUTH_URL}/login`,
+        url: `${AUTH_PATH}/login`,
         method: 'POST',
         body: payload
       }),
@@ -13,7 +13,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     adminSignup: builder.mutation({
       query: payload => ({
-        url: `${AUTH_URL}/signup/admin`,
+        url: `${AUTH_PATH}/signup/admin`,
         method: 'POST',
         body: payload
       }),
@@ -21,7 +21,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     adminLogout: builder.mutation({
       query: () => ({
-        url: `${AUTH_URL}/logout`,
+        url: `${AUTH_PATH}/logout`,
         method: 'GET'
       })
     })

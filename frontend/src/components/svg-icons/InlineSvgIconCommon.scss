@@ -5,4 +5,11 @@
   display: inline-block;
   height: auto;
   color: $text_0;
+
+  &.rocket-icon {
+    svg {
+      width: var(--svg-width);
+      height: var(--svg-width);
+    }
+  }
 }

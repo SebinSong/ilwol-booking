@@ -3,10 +3,10 @@ const {
   postInquiry,
   getInquiries
 } = require('../controllers/inquiryControllers')
-
+const { isAdmin } = require('../middlewares/authMiddlewares')
 const router = express.Router()
 
 router.post('/', postInquiry)
-router.get('/', getInquiries)
+router.get('/', isAdmin, getInquiries)
 
 module.exports = router

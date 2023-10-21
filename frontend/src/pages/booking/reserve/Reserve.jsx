@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { humanDate, formatMoney } from '@utils'
-import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
-import ConfirmIcon from '@components/svg-icons/ConfirmIcon'
 import { COUNSEL_METHOD_ID_NAME_MAP } from '@view-data/constants.js'
+
+// components
+import ConfirmIcon from '@components/svg-icons/ConfirmIcon'
+import StateButton from '@components/state-button/StateButton'
+import Feedback from '@components/feedback/Feedback'
+
+// hooks
+import { usePostReservation } from '@store/features/reservationApiSlice.js'
+import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 
 import './Reserve.scss'
 
@@ -21,6 +28,11 @@ export default function ConfirmAndPayment () {
     counselPersonalDetailsInStore: personalDetails,
     checkStepStateAndGo
   } = useCounselOptionSteps()
+  const [postReservation, {
+    isLoading,
+    isError,
+    error
+  }] = usePostReservation()
 
   // effects
   useEffect(() => {
@@ -39,8 +51,21 @@ export default function ConfirmAndPayment () {
   const totalPrice = defaultPrice + additionalFee
 
   // methods
-  const onReserveClick = () => {
-    alert('Coming soon!')
+  const onReserveClick = async () => {
+    try {
+      const res = await postReservation({
+        optionId,
+        counselDate,
+        timeSlot: counselTimeSlot,
+        personalDetails,
+        totalPrice
+      }).unwrap()
+
+      const itemId = res?.reservationId
+      navigate(`/payment-instruction/${itemId}`)
+    } catch (e) {
+      console.error('Reserve.jsx caught: ', e)
+    }
   }
   const navigateFactory = (path) => () => navigate(path)
 
@@ -173,12 +198,16 @@ export default function ConfirmAndPayment () {
         </div>
       </div>
 
+      <Feedback type='error' classes='mt-20'
+        showError={isError}
+        message='예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.' />
+
       <div className='buttons-container mt-40'>
-        <button type='button'
-          className='is-primary reserve-btn'
+        <StateButton type='button'
+          classes='is-primary reserve-btn'
           onClick={onReserveClick}>
           예약하기
-        </button>
+        </StateButton>
       </div>
     </div>
   )

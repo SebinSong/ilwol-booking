@@ -6,32 +6,12 @@ const {
   JWT_MAX_AGE,
   SEC_MILLIS
 } = require('../utils/constants')
+const {
+  sendBadRequestErr,
+  checkRequiredFieldsAndThrow
+} = require('../utils/helpers')
 
 const isEnvProduction = process.env.NODE_ENV === 'production'
-
-// helpers
-const sendBadRequestErr = (res, msg, errObj = null) => {
-  res.status(400)
-  if (errObj) {
-    res.errObj = errObj
-  }
-
-  throw new Error(msg)
-}
-
-const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
-  for (const key of keys) {
-    const val = req.body[key]
-
-    if (!val) {
-      sendBadRequestErr(
-        res,
-        `[${key}] field is missing in the request payload`,
-        { errType: CLIENT_ERROR_TYPES.MISSING_FIELD, fieldName: key }
-      )
-    }
-  }
-}
 
 const generateAndSendToken = (user, res) => {
   // reference (json web token): https://www.npmjs.com/package/jsonwebtoken

@@ -18,14 +18,14 @@ const getInquiries = asyncHandler(async (req, res) => {
     // A pagination request
     limit = parseInt(limit)
     page = parseInt(page)
-    const query = Inquiry.find({})
+    const dbQuery = Inquiry.find({})
       .sort({ createdAt: -1 })
 
     if (page > 0) {
-      query.skip(limit * page)
+      dbQuery.skip(limit * page)
     }
-    query.limit(limit)
-    inquiries = await query.exec()
+    dbQuery.limit(limit)
+    inquiries = await dbQuery.exec()
   } else {
     // If not, get all inquiry documents
     inquiries = await Inquiry.find({})

@@ -1,16 +1,16 @@
-import React, { useMemo, useState, useContext } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import { validateEmail, classNames as cn } from '@utils'
 
 // hooks
-import { ToastContext } from '@hooks/useToast.js'
 import { useValidation } from '@hooks/useValidation'
 import { usePostInquiry } from '@store/features/inquiryApiSlice.js'
 
 // components
 import PageTemplate from '../PageTemplate'
 import StateButton from '@components/state-button/StateButton'
+import Feedback from '@components/feedback/Feedback'
 import CommunicationIcon from '@components/svg-icons/CommunicationIcon'
 
 const { WarningMessage } = React.Global
@@ -19,7 +19,6 @@ import './Inquiry.scss'
 
 export default function Inquiry () {
   const navigate = useNavigate()
-  const { addToastItem } = useContext(ToastContext)
 
   // local-state
   const [details, setDetails] = useImmer({
@@ -29,7 +28,11 @@ export default function Inquiry () {
     message: ''
   })
   const [isInquirySent, setIsInquirySent] = useState(false)
-  const [postInquiry, { isLoading }] = usePostInquiry()
+  const [postInquiry, {
+    isLoading,
+    isError,
+    error
+  }] = usePostInquiry()
 
   // validation setup
   const {
@@ -82,22 +85,11 @@ export default function Inquiry () {
           email: details.email,
           title: details.title,
           message: details.message
-        })
+        }).unwrap()
 
-        console.log('@@@ res: ', res)
-        if (res.error) {
-          throw new Error(res.error.error)
-
-        } else {
-          setIsInquirySent(true)
-        }
+        setIsInquirySent(true)
       } catch (e) {
         console.error('submitHandler in Inquiry.jsx caught: ', e)
-        addToastItem({
-          type: 'warning',
-          heading: '제출 오류!',
-          content: '문의 사항 접수 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
-        })
       }
     }
   }
@@ -208,6 +200,10 @@ export default function Inquiry () {
               <span className='has-text-bold'>{'(최소 20자, 최대 500자 이내)'}</span>
             </p>
           </div>
+
+          <Feedback type='error' classes='mt-20'
+            showError={isError}
+            message='문의사항 접수중 오류가 발생하였습니다. 다시 시도해 주세요.' />
 
           <div className='buttons-container mt-40'>
             <StateButton type='submit'

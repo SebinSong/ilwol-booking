@@ -14,6 +14,13 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Reservations']
       }),
+      getReservationDetails: builder.query({
+        query: reservationId => ({
+          url: `${RESERVATION_PATH}/${reservationId}`,
+          method: 'GET'
+        }),
+        keepUnusedDataFor: 60 // seconds
+      }),
       postReservation: builder.mutation({
         query: data => ({
           url: RESERVATION_PATH,
@@ -28,5 +35,6 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetReservationsQuery: useGetReservations,
-  usePostReservationMutation: usePostReservation
+  usePostReservationMutation: usePostReservation,
+  useGetReservationDetailsQuery: useGetReservationDetails
 } = reservationApiSlice

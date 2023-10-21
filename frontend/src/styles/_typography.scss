@@ -110,6 +110,10 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   color: $magenta !important;
 }
 
+.text-color-success {
+  color: $success !important;
+}
+
 .link {
   display: inline-block;
   cursor: pointer;

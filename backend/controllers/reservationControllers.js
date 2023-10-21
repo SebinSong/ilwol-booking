@@ -27,6 +27,13 @@ const getAllReservation = asyncHandler(async (req, res, next) => {
   res.status(200).json(data)
 })
 
+const getReservationById = asyncHandler(async (req, res, next) => {
+  const { id } = req.params
+
+  const doc = (await Reservation.findById(id)) || {}
+  res.status(200).json(doc)
+})
+
 const postReservation = asyncHandler(async (req, res, next) => {
   const {
     optionId,
@@ -56,5 +63,6 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   postReservation,
-  getAllReservation
+  getAllReservation,
+  getReservationById
 }

@@ -14,6 +14,13 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Inquiries']
       }),
+      getInquiryDetails: builder.query({
+        query: inquiryId => ({
+          url: `${INQUIRY_PATH}/${inquiryId}`,
+          method: 'GET'
+        }),
+        keepUnusedDataFor: 60 // seconds
+      }),
       postInquiry: builder.mutation({
         query: data => ({
           url: INQUIRY_PATH,
@@ -28,5 +35,6 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetInquiriesQuery: useGetInquiries,
-  usePostInquiryMutation: usePostInquiry
+  usePostInquiryMutation: usePostInquiry,
+  useGetInquiryDetailsQuery: useGetInquiryDetails
 } = inquiryApiSlice

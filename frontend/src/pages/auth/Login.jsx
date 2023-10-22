@@ -79,11 +79,16 @@ export default function Login () {
         navigate('/admin/dashboard')
       } catch (err) {
         console.log('Login.jsx caught: ', err)
+        const errType = err.data.errType || ''
+        const msgMap = {
+          'invalid-field': '입력 정보를 다시 확인해 주세요.'
+        }
+
         addToastItem({
           type: 'warning',
           heading: '로그인 오류!',
-          content: '계정 정보가 올바르지 않습니다. 확인 후 다시 시도해 주세요.'
-        })
+          content: msgMap[errType] || '로그인 처리 중 문제가 발생하였습니다. 확인 후 다시 시도해 주세요.'
+        }, true)
       }
     }
   }

@@ -45,8 +45,7 @@ table.ilwol-table {
   padding: 0.4rem 0.8rem;
   border: 1px solid $text_0;
   border-radius: 0.8rem;
-  width: max-content;
-  max-width: calc(100vw - 3rem);
+  width: 100%;
   height: auto;
 
   .ilwol-table-inner {

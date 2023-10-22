@@ -35,7 +35,7 @@
 
   &.is-admin-page {
     @include from ($large-phone) {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: $navigation-width-desktop 1fr;
       grid-template-rows: auto 1fr;
       grid-template-areas:
         "l-toolbar l-toolbar"
@@ -54,11 +54,11 @@
   width: 100vw;
 
   @include from ($large-phone) {
-    position: relative;
-    left: unset;
     top: unset;
+    bottom: 0;
     display: block;
     width: $navigation-width-desktop;
+    height: calc(100% - #{$toolbar-height});
   }
 }
 
@@ -85,5 +85,13 @@
 
   .toolbar-hidden & {
     min-height: 100%;
+  }
+
+  .is-admin-page & {
+    width: 100vw;
+
+    @include from ($large-phone) {
+      width: calc(100vw - #{$navigation-width-desktop});
+    }
   }
 }

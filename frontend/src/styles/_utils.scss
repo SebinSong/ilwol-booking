@@ -12,6 +12,15 @@
 .mt-0 { margin-top: 0 !important; }
 .mb-0 { margin-bottom: 0 !important; }
 
+.ml-4 {
+  display: inline-block;
+  margin-left: 0.4rem;
+}
+.mr-4 {
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
 // loader spinner animation
 .ilwol-loader {
   $side: var(--loader-side, 2rem);
@@ -25,9 +34,63 @@
   border-bottom-color: transparent;
   border-radius: 50%;
   animation: loader-rotation 1.6s linear infinite;
-  }
+}
 
-  @keyframes loader-rotation {
+@keyframes loader-rotation {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+// summary-list
+.summary-list {
+  position: relative;
+  border-radius: 0.8rem;
+  padding: 1.2rem 2rem;
+  border: 2px solid $text_0;
+  font-size: $size_6;
+  font-weight: 800;
+
+  &__title {
+    position: relative;
+    text-align: center;
+    font-size: $size_5;
+    border-bottom: 1px solid currentColor;
+    padding: 0.8rem 0.2rem;
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0.8rem 0.2rem;
+    color: $text_dark_grey;
+    width: 100%;
+    line-height: 1.25;
+    border-bottom: 1px solid $divider-color;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    color: $text_0;
+    width: 40%;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    display: inline-block;
+    flex-grow: 1;
+    text-align: right;
+    font-size: $size_5;
+    color: $magenta;
+
+    &.is-big {
+      font-size: $size_2;
+      padding-top: 0.4rem;
+    }
+  }
 }

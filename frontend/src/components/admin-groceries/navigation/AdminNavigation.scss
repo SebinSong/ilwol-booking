@@ -9,6 +9,16 @@
       pointer-events: initial;
     }
   }
+
+  .nav-logo {
+    position: absolute;
+    top: 1.6rem;
+    left: 1.6rem;
+  
+    @include from ($large-phone) {
+      display: none;
+    }
+  }
 }
 
 @mixin isOpen {

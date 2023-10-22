@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { NavMenuContext } from '@hooks/useNavMenu.js'
 import { classNames as cn } from '@utils'
 
+const { IlwolLogo } = React.Global
+
 import './AdminNavigation.scss'
 
 const adminNavList = [
@@ -58,6 +60,8 @@ function AdminNavigation ({ classes = '' }) {
             )
           )
         }
+
+        <IlwolLogo width={16} classes='nav-logo' />
 
         <button className='is-unstyled admin-navigation__close-btn'
           onClick={toggleNavMenu}>

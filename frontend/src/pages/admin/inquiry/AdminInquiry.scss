@@ -11,6 +11,7 @@
 
     @include from ($large-phone) {
       width: max-content;
+      max-width: 100%;
     }
   }
 

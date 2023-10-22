@@ -102,6 +102,10 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   text-align: right;
 }
 
+.text-color-default {
+  color: $text_0 !important;
+}
+
 .text-color-grey {
   color: $text_grey !important;
 }

@@ -33,7 +33,9 @@ export function useToast (initList = []) {
     content = '',
     hideClose = false,
     delay = null
-  }) => {
+  }, unloadFirst = false) => {
+    if (unloadFirst) { unloadAllToast() }
+
     const itemId = genId()
     setToastList(prevList => {
       if (prevList.length === 3) { prevList.shift() }

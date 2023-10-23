@@ -39,6 +39,15 @@
       display: block;
       font-size: 0.85em;
       font-weight: normal;
+      transition: color 200ms linear;
+
+      &.is-ok {
+        color: $success;
+      }
+
+      &.is-over {
+        color: $warning;
+      }
     }
   }
 

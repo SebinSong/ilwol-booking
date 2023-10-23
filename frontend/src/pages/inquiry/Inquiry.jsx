@@ -29,7 +29,7 @@ export default function Inquiry () {
   })
   const [isInquirySent, setIsInquirySent] = useState(false)
   const [postInquiry, {
-    isLoading,
+    isLoading: isSubmitting,
     isError,
     error
   }] = usePostInquiry()
@@ -184,7 +184,9 @@ export default function Inquiry () {
                 <span className='mandatory'>{'(필수)'}</span>
 
                 { msgLen > 0 &&
-                  <span className={cn('length-indicator', msgLen > 500 && 'is-over')}>{lenIndicator}</span>
+                  <span className={
+                    cn('length-indicator', { 'is-ok': msgLen >= 20 && msgLen <= 500 , 'is-over': msgLen > 500 })
+                  }>{lenIndicator}</span>
                 }
               </span>
 
@@ -208,6 +210,7 @@ export default function Inquiry () {
           <div className='buttons-container mt-40'>
             <StateButton type='submit'
               classes='is-primary submit-btn'
+              displayLoader={isSubmitting}
               disabled={!enableSubmitBtn}>제출</StateButton>
           </div>
         </form>

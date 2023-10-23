@@ -105,3 +105,12 @@ export function genId () {
 export function compareTimes (a, b) {
   return new Date(a).getTime() - new Date(b).getTime()
 }
+
+export function stringifyDate (date) {
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = ('0' + (1 + d.getMonth())).slice(-2)
+  const day = ('0' + d.getDate()).slice(-2)
+
+  return `${year}-${month}-${day}`
+}

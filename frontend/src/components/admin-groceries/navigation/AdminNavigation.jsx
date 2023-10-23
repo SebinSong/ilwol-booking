@@ -37,6 +37,12 @@ function AdminNavigation ({ classes = '' }) {
     isNavOpen
   } = useContext(NavMenuContext)
 
+  // methods
+  const onItemClick = (routeTo) => {
+    navigate(routeTo)
+    closeNavMenu()
+  }
+
   return (
     <div className={cn('admin-navigation', classes, isNavOpen && 'is-open')}>
       <div className='admin-navigation__backdrop'
@@ -52,7 +58,7 @@ function AdminNavigation ({ classes = '' }) {
                 )}
                 key={entry.id}
                 tabIndex='0'
-                onClick={() => navigate(entry.routeTo)}
+                onClick={() => onItemClick(entry.routeTo)}
               >
                 <i className={`icon-${entry.icon} nav-item-icon`}></i>
                 <span className='nav-item-name'>{entry.name}</span>

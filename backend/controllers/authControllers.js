@@ -4,7 +4,8 @@ const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   CLIENT_ERROR_TYPES,
   JWT_MAX_AGE,
-  SEC_MILLIS
+  SEC_MILLIS,
+  HOURS_MILLIS
 } = require('../utils/constants')
 const {
   sendBadRequestErr,
@@ -18,7 +19,9 @@ const generateAndSendToken = (user, res) => {
   const token = jwt.sign(
     { userId: user._id }, // payload
     process.env.JWT_SECRET, // secret
-    { expiresIn: JWT_MAX_AGE }// options - expires in
+    {
+      expiresIn: JWT_MAX_AGE / SEC_MILLIS // NOTE: has to be specified in seconds
+    }
   )
 
   // reference (http Cookies): https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
@@ -26,14 +29,14 @@ const generateAndSendToken = (user, res) => {
     httpOnly: true,
     secure: isEnvProduction,
     sameSite: 'strict',
-    maxAge: JWT_MAX_AGE
+    maxAge: JWT_MAX_AGE / SEC_MILLIS // NOTE: has to be specified in seconds
   })
   res.status(201).json({
     email: user.email,
     _id: user._id,
     userType: user.userType,
     isPermitted: user.isPermitted,
-    tokenExpires: Date.now() + JWT_MAX_AGE
+    tokenExpires: Date.now() + (JWT_MAX_AGE - HOURS_MILLIS)
   })
 }
 

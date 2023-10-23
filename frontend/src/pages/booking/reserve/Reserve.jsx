@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { humanDate, formatMoney } from '@utils'
 import { COUNSEL_METHOD_ID_NAME_MAP } from '@view-data/constants.js'
 
@@ -11,6 +12,7 @@ import Feedback from '@components/feedback/Feedback'
 // hooks
 import { usePostReservation } from '@store/features/reservationApiSlice.js'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
+import { clearCounselDetails } from '@store/features/counselDetailsSlice.js'
 
 import './Reserve.scss'
 
@@ -18,6 +20,7 @@ import './Reserve.scss'
 const displayMoney = val => formatMoney(val, { minimumFractionDigits: 0 })
 
 export default function ConfirmAndPayment () {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   // local-state
@@ -62,7 +65,11 @@ export default function ConfirmAndPayment () {
       }).unwrap()
 
       const itemId = res?.reservationId
-      navigate(`/payment-instruction/${itemId}`)
+
+      if (itemId) { // submission succeeded
+        dispatch(clearCounselDetails()) // clear persisted data from store / local-storage
+        navigate(`/payment-instruction/${itemId}`)
+      }
     } catch (e) {
       console.error('Reserve.jsx caught: ', e)
     }

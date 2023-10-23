@@ -6,7 +6,7 @@ const ReservationSchema = new mongoose.Schema({
     required: true
   },
   counselDate: {
-    type: String,
+    type: Date,
     required: true
   },
   timeSlot: {
@@ -44,6 +44,9 @@ const ReservationSchema = new mongoose.Schema({
   },
   totalPrice: { type: Number, required: true }
 })
+
+// index
+ReservationSchema.index({ counselDate: -1, timeSlot: 1 })
 
 const ReservationModel = mongoose.model('Reservation', ReservationSchema)
 

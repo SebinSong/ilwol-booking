@@ -52,7 +52,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
   const newReservation = await Reservation.create({
     optionId,
-    counselDate,
+    counselDate: typeof counselDate === 'string' ? new Date(counselDate) : counselDate,
     timeSlot,
     personalDetails,
     totalPrice

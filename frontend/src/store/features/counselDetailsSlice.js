@@ -3,6 +3,7 @@ import bookingOptions from '@view-data/booking-options.js'
 import {
   checkAndParseFromLocalStorage,
   saveToLocalStorage,
+  removeFromLocalStorage,
   cloneDeep
 } from '@utils'
 
@@ -55,6 +56,10 @@ const counselDetailsSlice = createSlice({
       state.personalDetails = action.payload
 
       saveStoreToLocalStorage(state)
+    },
+    clearCounselDetails (state) {
+      state = defaultState
+      removeFromLocalStorage(BOOKING_DETAILS_LOCAL_STORAGE_KEY)
     }
   }
 })
@@ -64,7 +69,8 @@ export const {
   addCounselOption,
   addCounselDate,
   addCounselTimeSlot,
-  addPersonalDetails
+  addPersonalDetails,
+  clearCounselDetails
 } = counselDetailsSlice.actions
 
 // selectors

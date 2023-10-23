@@ -24,7 +24,6 @@ export default function PaymentInstruction () {
     isError
   } = useGetReservationDetails(reservationId)
 
-  console.log('@@ data: ', data)
   // feedback component
   const feedbackEl = isLoading
     ? <TextLoader classes='loader-ani'>로딩중..</TextLoader>
@@ -72,7 +71,7 @@ export default function PaymentInstruction () {
                   { pDetails.name }
                   {
                     pDetails.numAttendee > 1
-                    && <span className='more-attendee'>{`외 ${numAttendee - 1}명`}</span>
+                    && <span className='more-attendee'>{`외 ${pDetails.numAttendee - 1}명`}</span>
                   }
                 </span>
               </div>

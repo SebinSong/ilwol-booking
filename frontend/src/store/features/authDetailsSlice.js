@@ -21,8 +21,6 @@ const saveDataToLocalStorage = state => {
 }
 const fetchDataFromLocalStorage = () => {
   const dataFromStore = checkAndParseFromLocalStorage(AUTH_LOCAL_STORAGE_KEY)
-  const tokenExpired = Boolean(dataFromStore?.tokenExpires) &&
-    compareTimes(new Date(), dataFromStore.tokenExpires) > 0
 
   if (dataFromStore) {
     const tokenExpired = Boolean(dataFromStore.tokenExpires) &&

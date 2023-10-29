@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { humanDate, formatMoney } from '@utils'
-import { COUNSEL_METHOD_ID_NAME_MAP } from '@view-data/constants.js'
+import {
+  COUNSEL_METHOD_ID_NAME_MAP,
+  CLIENT_ERROR_TYPES
+} from '@view-data/constants.js'
 
 // components
 import ConfirmIcon from '@components/svg-icons/ConfirmIcon'
@@ -52,6 +55,13 @@ export default function ConfirmAndPayment () {
   const defaultPrice = isFamilyCounsel ? counselOption.price -  counselOption.additionalPrice : counselOption.price
   const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
   const totalPrice = defaultPrice + additionalFee
+
+  if (isError) {
+    console.log('@@@ error obj: ', error)
+  }
+  const errFeebackMsg = isError && error.data.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
+    ? '중복된 예약이 존재합니다. 날짜/시간을 다시 선택 후 예약하세요.'
+    : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
 
   // methods
   const onReserveClick = async () => {
@@ -207,7 +217,7 @@ export default function ConfirmAndPayment () {
 
       <Feedback type='error' classes='mt-20'
         showError={isError}
-        message='예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.' />
+        message={errFeebackMsg} />
 
       <div className='buttons-container mt-40'>
         <StateButton type='button'

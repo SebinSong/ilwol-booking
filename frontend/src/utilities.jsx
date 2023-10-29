@@ -115,6 +115,15 @@ export function stringifyDate (date) {
   return `${year}-${month}-${day}`
 }
 
-export function dateToNum (dateStr) {
+export function dateToNumeric (dateStr) {
   return Number(dateStr.split('-').join(''))
+}
+
+export function dateObjToNumeric (date) {
+  return dateToNumeric(stringifyDate(date))
+}
+
+export function numericDateToString (numericDate) {
+  const s = numericDate.toString()
+  return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }

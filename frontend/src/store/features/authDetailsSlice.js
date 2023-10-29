@@ -23,11 +23,9 @@ const fetchDataFromLocalStorage = () => {
   const dataFromStore = checkAndParseFromLocalStorage(AUTH_LOCAL_STORAGE_KEY)
 
   if (dataFromStore) {
-    console.log('@@ dataFromStore: ', dataFromStore)
     const tokenExpired = Boolean(dataFromStore.userInfo.tokenExpires) &&
       compareTimes(new Date(), dataFromStore.userInfo.tokenExpires) > 0
-    
-    console.log('@@ tokenExpired??: ', tokenExpired)
+
     if (tokenExpired) {
       removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY)
       return defaultState

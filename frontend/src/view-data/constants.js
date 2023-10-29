@@ -39,3 +39,14 @@ export const API_BASE_PATH = '/api'
 export const AUTH_PATH = '/auth'
 export const RESERVATION_PATH = '/reservation'
 export const INQUIRY_PATH = '/inquiry'
+
+// client error types - NOTE: should be in sync with the constants in back-end
+export const CLIENT_ERROR_TYPES = {
+  MISSING_FIELD: 'missing-field',
+  INVALID_FIELD: 'invalid-field',
+  EXISTING_USER: 'existing-user',
+  EXISTING_RESERVATION: 'existing-reservation',
+  NO_TOKEN: 'no-token',
+  INVALID_TOKEN: 'invalid-token',
+  UNAUTHORIZED: 'unauthorized'
+}

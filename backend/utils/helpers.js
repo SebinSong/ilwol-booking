@@ -1,4 +1,6 @@
 'use strict'
+const { CLIENT_ERROR_TYPES } = require('./constants.js')
+
 const sendBadRequestErr = (res, msg, errObj = null) => {
   res.status(400)
   if (errObj) {
@@ -31,10 +33,16 @@ const stringifyDate = (date) => {
   return `${year}-${month}-${day}`
 }
 
-const dateToNum = (dateStr) => {
+const dateToNumeric = (date) => {
+  const dateStr = stringifyDate(date)
   return Number(dateStr.split('-').join(''))
 }
-const numToDateString = (dateNum) => {
+
+const dateObjToNum = (date) => {
+  return dateToNumeric(stringifyDate(date))
+}
+
+const numericDateToString = (dateNum) => {
   const s = dateNum.toString()
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }
@@ -43,6 +51,7 @@ module.exports = {
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
   stringifyDate,
-  dateToNum,
-  numToDateString
+  dateToNumeric,
+  dateObjToNum,
+  numericDateToString
 }

@@ -1,6 +1,5 @@
 import apiSlice from './apiSlice.js'
 import { RESERVATION_PATH } from '@view-data/constants.js'
-import { dateToNum } from '@utils'
 
 export const reservationApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => {
@@ -35,6 +34,7 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
           method: 'GET',
           url: `${RESERVATION_PATH}/status`
         }),
+        keepUnusedDataFor: 0, // seconds
         providesTags: ['ReservationStatus']
       })
     }

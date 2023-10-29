@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import Calendar from '@components/calendar/Calendar'
-import TimeSlot from '@components/time-slot/TimeSlot'
 import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
 import { ToastContext } from '@hooks/useToast.js'
-import {
-  addCounselDate,
-  addCounselTimeSlot
-} from '@store/features/counselDetailsSlice.js'
+
+// components
+import Calendar from '@components/calendar/Calendar'
+import TimeSlot from '@components/time-slot/TimeSlot'
+import TextLoader from '@components/text-loader/TextLoader'
+import Feedback from '@components/feedback/Feedback'
+
+// hooks
+import { addCounselDate, addCounselTimeSlot } from '@store/features/counselDetailsSlice.js'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
+import { useGetReservationStatus } from '@store/features/reservationApiSlice.js'
 
 import './SelectDateAndTime.scss'
 
@@ -24,6 +28,12 @@ export default function SelectDateAndTime () {
     counselTimeSlotInStore,
     checkStepStateAndGo
   } = useCounselOptionSteps()
+  const {
+    data: reservationStatus,
+    isLoading,
+    isError,
+    error
+  } = useGetReservationStatus()
 
   const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
@@ -56,12 +66,33 @@ export default function SelectDateAndTime () {
     checkStepStateAndGo('counsel-option')
   }, [])
 
+  const feedbackEl = isLoading
+    ? <TextLoader>예약 데이터 로딩 중...</TextLoader>
+    : isError
+      ? <Feedback type='error' classes='mt-20'
+          showError={true}
+          hideCloseBtn={true}
+          message='데이터 로드 중 오류가 발생하였습니다.' />
+      : null
+
+  if (feedbackEl) {
+    console.error('SelectDateAndTime.jsx caught: ', error)
+    return (
+      <div className='page-form-constraints select-date-and-time'>
+        <div className='feedback-container'>
+          { feedbackEl }
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className='page-form-constraints select-date-and-time'>
       <h3 className='is-title-4 is-sans page-section-title'>
         <i className='icon-chevron-right-circle is-prefix'></i>
         <span>날짜/시간 선택</span>
       </h3>
+
 
       <div className='calendar-container'>
         <Calendar onChange={setDate} value={date} />

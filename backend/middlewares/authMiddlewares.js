@@ -7,13 +7,14 @@ const isAdmin = async (req, res, next) => {
   const invalidTokenErr = () => {
     res.status(400)
     res.errObj = { errType: CLIENT_ERROR_TYPES.INVALID_TOKEN }
-    throw new Error ('invalid token')
+    return next(new Error ('invalid token'))
   }
 
   if (!token) {
     res.status(401)
     res.errObj = { errType: CLIENT_ERROR_TYPES.NO_TOKEN }
-    throw new Error('No token detected')
+
+    return next(new Error('No token detected'))
   }
 
   try {

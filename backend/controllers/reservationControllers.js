@@ -1,6 +1,10 @@
 const Reservation = require('../models/reservationModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
+  dateToNum,
+  stringifyDate
+} = require('../utils/helpers')
+const {
   checkRequiredFieldsAndThrow
 } = require('../utils/helpers')
 
@@ -52,7 +56,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
   const newReservation = await Reservation.create({
     optionId,
-    counselDate: typeof counselDate === 'string' ? new Date(counselDate) : counselDate,
+    counselDate: typeof counselDate === 'string' ? dateToNum(counselDate) : counselDate,
     timeSlot,
     personalDetails,
     totalPrice
@@ -61,8 +65,48 @@ const postReservation = asyncHandler(async (req, res, next) => {
   res.status(201).json({ reservationId: newReservation._id })
 })
 
+// A method for customers to use
+const getReservationStatus = asyncHandler(async (req, res, next) => {
+  const { from, to } = req.query
+  const dateQueryFilter = {}
+
+  dateQueryFilter['$gte'] = from ? parseInt(from) : dateToNum(stringifyDate(Date.now()))
+  if (lte) {
+    dateQueryFilter['$lte'] = parseInt(to)
+  }
+
+  const reservations = (await Reservation.find({ counselDate: dateQueryFilter })
+    .select({ counselDate: 1, timeSlot: 1 })) || []
+
+  res.status(200).json({
+    reserved: reservations,
+    offs: []
+  })
+})
+
+// A method for mangers to use
+const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
+  const { from, to } = req.query
+  const isAll = !from && !to
+  const dateQueryFilter = {}
+
+  if (!isAll) {
+    dateQueryFilter['$gte'] = from ? parseInt(from) : dateToNum(stringifyDate(Date.now()))
+    if (lte) {
+      dateQueryFilter['$lte'] = parseInt(to)
+    }
+  }
+
+  const reservations = await Reservation.find(isAll ? {} : { counselDate: dateQueryFilter })
+    .select({ counselDate: 1, timeSlot: 1,  })
+
+  res.status(200).json(reservations || [])
+})
+
 module.exports = {
   postReservation,
   getAllReservation,
-  getReservationById
+  getReservationById,
+  getReservationStatus,
+  getReservationStatusWithDetails
 }

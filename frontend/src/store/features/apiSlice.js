@@ -11,7 +11,13 @@ const apiSlice = createApi({
     baseUrl: '/api',
     timeout: 10000
   }),
-  tagTypes: ['Users', 'Inquiries', 'Reservations'],
+  tagTypes: [
+    'Users',
+    'Inquiries',
+    'Reservations',
+    'ReservationStatus',
+    'ReservationDetailedStatus'
+  ],
   endpoints: builder => ({}) 
 })
 

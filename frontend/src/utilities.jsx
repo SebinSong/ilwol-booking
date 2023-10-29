@@ -114,3 +114,7 @@ export function stringifyDate (date) {
 
   return `${year}-${month}-${day}`
 }
+
+export function dateToNum (dateStr) {
+  return Number(dateStr.split('-').join(''))
+}

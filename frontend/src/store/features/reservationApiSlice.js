@@ -1,5 +1,6 @@
 import apiSlice from './apiSlice.js'
 import { RESERVATION_PATH } from '@view-data/constants.js'
+import { dateToNum } from '@utils'
 
 export const reservationApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => {
@@ -28,6 +29,13 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
           body: data
         }),
         invalidatesTags: ['Reservations']
+      }),
+      getReservationStatus: builder.query({
+        query: () => ({
+          method: 'GET',
+          url: `${RESERVATION_PATH}/status`
+        }),
+        providesTags: ['ReservationStatus']
       })
     }
   }
@@ -36,5 +44,6 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetReservationsQuery: useGetReservations,
   usePostReservationMutation: usePostReservation,
-  useGetReservationDetailsQuery: useGetReservationDetails
+  useGetReservationDetailsQuery: useGetReservationDetails,
+  useGetReservationStatusQuery: useGetReservationStatus
 } = reservationApiSlice

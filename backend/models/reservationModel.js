@@ -6,7 +6,7 @@ const ReservationSchema = new mongoose.Schema({
     required: true
   },
   counselDate: {
-    type: Date,
+    type: Number,
     required: true
   },
   timeSlot: {

@@ -1,5 +1,5 @@
 'use strict'
-const { CLIENT_ERROR_TYPES } = require('./constants.js')
+const { CLIENT_ERROR_TYPES, DAYS_MILLIS } = require('./constants.js')
 
 const sendBadRequestErr = (res, msg, errObj = null) => {
   res.status(400)
@@ -47,11 +47,34 @@ const numericDateToString = (dateNum) => {
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }
 
+const addTimeToDate = (date, timeMillis) => {
+  const d = new Date(date)
+  d.setTime(d.getTime() + timeMillis)
+  return d
+}
+
+const addDaysToDate = (date, days) => {
+  return addTimeToDate(date, DAYS_MILLIS * days)
+}
+
+const randomIntBetweenRange = (a, b) => {
+  const dRange = Math.abs(b - a)
+  return a + Math.floor(Math.random() * dRange)
+}
+const randomFromArray = arr => {
+  const selectedIndex = randomIntBetweenRange(0, arr.length)
+  return arr[selectedIndex]
+}
+
 module.exports = {
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
   stringifyDate,
   dateToNumeric,
   dateObjToNum,
-  numericDateToString
+  numericDateToString,
+  addTimeToDate,
+  addDaysToDate,
+  randomIntBetweenRange,
+  randomFromArray
 }

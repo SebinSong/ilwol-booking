@@ -28,13 +28,15 @@ export default function SelectDateAndTime () {
     counselTimeSlotInStore,
     checkStepStateAndGo
   } = useCounselOptionSteps()
-  const {
-    data: reservationStatus,
+
+  const [getReservationStatus, {
     isLoading,
     isError,
     error
-  } = useGetReservationStatus()
+  }] = useGetReservationStatus()
 
+  const [reservedDays, setReservedDays] = useState(null)
+  const [dayoffs, setDayoffs] = useState(null)
   const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
 
@@ -57,6 +59,15 @@ export default function SelectDateAndTime () {
     }
   }
 
+  const loadData = async () => {
+    const responseData = await getReservationStatus().unwrap()
+
+    const { offs = null, reserved = null } = responseData || {}
+    
+    offs && setDayoffs(offs)
+    reserved && setReservedDays(reserved)
+  }
+
   const backToPreviousStep = () => {
     navigate('/booking/counsel-option')
   }
@@ -64,6 +75,7 @@ export default function SelectDateAndTime () {
   // effects
   useEffect(() => {
     checkStepStateAndGo('counsel-option')
+    loadData()
   }, [])
 
   const feedbackEl = isLoading
@@ -76,7 +88,6 @@ export default function SelectDateAndTime () {
       : null
 
   if (feedbackEl) {
-    console.error('SelectDateAndTime.jsx caught: ', error)
     return (
       <div className='page-form-constraints select-date-and-time'>
         <div className='feedback-container'>

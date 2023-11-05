@@ -127,3 +127,8 @@ export function numericDateToString (numericDate) {
   const s = numericDate.toString()
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }
+
+export function randomIntBetweenRange (a, b) {
+  const dRange = Math.abs(b - a)
+  return a + Math.floor(Math.random() * dRange)
+}

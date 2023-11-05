@@ -29,13 +29,11 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
         }),
         invalidatesTags: ['Reservations']
       }),
-      getReservationStatus: builder.query({
+      getReservationStatus: builder.mutation({
         query: () => ({
           method: 'GET',
           url: `${RESERVATION_PATH}/status`
-        }),
-        keepUnusedDataFor: 0, // seconds
-        providesTags: ['ReservationStatus']
+        })
       })
     }
   }
@@ -45,5 +43,5 @@ export const {
   useGetReservationsQuery: useGetReservations,
   usePostReservationMutation: usePostReservation,
   useGetReservationDetailsQuery: useGetReservationDetails,
-  useGetReservationStatusQuery: useGetReservationStatus
+  useGetReservationStatusMutation: useGetReservationStatus
 } = reservationApiSlice

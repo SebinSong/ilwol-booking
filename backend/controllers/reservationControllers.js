@@ -60,7 +60,8 @@ const postReservation = asyncHandler(async (req, res, next) => {
   const existingReservation = await Reservation.find({ counselDate: counselDateNumeric, timeSlot })
 
   // check if the requested reservation detail already exists in the DB.
-  if (existingReservation) {
+  if (existingReservation.length) {
+    console.log('@@@ existing Reservation entry: ', existingReservation)
     sendBadRequestErr(
       res,
       'Requested reservation entry already exists in the DB.',

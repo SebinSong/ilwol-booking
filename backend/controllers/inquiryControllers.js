@@ -1,7 +1,7 @@
 const Inquiry = require('../models/inquiryModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 
-
+// create a new inquiry
 const postInquiry = asyncHandler(async (req, res, next) => {
   const { name, message, email, title } = req.body
 
@@ -10,6 +10,7 @@ const postInquiry = asyncHandler(async (req, res, next) => {
   res.status(201).json({ id: doc._id })
 })
 
+// Get all inquiry entries
 const getInquiries = asyncHandler(async (req, res) => {
   let { limit = null, page = null } = req.query
   let inquiries

@@ -18,35 +18,6 @@ const clearAllReservations = async () => {
 }
 
 const addDummyReservations = async (entryCount = 5) => {
-/*
-  Request payload looks like:
-
-  {
-    "optionId":"family-counsel",
-    "counselDate":"2023-11-14",
-    "timeSlot":"15:00",
-    "personalDetails":{
-      "name":"송세123",
-      "gender":"male",
-      "dob":{
-          "system":"lunar",
-          "year":"1990",
-          "month":"3",
-          "date":"22"
-      },
-      "numAttendee":2,
-      "mobile":{
-          "prefix":"010",
-          "number":"27881137"
-      },
-      "kakaoId":"",
-      "method":"visit",
-      "email":"pir248@naver.com",
-      "memo":"weqrqwer qwerwqerqwe qwerqwerqwerqwerwe"
-    },
-    "totalPrice":150000
-  }
-*/
   await clearAllReservations()
 
   const entries = []
@@ -56,7 +27,7 @@ const addDummyReservations = async (entryCount = 5) => {
     let dayOftset, timeSlot, whileCount = 0
 
     while (whileCount++ < 10) {
-      dayOffset = randomIntBetweenRange(10, 50)
+      dayOffset = randomIntBetweenRange(10, 15)
       timeSlot = randomFromArray(DEFAULT_TIME_SLOTS)
 
       if (!entries.some(entry => entry[0] === dayOffset && entry[1] === timeSlot)) {
@@ -107,6 +78,6 @@ connectDB(async (err) => {
   }
 
   console.log('::: DB connection successful!')
-  await addDummyReservations(10)
+  await addDummyReservations(20)
   process.exit(0)
 })

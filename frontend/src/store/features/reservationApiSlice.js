@@ -1,4 +1,5 @@
 import apiSlice from './apiSlice.js'
+import { handleClientErrors } from './utils.js'
 import { RESERVATION_PATH } from '@view-data/constants.js'
 
 export const reservationApiSlice = apiSlice.injectEndpoints({
@@ -11,6 +12,7 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
             : RESERVATION_PATH,
           method: 'GET'
         }),
+        onQueryStarted: handleClientErrors,
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Reservations']
       }),

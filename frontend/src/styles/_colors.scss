@@ -25,11 +25,14 @@
   --calendar-btn-bg-color: #F6F5FF;
   --calendar-btn-text-color: #450A37;
   --calendar-btn-text-color_disabled: #988D99;
+  --calendar-btn-text-color_fully-booked: #988D99;
 
   // time-slot
   --timeslot-bg-color: #F6F5FF;
   --timeslot-bg-color_active: #C4237C;
+  --timeslot-bg-color_occupied: #AAADB7;
   --timeslot-text-color_active: #FFFFFF;
+  --timeslot-text-color_occupied: #F6F5FF;
   --timeslot-border-color: #F6F5FF;
   --timeslot-border-color_active: #C4237C;
 

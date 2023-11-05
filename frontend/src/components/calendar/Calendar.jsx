@@ -22,6 +22,8 @@ export default function Calendar ({
   onChange = () => {},
   classes = '',
   minDate = null,
+  fullyBookedDates = null,
+  bookedDates =  null,
   allowMultiple = false
 }) {
   const tomorrow = addDaysToDate(new Date(), 1)
@@ -32,12 +34,23 @@ export default function Calendar ({
   }
   const defineTileClassName = useCallback(
     ({ date }) => {
-      if (!allowMultiple) { return null }
+      const dateStr = stringifyDate(date)
+      const arrayIncludes = (arr, val) => {
+        return Array.isArray(arr) && arr.length && arr.includes(val)
+      }
 
-      return Array.isArray(value) && value.includes(stringifyDate(date))
-        ? 'is-multiple-selected'
-        : null
-    }, [allowMultiple, value]  
+      if (arrayIncludes(fullyBookedDates, dateStr)) {
+        console.log('@@@ full-booking date: ', dateStr)
+      }
+      return arrayIncludes(fullyBookedDates, dateStr)
+        ? 'is-fully-booked'
+        : arrayIncludes(bookedDates, dateStr)
+          ? 'has-booking'
+          : allowMultiple && arrayIncludes(value, dateStr)
+            ? 'is-multiple-selected'
+            : null
+    },
+    [allowMultiple, bookedDates, fullyBookedDates, value]  
   )
 
   return (

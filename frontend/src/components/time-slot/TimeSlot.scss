@@ -36,5 +36,14 @@
       background-color: var(--timeslot-bg-color_active);
       border-color: var(--timeslot-border-color_active);
     }
+
+    &.is-occupied {
+      pointer-events: none;
+      border-color: rgba(0, 0, 0, 0);
+      color: $validation;
+      background-color: $validation-bg;
+      text-decoration: line-through;
+      font-weight: 800;
+    }
   }
 }

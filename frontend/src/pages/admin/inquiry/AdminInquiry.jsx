@@ -46,6 +46,8 @@ export default function AdminInquiry ({ classes = '' }) {
   const [queryArgs, setQueryArgs] = useState({})
   const {
     data = [],
+    isError,
+    error,
     isLoading,
     isFetching
   } = useGetInquiries(queryArgs)
@@ -108,7 +110,7 @@ export default function AdminInquiry ({ classes = '' }) {
                                 <th className='th-date'>날짜</th>
                                 <th className='th-name'>이름</th>
                                 <th className='th-email'>이메일</th>
-                                <th className='th-replied'>답변됨</th>
+                                <th className='th-replied'>응답여부</th>
                                 <th className='th-action'></th>
                               </tr>
                             </thead>

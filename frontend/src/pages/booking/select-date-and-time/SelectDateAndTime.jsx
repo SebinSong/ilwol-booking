@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
@@ -35,8 +35,9 @@ export default function SelectDateAndTime () {
     error
   }] = useGetReservationStatus()
 
-  const [reservedDays, setReservedDays] = useState(null)
-  const [dayoffs, setDayoffs] = useState(null)
+  const [reservedDays, setReservedDays] = useState({})
+  const [dayoffs, setDayoffs] = useState({})
+  const [fullBookingDates, setFullBookingDates] = useState(null)
   const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
 
@@ -62,14 +63,21 @@ export default function SelectDateAndTime () {
   const loadData = async () => {
     const responseData = await getReservationStatus().unwrap()
 
-    const { offs = null, reserved = null } = responseData || {}
+    const { offs = null, reserved = null, fullyBooked = null } = responseData || {}
     
+    console.log('@@@ reservation status data: ', responseData)
     offs && setDayoffs(offs)
     reserved && setReservedDays(reserved)
+    fullyBooked && setFullBookingDates(fullyBooked)
   }
 
   const backToPreviousStep = () => {
     navigate('/booking/counsel-option')
+  }
+
+  const onCalendarSelect = val => {
+    setDate(val)
+    setTimeSlot('')
   }
 
   // effects
@@ -106,7 +114,9 @@ export default function SelectDateAndTime () {
 
 
       <div className='calendar-container'>
-        <Calendar onChange={setDate} value={date} />
+        <Calendar onChange={onCalendarSelect}
+          fullyBookedDates={fullBookingDates}
+          value={date} />
       </div>
 
       {
@@ -115,6 +125,7 @@ export default function SelectDateAndTime () {
           <TimeSlot classes='time-slot'
             slotList={DEFAULT_TIME_SLOTS}
             value={timeSlot}
+            occupiedSlots={reservedDays[date] || []}
             onSelect={setTimeSlot} />
         </div>
       }

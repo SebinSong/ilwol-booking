@@ -8,7 +8,7 @@ const {
   sendBadRequestErr,
   checkRequiredFieldsAndThrow
 } = require('../utils/helpers')
-const { CLIENT_ERROR_TYPES } = require('../utils/constants') 
+const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS } = require('../utils/constants') 
 
 // middlewares
 const getAllReservation = asyncHandler(async (req, res, next) => {
@@ -88,18 +88,27 @@ const getReservationStatus = asyncHandler(async (req, res, next) => {
   const reservations = await Reservation
     .find({ counselDate: counselDateFilter })
     .select({ counselDate: 1, timeSlot: 1 })
-  const data = {}
+  const statusData = {}
 
   for (const entry of reservations) {
     const dateStr = numericDateToString(entry.counselDate)
 
-    if (!data.dateStr) { data[dateStr] = [] }
-    data[dateStr].push(entry.timeSlot)
+    if (!statusData[dateStr]) { statusData[dateStr] = [] }
+    statusData[dateStr].push(entry.timeSlot)
   }
 
+  // extract the fully-booked dates & sort it
+  const fullyBooked = Object.entries(statusData)
+    .filter(
+      ([dateStamp, slots]) => DEFAULT_TIME_SLOTS.every(x => slots.includes(x))
+    )
+    .map(entry => entry[0])
+  fullyBooked.sort((a, b) => new Date(a) - new Date(b))
+
   res.status(200).json({
-    reserved: data,
-    offs: []
+    reserved: statusData,
+    offs: [],
+    fullyBooked
   })
 })
 

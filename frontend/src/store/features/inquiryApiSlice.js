@@ -1,4 +1,5 @@
 import apiSlice from './apiSlice.js'
+import { handleClientErrors } from './utils.js'
 import { INQUIRY_PATH } from '@view-data/constants.js'
 
 export const inquiryApiSlice = apiSlice.injectEndpoints({
@@ -11,6 +12,7 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
             : INQUIRY_PATH,
           method: 'GET'
         }),
+        onQueryStarted: handleClientErrors,
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Inquiries']
       }),
@@ -19,6 +21,7 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
           url: `${INQUIRY_PATH}/${inquiryId}`,
           method: 'GET'
         }),
+        onQueryStarted: handleClientErrors,
         keepUnusedDataFor: 60 // seconds
       }),
       postInquiry: builder.mutation({

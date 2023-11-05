@@ -182,7 +182,7 @@ button.react-calendar__tile--now {
 }
 
 button.react-calendar__tile--hasActive,
-button.is-multiple-selected {
+button.react-calendar__tile.is-multiple-selected {
   background-color: $magenta;
   color: $text_1;
 
@@ -191,6 +191,13 @@ button.is-multiple-selected {
     background-color: $magenta;
     color: $text_1;
   }
+}
+
+button.react-calendar__tile.is-fully-booked {
+  pointer-events: none;
+  text-decoration: line-through;
+  color: $validation;
+  font-weight: 800;
 }
 
 button.react-calendar__tile--active {

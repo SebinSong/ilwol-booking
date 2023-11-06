@@ -13,7 +13,9 @@ dotenv.config({ path: path.resolve(__dirname, '.env') })
 // routers
 const authRouter = require('./routes/authRoutes')
 const inquiryRouter = require('./routes/inquiryRoutes')
-const reservationRouter = require('./routes/reservationRoutes.js')
+const reservationRouter = require('./routes/reservationRoutes')
+const manageRouter = require('./routes/manageRoutes')
+const configRouter = require('./routes/configRoutes')
 
 // middlewares
 const logger = require('./middlewares/logger')
@@ -39,6 +41,8 @@ app.use(cookieParser())
 app.use('/api/auth', authRouter)
 app.use('/api/inquiry', inquiryRouter)
 app.use('/api/reservation', reservationRouter)
+app.use('/api/manage', manageRouter)
+app.use('/api/config', configRouter)
 
 // static server setup
 app.use(express.static(APP_CLIENT_PATH))

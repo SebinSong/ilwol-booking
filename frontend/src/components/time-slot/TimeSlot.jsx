@@ -29,6 +29,12 @@ export default function TimeSlot ({
     rootEl.current && rootEl.current.scrollIntoView(true)
   }, [])
 
+  useEffect(() => {
+    if (occupiedSlots?.includes(value)) {
+      onSelect('')
+    }
+  }, [occupiedSlots, value])
+
   return (
     <div ref={rootEl} className={cn('time-slot-container', classes)}>
       {

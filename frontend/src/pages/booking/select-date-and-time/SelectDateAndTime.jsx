@@ -38,10 +38,14 @@ export default function SelectDateAndTime () {
   const [reservedDays, setReservedDays] = useState({})
   const [dayoffs, setDayoffs] = useState({})
   const [fullBookingDates, setFullBookingDates] = useState(null)
-  const [date, setDate] = useState(counselDateInStore ? new Date(counselDateInStore) : null)
+  const [date, setDate] = useState(counselDateInStore || null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
 
   // computed-state
+  const occupiedTimeSlots = useMemo(
+    () => reservedDays && date ? reservedDays[date] : [],
+    [date, reservedDays]
+  )
   const enableContinueBtn = Boolean(date) && Boolean(timeSlot)
 
   // methods
@@ -125,7 +129,7 @@ export default function SelectDateAndTime () {
           <TimeSlot classes='time-slot'
             slotList={DEFAULT_TIME_SLOTS}
             value={timeSlot}
-            occupiedSlots={reservedDays[date] || []}
+            occupiedSlots={occupiedTimeSlots}
             onSelect={setTimeSlot} />
         </div>
       }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
-import { humanDate, formatMoney } from '@utils'
+import { humanDate, numericDateToString, formatMoney } from '@utils'
 // components
 import PageTemplate from '../PageTemplate'
 import RocketIcon from '@components/svg-icons/RocketIcon'
@@ -84,7 +84,7 @@ export default function PaymentInstruction () {
               <div className='summary-list__item'>
                 <span className='summary-list__label'>날짜/시간</span>
                 <span className='summary-list__value'>
-                  <span>{ humanDate(data.counselDate, { month: 'short', day: 'numeric', year: 'numeric' }) }</span>
+                  <span>{ humanDate(numericDateToString(data.counselDate), { month: 'short', day: 'numeric', year: 'numeric' }) }</span>
                   <span className='ml-4'>{ data.timeSlot }</span>
                 </span>
               </div>

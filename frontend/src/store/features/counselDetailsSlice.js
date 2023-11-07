@@ -11,12 +11,12 @@ import {
 export const BOOKING_DETAILS_LOCAL_STORAGE_KEY = 'ilwol-booking.counsel-details'
 const isDEV = import.meta.env.DEV
 
-const defaultState = {
+const defaultState = () => ({
   option: null,
   date: null,
   timeSlot: null,
   personalDetails: null
-}
+})
 const saveStoreToLocalStorage = state => {
   if (isDEV) {
     saveToLocalStorage(
@@ -31,9 +31,9 @@ const counselDetailsSlice = createSlice({
   initialState: isDEV
     ?  checkAndParseFromLocalStorage(
         BOOKING_DETAILS_LOCAL_STORAGE_KEY,
-        defaultState
+        defaultState()
       )
-    : defaultState
+    : defaultState()
   ,
   reducers: {
     addCounselOption (state, action) {
@@ -58,7 +58,11 @@ const counselDetailsSlice = createSlice({
       saveStoreToLocalStorage(state)
     },
     clearCounselDetails (state) {
-      state = defaultState
+      state.option = null
+      state.date = null,
+      state.timeSlot = null,
+      state.personalDetails = null
+
       removeFromLocalStorage(BOOKING_DETAILS_LOCAL_STORAGE_KEY)
     }
   }

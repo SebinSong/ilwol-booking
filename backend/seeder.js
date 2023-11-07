@@ -58,7 +58,7 @@ const addDummyReservations = async (entryCount = 5) => {
         numAttendee: option.type === 'individual' ? 1 : 2,
         mobile: {
             prefix: '010',
-            number: '12341234'
+            number: `${randomIntBetweenRange(Math.pow(10, 7), Math.pow(10, 8) - 1)}`
         },
         kakaoId: option.id === 'overseas-counsel' ? `테스트KakaoId-${randomIntBetweenRange(1001, 9999)}` : '',
         method: option.id === 'overseas-counsel' ? 'voice-talk' : 'visit',

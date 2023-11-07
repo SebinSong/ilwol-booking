@@ -45,7 +45,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
     optionId,
     counselDate,
     timeSlot,
-    personalDetails,
+    personalDetails: pDetails,
     totalPrice
   } = req.body
 
@@ -57,15 +57,30 @@ const postReservation = asyncHandler(async (req, res, next) => {
   )
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
-  const existingReservation = await Reservation.find({ counselDate: counselDateNumeric, timeSlot })
+  const existingReservation = await Reservation.findOne({ 
+    $or: [
+      { counselDate: counselDateNumeric, timeSlot },
+      optionId === 'overseas-counsel'
+        ? { 'personalDetails.kakaoId': pDetails.kakaoId }
+        : {
+            'personalDetails.mobile.prefix': pDetails.mobile.prefix,
+            'personalDetails.mobile.number': pDetails.mobile.number
+          }
+    ]
+  })
 
   // check if the requested reservation detail already exists in the DB.
-  if (existingReservation.length) {
-    console.log('@@@ existing Reservation entry: ', existingReservation)
+  if (existingReservation) {
+    const invalidType = existingReservation.counselDate === counselDateNumeric && existingReservation.timeSlot === timeSlot
+      ? 'time'
+      : optionId === 'overseas-counsel'
+          ? 'kakaoId'
+          : 'mobile'
+
     sendBadRequestErr(
       res,
       'Requested reservation entry already exists in the DB.',
-      { errType: CLIENT_ERROR_TYPES.EXISTING_RESERVATION }
+      { errType: CLIENT_ERROR_TYPES.EXISTING_RESERVATION, invalidType }
     )
   }
 

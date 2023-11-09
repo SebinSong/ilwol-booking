@@ -21,6 +21,11 @@ import './Reserve.scss'
 
 // helper
 const displayMoney = val => formatMoney(val, { minimumFractionDigits: 0 })
+const errorFeedbackMap = {
+  'mobile': '동일한 연락처로 예약한 내역이 존재합니다. 연락처당 하나의 예약만 제출이 가능합니다.',
+  'kakaoId': '동일한 카카오 아이디로 예약한 내역이 존재합니다. ID당 하나의 예약만 제출이 가능합니다.',
+  'time': '중복된 예약이 존재합니다. 날짜/시간을 다시 선택 후 예약하세요.'
+}
 
 export default function ConfirmAndPayment () {
   const dispatch = useDispatch()
@@ -60,7 +65,7 @@ export default function ConfirmAndPayment () {
     console.log('@@@ error obj: ', error)
   }
   const errFeebackMsg = isError && error.data.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
-    ? '중복된 예약이 존재합니다. 날짜/시간을 다시 선택 후 예약하세요.'
+    ? errorFeedbackMap[error.data.invalidType]
     : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
 
   // methods

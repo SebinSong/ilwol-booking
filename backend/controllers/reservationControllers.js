@@ -57,14 +57,19 @@ const postReservation = asyncHandler(async (req, res, next) => {
   )
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
+  const todayNumeric = dateToNumeric(new Date())
   const existingReservation = await Reservation.findOne({ 
     $or: [
       { counselDate: counselDateNumeric, timeSlot },
       optionId === 'overseas-counsel'
-        ? { 'personalDetails.kakaoId': pDetails.kakaoId }
+        ? { 
+            'personalDetails.kakaoId': pDetails.kakaoId,
+            counselDate: { '$gte': todayNumeric }
+          }
         : {
             'personalDetails.mobile.prefix': pDetails.mobile.prefix,
-            'personalDetails.mobile.number': pDetails.mobile.number
+            'personalDetails.mobile.number': pDetails.mobile.number,
+            counselDate: { '$gte': todayNumeric }
           }
     ]
   })
@@ -88,7 +93,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
     optionId,
     counselDate: counselDateNumeric,
     timeSlot,
-    personalDetails,
+    personalDetails: pDetails,
     totalPrice
   })
 
@@ -98,7 +103,6 @@ const postReservation = asyncHandler(async (req, res, next) => {
 // A method for customers to use
 const getReservationStatus = asyncHandler(async (req, res, next) => {
   const { from } = req.query
-
   const counselDateFilter = { '$gte': from ? parseInt(from) : dateObjToNum(new Date()) }
   const reservations = await Reservation
     .find({ counselDate: counselDateFilter })

@@ -61,9 +61,6 @@ export default function ConfirmAndPayment () {
   const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
   const totalPrice = defaultPrice + additionalFee
 
-  if (isError) {
-    console.log('@@@ error obj: ', error)
-  }
   const errFeebackMsg = isError && error.data.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
     ? errorFeedbackMap[error.data.invalidType]
     : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'

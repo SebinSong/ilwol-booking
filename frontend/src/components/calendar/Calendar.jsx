@@ -24,14 +24,27 @@ export default function Calendar ({
   minDate = null,
   fullyBookedDates = null,
   bookedDates =  null,
+  disallowBookedDate = false,
+  onBookedDateClick = null,
   allowMultiple = false
 }) {
   const tomorrow = addDaysToDate(new Date(), 1)
 
   // methods
   const changeHandler = date => {
+    const dateStr = stringifyDate(date)
+
+    if (bookedDates.includes(dateStr)) {
+      onBookedDateClick && onBookedDateClick(dateStr)
+
+      if (disallowBookedDate) { return }
+    } else if (onBookedDateClick) {
+      onBookedDateClick('')
+    }
+
     onChange(stringifyDate(date))
   }
+
   const defineTileClassName = useCallback(
     ({ date }) => {
       const dateStr = stringifyDate(date)

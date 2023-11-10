@@ -66,10 +66,8 @@ export default function SelectDateAndTime () {
 
   const loadData = async () => {
     const responseData = await getReservationStatus().unwrap()
-
     const { offs = null, reserved = null, fullyBooked = null } = responseData || {}
-    
-    console.log('@@@ reservation status data: ', responseData)
+
     offs && setDayoffs(offs)
     reserved && setReservedDays(reserved)
     fullyBooked && setFullBookingDates(fullyBooked)

@@ -108,3 +108,59 @@
     max-width: 62rem;
   }
 }
+
+// legends
+.legends-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: $calendar-max-width;
+  padding-right: 0.4rem;
+
+
+  @include until($large-phone) {
+    margin-left: auto;
+    margin-right: auto;  
+  }
+
+  &.is-right-aligned {
+    justify-content: flex-end;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    height: auto;
+    flex-shrink: 0;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+    background-color: $background_1;
+    box-shadow: $box-shadow_medium;
+
+    &.is-magenta { color: $magenta; }
+    &.is-success { color: $success; }
+    &.is-validation { color: $validation; }
+
+    .color-pad {
+      display: inline-block;
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 0.4rem;
+      background-color: currentColor;
+    }
+
+    .item-text {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: $text_0;
+      line-height: 1;
+    }
+  }
+}

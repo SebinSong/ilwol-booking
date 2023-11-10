@@ -20,6 +20,12 @@ import { useGetDetailedReservationStatus } from '@store/features/adminApiSlice.j
 
 import './AdminDashboard.scss'
 
+const legendList = [
+  { color: 'magenta', text: '선택됨' },
+  { color: 'success', text: '오늘' },
+  { color: 'validation', text: '예약내역 있음' }
+]
+
 const NoDataToShow = () => (
   <div className='no-data-feedback'>
     <i className='icon-close-circle'></i>
@@ -34,7 +40,6 @@ export default function AdminDashboard ({
   const navigate = useNavigate()
   const { addToastItem } = useContext(ToastContext)
   const [getDetailedReservationStatus, {
-    data: detailedReservationStatus,
     isLoading: isLoadingStatus,
     isError: isStatusError,
     error
@@ -42,10 +47,12 @@ export default function AdminDashboard ({
 
   // local-state
   const [dayOffs, setDayOffs] = useState([])
+  const [selectedBookedDate, setSelectedBookedDate] = useState('')
+  const [bookedDates, setBookedDates] = useState(null)
 
   // effects
   useEffect(() => {
-    getDetailedReservationStatus()
+    fetchStatusData()
   }, [])
 
   // methods
@@ -61,6 +68,17 @@ export default function AdminDashboard ({
       })
     }, []
   )
+
+  const fetchStatusData = async () => {
+    try {
+      const data = await getDetailedReservationStatus().unwrap()
+      console.log('@@@ detailedReservationStatus: ', data)
+
+      setBookedDates(Object.keys(data))
+    } catch (err) {
+      console.error('@@@ AdminDashboard.jsx caught: ', err)
+    }
+  }
 
   const feedbackEl = isLoadingStatus
     ? <div className='admin-feeback-container'>
@@ -91,9 +109,23 @@ export default function AdminDashboard ({
             </h3>
 
             <Calendar classes='day-off-calendar'
+              disallowBookedDate={true}
               onChange={onCalendarClick}
+              onBookedDateClick={setSelectedBookedDate}
               allowMultiple={true}
+              bookedDates={bookedDates}
               value={dayOffs} />
+
+            <div className='legends-container is-right-aligned mt-20'>
+              {
+                legendList.map(entry => (
+                  <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
+                    <span className='color-pad'></span>
+                    <span className='item-text'>{entry.text}</span>
+                  </div>
+                ))
+              }
+            </div>
           </>
         }
       </section>

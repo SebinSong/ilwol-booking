@@ -2,6 +2,7 @@
   position: relative;
   display: block;
 
+
   .day-off-calendar {
     @include from ($large-phone) {
       margin-left: 0;

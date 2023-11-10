@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
+import Feedback from '@components/feedback/Feedback'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
@@ -20,15 +21,17 @@ import './AdminInquiry.scss'
 const NoDataToShow = () => (
   <div className='no-data-feedback'>
     <i className='icon-close-circle'></i>
-    <span>보일 데이터가 없습니다.</span>
+    <span>데이터가 없습니다.</span>
   </div>
 )
+
 const transformListEntry = entry => {
   const r = {
     title: entry.title,
     name: entry.name,
     email: entry.email,
     date: humanDate(entry.createdAt, { month: 'short', day: 'numeric', year: 'numeric' }),
+    id: entry._id,
     hasReply: Array.isArray(entry.replies) && entry.replies.some(reply => Boolean(reply.repliedAt))
   }
   r.searchable = `${r.title}-${r.name}-${r.email}-${r.date}`
@@ -62,13 +65,17 @@ export default function AdminInquiry ({ classes = '' }) {
   )
 
   const feedbackEl = isLoadingData
-    ? <div className='inquiry-feeback'>
+    ? <div className='admin-feeback-container'>
         <TextLoader>
           문의사항 데이터 로딩중...
         </TextLoader>
       </div>
+    : isError
+        ? <Feedback type='error' classes='mt-20'>
+            데이터 로드중 에러가 발생하였습니다.
+          </Feedback>
     : !Boolean(data.length)
-        ? <div className='inquiry-feeback'>
+        ? <div className='admin-feeback-container'>
             <NoDataToShow />
           </div>
         : null
@@ -117,9 +124,9 @@ export default function AdminInquiry ({ classes = '' }) {
       
                             <tbody>
                               {
-                                dataToDisplay.map(entry => {
+                                dataToDisplay.map((entry) => {
                                   return (
-                                    <tr>
+                                    <tr ket={entry.searchable}>
                                       <td className='td-title'>{ entry.title }</td>
                                       <td className='td-date'>{ entry.date }</td>
                                       <td className='td-name'>{ entry.name }</td>
@@ -133,7 +140,6 @@ export default function AdminInquiry ({ classes = '' }) {
                                             ? <button className='is-secondary is-table-btn'>보기</button>
                                             : <button className='is-primary is-table-btn'>답변</button>
                                         }
-                                        
                                       </td>
                                     </tr>
                                   )

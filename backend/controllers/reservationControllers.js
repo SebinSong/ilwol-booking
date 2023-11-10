@@ -133,21 +133,36 @@ const getReservationStatus = asyncHandler(async (req, res, next) => {
 
 // A method for mangers to use
 const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
-  const { from, to } = req.query
-  const isAll = !from && !to
-  const dateQueryFilter = {}
+  const { from, all } = req.query
+  const isAll = !from && Boolean(all)
+  const counselDateFilter = { '$gte': from ? parseInt(from) : dateObjToNum(new Date()) }
+  const reservations = await Reservation
+    .find(isAll ? {} : { counselDate: counselDateFilter })
+    .select({
+      counselDate: 1,
+      timeSlot: 1,
+      personalDetails: 1,
+      optionId: 1
+    })
+  const statusData = {}
 
-  if (!isAll) {
-    dateQueryFilter['$gte'] = from ? parseInt(from) : dateToNumeric(stringifyDate(Date.now()))
-    if (lte) {
-      dateQueryFilter['$lte'] = parseInt(to)
+  for (const reservationEntry of reservations) {
+    const { _id, personalDetails, timeSlot, optionId, counselDate } = reservationEntry
+    const dateStr = numericDateToString(counselDate)
+
+    if (!statusData[dateStr]) { statusData[dateStr] = {} }
+    statusData[dateStr][timeSlot] = {
+      reservationId: _id,
+      name: personalDetails.name + (
+        personalDetails.numAttendee >= 2
+          ? ` 외 ${ personalDetails.numAttendee - 1} 명`
+          : ''
+      ),
+      counselOption: optionId
     }
   }
 
-  const reservations = await Reservation.find(isAll ? {} : { counselDate: dateQueryFilter })
-    .select({ counselDate: 1, timeSlot: 1,  })
-
-  res.status(200).json(reservations || [])
+  res.status(200).json(statusData || [])
 })
 
 module.exports = {

@@ -39,9 +39,6 @@ export default function Calendar ({
         return Array.isArray(arr) && arr.length && arr.includes(val)
       }
 
-      if (arrayIncludes(fullyBookedDates, dateStr)) {
-        console.log('@@@ full-booking date: ', dateStr)
-      }
       return arrayIncludes(fullyBookedDates, dateStr)
         ? 'is-fully-booked'
         : arrayIncludes(bookedDates, dateStr)

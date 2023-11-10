@@ -200,6 +200,11 @@ button.react-calendar__tile.is-fully-booked {
   font-weight: 800;
 }
 
+button.react-calendar__tile.has-booking {
+  color: $validation;
+  font-weight: 800;
+}
+
 button.react-calendar__tile--active {
   background-color: $magenta;
   color: $text_1;

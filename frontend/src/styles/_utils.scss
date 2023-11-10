@@ -94,3 +94,17 @@
     }
   }
 }
+
+.admin-feeback-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.4rem;
+  align-self: stretch;
+
+  @include from ($large-phone) {
+    align-self: unset;
+    min-width: 46rem;
+    max-width: 62rem;
+  }
+}

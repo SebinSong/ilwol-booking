@@ -126,7 +126,7 @@ export default function AdminInquiry ({ classes = '' }) {
                               {
                                 dataToDisplay.map((entry) => {
                                   return (
-                                    <tr ket={entry.searchable}>
+                                    <tr key={entry.searchable}>
                                       <td className='td-title'>{ entry.title }</td>
                                       <td className='td-date'>{ entry.date }</td>
                                       <td className='td-name'>{ entry.name }</td>

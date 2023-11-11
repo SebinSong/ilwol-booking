@@ -34,7 +34,7 @@ button,
   cursor: pointer;
   @include unselectable;
   height: auto;
-  min-height: 4.6rem;
+  min-height: 4.2rem;
   border-radius: 1rem;
   padding-left: 2.4rem;
   padding-right: 2.4rem;
@@ -52,7 +52,7 @@ button,
   outline: none;
 
   @include from ($tablet) {
-    min-width: 15.2rem;
+    min-width: 12rem;
   }
 
   &.is-serif {
@@ -140,5 +140,8 @@ button,
 
   &.is-left-aligned {
     align-items: flex-start;
+  }
+  &.is-right-aligned {
+    align-items: flex-end;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReactCalendar from 'react-calendar'
 import dayjs from 'dayjs'
 import { addDaysToDate } from '@utils'
@@ -62,6 +62,13 @@ export default function Calendar ({
     },
     [allowMultiple, bookedDates, fullyBookedDates, value]  
   )
+
+  // effects
+  useEffect(() => {
+    if(fullyBookedDates && fullyBookedDates.includes(value)) {
+      onChange('')
+    }
+  }, [value, fullyBookedDates])
 
   return (
     <ReactCalendar onChange={changeHandler}

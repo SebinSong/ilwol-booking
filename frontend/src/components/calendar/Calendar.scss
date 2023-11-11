@@ -183,7 +183,7 @@ button.react-calendar__tile--now {
 }
 
 button.react-calendar__tile--hasActive,
-button.react-calendar__tile.is-multiple-selected {
+button:enabled.react-calendar__tile.is-multiple-selected {
   background-color: rgba(0, 0, 0, 0);
   color: $text_1;
 
@@ -211,14 +211,14 @@ button.react-calendar__tile.is-multiple-selected {
   }
 }
 
-button.react-calendar__tile.is-fully-booked {
+button:enabled.react-calendar__tile.is-fully-booked {
   pointer-events: none;
   text-decoration: line-through;
   color: $validation;
   font-weight: 800;
 }
 
-button.react-calendar__tile.has-booking {
+button:enabled.react-calendar__tile.has-booking {
   position: relative;
   font-weight: bold;
   color: $validation;

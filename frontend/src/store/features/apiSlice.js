@@ -16,7 +16,8 @@ const apiSlice = createApi({
     'Inquiries',
     'Reservations',
     'ReservationStatus',
-    'ReservationDetailedStatus'
+    'ReservationDetailedStatus',
+    'Dayoffs'
   ],
   endpoints: builder => ({}) 
 })

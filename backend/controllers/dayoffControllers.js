@@ -1,5 +1,6 @@
 const Dayoff = require('../models/dayoffModel.js')
 const asyncHandler = require('../middlewares/asyncHandler.js')
+const { dateObjToNum } = require('../utils/helpers.js')
 
 // Add a new dayoff
 const updateDayoffs = asyncHandler(async (req, res, next) => {
@@ -11,6 +12,7 @@ const updateDayoffs = asyncHandler(async (req, res, next) => {
       '2024': [ 20240107, 20240109, ... ]
     }
   */
+
   if (Object.keys(updates).length) {
     const entries = Object.entries(updates)
 
@@ -37,10 +39,16 @@ const updateDayoffs = asyncHandler(async (req, res, next) => {
 })
 
 const getDayoffs = asyncHandler(async (req, res, next) => {
+  const { future } = req.query
+  const todayDateNum = dateObjToNum(new Date())
   const allDocs = (await Dayoff.find({})) || []
-  const data = Object.fromEntries(
-    allDocs.map(entry => [entry.year, entry.values || []])
-  )
+  const data = {}
+
+  for (const { year, values = [] } of allDocs) {
+    data[year] = Boolean(future) 
+      ? values.filter(dateNum => dateNum >= todayDateNum)
+      : values
+  }
 
   res.status(200).json(data)
 })

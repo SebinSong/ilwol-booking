@@ -14,6 +14,7 @@ import Feedback from '@components/feedback/Feedback'
 import { addCounselDate, addCounselTimeSlot } from '@store/features/counselDetailsSlice.js'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import { useGetReservationStatus } from '@store/features/reservationApiSlice.js'
+import { useGetFutureDayoffs, flattenDayoffsData } from '@store/features/adminApiSlice.js'
 
 import './SelectDateAndTime.scss'
 
@@ -40,10 +41,14 @@ export default function SelectDateAndTime () {
     isError,
     error
   }] = useGetReservationStatus()
+  const [getFutureDayoffs, {
+    isLoading: isDayoffsLoading,
+    isError: dayoffsError
+  }] = useGetFutureDayoffs()
 
   const [reservedDays, setReservedDays] = useState({})
   const [dayoffs, setDayoffs] = useState({})
-  const [fullBookingDates, setFullBookingDates] = useState(null)
+  const [disabledDates, setDisabledDates] = useState(null)
   const [date, setDate] = useState(counselDateInStore || null)
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
 
@@ -72,11 +77,16 @@ export default function SelectDateAndTime () {
 
   const loadData = async () => {
     const responseData = await getReservationStatus().unwrap()
+    const dayoffsData = await getFutureDayoffs().unwrap()
     const { offs = null, reserved = null, fullyBooked = null } = responseData || {}
 
     offs && setDayoffs(offs)
     reserved && setReservedDays(reserved)
-    fullyBooked && setFullBookingDates(fullyBooked)
+
+    setDisabledDates([
+      ...(fullyBooked || []),
+      ...(dayoffsData || [])
+    ])
   }
 
   const backToPreviousStep = () => {
@@ -94,9 +104,9 @@ export default function SelectDateAndTime () {
     loadData()
   }, [])
 
-  const feedbackEl = isLoading
+  const feedbackEl = (isLoading || isDayoffsLoading)
     ? <TextLoader>예약 데이터 로딩 중...</TextLoader>
-    : isError
+    : (isError || dayoffsError)
       ? <Feedback type='error' classes='mt-20'
           showError={true}
           hideCloseBtn={true}
@@ -133,7 +143,7 @@ export default function SelectDateAndTime () {
 
       <div className='calendar-container'>
         <Calendar onChange={onCalendarSelect}
-          fullyBookedDates={fullBookingDates}
+          fullyBookedDates={disabledDates}
           value={date} />
       </div>
 

@@ -132,3 +132,11 @@ export function randomIntBetweenRange (a, b) {
   const dRange = Math.abs(b - a)
   return a + Math.floor(Math.random() * dRange)
 }
+
+export function compareArrays (arr1, arr2) {
+  arr1 = arr1.slice()
+  arr2 = arr2.slice()
+
+  if (arr1.length !== arr2.length) { return false }
+  else { return arr1.every(x => arr2.includes(x)) }
+}

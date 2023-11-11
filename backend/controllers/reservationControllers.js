@@ -155,7 +155,7 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
       reservationId: _id,
       name: personalDetails.name + (
         personalDetails.numAttendee >= 2
-          ? ` 외 ${ personalDetails.numAttendee - 1} 명`
+          ? ` 외${ personalDetails.numAttendee - 1}명`
           : ''
       ),
       counselOption: optionId

@@ -1,30 +1,29 @@
 table.ilwol-table {
   position: relative;
   width: max-content;
-  background-color: $background_0;
 
   thead {
-    border-bottom: 1px solid $text_0;
+    border-bottom: 1px solid $text_grey;
   }
 
   tr {
-    height: 3.6rem;
+    height: 3.2rem;
     vertical-align: middle;
   }
 
   tbody > tr:not(:last-of-type) {
-    border-bottom: 1px solid $text_grey;
+    border-bottom: 1px solid $neautral-bg;
   }
 
   th,
   td {
     padding: 0 0.4rem;
-    background-color: $background_0;
+    background-color: $background_1;
     letter-spacing: 0.5px;
   }
 
   th {
-    font-size: $size_6;
+    font-size: $size_7;
     font-weight: bold;
     color: $text_0;
   }
@@ -42,11 +41,12 @@ table.ilwol-table {
 
 .ilwol-table-container {
   position: relative;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid $text_0;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid $text_grey;
   border-radius: 0.8rem;
   width: 100%;
   height: auto;
+  background-color: $background_1;
 
   .ilwol-table-inner {
     position: relative;

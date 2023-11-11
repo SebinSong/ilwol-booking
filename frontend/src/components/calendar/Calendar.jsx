@@ -34,7 +34,7 @@ export default function Calendar ({
   const changeHandler = date => {
     const dateStr = stringifyDate(date)
 
-    if (bookedDates.includes(dateStr)) {
+    if (bookedDates && bookedDates.includes(dateStr)) {
       onBookedDateClick && onBookedDateClick(dateStr)
 
       if (disallowBookedDate) { return }

@@ -17,6 +17,12 @@ import { useGetReservationStatus } from '@store/features/reservationApiSlice.js'
 
 import './SelectDateAndTime.scss'
 
+const legendList = [
+  { color: 'magenta', text: '선택됨' },
+  { color: 'success', text: '오늘' },
+  { color: 'validation', text: '예약내역 있음' }
+]
+
 export default function SelectDateAndTime () {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -114,6 +120,16 @@ export default function SelectDateAndTime () {
         <span>날짜/시간 선택</span>
       </h3>
 
+      <div className='legends-container is-right-aligned mt-40'>
+        {
+          legendList.map(entry => (
+            <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
+              <span className='color-pad'></span>
+              <span className='item-text'>{entry.text}</span>
+            </div>
+          ))
+        }
+      </div>
 
       <div className='calendar-container'>
         <Calendar onChange={onCalendarSelect}

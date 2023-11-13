@@ -109,7 +109,6 @@
       user-select: none;
       color: $magenta;
       text-decoration: none;
-
     }
   }
 }
@@ -211,14 +210,29 @@ button:enabled.react-calendar__tile.is-multiple-selected {
   }
 }
 
-button:enabled.react-calendar__tile.is-fully-booked {
+button.react-calendar__tile--hasActive.react-calendar__decade-view__years__year {
+  background-color: $magenta;
+  color: $text_1;
+
+  &::after {
+    display: none;
+  }
+
+  &:enabled:hover,
+  &:enabled:focus {
+    background-color: $magenta;
+    color: $text_1;
+  }
+}
+
+button:enabled.react-calendar__month-view__days__day.is-fully-booked:not(.react-calendar__month-view__days__day--neighboringMonth) {
   pointer-events: none;
   text-decoration: line-through;
   color: $validation;
   font-weight: 800;
 }
 
-button:enabled.react-calendar__tile.has-booking {
+button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-calendar__month-view__days__day--neighboringMonth) {
   position: relative;
   font-weight: bold;
   color: $validation;

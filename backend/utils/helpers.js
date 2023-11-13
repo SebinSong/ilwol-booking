@@ -33,8 +33,7 @@ const stringifyDate = (date) => {
   return `${year}-${month}-${day}`
 }
 
-const dateToNumeric = (date) => {
-  const dateStr = stringifyDate(date)
+const dateToNumeric = (dateStr) => {
   return Number(dateStr.split('-').join(''))
 }
 

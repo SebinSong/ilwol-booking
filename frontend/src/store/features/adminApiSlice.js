@@ -42,6 +42,21 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           })
         },
         invalidatesTags: ['Dayoffs']
+      }),
+      getAdminReservations: builder.mutation({
+        query: ({ from = '', to = '' } = {}) => {
+          const obj = {}
+
+          if (from) { obj.from = from }
+          if (to) { obj.to = to }
+          const qp = new URLSearchParams(obj).toString()
+
+          return ({
+            method: 'GET',
+            url: `${RESERVATION_PATH}` + (qp ? `?${qp}` : '')
+          })
+        },
+        onQueryStarted: handleClientErrors
       })
     }
   }
@@ -87,5 +102,6 @@ export const {
   useGetDetailedReservationStatusMutation: useGetDetailedReservationStatus,
   useGetDayoffsQuery: useGetDayoffs,
   useGetFutureDayoffsMutation: useGetFutureDayoffs,
-  useUpdateDayoffsMutation: useUpdateDayoffs
+  useUpdateDayoffsMutation: useUpdateDayoffs,
+  useGetAdminReservationsMutation: useGetAdminReservations
 } = adminApiSlice

@@ -42,7 +42,15 @@ const ReservationSchema = new mongoose.Schema({
     email: String,
     memo: String
   },
-  totalPrice: { type: Number, required: true }
+  totalPrice: { type: Number, required: true },
+  status: {
+    type: String,
+    default: 'pending',
+    enum: {
+      values: ['pending', 'confirmed', 'cancelled'],
+      message: '{VALUE} is not supported'
+    }
+  }
 })
 
 // index

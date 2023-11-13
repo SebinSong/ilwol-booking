@@ -12,18 +12,18 @@ const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS } = require('../utils/constants')
 
 // middlewares
 const getAllReservation = asyncHandler(async (req, res, next) => {
-  let { limit = null, page = null } = req.query
+  let { from = null, to = null } = req.query
   let data
 
-  if (limit && page) {
-    limit = parseInt(limit)
-    page = parseInt(page)
-    const dbQuery = Reservation.find({})
+  if (from || to) {
+    const queryFilter = {}
+    
+    if (from) { queryFilter['$gte'] = dateToNumeric(from) }
+    if (to) { queryFilter['$lte'] = dateToNumeric(to) }
+    
+    const dbQuery = Reservation.find({ counselDate: queryFilter })
       .sort({ createdAt: -1 })
 
-    if (page > 0) {
-      dbQuery.skip(limit * page)
-    }
     data = await dbQuery.exec()
   } else {
     data = await Reservation.find({})
@@ -57,7 +57,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
   )
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
-  const todayNumeric = dateToNumeric(new Date())
+  const todayNumeric = dateObjToNum(new Date())
   const existingReservation = await Reservation.findOne({ 
     $or: [
       { counselDate: counselDateNumeric, timeSlot },
@@ -94,7 +94,8 @@ const postReservation = asyncHandler(async (req, res, next) => {
     counselDate: counselDateNumeric,
     timeSlot,
     personalDetails: pDetails,
-    totalPrice
+    totalPrice,
+    status: 'pending'
   })
 
   res.status(201).json({ reservationId: newReservation._id })
@@ -163,6 +164,29 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
   }
 
   res.status(200).json(statusData || [])
+})
+
+// archiving purpose
+const getAllReservationPagination = asyncHandler(async (req, res, next) => {
+  let { limit = null, page = null } = req.query
+  let data
+
+  if (limit && page) {
+    limit = parseInt(limit)
+    page = parseInt(page)
+    const dbQuery = Reservation.find({})
+      .sort({ createdAt: -1 })
+
+    if (page > 0) {
+      dbQuery.skip(limit * page)
+    }
+    data = await dbQuery.exec()
+  } else {
+    data = await Reservation.find({})
+      .sort({ createdAt: -1 })
+  }
+
+  res.status(200).json(data)
 })
 
 module.exports = {

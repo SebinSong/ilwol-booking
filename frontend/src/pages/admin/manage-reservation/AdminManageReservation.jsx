@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
+import AdminReservationTable from './admin-reservation-table/AdminReservationTable'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
@@ -30,6 +31,10 @@ export default function AdminManageReservation ({ classes = '' }) {
   useEffect(() => {
     loadReservationData()
   }, [])
+
+  if (data) {
+    console.log('@@ data: ', data)
+  }
 
   // methods
   const loadReservationData = async () => {
@@ -63,7 +68,7 @@ export default function AdminManageReservation ({ classes = '' }) {
         feedbackEl ||
         <>
           <section className='admin-page-section'>
-            <p>{`${data?.length || 0} 건의 예약 데이터가 로드되었습니다.`}</p>
+            <AdminReservationTable classes='reservation-list' list={data} />
           </section>
         </>
       }

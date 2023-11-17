@@ -32,10 +32,6 @@ export default function AdminManageReservation ({ classes = '' }) {
     loadReservationData()
   }, [])
 
-  if (data) {
-    console.log('@@ data: ', data)
-  }
-
   // methods
   const loadReservationData = async () => {
     try {

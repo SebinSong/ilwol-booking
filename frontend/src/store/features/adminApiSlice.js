@@ -56,6 +56,9 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             url: `${RESERVATION_PATH}` + (qp ? `?${qp}` : '')
           })
         },
+        transformResponse: response => {
+          return sortReservationsByTime(response)
+        },
         onQueryStarted: handleClientErrors
       })
     }
@@ -75,6 +78,19 @@ export function flattenDayoffsData (data) {
     ]
   }
   return allData.map(val => numericDateToString(val))
+}
+
+export function sortReservationsByTime (data) {
+  if (Array.isArray(data)) {
+    data = data.slice().sort(
+      (a, b) => {
+        if (a.counselDate === b.counselDate) { return parseInt(a.timeSlot) - parseInt(b.timeSlot) }
+        else { return b.counselDate - a.counselDate }
+      }
+    )
+
+    return data
+  } else { return data }
 }
 
 export function createRequestPayload (data) {

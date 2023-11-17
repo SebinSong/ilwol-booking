@@ -59,6 +59,8 @@
   }
 
   .inquiry-list-table {
+    max-width: 100%;
+  
     td {
       max-width: 18rem;
       @include truncate-text-overflow;

@@ -107,6 +107,34 @@
     min-width: 46rem;
     max-width: 62rem;
   }
+
+  .feedback-general {
+    display: flex;
+    align-items: center;
+    color: $text_grey;
+    font-size: $size_6;
+
+    &::before {
+      @include has-icon;
+      content: "\e922";
+      margin-right: 0.4rem;
+      transform: translateY(1px);
+    }
+  }
+}
+
+.admin-no-data {
+  display: flex;
+  align-items: center;
+  color: $text_dark_grey;
+  font-size: $size_6;
+
+  &::before {
+    @include has-icon;
+    content: "\e922";
+    margin-right: 0.4rem;
+    transform: translateY(1px);
+  }
 }
 
 // legends

@@ -6,8 +6,6 @@ import {
 } from '@utils'
 import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
-// hooks
-import useMq from '@hooks/useMediaQuery.js'
 
 import './AdminReservationTable.scss'
 
@@ -45,7 +43,11 @@ const transformListEntry = entry => {
   return r
 }
 
-function AdminReservationTable ({ list, classes = '' }) {
+function AdminReservationTable ({
+  list,
+  classes = '',
+  emptyMessage = '보여줄 데이터가 없습니다.'
+}) {
   // local-state
   const [search, setSearch] = useState('')
 
@@ -59,7 +61,6 @@ function AdminReservationTable ({ list, classes = '' }) {
     }, [list, search]
   )
 
-  console.log('@@@ dataToDisplay: ', dataToDisplay)
   // effects
   useEffect(() => {
 
@@ -70,10 +71,10 @@ function AdminReservationTable ({ list, classes = '' }) {
     alert(`clicked a reservation item with the id - ${entry.id}`)
   }
 
-  if (!list) {
+  if (!list || list.length === 0) {
     return (
       <div className='admin-reservation-table'>
-        <p className='admin-no-data'>보여줄 데이터가 없습니다.</p>
+        <p className='admin-no-data'>{emptyMessage}</p>
       </div>
     )
   }

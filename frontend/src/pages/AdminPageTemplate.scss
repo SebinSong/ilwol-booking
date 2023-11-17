@@ -31,6 +31,10 @@
     font-weight: bold;
     font-size: $size_4;
 
+    &.is-color-warning { color: $warning; }
+    &.is-color-success { color: $success; }
+    &.is-color-magenta { color: $magenta; }
+
     i {
       font-size: 1.25em;
       transform: translateY(1px);
@@ -38,7 +42,7 @@
     }
 
     span {
-      border-bottom: 1px solid $text-grey;
+      border-bottom: 1px solid currentColor;
     }
   }
 
@@ -60,5 +64,9 @@
 
   .page-form-constraints {
     @include width-limited;
+  }
+
+  .section-toggle-btn {
+    margin-left: 0.8rem;
   }
 }

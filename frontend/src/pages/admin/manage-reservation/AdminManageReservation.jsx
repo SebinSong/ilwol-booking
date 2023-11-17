@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
+import { useImmer } from 'use-immer'
 import { classNames as cn } from '@utils'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -26,6 +27,25 @@ export default function AdminManageReservation ({ classes = '' }) {
     isLoading: isLoadingReservations,
     isError: isReservationError
   }] = useGetAdminReservations()
+  const [sectionOpen, setSectionOpen] = useImmer({
+    pending: true,
+    confirmed: true,
+    cancelled: true
+  })
+
+  // computed state
+  const cancelledData = useMemo(
+    () => Array.isArray(data) ? data.filter(entry => entry.status === 'cancelled') : [],
+    [data]
+  )
+  const pendingData = useMemo(
+    () => Array.isArray(data) ? data.filter(entry => entry.status === 'pending') : [],
+    [data]
+  )
+  const confirmedData = useMemo(
+    () => Array.isArray(data) ? data.filter(entry => entry.status === 'confirmed') : [],
+    [data]
+  )
 
   // effects
   useEffect(() => {
@@ -38,6 +58,13 @@ export default function AdminManageReservation ({ classes = '' }) {
       await getReservations()
     } catch (err) {
       console.error('AdminManageReservation.jsx caught: ', err)
+    }
+  }
+  const sectionToggleFactory = key => {
+    return () => {
+      setSectionOpen(draft => {
+        draft[key] = !draft[key]
+      })
     }
   }
 
@@ -63,8 +90,55 @@ export default function AdminManageReservation ({ classes = '' }) {
       {
         feedbackEl ||
         <>
-          <section className='admin-page-section'>
-            <AdminReservationTable classes='reservation-list' list={data} />
+          <section className='admin-page-section mb-0 pb-20'>
+            <h3 className='admin-page-section-title is-color-magenta'>
+              <i className='icon-clock is-prefix'></i>
+              <span>확정 대기중인 예약</span>
+
+              <button className='is-secondary is-small section-toggle-btn'
+                onClick={sectionToggleFactory('pending')}>{ sectionOpen.pending ? '숨기기' : '열기' }</button>
+            </h3>
+
+            {
+              sectionOpen.pending &&
+              <AdminReservationTable classes='reservation-list'
+                list={pendingData}
+                emptyMessage='해당 데이터가 없습니다.' />
+            }
+          </section>
+
+          <section className='admin-page-section mb-0 pb-20'>
+            <h3 className='admin-page-section-title is-color-success'>
+              <i className='icon-check-circle is-prefix'></i>
+              <span>확정된 예약</span>
+
+              <button className='is-secondary is-small section-toggle-btn'
+                onClick={sectionToggleFactory('confirmed')}>{ sectionOpen.confirmed ? '숨기기' : '열기' }</button>
+            </h3>
+
+            {
+              sectionOpen.confirmed &&
+              <AdminReservationTable classes='reservation-list'
+                list={confirmedData}
+                emptyMessage='해당 데이터가 없습니다.' />
+            }
+          </section>
+
+          <section className='admin-page-section mb-0 pb-0'>
+            <h3 className='admin-page-section-title is-color-warning'>
+              <i className='icon-close-circle is-prefix'></i>
+              <span>취소된 예약</span>
+
+              <button className='is-secondary is-small section-toggle-btn'
+                onClick={sectionToggleFactory('cancelled')}>{ sectionOpen.cancelled ? '숨기기' : '열기' }</button>
+            </h3>
+
+            {
+              sectionOpen.cancelled &&
+              <AdminReservationTable classes='reservation-list'
+                list={cancelledData}
+                emptyMessage='해당 데이터가 없습니다.' />
+            }
           </section>
         </>
       }

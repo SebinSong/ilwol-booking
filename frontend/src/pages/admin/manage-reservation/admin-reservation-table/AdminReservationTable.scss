@@ -1,10 +1,25 @@
 .admin-reservation-table {
   position: relative;
-  width: max-content;
-  max-width: 100%;
-  
-  @include from ($tablet) {
-    max-width: 78rem;
+  width: 100%;
+
+  &__toggle-btn {
+    width: 100%;
+    
+    &.is-open {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__content {
+    position: relative;
+    width: max-content;
+    max-width: 100%;
+
+    &.is-hidden {
+      overflow: hidden;
+      max-height: 0;
+      pointer-events: none;
+    }
   }
 
   &__search-and-filter {

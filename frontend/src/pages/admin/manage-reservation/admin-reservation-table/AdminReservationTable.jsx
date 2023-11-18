@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import {
   classNames as cn,
   numericDateToString,
@@ -6,6 +6,9 @@ import {
 } from '@utils'
 import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
+
+// components
+import AccordionButton from '@components/accordion/accordion-button/AccordionButton'
 
 import './AdminReservationTable.scss'
 
@@ -46,12 +49,16 @@ const transformListEntry = entry => {
 function AdminReservationTable ({
   list,
   classes = '',
-  emptyMessage = '보여줄 데이터가 없습니다.'
+  emptyMessage = '보여줄 데이터가 없습니다.',
+  toggleBtnType = 'default',
+  toggleBtnText = ''
 }) {
   // local-state
+  const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
 
   // computed state
+  const noData = !list || list.length === 0
   const dataToDisplay = useMemo(
     () => {
       if (!list) { return [] }
@@ -61,76 +68,79 @@ function AdminReservationTable ({
     }, [list, search]
   )
 
-  // effects
-  useEffect(() => {
-
-  }, [])
-
   // methods
   const onItemClick = (entry) => {
     alert(`clicked a reservation item with the id - ${entry.id}`)
   }
-
-  if (!list || list.length === 0) {
-    return (
-      <div className='admin-reservation-table'>
-        <p className='admin-no-data'>{emptyMessage}</p>
-      </div>
-    )
-  }
+  const toggleTable = useCallback(
+    (val) => { setIsDisplaying(val) }, []
+  )
 
   return (
     <div className={cn('admin-reservation-table', classes)}>
-      <div className='admin-reservation-table__search-and-filter'>
-        <div className='input-with-pre-icon admin-reservation-table__search-input'>
-          <i className='icon-search pre-icon'></i>
-
-          <input className='input'
-            type='text'
-            value={search}
-            onInput={e => setSearch(e.target.value)} />
-        </div>
-      </div>
+      <AccordionButton classes='admin-reservation-table__toggle-btn'
+        onToggle={toggleTable}
+        initValue={true}
+        type={toggleBtnType}>
+        { toggleBtnText || '예약 내역' }
+      </AccordionButton>
 
       {
-        dataToDisplay.length === 0
-          ? <p className='admin-no-data mt-40'>검색/필터 결과가 없습니다.</p>
-          : <>
-              <div className='ilwol-table-container admin-reservation-table__table'>
-                <div className='ilwol-table-inner'>
-                  <table className='ilwol-table'>
-                    <thead>
-                      <tr>
-                        <th className='th-counsel-time'>날짜/시간</th>
-                        <th className='th-name'>이름</th>
-                        <th className='th-counsel-type'>상담 종류</th>
-                        <th className='th-counsel-method'>상담 방식</th>
-                        <th className='th-action'></th>
-                      </tr>
-                    </thead>
+        noData
+          ? isDisplaying && <p className='admin-no-data'>{emptyMessage}</p>
+          : <div className={cn('admin-reservation-table__content', !isDisplaying && 'is-hidden')}>
+              <div className='admin-reservation-table__search-and-filter'>
+                <div className='input-with-pre-icon admin-reservation-table__search-input'>
+                  <i className='icon-search pre-icon'></i>
 
-                    <tbody>
-                      {
-                        dataToDisplay.map((entry) => {
-                          return (
-                            <tr key={entry.id}>
-                              <td className='td-counsel-time'>{entry.dateAndTime}</td>
-                              <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
-                              <td className='td-counsel-type'>{entry.counselType}</td>
-                              <td className='td-counsel-method'>{entry.methodName}</td>
-                              <td className='td-action'>
-                                <button className='is-secondary is-table-btn'
-                                  onClick={() => onItemClick(entry)}>보기</button>
-                              </td>
-                            </tr>
-                          )
-                        })
-                      }
-                    </tbody>
-                  </table>
+                  <input className='input'
+                    type='text'
+                    value={search}
+                    onInput={e => setSearch(e.target.value)} />
                 </div>
               </div>
-            </>
+
+              {
+                dataToDisplay.length === 0
+                  ? <p className='admin-no-data mt-40'>검색/필터 결과가 없습니다.</p>
+                  : <>
+                      <div className='ilwol-table-container admin-reservation-table__table'>
+                        <div className='ilwol-table-inner'>
+                          <table className='ilwol-table'>
+                            <thead>
+                              <tr>
+                                <th className='th-counsel-time'>날짜/시간</th>
+                                <th className='th-name'>이름</th>
+                                <th className='th-counsel-type'>상담 종류</th>
+                                <th className='th-counsel-method'>상담 방식</th>
+                                <th className='th-action'></th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              {
+                                dataToDisplay.map((entry) => {
+                                  return (
+                                    <tr key={entry.id}>
+                                      <td className='td-counsel-time'>{entry.dateAndTime}</td>
+                                      <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                                      <td className='td-counsel-type'>{entry.counselType}</td>
+                                      <td className='td-counsel-method'>{entry.methodName}</td>
+                                      <td className='td-action'>
+                                        <button className='is-secondary is-table-btn'
+                                          onClick={() => onItemClick(entry)}>보기</button>
+                                      </td>
+                                    </tr>
+                                  )
+                                })
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </>
+              }
+            </div>
       }
     </div>
   )

@@ -1,0 +1,73 @@
+button.accordion-button {
+  @include button-spacing-reset;
+
+  --l-btn-color: #{$magenta};
+  --l-btn-bg-color: #{$magenta-dim};
+
+  display: flex;
+  align-items: center;
+  border-radius: 0.8rem;
+  border: 1px solid currentColor;
+  font-size: $size_5;
+  font-weight: 800;
+  padding: 0.8rem 1.6rem;
+  color: var(--l-btn-color);
+  background-color: var(--l-btn-bg-color);
+  transition: background-color 200ms linear;
+  width: 100%;
+
+  &:focus,
+  &:hover,
+  &:active,
+  &.is-open {
+    color: var(--l-btn-color);
+    background-color: var(--l-btn-bg-color);
+    border: 1px solid currentColor;
+
+    .accordion-button__text {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus {
+    box-shadow: 0 0 2px 0 currentColor;
+  }
+
+  &.is-type-success {
+    --l-btn-color: #{$success};
+    --l-btn-bg-color: #{$success-bg};
+  }
+
+  &.is-type-warning {
+    --l-btn-color: #{$warning};
+    --l-btn-bg-color: #{$warning-bg};
+  }
+
+  .accordion-button__pre-icon {
+    display: inline-block;
+    font-size: 1.1em;
+    transform: translateY(1px);
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .accordion-button__text {
+    flex-grow: 1;
+    margin-right: 0.8rem;
+    text-align: left;
+  }
+
+  .accordion-button__arrow {
+    display: inline-block;
+    font-size: 1.5em;
+    transform: translateY(1px);
+    transition: transform 250ms ease-out;
+    flex-shrink: 0;
+  }
+
+  &.is-open {
+    .accordion-button__arrow {
+      transform: translateY(1px) rotate(180deg);
+    }
+  }
+}

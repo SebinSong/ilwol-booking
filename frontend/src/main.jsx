@@ -23,6 +23,7 @@ import Signup from '@pages/auth/Signup'
 import AdminDashboard from '@pages/admin/dashboard/AdminDashboard'
 import AdminInquiry from '@pages/admin/inquiry/AdminInquiry'
 import AdminManageReservation from '@pages/admin/manage-reservation/AdminManageReservation'
+import AdminManageReservationItem from '@pages/admin/manage-reservation-item/AdminManageReservationItem'
 
 // import global styles
 import './styles/main.scss'
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/manage-reservation',
         element: <AdminManageReservation />
+      },
+      {
+        path: '/admin/manage-reservation-item/:id',
+        element: <AdminManageReservationItem />
       }
     ]
   }

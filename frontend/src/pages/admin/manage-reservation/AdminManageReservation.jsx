@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
 import { useImmer } from 'use-immer'
-import { classNames as cn } from '@utils'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -11,9 +10,9 @@ import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
 
 import './AdminManageReservation.scss'
 
-export default function AdminManageReservation ({ classes = '' }) {
+export default function AdminManageReservation () {
   return (
-    <AdminPageTemplate classes={cn('page-admin-manage-reservation', classes)}>
+    <AdminPageTemplate classes='page-admin-manage-reservation'>
       <div className='admin-manage-reservation-wrapper'>
         <h2 className='admin-page-title'>
           <i className='icon-bulleted-list is-prefix'></i>

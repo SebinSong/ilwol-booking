@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   classNames as cn,
   numericDateToString,
@@ -53,6 +54,8 @@ function AdminReservationTable ({
   toggleBtnType = 'default',
   toggleBtnText = ''
 }) {
+  const navigate = useNavigate()
+
   // local-state
   const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
@@ -70,7 +73,7 @@ function AdminReservationTable ({
 
   // methods
   const onItemClick = (entry) => {
-    alert(`clicked a reservation item with the id - ${entry.id}`)
+    navigate(`/admin/manage-reservation-item/${entry.id}`)
   }
   const toggleTable = useCallback(
     (val) => { setIsDisplaying(val) }, []

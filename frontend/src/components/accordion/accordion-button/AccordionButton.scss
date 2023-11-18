@@ -10,11 +10,12 @@ button.accordion-button {
   border: 1px solid currentColor;
   font-size: $size_5;
   font-weight: 800;
-  padding: 0.8rem 1.6rem;
+  padding: 0.6rem 1.2rem;
   color: var(--l-btn-color);
   background-color: var(--l-btn-bg-color);
   transition: background-color 200ms linear;
   width: 100%;
+  line-height: 1.1;
 
   &:focus,
   &:hover,
@@ -45,7 +46,7 @@ button.accordion-button {
 
   .accordion-button__pre-icon {
     display: inline-block;
-    font-size: 1.1em;
+    font-size: 1.15em;
     transform: translateY(1px);
     margin-right: 0.6rem;
     flex-shrink: 0;
@@ -59,7 +60,7 @@ button.accordion-button {
 
   .accordion-button__arrow {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.35em;
     transform: translateY(1px);
     transition: transform 250ms ease-out;
     flex-shrink: 0;

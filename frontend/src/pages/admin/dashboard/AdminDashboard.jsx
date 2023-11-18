@@ -139,6 +139,12 @@ export default function AdminDashboard ({
       .map(([key, entry]) => ({ ...entry, time: key }))
   }
 
+  const onPreviewItemClick = entry => {
+    navigate(`/admin/manage-reservation-item/${entry.reservationId}`)
+  }
+
+  // views
+
   const feedbackEl = (isLoadingStatus || isDayoffsLoading)
     ? <div className='admin-feeback-container'>
         <TextLoader>
@@ -224,9 +230,11 @@ export default function AdminDashboard ({
                             formatBookingData().map(entry => (
                               <tr key={entry.time}>
                                 <td className='td-time'>{entry.time}</td>
-                                <td className='td-name'>{entry.name}</td>
+                                <td className='td-name'
+                                  onClick={() => onPreviewItemClick(entry)}>{entry.name}</td>
                                 <td className='td-action'>
-                                  <button className='is-secondary is-table-btn'>보기</button>
+                                  <button className='is-secondary is-table-btn'
+                                    onClick={() => onPreviewItemClick(entry)}>보기</button>
                                 </td>
                               </tr>
                             ))

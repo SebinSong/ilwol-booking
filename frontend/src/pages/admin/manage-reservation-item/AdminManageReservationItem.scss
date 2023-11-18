@@ -1,0 +1,39 @@
+.page-admin-manage-reservation-item {
+  position: relative;
+
+  .copy-reservation-id {
+    position: relative;
+    font-size: $size_6;
+    font-weight: bold;
+    width: max-content;
+    padding: 0.2rem 0.8rem 0.2rem 1.6rem;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 8px;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: $divider-color;
+    }
+
+    > :first-child {
+      margin-right: 0.8rem;
+    }
+  }
+
+  .id-display {
+    display: inline-flex;
+    align-items: center;
+    height: 2.4rem;
+    text-decoration: underline;
+  }
+
+  .reservation-details-container {
+    position: relative;
+    width: 100%;
+    max-width: 56rem;
+  }
+}

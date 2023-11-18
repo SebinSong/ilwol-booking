@@ -69,4 +69,48 @@
   .section-toggle-btn {
     margin-left: 0.8rem;
   }
+
+  .admin-feeback-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 2.4rem;
+    align-self: stretch;
+  
+    @include from ($large-phone) {
+      align-self: unset;
+      min-width: 46rem;
+      max-width: 62rem;
+    }
+  
+    .feedback-general {
+      display: flex;
+      align-items: center;
+      color: $text_grey;
+      font-size: $size_6;
+  
+      &::before {
+        @include has-icon;
+        content: "\e922";
+        margin-right: 0.4rem;
+        transform: translateY(1px);
+      }
+    }
+  }
+  
+  .admin-no-data {
+    display: flex;
+    align-items: center;
+    color: $text_dark_grey;
+    font-size: $size_6;
+    padding-left: 1.2rem;
+  
+    &::before {
+      @include has-icon;
+      content: "\e929";
+      margin-right: 0.4rem;
+      font-size: 1.2em;
+      transform: translateY(1px);
+    }
+  }  
 }

@@ -5,7 +5,10 @@ import React, {
   useEffect,
   useMemo
 } from 'react'
-import { humanDate, compareArrays, classNames as cn } from '@utils'
+import {
+  humanDate,
+  compareArrays,
+  classNames as cn } from '@utils'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
@@ -27,6 +30,7 @@ import {
 
 import './AdminDashboard.scss'
 
+// helpers
 const legendList = [
   { color: 'magenta', text: '선택됨' },
   { color: 'success', text: '오늘' },
@@ -39,6 +43,23 @@ const NoDataToShow = () => (
     <span>데이터가 없습니다.</span>
   </div>
 )
+
+const getStatusClass = status => {
+  return ({
+    'pending': 'text-bg-validation',
+    'confirmed': 'text-bg-success',
+    'cancelled': 'text-bg-warning'
+  })[status]
+}
+
+const getStatusName = (status) => {
+  return ({
+    'confirmed': '확정',
+    'cancelled': '취소',
+    'pending': '대기'
+  })[status] || ''
+}
+
 
 export default function AdminDashboard ({
   classes = ''
@@ -135,6 +156,7 @@ export default function AdminDashboard ({
 
     if (!targetData) { return [] }
 
+    console.log('@@ targetData: ', targetData)
     return Object.entries(targetData)
       .map(([key, entry]) => ({ ...entry, time: key }))
   }
@@ -221,6 +243,7 @@ export default function AdminDashboard ({
                           <tr>
                             <th className='th-time'>시간</th>
                             <th className='th-name'>이름</th>
+                            <th className='th-status'>상태</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -232,6 +255,9 @@ export default function AdminDashboard ({
                                 <td className='td-time'>{entry.time}</td>
                                 <td className='td-name'
                                   onClick={() => onPreviewItemClick(entry)}>{entry.name}</td>
+                                <td className='td-status'>
+                                  <span className={cn('status-pill', getStatusClass(entry.status))}>{getStatusName(entry.status)}</span>
+                                </td>
                                 <td className='td-action'>
                                   <button className='is-secondary is-table-btn'
                                     onClick={() => onPreviewItemClick(entry)}>보기</button>

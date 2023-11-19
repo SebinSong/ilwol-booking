@@ -57,7 +57,7 @@
       .td-name {
         min-width: 14rem;
         padding-right: 1.2rem;
-        max-width: 24rem;
+        max-width: 22rem;
         cursor: pointer;
         font-weight: bold;
         @include truncate-text-overflow;
@@ -67,9 +67,28 @@
         }
       }
 
+      .th-status,
+      .td-status {
+        width: 5.6rem;
+        text-align: center;
+      }
+
+      .td-status {
+        padding-right: 0.4rem;
+      }
+
       .td-action {
         text-align: right;
       }
     }
+  }
+
+  .status-pill {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    line-height: 1.2;
+    font-weight: bold;
   }
 }

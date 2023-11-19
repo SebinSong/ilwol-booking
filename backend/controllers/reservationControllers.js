@@ -1,4 +1,7 @@
+// models
 const Reservation = require('../models/reservationModel')
+const Dayoff = require('../models/dayoffModel.js')
+
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateToNumeric,
@@ -74,7 +77,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
     ]
   })
 
-  // check if the requested reservation detail already exists in the DB.
+  // [ Check - 1 ] : Check if the requested reservation detail already exists in the DB.
   if (existingReservation) {
     const invalidType = existingReservation.counselDate === counselDateNumeric && existingReservation.timeSlot === timeSlot
       ? 'time'
@@ -86,6 +89,18 @@ const postReservation = asyncHandler(async (req, res, next) => {
       res,
       'Requested reservation entry already exists in the DB.',
       { errType: CLIENT_ERROR_TYPES.EXISTING_RESERVATION, invalidType }
+    )
+  }
+
+  // [ Check - 2 ] : Check if the requested date is set as a owner's dayoff
+  const yearStr = counselDate.split('-')[0]
+  const dayOffDoc = await Dayoff.findOne({ year: yearStr })
+
+  if (dayOffDoc && (dayOffDoc.values || []).includes(counselDateNumeric)) {
+    sendBadRequestErr(
+      res,
+      'Requested reservation date has already been taken',
+      { errType: CLIENT_ERROR_TYPES.EXISTING_RESERVATION, invalidType: 'time' }
     )
   }
 
@@ -165,7 +180,8 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
           ? ` 외${ personalDetails.numAttendee - 1}명`
           : ''
       ),
-      counselOption: optionId
+      counselOption: optionId,
+      status
     }
   }
 

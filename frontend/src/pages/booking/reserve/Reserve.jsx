@@ -57,7 +57,11 @@ export default function ConfirmAndPayment () {
   const numAttendeeSelectable = isOverseasCounsel || isFamilyCounsel
 
   const additionalAttendee = numAttendeeSelectable ? Math.max(personalDetails.numAttendee - 1, 0) : 0
-  const defaultPrice = isFamilyCounsel ? counselOption.price -  counselOption.additionalPrice : counselOption.price
+  const defaultPrice = counselOption
+    ? isFamilyCounsel
+      ? counselOption.price -  counselOption.additionalPrice
+      : counselOption.price
+    : 0
   const additionalFee = additionalAttendee > 0 ? additionalAttendee * counselOption.additionalPrice : 0
   const totalPrice = defaultPrice + additionalFee
 
@@ -79,8 +83,8 @@ export default function ConfirmAndPayment () {
       const itemId = res?.reservationId
 
       if (itemId) { // submission succeeded
-        dispatch(clearCounselDetails()) // clear persisted data from store / local-storage
         navigate(`/payment-instruction/${itemId}`)
+        dispatch(clearCounselDetails()) // clear persisted data from store / local-storage
       }
     } catch (e) {
       console.error('Reserve.jsx caught: ', e)

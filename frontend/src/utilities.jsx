@@ -1,5 +1,8 @@
 'use strict'
 
+import bookingOptions from '@view-data/booking-options.js'
+import { COUNSEL_METHOD } from '@view-data/constants.js'
+
 export const MINS_MILLIS = 60000
 export const HOURS_MILLIS = 60 * MINS_MILLIS
 export const DAYS_MILLIS = 24 * HOURS_MILLIS
@@ -139,4 +142,20 @@ export function compareArrays (arr1, arr2) {
 
   if (arr1.length !== arr2.length) { return false }
   else { return arr1.every(x => arr2.includes(x)) }
+}
+
+export function getCounselTypeNameById (targetId) {
+  return bookingOptions.find(x => x.id === targetId)?.name || ''
+}
+
+export function getCounselMethodNameById (targetId) {
+  return COUNSEL_METHOD.find(x => x.value === targetId).name || ''
+}
+
+export function getStatusName (status) {
+  return ({
+    'confirmed': '확정됨',
+    'cancelled': '취소됨',
+    'pending': '확정 대기중'
+  })[status] || ''
 }

@@ -40,6 +40,13 @@ export const AUTH_PATH = '/auth'
 export const RESERVATION_PATH = '/reservation'
 export const INQUIRY_PATH = '/inquiry'
 
+// reservations
+export const RESERVATION_STATUSES = [
+  { value: 'confirmed', name: '확정' },
+  { value: 'cancelled', name: '취소' },
+  { value: 'pending', name: '대기' }
+]
+
 // client error types - NOTE: should be in sync with the constants in back-end
 export const CLIENT_ERROR_TYPES = {
   MISSING_FIELD: 'missing-field',

@@ -71,8 +71,39 @@
     line-height: 1.25;
     border-bottom: 1px solid $divider-color;
 
+    &.is-column {
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+
     &:last-of-type {
       border-bottom: none;
+    }
+
+    .summary-list__sub-item {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+
+      &:first-of-type {
+        margin-top: 0.6rem;
+      }
+
+      .sub-label {
+        display: inline-block;
+        color: $text_0;
+        opacity: 0.7;
+        font-size: 1.3rem;
+      }
+
+      .sub-value {
+        display: inline-block;
+        color: $text_0;
+        font-size: $size_6;
+      }
     }
   }
 

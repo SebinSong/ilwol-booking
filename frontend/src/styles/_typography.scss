@@ -110,12 +110,33 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   color: $text_grey !important;
 }
 
-.text-color-magenta {
-  color: $magenta !important;
-}
+$text-color-name-map: (
+  'magenta': $magenta,
+  'validation': $validation,
+  'success': $success,
+  'warning': $warning
+);
 
-.text-color-success {
-  color: $success !important;
+$text-color-bg-map: (
+  'magenta': $magenta-bg,
+  'validation': $validation-bg,
+  'success': $success-bg,
+  'warning': $warning-bg
+);
+
+@each $name, $color_val in $text-color-name-map {
+  .text-color-#{$name} {
+    color: $color_val !important;
+
+    &.with-bg {
+      background-color: map-get($text-color-bg-map, $name);
+    }
+  }
+
+  .text-bg-#{$name} {
+    background-color: $color_val !important;
+    color: $background_1 !important;
+  }
 }
 
 .link {

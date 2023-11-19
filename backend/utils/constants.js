@@ -64,6 +64,12 @@ const COUNSEL_OPTIONS_LIST = [
   }
 ]
 
+const RESERVATION_STATUSES = [
+  { value: 'confirmed', name: '확정' },
+  { value: 'cancelled', name: '취소' },
+  { value: 'pending', name: '대기' }
+]
+
 module.exports = {
   CLIENT_ERROR_TYPES,
   JWT_MAX_AGE,
@@ -73,5 +79,6 @@ module.exports = {
   DAYS_MILLIS,
   MONTHS_MILLIS,
   DEFAULT_TIME_SLOTS,
-  COUNSEL_OPTIONS_LIST
+  COUNSEL_OPTIONS_LIST,
+  RESERVATION_STATUSES
 }

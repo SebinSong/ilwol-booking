@@ -116,6 +116,11 @@ button,
     }
   }
 
+  [class^="icon-"].is-prefix {
+    transform: translateY(1px);
+    font-size: 1.15em;
+  }
+
   @include addButtonColorStyles('primary');
 
   &.is-secondary {

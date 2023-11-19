@@ -70,6 +70,12 @@ const RESERVATION_STATUSES = [
   { value: 'pending', name: '대기' }
 ]
 
+const RESERVATION_STATUS_VALUE = {
+  CONFIRMED: 'confirmed',
+  CANCELLED: 'cancelled',
+  PENDING: 'pending'
+}
+
 module.exports = {
   CLIENT_ERROR_TYPES,
   JWT_MAX_AGE,
@@ -80,5 +86,6 @@ module.exports = {
   MONTHS_MILLIS,
   DEFAULT_TIME_SLOTS,
   COUNSEL_OPTIONS_LIST,
-  RESERVATION_STATUSES
+  RESERVATION_STATUSES,
+  RESERVATION_STATUS_VALUE
 }

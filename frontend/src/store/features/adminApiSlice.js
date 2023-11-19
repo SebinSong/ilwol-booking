@@ -13,6 +13,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         }),
         onQueryStarted: handleClientErrors
       }),
+
       getDayoffs: builder.query({
         query: () => ({
           url: '/config/dayoffs',
@@ -24,6 +25,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Dayoffs']
       }),
+
       getFutureDayoffs: builder.mutation({
         query: () => ({
           url: '/config/dayoffs?future=true',
@@ -33,6 +35,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           return flattenDayoffsData(response)
         }
       }),
+
       updateDayoffs: builder.mutation({
         query: (data) => {
           return ({
@@ -43,6 +46,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         },
         invalidatesTags: ['Dayoffs']
       }),
+
       getAdminReservations: builder.mutation({
         query: ({ from = '', to = '' } = {}) => {
           const obj = {}
@@ -60,6 +64,21 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           return sortReservationsByTime(response)
         },
         onQueryStarted: handleClientErrors
+      }),
+
+      updateReservationDetails: builder.mutation({
+        query: ({ id, updates }) => {
+          return ({
+            method: 'PATCH',
+            url: `${RESERVATION_PATH}/${id}`,
+            body: { updates }
+          })
+        },
+        invalidatesTags: [
+          'Reservations',
+          'ReservationStatus',
+          'ReservationDetailedStatus'
+        ]
       })
     }
   }
@@ -119,5 +138,6 @@ export const {
   useGetDayoffsQuery: useGetDayoffs,
   useGetFutureDayoffsMutation: useGetFutureDayoffs,
   useUpdateDayoffsMutation: useUpdateDayoffs,
-  useGetAdminReservationsMutation: useGetAdminReservations
+  useGetAdminReservationsMutation: useGetAdminReservations,
+  useUpdateReservationDetailsMutation: useUpdateReservationDetails
 } = adminApiSlice

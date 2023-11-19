@@ -10,6 +10,15 @@ const sendBadRequestErr = (res, msg, errObj = null) => {
   throw new Error(msg)
 }
 
+const sendResourceNotFound = (res, msg = 'resource cannot be found', errObj = null) => {
+  res.status(404)
+  if (errObj) {
+    res.errObj = errObj
+  }
+
+  throw new Error(msg)
+}
+
 const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
   for (const key of keys) {
     const val = req.body[key]
@@ -67,6 +76,7 @@ const randomFromArray = arr => {
 
 module.exports = {
   sendBadRequestErr,
+  sendResourceNotFound,
   checkRequiredFieldsAndThrow,
   stringifyDate,
   dateToNumeric,

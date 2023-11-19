@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 // components
@@ -6,9 +6,12 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
+import StateButton from '@components/state-button/StateButton'
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
+import { useUpdateReservationDetails } from '@store/features/adminApiSlice.js'
+import { ToastContext } from '@hooks/useToast.js'
 
 // utils
 import {
@@ -49,6 +52,7 @@ const getStatusIcon = status => {
 export default function AdminManageReservationItem () {
   const navigate = useNavigate()
   const { id: reservationId } = useParams()
+  const { addToastItem } = useContext(ToastContext)
 
   // local-state
   const [currentStatus, setCurrentStatus] = useState('')
@@ -58,6 +62,13 @@ export default function AdminManageReservationItem () {
     isError: isDetailsError,
     refetch
   } = useGetReservationDetails(reservationId)
+  const [
+    updateReservationDetails,
+    {
+      isLoading: isUpdatingReservationDetails,
+      isError: isReservationDetailsError
+    }
+  ] = useUpdateReservationDetails()
 
   // computed state
   const pDetails = data?.personalDetails || {}
@@ -69,7 +80,27 @@ export default function AdminManageReservationItem () {
 
   // methods
   const updateReservationStatus = async () => {
-    alert(`coming soon!`)
+    try {
+      const res = await updateReservationDetails({
+        id: reservationId,
+        updates: { status: currentStatus }
+      })
+
+      addToastItem({
+        type: 'success',
+        heading: '업데이트됨!',
+        content: '예약 상태가 성공적으로 업데이트되었습니다.'
+      })
+      refetch()
+    } catch (err) {
+      console.error('AdminManageReservationItem.jsx caught: ', err)
+
+      addToastItem({
+        type: 'success',
+        heading: '업데이트 실패!',
+        content: '예약 상태 업데이트중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+      })
+    }
   }
   const onModifyBtnClick = () => { alert(`coming soon!`) }
 
@@ -253,9 +284,11 @@ export default function AdminManageReservationItem () {
                 </div>
               </div>
 
-              <button className='is-primary status-update-btn'
+              <StateButton classes='is-primary status-update-btn'
+                type='button'
                 disabled={!data.status || currentStatus === data.status}
-                onClick={updateReservationStatus}>업데이트</button>
+                displayLoader={isUpdatingReservationDetails}
+                onClick={updateReservationStatus}>업데이트</StateButton>
             </div>
           </>
         }

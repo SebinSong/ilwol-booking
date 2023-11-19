@@ -8,7 +8,7 @@ const {
   sendBadRequestErr,
   checkRequiredFieldsAndThrow
 } = require('../utils/helpers')
-const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS } = require('../utils/constants') 
+const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
 // middlewares
 const getAllReservation = asyncHandler(async (req, res, next) => {
@@ -107,10 +107,12 @@ const getReservationStatus = asyncHandler(async (req, res, next) => {
   const counselDateFilter = { '$gte': from ? parseInt(from) : dateObjToNum(new Date()) }
   const reservations = await Reservation
     .find({ counselDate: counselDateFilter })
-    .select({ counselDate: 1, timeSlot: 1 })
+    .select({ counselDate: 1, timeSlot: 1, status: 1 })
   const statusData = {}
 
   for (const entry of reservations) {
+    if (entry.status === RESERVATION_STATUS_VALUE.CANCELLED) { continue }
+
     const dateStr = numericDateToString(entry.counselDate)
 
     if (!statusData[dateStr]) { statusData[dateStr] = [] }
@@ -143,12 +145,16 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
       counselDate: 1,
       timeSlot: 1,
       personalDetails: 1,
-      optionId: 1
+      optionId: 1,
+      status: 1
     })
   const statusData = {}
 
   for (const reservationEntry of reservations) {
-    const { _id, personalDetails, timeSlot, optionId, counselDate } = reservationEntry
+    const { _id, personalDetails, timeSlot, optionId, counselDate, status } = reservationEntry
+
+    if (status === RESERVATION_STATUS_VALUE.CANCELLED) { continue }
+
     const dateStr = numericDateToString(counselDate)
 
     if (!statusData[dateStr]) { statusData[dateStr] = {} }
@@ -164,6 +170,36 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
   }
 
   res.status(200).json(statusData || [])
+})
+
+// Update an individual reservation details
+const updateReservationDetails = asyncHandler(async (req, res, next) => {
+  const { id: reservationId } = req.params
+  const { updates = {} } = req.body
+
+  const doc = (await Reservation.findById(reservationId)) || {}
+
+  if (!doc) {
+    sendResourceNotFound(res)
+  } else {
+    for (const key in updates) {
+      const value = updates[key]
+
+      doc[key] = value
+    }
+
+    try {
+      const result = await doc.save()
+
+      res.status(200).json({
+        message: 'Successfully updated the reservation details',
+        data: result
+      })
+    } catch (err) {
+      console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
+      sendBadRequestErr(res, 'Failed to update the reservation details')
+    }
+  }
 })
 
 // archiving purpose
@@ -194,5 +230,6 @@ module.exports = {
   getAllReservation,
   getReservationById,
   getReservationStatus,
-  getReservationStatusWithDetails
+  getReservationStatusWithDetails,
+  updateReservationDetails
 }

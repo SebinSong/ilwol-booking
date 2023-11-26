@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
 import {
@@ -8,14 +8,20 @@ import {
   getStatusName,
   classNames as cn
 } from '@utils'
+
 // components
 import PageTemplate from '../PageTemplate'
 import RocketIcon from '@components/svg-icons/RocketIcon'
 import TextLoader from '@components/text-loader/TextLoader'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
+import StateButton from '@components/state-button/StateButton'
 
 // hooks
-import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
+import {
+  useGetReservationDetails,
+  useDeleteReservation
+} from '@store/features/reservationApiSlice.js'
+import { ToastContext } from '@hooks/useToast.js'
 
 import './CustomerReservationDetails.scss'
 
@@ -30,6 +36,7 @@ const getStatusClass = status => {
 
 export default function CustomerReservationDetails () {
   const navigate = useNavigate()
+  const { addToastItem } = useContext(ToastContext)
   const { id: reservationId } = useParams()
 
   // local-state
@@ -38,23 +45,55 @@ export default function CustomerReservationDetails () {
     isLoading,
     isError
   } = useGetReservationDetails(reservationId)
+  const [
+    deleteReservation,
+    {
+      isLoading: isDeletingReservation,
+      isError: isDeleteError
+    }
+  ] = useDeleteReservation()
+  const [isDeleted, setIsDeleted] = useState(false)
 
   // methods
-  const onCancelHandler = () => {
-    alert(`coming soon!`)
+  const onDeleteClick = async () => {
+    if (!window.confirm('취소된 예약은 복구가 불가합니다. 정말 취소하시겠습니까?')) { return }
+    
+    try {
+      const res = await deleteReservation(reservationId).unwrap()
+
+      if (res.deletedId) {
+        setIsDeleted(true)
+      }
+    } catch (err) {
+      console.error('CustomerReservationDetails.jsx caught: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '서버 오류!',
+        content: '예약 취소 처리중 오류가 발생하였습니다. 관리자에게 문의하세요.'
+      })
+    }
   }
 
   // feedback component
-  const feedbackEl = isLoading
-    ? <TextLoader classes='loader-ani'>로딩중..</TextLoader>
-    : Object.keys(data).length === 0 // no-data loaded
-        ? <div className='no-data-feedback'>
-            <i className='icon-close-circle'></i>
-            <h3 className='is-title-4'>예약 정보를 찾을 수 없습니다.</h3>
-            <button className='is-secondary'
-              onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
-          </div>
-        : null
+  let feedbackEl = isDeleted
+    ? <div className='feedback-container'>
+        <i className='icon-trash'></i>
+        <h3 className='is-title-4'>
+          예약이 성공적으로 <span className='reservation-status-tag text-bg-warning'>취소</span>되었습니다.
+        </h3>
+        <button className='is-secondary'
+          onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
+      </div>
+    : isLoading
+        ? <TextLoader classes='loader-ani'>로딩중..</TextLoader>
+        : Object.keys(data).length === 0 // no-data loaded
+            ? <div className='feedback-container'>
+                <i className='icon-close-circle'></i>
+                <h3 className='is-title-4'>예약 정보를 찾을 수 없습니다.</h3>
+                <button className='is-secondary'
+                  onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
+              </div>
+            : null
 
   if (feedbackEl) {
     return (
@@ -138,9 +177,12 @@ export default function CustomerReservationDetails () {
                 </div>
 
                 <div className='buttons-container c-btn-container'>
-                  <button className='is-warning'
+                  <StateButton classes='is-warning'
                     type='button'
-                    onClick={onCancelHandler}>예약 취소</button>
+                    displayLoader={isDeletingReservation}
+                    onClick={onDeleteClick}>
+                    예약 취소
+                  </StateButton>
 
                   <button className='is-secondary'
                     type='button'

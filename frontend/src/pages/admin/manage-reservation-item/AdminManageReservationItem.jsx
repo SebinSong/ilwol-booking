@@ -163,7 +163,7 @@ export default function AdminManageReservationItem () {
                   <span className='summary-list__value'>
                     <span className={cn('status-tag', getStatusClass( data?.status))}>
                       <i className={cn(getStatusIcon(data?.status))}></i>
-                      {`(${getStatusName(data?.status)})`}
+                      {`${getStatusName(data?.status)}`}
                     </span>
                   </span>
                 </div>

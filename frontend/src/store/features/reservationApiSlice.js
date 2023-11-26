@@ -36,6 +36,13 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
           method: 'GET',
           url: `${RESERVATION_PATH}/status`
         })
+      }),
+      deleteReservation: builder.mutation({
+        query: reservationId => ({
+          url: `${RESERVATION_PATH}/${reservationId}`,
+          method: 'DELETE' 
+        }),
+        invalidatesTags: ['Reservations']
       })
     }
   }
@@ -45,5 +52,6 @@ export const {
   useGetReservationsQuery: useGetReservations,
   usePostReservationMutation: usePostReservation,
   useGetReservationDetailsQuery: useGetReservationDetails,
-  useGetReservationStatusMutation: useGetReservationStatus
+  useGetReservationStatusMutation: useGetReservationStatus,
+  useDeleteReservationMutation: useDeleteReservation
 } = reservationApiSlice

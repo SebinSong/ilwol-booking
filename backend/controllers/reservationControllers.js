@@ -214,6 +214,7 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
 const updateReservationDetails = asyncHandler(async (req, res, next) => {
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
+  const isUpdatingStatus = Object.keys(updates).includes('status')
 
   const doc = await Reservation.findById(reservationId)
 
@@ -233,6 +234,23 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         message: 'Successfully updated the reservation details',
         data: result
       })
+
+      if (isUpdatingStatus &&
+        Boolean(doc.personalDetails?.mobile?.number)) {
+        const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
+        const reservationTime = `${stringifyDate(counselDate)} ${timeSlot}`
+        const typeName = getCounselTypeNameById(optionId)
+        const message = updates.status === 'confirmed'
+          ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 '예약확정'되었습니다. 감사합니다.`
+          : updates.status === 'cancelled'
+            ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
+            : ''
+
+        message && sendSMS({
+          to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
+          message
+        })
+      }
     } catch (err) {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')
@@ -251,6 +269,12 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       message: `Successfully deleted the reservation item `,
       deletedId: reservationId
+    })
+
+    // send another notification SMS to the admin contact
+    sendSMS({
+      toAdmin: true,
+      message: `고객이 예약을 취소하였습니다 - [${stringifyDate(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
     })
   }
 })

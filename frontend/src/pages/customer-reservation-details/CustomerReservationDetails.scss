@@ -34,17 +34,19 @@
     }
   }
 
-  .no-data-feedback {
+  .feedback-container {
     position: relative;
     @include vertical-flex;
     gap: 2rem;
+    opacity: 0;
+    animation: slide-in-from-bttom 400ms ease-in-out forwards;
 
     i {
-      font-size: 6.8rem;
+      font-size: 9.2rem;
+      font-weight: normal;
       color: $warning;
       opacity: 0.6;
       line-height: 1;
-      margin-bottom: 1rem;
     }
   }
 

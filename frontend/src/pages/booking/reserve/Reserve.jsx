@@ -83,7 +83,7 @@ export default function ConfirmAndPayment () {
       const itemId = res?.reservationId
 
       if (itemId) { // submission succeeded
-        navigate(`/payment-instruction/${itemId}`)
+        navigate(`/reservation-details/${itemId}`)
         dispatch(clearCounselDetails()) // clear persisted data from store / local-storage
       }
     } catch (e) {

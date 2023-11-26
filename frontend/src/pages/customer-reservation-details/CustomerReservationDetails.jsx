@@ -11,9 +11,9 @@ import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
 
-import './PaymentInstruction.scss'
+import './CustomerReservationDetails.scss'
 
-export default function PaymentInstruction () {
+export default function CustomerReservationDetails () {
   const navigate = useNavigate()
   const { id: reservationId } = useParams()
 
@@ -38,7 +38,7 @@ export default function PaymentInstruction () {
 
   if (feedbackEl) {
     return (
-      <PageTemplate classes='page-payment-instruction'>
+      <PageTemplate classes='page-customer-reservation-details'>
         <div className='page-width-constraints content-container'>
           {feedbackEl}
         </div>
@@ -50,7 +50,7 @@ export default function PaymentInstruction () {
     const counselDate = data.counselDate
 
     return (
-      <PageTemplate classes='page-payment-instruction'>
+      <PageTemplate classes='page-customer-reservation-details'>
         <div className='page-width-constraints content-container is-success'>
           <div className='page-header'>
             <RocketIcon classes='page-icon' width='108' />

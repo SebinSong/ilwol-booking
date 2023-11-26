@@ -14,7 +14,7 @@ import Root from '@components/root/Root'
 // pages
 import Home from '@pages/home/Home'
 import Booking from '@pages/booking/Booking'
-import PaymentInstruction from '@pages/payment-instruction/PaymentInstruction'
+import CustomerReservationDetails from '@pages/customer-reservation-details/CustomerReservationDetails'
 import Inquiry from '@pages/inquiry/Inquiry'
 import Login from '@pages/auth/Login'
 import Signup from '@pages/auth/Signup'
@@ -46,8 +46,8 @@ const router = createBrowserRouter([
         element: <Booking />
       },
       {
-        path: '/payment-instruction/:id',
-        element: <PaymentInstruction />
+        path: '/reservation-details/:id',
+        element: <CustomerReservationDetails />
       },
       {
         path: '/inquiry',

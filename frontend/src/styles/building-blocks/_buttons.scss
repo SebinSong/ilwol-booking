@@ -126,6 +126,10 @@ button,
   &.is-secondary {
     @include addButtonColorStyles('secondary');
   }
+
+  &.is-warning {
+    @include addButtonColorStyles('warning');
+  }
 }
 
 .buttons-container {

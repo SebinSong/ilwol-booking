@@ -153,10 +153,8 @@ export default function AdminDashboard ({
 
   const formatBookingData = () => {
     const targetData = bookingData[selectedBookedDate]
-
     if (!targetData) { return [] }
 
-    console.log('@@ targetData: ', targetData)
     return Object.entries(targetData)
       .map(([key, entry]) => ({ ...entry, time: key }))
   }

@@ -1,7 +1,13 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
-import { humanDate, numericDateToString, formatMoney } from '@utils'
+import {
+  humanDate,
+  numericDateToString,
+  formatMoney,
+  getStatusName,
+  classNames as cn
+} from '@utils'
 // components
 import PageTemplate from '../PageTemplate'
 import RocketIcon from '@components/svg-icons/RocketIcon'
@@ -13,6 +19,15 @@ import { useGetReservationDetails } from '@store/features/reservationApiSlice.js
 
 import './CustomerReservationDetails.scss'
 
+// helpers
+const getStatusClass = status => {
+  return ({
+    'pending': 'text-bg-validation',
+    'confirmed': 'text-bg-success',
+    'cancelled': 'text-bg-warning'
+  })[status]
+}
+
 export default function CustomerReservationDetails () {
   const navigate = useNavigate()
   const { id: reservationId } = useParams()
@@ -23,6 +38,11 @@ export default function CustomerReservationDetails () {
     isLoading,
     isError
   } = useGetReservationDetails(reservationId)
+
+  // methods
+  const onCancelHandler = () => {
+    alert(`coming soon!`)
+  }
 
   // feedback component
   const feedbackEl = isLoading
@@ -48,6 +68,8 @@ export default function CustomerReservationDetails () {
     const pDetails = data.personalDetails || {}
     const bookingOption = bookingOptions.find(item => item.id === data.optionId)
     const counselDate = data.counselDate
+    const isStatusPending = data?.status == 'pending'
+    const isStatusConfirmed = data?.status == 'confirmed'
 
     return (
       <PageTemplate classes='page-customer-reservation-details'>
@@ -56,8 +78,9 @@ export default function CustomerReservationDetails () {
             <RocketIcon classes='page-icon' width='108' />
   
             <h3 className='is-title-3'>
-              <i className='icon-check-circle text-color-success'></i>
-              <span>예약이 접수되었습니다.</span>
+              <span>고객님의 예약은 현재 </span>
+              <span className={cn('reservation-status-tag', getStatusClass(data?.status))}>{getStatusName(data?.status, true)}</span>
+              <span>상태입니다.</span>
             </h3>
           </div>
   
@@ -98,27 +121,63 @@ export default function CustomerReservationDetails () {
             </div>
           </div>
   
-          <div className='bank-transfer-details'>
-            <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 확정 후 알려 드리겠습니다.</p>
+          {
+            isStatusPending
+            ? <>
+                <div className='bank-transfer-details'>
+                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 확정 후 알려 드리겠습니다.</p>
 
-            <CopyToClipboard classes='copy-bank-transfer-details'
-              textToCopy='제일은행 김은숙 635 20 144462'
-              toastOpt={{
-                heading: '계좌정보 복사.',
-                content: '클립보드에 저장 되었습니다.'
-              }}>
-              <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
-            </CopyToClipboard>
-          </div>
+                  <CopyToClipboard classes='copy-bank-transfer-details'
+                    textToCopy='제일은행 김은숙 635 20 144462'
+                    toastOpt={{
+                      heading: '계좌정보 복사.',
+                      content: '클립보드에 저장 되었습니다.'
+                    }}>
+                    <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
+                  </CopyToClipboard>
+                </div>
 
-          <div className='buttons-container'>
-            <button className='is-secondary'
-              type='button'
-              onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
-          </div>
+                <div className='buttons-container c-btn-container'>
+                  <button className='is-warning'
+                    type='button'
+                    onClick={onCancelHandler}>예약 취소</button>
+
+                  <button className='is-secondary'
+                    type='button'
+                    onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
+                </div>
+              </>
+            : isStatusConfirmed
+              ? <div className='inquiry-instruction'>
+                  <p>예약 날 뵙겠습니다. 문의사항이 있으시면, 선녀님께 
+                    <span className='ml-4 has-text-bold'>카톡</span>
+                    이나 
+                    <span className='ml-4 has-text-bold'>문자</span> 
+                    연락 주시기 바랍니다.
+                  </p>
+
+                  <CopyToClipboard classes='copy-kakao-id mb-10'
+                    textToCopy='dragonrex'
+                    toastOpt={{
+                      heading: '카카오 ID 복사.',
+                      content: '클립보드에 저장 되었습니다.'
+                    }}>
+                    <span className='ctc-text'>카카오 ID 복사</span>
+                  </CopyToClipboard>
+
+                  <CopyToClipboard classes='copy-kakao-id'
+                    textToCopy='01095398700'
+                    toastOpt={{
+                      heading: '전화번호 복사.',
+                      content: '클립보드에 저장 되었습니다.'
+                    }}>
+                    <span className='ctc-text'>전화번호 복사</span>
+                  </CopyToClipboard>
+                </div>
+              : null
+          }
         </div>
       </PageTemplate>
     )
   }
 }
-

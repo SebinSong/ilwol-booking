@@ -14,7 +14,6 @@ export default defineConfig(({ mode }) => {
     env_repl[key] = `"${env[key]}"`
   }
 
-  console.log('envs: ', env)
   return ({
     plugins: [react()],
     root: 'frontend',

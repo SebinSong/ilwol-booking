@@ -11,6 +11,7 @@ const {
   numericDateToString,
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
+  sendResourceNotFound,
   getCounselTypeNameById
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
@@ -214,7 +215,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
 
-  const doc = (await Reservation.findById(reservationId)) || {}
+  const doc = await Reservation.findById(reservationId)
 
   if (!doc) {
     sendResourceNotFound(res)
@@ -236,6 +237,21 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')
     }
+  }
+})
+
+// Delete a reservation (for the customer to use)
+const deleteReservation = asyncHandler(async (req, res, next) => {
+  const { id: reservationId } = req.params
+  const deletedReservation = await Reservation.findByIdAndDelete(reservationId)
+
+  if (!deletedReservation) {
+    sendResourceNotFound(res)
+  } else {
+    res.status(200).json({
+      message: `Successfully deleted the reservation item `,
+      deletedId: reservationId
+    })
   }
 })
 
@@ -268,5 +284,6 @@ module.exports = {
   getReservationById,
   getReservationStatus,
   getReservationStatusWithDetails,
-  updateReservationDetails
+  updateReservationDetails,
+  deleteReservation
 }

@@ -152,10 +152,10 @@ export function getCounselMethodNameById (targetId) {
   return COUNSEL_METHOD.find(x => x.value === targetId).name || ''
 }
 
-export function getStatusName (status) {
+export function getStatusName (status, short = false) {
   return ({
-    'confirmed': '확정됨',
-    'cancelled': '취소됨',
-    'pending': '확정 대기중'
+    'confirmed': short ? '확정' : '확정됨',
+    'cancelled': short ? '취소' : '취소됨',
+    'pending': short ? '대기' : '확정 대기중'
   })[status] || ''
 }

@@ -1,5 +1,9 @@
 'use strict'
-const { CLIENT_ERROR_TYPES, DAYS_MILLIS } = require('./constants.js')
+const {
+  CLIENT_ERROR_TYPES,
+  DAYS_MILLIS,
+  COUNSEL_OPTIONS_LIST
+} = require('./constants.js')
 
 const sendBadRequestErr = (res, msg, errObj = null) => {
   res.status(400)
@@ -74,6 +78,10 @@ const randomFromArray = arr => {
   return arr[selectedIndex]
 }
 
+const  getCounselTypeNameById = (targetId) => {
+  return COUNSEL_OPTIONS_LIST.find(x => x.id === targetId)?.name || ''
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -85,5 +93,6 @@ module.exports = {
   addTimeToDate,
   addDaysToDate,
   randomIntBetweenRange,
-  randomFromArray
+  randomFromArray,
+  getCounselTypeNameById
 }

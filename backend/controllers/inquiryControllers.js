@@ -1,5 +1,7 @@
 const Inquiry = require('../models/inquiryModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
+const { sendSMS } = require('../external-services/sms.js')
+const { stringifyDate } = require('../utils/helpers.js')
 
 // create a new inquiry
 const postInquiry = asyncHandler(async (req, res, next) => {
@@ -8,6 +10,12 @@ const postInquiry = asyncHandler(async (req, res, next) => {
   // create a new inquiry
   const doc = await Inquiry.create({ name, message, email, title })
   res.status(201).json({ id: doc._id })
+
+  // send a notification SMS to the admin contact
+  sendSMS({
+    toAdmin: true,
+    message: `고객으로부터 문의사항이 접수되었습니다. [${name}, ${stringifyDate(new Date(doc.createdAt))}]`
+  })
 })
 
 // Get all inquiry entries

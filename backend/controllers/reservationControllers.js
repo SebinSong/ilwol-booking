@@ -1,6 +1,7 @@
 // models
 const Reservation = require('../models/reservationModel')
 const Dayoff = require('../models/dayoffModel.js')
+const { sendSMS } = require('../external-services/sms.js')
 
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
@@ -9,7 +10,8 @@ const {
   stringifyDate,
   numericDateToString,
   sendBadRequestErr,
-  checkRequiredFieldsAndThrow
+  checkRequiredFieldsAndThrow,
+  getCounselTypeNameById
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -61,6 +63,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
   const todayNumeric = dateObjToNum(new Date())
+  const hasMobileNumber = Boolean(pDetails.mobile?.number)
   const existingReservation = await Reservation.findOne({ 
     $or: [
       { counselDate: counselDateNumeric, timeSlot },
@@ -76,6 +79,8 @@ const postReservation = asyncHandler(async (req, res, next) => {
           }
     ]
   })
+
+  const getReservationTime = () => `${counselDate} ${timeSlot}`
 
   // [ Check - 1 ] : Check if the requested reservation detail already exists in the DB.
   if (existingReservation) {
@@ -114,6 +119,22 @@ const postReservation = asyncHandler(async (req, res, next) => {
   })
 
   res.status(201).json({ reservationId: newReservation._id })
+
+  // send a notification SMS to the customer (if they have provided a contact)
+  if (hasMobileNumber) {
+    await sendSMS({
+      to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
+      message: `${pDetails.name}님, [${getReservationTime()}]으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+        '상담료 계좌이체를 해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
+        `(이체정보 및 취소하기: ${process.env.SITE_URL}/payment-instruction/${newReservation._id})`
+    })
+  }
+
+  // send another notification SMS to the admin contact
+  sendSMS({
+    toAdmin: true,
+    message: `새로운 예약이 접수되었습니다. [${getReservationTime()}, ${getCounselTypeNameById(optionId)}]`
+  })
 })
 
 // A method for customers to use

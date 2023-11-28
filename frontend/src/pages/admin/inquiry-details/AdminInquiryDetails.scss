@@ -1,0 +1,20 @@
+.page-admin-inquiry-details {
+  position: relative;
+
+  .admin-inquiry-details-content {
+    position: relative;
+    width: 100%;
+    max-width: 60rem;
+  }
+
+  .inquiry-message-content {
+    font-weight: normal;
+    color: $text_dark_grey;
+  }
+
+  .inquiry-reply-form {
+    position: relative;
+    margin-top: 2rem;
+    width: 100%;
+  }
+}

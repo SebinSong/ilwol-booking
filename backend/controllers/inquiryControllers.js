@@ -1,7 +1,10 @@
 const Inquiry = require('../models/inquiryModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const { sendSMS } = require('../external-services/sms.js')
-const { stringifyDate } = require('../utils/helpers.js')
+const {
+  stringifyDate,
+  sendResourceNotFound
+} = require('../utils/helpers.js')
 
 // create a new inquiry
 const postInquiry = asyncHandler(async (req, res, next) => {
@@ -44,7 +47,19 @@ const getInquiries = asyncHandler(async (req, res) => {
   res.status(200).json(inquiries)
 })
 
+const getInquiryById = asyncHandler(async (req, res, next) => {
+  const { id: inquiryId } = req.params
+
+  try {
+    const doc = await Inquiry.findById(inquiryId)
+    res.status(200).json(doc)
+  } catch (err) {
+    sendResourceNotFound(res)
+  }
+})
+
 module.exports = {
   postInquiry,
-  getInquiries
+  getInquiries,
+  getInquiryById
 }

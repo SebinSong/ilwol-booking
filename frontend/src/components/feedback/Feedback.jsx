@@ -17,6 +17,7 @@ export default function Feedback ({
   showError = false,
   hideCloseBtn = false,
   scrollOnDisplay = true,
+  children = null,
   classes = ''
 }) {
   // local state
@@ -49,7 +50,7 @@ export default function Feedback ({
       className={cn('feeback-container', `is-type-${type}`, classes)}>
       <i className={cn(iconMap[type], 'feedback-icon')}></i>
 
-      <div className='feedback-message'>{message}</div>
+      <div className='feedback-message'>{children || message}</div>
 
       {
         !hideCloseBtn &&

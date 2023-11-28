@@ -53,7 +53,7 @@ export default function AdminInquiry ({ classes = '' }) {
     error,
     isLoading,
     isFetching
-  } = useGetInquiries(queryArgs)
+  } = useGetInquiries(queryArgs, { refetchOnMountOrArgChange: true })
   const isLoadingData = isLoading || isFetching
 
   // computed state
@@ -64,18 +64,22 @@ export default function AdminInquiry ({ classes = '' }) {
     }, [data, search]
   )
 
+  // methods
+  const navigateToDetails = id => navigate(`/admin/inquiry/${id}`)
+
+  // views
   const feedbackEl = isLoadingData
-    ? <div className='admin-feeback-container'>
+    ? <div className='admin-feedback-container'>
         <TextLoader>
           문의사항 데이터 로딩중...
         </TextLoader>
       </div>
     : isError
-        ? <Feedback type='error' classes='mt-20'>
+        ? <Feedback type='error' classes='mt-20' showError={true}>
             데이터 로드중 에러가 발생하였습니다.
           </Feedback>
     : !Boolean(data.length)
-        ? <div className='admin-feeback-container'>
+        ? <div className='admin-feedback-container'>
             <NoDataToShow />
           </div>
         : null
@@ -84,7 +88,7 @@ export default function AdminInquiry ({ classes = '' }) {
     <AdminPageTemplate classes={cn('page-admin-inquiry', classes)}>
       <h2 className='admin-page-title'>
         <i className='icon-mail is-prefix'></i>
-        <span>고객 문의사항</span>
+        <span>고객 문의사항 리스트</span>
       </h2>
 
       <div className='page-admin-inquiry-content'>
@@ -127,7 +131,8 @@ export default function AdminInquiry ({ classes = '' }) {
                                 dataToDisplay.map((entry) => {
                                   return (
                                     <tr key={entry.searchable}>
-                                      <td className='td-title'>{ entry.title }</td>
+                                      <td className='td-title'
+                                        onClick={() => navigateToDetails(entry.id)}>{ entry.title }</td>
                                       <td className='td-date'>{ entry.date }</td>
                                       <td className='td-name'>{ entry.name }</td>
                                       <td className='td-email'>{ entry.email }</td>
@@ -137,8 +142,10 @@ export default function AdminInquiry ({ classes = '' }) {
                                       <td className='td-action'>
                                         {
                                           entry.hasReply
-                                            ? <button className='is-secondary is-table-btn'>보기</button>
-                                            : <button className='is-primary is-table-btn'>답변</button>
+                                            ? <button className='is-secondary is-table-btn'
+                                                onClick={() => navigateToDetails(entry.id)}>보기</button>
+                                            : <button className='is-primary is-table-btn'
+                                                onClick={() => navigateToDetails(entry.id)}>답변</button>
                                         }
                                       </td>
                                     </tr>

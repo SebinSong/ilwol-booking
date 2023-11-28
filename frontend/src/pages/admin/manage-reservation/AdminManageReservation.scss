@@ -3,7 +3,11 @@
 
   .admin-manage-reservation-wrapper {
     position: relative;
-    width: max-content;
+    width: 100%;
     max-width: 100%;
+
+    @include from ($small-phone) {
+      width: max-content;
+    }
   }
 }

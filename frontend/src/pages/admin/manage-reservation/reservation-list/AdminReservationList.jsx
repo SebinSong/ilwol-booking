@@ -46,13 +46,13 @@ export default function AdminReservationList () {
   }
 
   const feedbackEl = isLoadingReservations
-    ? <div className='admin-feeback-container'>
+    ? <div className='admin-feedback-container'>
         <TextLoader>
           예약 데이터 로딩중...
         </TextLoader>
       </div>
     : isReservationError
-        ? <Feedback type='error' classes='mt-20'>
+        ? <Feedback type='error' classes='mt-20' showError={true}>
             예약 데이터 로드중 에러가 발생하였습니다.
           </Feedback>
         : null

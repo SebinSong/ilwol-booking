@@ -22,6 +22,7 @@ import Signup from '@pages/auth/Signup'
 // admin pages
 import AdminDashboard from '@pages/admin/dashboard/AdminDashboard'
 import AdminInquiry from '@pages/admin/inquiry/AdminInquiry'
+import AdminInquiryDetails from '@pages/admin/inquiry-details/AdminInquiryDetails'
 import AdminManageReservation from '@pages/admin/manage-reservation/AdminManageReservation'
 import AdminManageReservationItem from '@pages/admin/manage-reservation-item/AdminManageReservationItem'
 
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/inquiry',
         element: <AdminInquiry />
+      },
+      {
+        path: 'admin/inquiry/:id',
+        element: <AdminInquiryDetails />
       },
       {
         path: '/admin/manage-reservation',

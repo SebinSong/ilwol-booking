@@ -22,7 +22,7 @@ export const inquiryApiSlice = apiSlice.injectEndpoints({
           method: 'GET'
         }),
         onQueryStarted: handleClientErrors,
-        keepUnusedDataFor: 60 // seconds
+        keepUnusedDataFor: 10 // seconds
       }),
       postInquiry: builder.mutation({
         query: data => ({

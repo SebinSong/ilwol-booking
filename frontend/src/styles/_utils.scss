@@ -71,6 +71,10 @@
     line-height: 1.25;
     border-bottom: 1px solid $divider-color;
 
+    &.horizontal-align-top {
+      align-items: flex-start;
+    }
+
     &.is-column {
       flex-direction: column;
       align-items: stretch;
@@ -110,7 +114,7 @@
   &__label {
     display: inline-block;
     color: $text_0;
-    width: 40%;
+    width: 36%;
     flex-shrink: 0;
   }
 
@@ -127,6 +131,10 @@
     &.is-big {
       font-size: $size_2;
       padding-top: 0.4rem;
+    }
+
+    &.left-align {
+      text-align: left;
     }
   }
 }

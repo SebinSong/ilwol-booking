@@ -70,12 +70,13 @@
     margin-left: 0.8rem;
   }
 
-  .admin-feeback-container {
+  .admin-feedback-container {
     position: relative;
     display: flex;
     justify-content: center;
     margin-top: 2.4rem;
     align-self: stretch;
+    width: 100%;
   
     @include from ($large-phone) {
       align-self: unset;
@@ -112,5 +113,51 @@
       font-size: 1.2em;
       transform: translateY(1px);
     }
-  }  
+  }
+
+  .admin-id-copy {
+    position: relative;
+    font-size: $size_6;
+    font-weight: bold;
+    width: max-content;
+    padding: 0.2rem 0 0.2rem 1.6rem;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 8px;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: $divider-color;
+    }
+
+    > :first-child {
+      margin-right: 0.8rem;
+    }
+
+    .id-display {
+      display: inline-flex;
+      align-items: center;
+      height: 2.4rem;
+      text-decoration: underline;
+    }
+  }
+
+  .admin-details-call-to-action-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    @include until ($small-phone) {
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+      column-gap: 1.6rem;
+      row-gap: 0.8rem;
+    }
+  }
 }

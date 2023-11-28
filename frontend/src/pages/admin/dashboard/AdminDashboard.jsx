@@ -166,13 +166,13 @@ export default function AdminDashboard ({
   // views
 
   const feedbackEl = (isLoadingStatus || isDayoffsLoading)
-    ? <div className='admin-feeback-container'>
+    ? <div className='admin-feedback-container'>
         <TextLoader>
           예약현황/쉬는날 데이터 로딩중...
         </TextLoader>
       </div>
     : (isStatusError || isDayoffsError)
-        ? <Feedback type='error' classes='mt-20'>
+        ? <Feedback type='error' classes='mt-20' showError={true}>
             예약현황/쉬는날 데이터 로드중 에러가 발생하였습니다.
           </Feedback>
         : null

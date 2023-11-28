@@ -106,13 +106,13 @@ export default function AdminManageReservationItem () {
 
   // views
   const feedbackEl = isLoadingDetails
-    ? <div className='admin-feeback-container'>
+    ? <div className='admin-feedback-container'>
         <TextLoader>
           예약 아이템 로딩중...
         </TextLoader>
       </div>
     : isDetailsError
-      ? <Feedback type='error' classes='mt-20'>
+      ? <Feedback type='error' classes='mt-20' showError={true}>
           예약 아이템 로드중 에러가 발생하였습니다.
         </Feedback>
       : null
@@ -128,14 +128,14 @@ export default function AdminManageReservationItem () {
         {
           feedbackEl ||
           <>
-            <div className='call-to-action-container'>
+            <div className='admin-details-call-to-action-container'>
               <button className='is-secondary is-small'
                 onClick={() => navigate(-1)}>
                 <i className='icon-chevron-left-circle is-prefix'></i>
                 <span>뒤로 가기</span>
               </button>
 
-              <div className='copy-reservation-id'>
+              <div className='admin-id-copy'>
                 <span>예약 ID: </span>
 
                 <CopyToClipboard classes='copy-bank-transfer-details'

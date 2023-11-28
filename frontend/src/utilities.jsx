@@ -100,6 +100,10 @@ export function humanDate (date, options = { month: 'short', day: 'numeric' }, l
   return new Date(date).toLocaleDateString(locale, options)
 }
 
+export function humanTimeString (date, locale = 'ko-KR') {
+  return new Date(date).toLocaleTimeString(locale)
+}
+
 export function genId () {
   const random = () => Math.random().toString(20).slice(2)
   return `${random()}_${random()}`

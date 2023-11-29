@@ -9,6 +9,9 @@ import AccordionButton from '@components/accordion/accordion-button/AccordionBut
 // hooks
 import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
 
+// utils
+import { dateObjToNumeric } from '@utils'
+
 export default function AdminReservationList () {
   // local-state
   const [getReservations, {
@@ -39,7 +42,7 @@ export default function AdminReservationList () {
   // methods
   const loadReservationData = async () => {
     try {
-      await getReservations()
+      await getReservations({ from: dateObjToNumeric(new Date()) })
     } catch (err) {
       console.error('AdminManageReservation.jsx caught: ', err)
     }

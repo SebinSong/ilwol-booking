@@ -164,7 +164,7 @@ export default function CustomerReservationDetails () {
             isStatusPending
             ? <>
                 <div className='bank-transfer-details'>
-                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 확정 후 알려 드리겠습니다.</p>
+                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success'>확정</span>후 알려 드리겠습니다.</p>
 
                   <CopyToClipboard classes='copy-bank-transfer-details'
                     textToCopy='제일은행 김은숙 635 20 144462'

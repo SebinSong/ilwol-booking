@@ -141,7 +141,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
 // A method for customers to use
 const getReservationStatus = asyncHandler(async (req, res, next) => {
   const { from } = req.query
-  const counselDateFilter = { '$gte': from ? parseInt(from) : dateObjToNum(new Date()) }
+  const counselDateFilter = { '$gte': from ? parseInt(from) : dateObjToNum(new Date()) } // by default, only fetches future data
   const reservations = await Reservation
     .find({ counselDate: counselDateFilter })
     .select({ counselDate: 1, timeSlot: 1, status: 1 })

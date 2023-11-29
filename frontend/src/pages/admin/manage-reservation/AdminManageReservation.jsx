@@ -5,9 +5,6 @@ import { useImmer } from 'use-immer'
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import AdminReservationList from './reservation-list/AdminReservationList'
 
-// hooks
-import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
-
 import './AdminManageReservation.scss'
 
 export default function AdminManageReservation () {

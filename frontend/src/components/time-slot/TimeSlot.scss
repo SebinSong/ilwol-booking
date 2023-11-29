@@ -1,3 +1,27 @@
+.time-slot-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  .time-slot-info {
+    position: relative;
+    text-align: left;
+    font-size: $size_7;
+    color: $text_dark_grey;
+
+    .kakao-id-copy {
+      margin-left: 0.4rem;
+      margin-right: 0.4rem;
+      font-weight: bold;
+
+      .ctc-content {
+        text-decoration: underline;
+        color: $text_0;
+      }
+    }
+  }
+}
+
 .time-slot-container {
   position: relative;
   display: grid;

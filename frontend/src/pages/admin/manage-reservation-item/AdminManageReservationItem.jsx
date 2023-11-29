@@ -80,6 +80,10 @@ export default function AdminManageReservationItem () {
 
   // methods
   const updateReservationStatus = async () => {
+    if (['confirmed', 'cancelled'].includes(currentStatus) &&
+      !window.confirm('정말로 상태 업데이트를 하시겠습니까? 고객에게 알림문자가 날아갑니다.')
+    ) { return }
+
     try {
       const res = await updateReservationDetails({
         id: reservationId,

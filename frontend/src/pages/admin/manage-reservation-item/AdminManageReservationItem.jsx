@@ -142,7 +142,7 @@ export default function AdminManageReservationItem () {
               <div className='admin-id-copy'>
                 <span>예약 ID: </span>
 
-                <CopyToClipboard classes='copy-bank-transfer-details'
+                <CopyToClipboard
                   textToCopy={reservationId}
                   toastOpt={{
                     heading: '예약 ID 복사',

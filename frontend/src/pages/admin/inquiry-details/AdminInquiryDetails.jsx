@@ -81,7 +81,7 @@ export default function AdminInquiryDetails () {
               <div className='admin-id-copy'>
                 <span>문의사항 ID: </span>
 
-                <CopyToClipboard classes='copy-bank-transfer-details'
+                <CopyToClipboard
                   textToCopy={inquiryId}
                   toastOpt={{
                     heading: '문의사항 ID 복사',

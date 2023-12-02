@@ -69,14 +69,6 @@ const router = createBrowserRouter([
         element: <AdminDashboard />
       },
       {
-        path: '/admin/inquiry',
-        element: <AdminInquiry />
-      },
-      {
-        path: 'admin/inquiry/:id',
-        element: <AdminInquiryDetails />
-      },
-      {
         path: '/admin/manage-reservation',
         element: <AdminManageReservation />
       },

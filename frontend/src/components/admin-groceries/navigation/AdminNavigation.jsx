@@ -19,12 +19,6 @@ const adminNavList = [
     name: '예약 관리',
     icon: 'bulleted-list',
     routeTo: '/admin/manage-reservation'
-  },
-  {
-    id: 'inquiry',
-    name: '고객 문의사항',
-    icon: 'mail',
-    routeTo: '/admin/inquiry'
   }
 ]
 

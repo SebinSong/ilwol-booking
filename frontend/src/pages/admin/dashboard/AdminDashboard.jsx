@@ -129,7 +129,7 @@ export default function AdminDashboard ({
         setBookedDates(Object.keys(data))
       }
     } catch (err) {
-      console.error('@@@ AdminDashboard.jsx caught: ', err)
+      console.error('AdminDashboard.jsx caught: ', err)
     }
   }
 
@@ -142,7 +142,7 @@ export default function AdminDashboard ({
         content: '쉬는 날 정보가 업데이트 되었습니다.'
       })
     } catch (err) {
-      console.error('@@ submitDayoffsUpdate caught: ', err)
+      console.error('submitDayoffsUpdate caught: ', err)
       addToastItem({
         type: 'warning',
         heading: '업데이트 실패!',

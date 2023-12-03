@@ -187,12 +187,25 @@ $form-border: 1rem;
   background-color: var(--custom-input-bg-color);
   border: 1px solid var(--custom-input-border-color);
   color: var(--custom-input-text-color);
+  font-family: "Noto Sans KR", "Lato";
   font-size: $size_5;
   transition:
     border-color 200ms linear,
     box-shadow 200ms linear;
   outline: none;
   width: 100%;
+
+  &.is-small {
+    height: 3rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.8rem;
+    font-size: $size_7;
+  }
+
+  &[type="date"] {
+    max-width: max-content;
+    font-weight: bold;
+  }
 
   &:focus {
     border-color: var(--custom-input-border-color_focus);
@@ -239,7 +252,7 @@ $form-border: 1rem;
     @include has-icon;
     content: "\e925";
     position: absolute;
-    color: $text_grey;
+    color: $text_dark_grey;
     opacity: 0.75;
     font-size: $size_4;
     top: 50%;
@@ -253,6 +266,19 @@ $form-border: 1rem;
   &:hover::after {
     color: currentColor;
     opacity: 1;
+  }
+
+  &.is-small  {
+    .select {
+      height: 3rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.8rem;
+      font-size: $size_7;
+    }
+
+    &::after {
+      font-size: $size_6;
+    }
   }
 }
 

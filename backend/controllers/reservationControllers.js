@@ -221,20 +221,37 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
   if (!doc) {
     sendResourceNotFound(res)
   } else {
+    const transformedUpdates = {}
+
     for (const key in updates) {
       const value = updates[key]
 
-      doc[key] = value
+      switch (key) {
+        case 'counselDate': {
+          transformedUpdates[key] = dateToNumeric(value)
+          break
+        }
+        case 'personalDetails': {
+          for (const pKey in value) {
+            transformedUpdates[`personalDetails.${pKey}`] = value[pKey]
+          }
+          break
+        }
+        default: {
+          transformedUpdates[key] = value
+        }
+      }
     }
 
     try {
-      const result = await doc.save()
+      const result = await doc.updateOne({ $set: transformedUpdates })
 
       res.status(200).json({
         message: 'Successfully updated the reservation details',
         data: result
       })
 
+      // send SMS to the user about the reservation status update.
       if (isUpdatingStatus &&
         Boolean(doc.personalDetails?.mobile?.number)) {
         const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc

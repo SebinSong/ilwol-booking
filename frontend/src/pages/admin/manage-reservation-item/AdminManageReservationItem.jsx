@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -21,6 +21,7 @@ import {
   numericDateToString,
   humanDate,
   formatMoney,
+  dobToString,
   classNames as cn
 } from '@utils'
 import { RESERVATION_STATUSES } from '@view-data/constants.js'
@@ -28,10 +29,6 @@ import { RESERVATION_STATUSES } from '@view-data/constants.js'
 import './AdminManageReservationItem.scss'
 
 // helpers
-const dobToString = dob => {
-  const { system = 'lunar', year, month, date } = dob
-  return `${system === 'lunar' ? '양력' : '음력'} ${year}-${month}-${date}`
-}
 const combineMobile = mobile => mobile?.number ? `${mobile.prefix} ${mobile.number}` : ''
 
 const getStatusClass = status => {
@@ -52,6 +49,7 @@ const getStatusIcon = status => {
 export default function AdminManageReservationItem () {
   const navigate = useNavigate()
   const { id: reservationId } = useParams()
+  const [searchParams] = useSearchParams()
   const { addToastItem } = useContext(ToastContext)
 
   // local-state
@@ -61,7 +59,10 @@ export default function AdminManageReservationItem () {
     isLoading: isLoadingDetails,
     isError: isDetailsError,
     refetch
-  } = useGetReservationDetails(reservationId)
+  } = useGetReservationDetails(
+    reservationId,
+    { refetchOnMountOrArgChange: Boolean(searchParams.get('reload')) }
+  )
   const [
     updateReservationDetails,
     {
@@ -88,7 +89,7 @@ export default function AdminManageReservationItem () {
       const res = await updateReservationDetails({
         id: reservationId,
         updates: { status: currentStatus }
-      })
+      }).unwrap()
 
       addToastItem({
         type: 'success',
@@ -106,7 +107,7 @@ export default function AdminManageReservationItem () {
       })
     }
   }
-  const onModifyBtnClick = () => { alert(`coming soon!`) }
+  const onModifyBtnClick = () => { navigate(`/admin/update-reservation-item/${reservationId}`) }
 
   // views
   const feedbackEl = isLoadingDetails

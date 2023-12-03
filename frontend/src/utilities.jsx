@@ -1,7 +1,7 @@
 'use strict'
 
 import bookingOptions from '@view-data/booking-options.js'
-import { COUNSEL_METHOD } from '@view-data/constants.js'
+import { COUNSEL_METHOD, API_BASE_PATH, RESERVATION_PATH } from '@view-data/constants.js'
 
 export const MINS_MILLIS = 60000
 export const HOURS_MILLIS = 60 * MINS_MILLIS
@@ -162,4 +162,44 @@ export function getStatusName (status, short = false) {
     'cancelled': short ? '취소' : '취소됨',
     'pending': short ? '대기' : '확정 대기중'
   })[status] || ''
+}
+
+export function dobToString (dob) {
+  const zeroPad = v => v.length === 1 ? `0${v}` : v
+  const { system = 'lunar', year, month, date } = dob
+
+  return `${system === 'lunar' ? '양력' : '음력'} ${year}-${zeroPad(month)}-${zeroPad(date)}`
+}
+
+export async function checkDateAndTimeAvailable (dateStr, timeSlot) {
+  const dayoffData = await fetch(
+    `${API_BASE_PATH}/config/dayoffs?future=true`, { method: 'GET' }
+  ).then(async r => {
+    const data = await r.json()
+    let finalArr = []
+
+    Object.values(data).forEach(dayoffArr => {
+      finalArr = [
+        ...finalArr,
+        ...dayoffArr.map(dayoffNum => numericDateToString(dayoffNum))
+      ]
+    })
+
+    return finalArr
+  })
+
+  const reservationStatus = await fetch(
+    `${API_BASE_PATH}${RESERVATION_PATH}/status`, { method: 'GET' }
+  ).then(r => r.json())
+
+  if (dayoffData.includes(dateStr)) {
+    throw new Error('변경된 날짜가 쉬는 날과 겹칩니다. 다른 날짜를 선택해 주세요.')
+  }
+
+  if (
+    Object.keys(reservationStatus?.reserved || {}).includes(dateStr) &&
+    reservationStatus.reserved[dateStr]?.includes(timeSlot)
+  ) {
+    throw new Error('변경된 날짜/시간에 이미 예약 아이템이 있습니다.')
+  }
 }

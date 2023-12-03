@@ -25,6 +25,7 @@ import AdminInquiry from '@pages/admin/inquiry/AdminInquiry'
 import AdminInquiryDetails from '@pages/admin/inquiry-details/AdminInquiryDetails'
 import AdminManageReservation from '@pages/admin/manage-reservation/AdminManageReservation'
 import AdminManageReservationItem from '@pages/admin/manage-reservation-item/AdminManageReservationItem'
+import AdminUpdateReservationItem from '@pages/admin/update-reservation-item/UpdateReservationItem'
 
 // import global styles
 import './styles/main.scss'
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/manage-reservation-item/:id',
         element: <AdminManageReservationItem />
+      },
+      {
+        path: '/admin/update-reservation-item/:id',
+        element: <AdminUpdateReservationItem />
       }
     ]
   }

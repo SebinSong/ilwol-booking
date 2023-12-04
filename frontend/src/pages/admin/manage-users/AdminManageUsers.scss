@@ -1,0 +1,20 @@
+.page-admin-manage-users {
+  position: relative;
+  width: 100%;
+
+  .admin-manage-users-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+
+    @include from ($small-phone) {
+      width: max-content;
+    }
+  }
+
+  .search-input-container {
+    position: relative;
+    width: max-content;
+    margin-bottom: 1.6rem;
+  }
+}

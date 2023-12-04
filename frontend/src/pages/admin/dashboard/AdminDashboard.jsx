@@ -164,7 +164,6 @@ export default function AdminDashboard ({
   }
 
   // views
-
   const feedbackEl = (isLoadingStatus || isDayoffsLoading)
     ? <div className='admin-feedback-container'>
         <TextLoader>

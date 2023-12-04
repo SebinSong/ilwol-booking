@@ -19,6 +19,12 @@ const adminNavList = [
     name: '예약 관리',
     icon: 'bulleted-list',
     routeTo: '/admin/manage-reservation'
+  },
+  {
+    id: 'manage-users',
+    name: '유저 관리',
+    icon: 'group',
+    routeTo: '/admin/manage-users'
   }
 ]
 

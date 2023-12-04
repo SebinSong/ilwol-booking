@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo, useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
@@ -7,14 +7,15 @@ import { useNavigate } from 'react-router-dom'
 import PageTemplate from '@pages/PageTemplate'
 import ShieldIcon from '@components/svg-icons/ShieldIcon'
 import { useAdminSignup } from '@store/features/authApiSlice'
-import { setCredentials } from '@store/features/authDetailsSlice'
 import PasswordInput from '@components/password-input/PasswordInput'
 import StateButton from '@components/state-button/StateButton'
+import RocketIcon from '@components/svg-icons/RocketIcon'
 
 import {
   validateEmail,
   classNames as cn
 } from '@utils'
+import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 
 const { WarningMessage } = React.Global
 const ANSWER = '창원'
@@ -31,6 +32,7 @@ export default function Signup () {
   const { addToastItem } = useContext(ToastContext)
 
   // local state
+  const [requestSubmitted, setRequestSubmitted] = useState(false)
   const [adminSignup, { isLoading }] = useAdminSignup()
   const [details, setDetails] = useImmer({
     email: '',
@@ -95,19 +97,20 @@ export default function Signup () {
           password: details.password
         }).unwrap()
 
-        dispatch(setCredentials(res))
-        addToastItem({
-          type: 'success',
-          heading: '제출되었습니다!',
-          content: '계정은 오너 또는 타 관리자가 검토 후 승인이 이뤄집니다.'
-        })
-        navigate('/admin/dashboard')
+        setRequestSubmitted(true)
       } catch (err) {
         console.error('Signup.jsx caught: ', err)
+
+        const errType = err.data.errType || ''
+        const msgMap = {
+          [CLIENT_ERROR_TYPES.EXISTING_USER]: '해당 이메일은 이미 사용중입니다. 다른 이메일을 골라주세요.'
+        }
+
         addToastItem({
           type: 'warning',
           heading: '제출 오류!',
-          content: '계정 생성 중 문제가 발생하였습니다. 입력 값들을 확인 후, 다시 시도해 주세요.'
+          content: msgMap[errType] || '계정 생성 중 문제가 발생하였습니다. 입력 값들을 확인 후, 다시 시도해 주세요.',
+          delay: 6000
         })
       }
     }
@@ -116,66 +119,91 @@ export default function Signup () {
   return (
     <PageTemplate classes='page-auth'>
       <div className='page-form-constraints'>
-        <div className='signup-header mt-40'>
-          <ShieldIcon classes='shield-icon' />
-          <h2 className='is-title-2 is-sans page-title'>관리자 계정 생성</h2>
-        </div>
+        {
+          requestSubmitted
+            ? <div className='signup-submitted-content mt-50'>
+                <RocketIcon classes='rocket-icon mb-30' width='92' />
 
-        <form className='signup-form mt-50' onSubmit={signupHandler}>
-          <label className='form-field'>
-            <span className='label'>이메일</span>
+                <h3 className='is-title-3 is-sans'>
+                  관리자 계정 생성 요청이 접수 되었습니다.
+                </h3>
 
-            <input type='text'
-              className={cn('input', isErrorActive('email') && 'is-error')}
-              data-vkey='email'
-              value={details.email}
-              onInput={updateFactory('email')}
-              placeholder='이메일' />
-          </label>
+                <p className='account-process-explanation'>
+                  요청된 계정은 오너의 검토 후에
+                  <span className='text-bg-success inline-small-padding emphasis'>승인</span>
+                  이 이뤄집니다.
+                </p>
 
-          <WarningMessage toggle={isErrorActive('email')} message={formError?.errMsg} />
+                <div className='buttons-container mt-40'>
+                  <button className='is-secondary' type='button'
+                    onClick={() => navigate('/')}>
+                    홈으로
+                  </button>
+                </div>
+              </div>
+            : <>
+                <div className='signup-header mt-40'>
+                  <ShieldIcon classes='shield-icon' />
+                  <h2 className='is-title-2 is-sans page-title'>관리자 계정 생성</h2>
+                </div>
 
-          <PasswordInput value={details.password}
-            onInput={updateFactory('password')}
-            vKey='password'
-            classes='signup__password'
-            placeholder='비밀번호' />
-        
-          <PasswordInput value={details.passwordConfirm}
-            onInput={updateFactory('passwordConfirm')}
-            vKey='passwordConfirm'
-            classes='signup__password-confirm'
-            errorMsg={isErrorActive('passwordConfirm') ? formError?.errMsg : ''}
-            placeholder='비밀번호 확인'
-            label='비밀번호 확인'
-            hideHelper={true} />
+                <form className='signup-form mt-50' onSubmit={signupHandler}>
+                  <label className='form-field'>
+                    <span className='label'>이메일</span>
 
-          <label className='form-field'>
-            <span className='label'>Q. 일월선녀님의 고향은?</span>
+                    <input type='text'
+                      className={cn('input', isErrorActive('email') && 'is-error')}
+                      data-vkey='email'
+                      value={details.email}
+                      onInput={updateFactory('email')}
+                      placeholder='이메일' />
+                  </label>
 
-            <input type='text'
-              className={cn('input', isErrorActive('quiz') && 'is-error')}
-              data-vkey='quiz'
-              value={details.quiz}
-              onInput={updateFactory('quiz')}
-              placeholder='답변 입력' />
-          </label>
+                  <WarningMessage toggle={isErrorActive('email')} message={formError?.errMsg} />
 
-          <WarningMessage toggle={isErrorActive('quiz')} message={formError?.errMsg} />
+                  <PasswordInput value={details.password}
+                    onInput={updateFactory('password')}
+                    vKey='password'
+                    classes='signup__password'
+                    placeholder='비밀번호' />
+                
+                  <PasswordInput value={details.passwordConfirm}
+                    onInput={updateFactory('passwordConfirm')}
+                    vKey='passwordConfirm'
+                    classes='signup__password-confirm'
+                    errorMsg={isErrorActive('passwordConfirm') ? formError?.errMsg : ''}
+                    placeholder='비밀번호 확인'
+                    label='비밀번호 확인'
+                    hideHelper={true} />
 
-          <div className='buttons-container mt-40'>
-            <StateButton classes='is-primary'
-              type='submit'
-              disabled={!enableSubmitBtn}
-              displayLoader={isLoading}>
-              제출
-            </StateButton>
+                  <label className='form-field'>
+                    <span className='label'>Q. 일월선녀님의 고향은?</span>
+
+                    <input type='text'
+                      className={cn('input', isErrorActive('quiz') && 'is-error')}
+                      data-vkey='quiz'
+                      value={details.quiz}
+                      onInput={updateFactory('quiz')}
+                      placeholder='답변 입력' />
+                  </label>
+
+                  <WarningMessage toggle={isErrorActive('quiz')} message={formError?.errMsg} />
+
+                  <div className='buttons-container mt-40'>
+                    <StateButton classes='is-primary'
+                      type='submit'
+                      disabled={!enableSubmitBtn}
+                      displayLoader={isLoading}>
+                      제출
+                    </StateButton>
 
 
-            <span className='link login-link'
-              onClick={() => navigate('/admin-login')}>로그인 화면으로</span>
-          </div>
-        </form>
+                    <span className='link login-link'
+                      onClick={() => navigate('/admin-login')}>로그인 화면으로</span>
+                  </div>
+                </form>
+              </>
+        }
       </div>
     </PageTemplate>
   )

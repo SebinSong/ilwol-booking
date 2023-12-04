@@ -88,19 +88,26 @@ const signup_post = asyncHandler(async (req, res, next) => {
 const login_post = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body
 
-  try {
-    const user = await User.login({ email, password })
+  const user = await User.login({ email, password })
 
-    user.numLogin += 1
-    generateAndSendToken(user, res)
-    await user.save()
-  } catch (err) {
-    console.error('error caught in login_post: ', err)
+  if (!user) {
     sendBadRequestErr(
       res,
       `invalid request.`,
       { errType: CLIENT_ERROR_TYPES.INVALID_FIELD }
     )
+  } else {
+    if (!user.isPermitted) {
+      sendBadRequestErr(
+        res,
+        'This user is in pending state',
+        { errType: CLIENT_ERROR_TYPES.PENDING_USER }
+      )
+    }
+
+    user.numLogin += 1
+    generateAndSendToken(user, res)
+    await user.save()
   }
 })
 

@@ -29,6 +29,30 @@
     font-size: $size_7;
   }
 
+  .signup-submitted-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    opacity: 0;
+    animation: slide-in-from-bttom 450ms linear forwards;
+    animation-delay: 250ms;
+
+    .account-process-explanation {
+      font-size: $size_6;
+      color: $text_dark_grey;
+      margin-top: 0.8rem;
+
+      .emphasis {
+        display: inline-block;
+        margin: 0 0.2rem;
+        font-weight: bold;
+      }
+    }
+  }
+
   .buttons-container {
     gap: 1.6rem;
   }

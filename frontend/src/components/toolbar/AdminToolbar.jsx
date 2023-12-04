@@ -34,6 +34,8 @@ function AdminToolbar ({
   const toAdminHome = () => navigate('/admin/dashboard')
 
   const logoutHandler = async () => {
+    if (!window.confirm('로그아웃 하시겠습니까?')) { return }
+
     try {
       const res = await adminLogout()
       dispatch(clearCredentials())

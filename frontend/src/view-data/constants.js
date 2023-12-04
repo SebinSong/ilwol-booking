@@ -52,6 +52,7 @@ export const CLIENT_ERROR_TYPES = {
   MISSING_FIELD: 'missing-field',
   INVALID_FIELD: 'invalid-field',
   EXISTING_USER: 'existing-user',
+  PENDING_USER: 'pending-user',
   EXISTING_RESERVATION: 'existing-reservation',
   NO_TOKEN: 'no-token',
   INVALID_TOKEN: 'invalid-token',

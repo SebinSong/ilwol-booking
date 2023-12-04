@@ -13,6 +13,8 @@ import PageTemplate from '@pages/PageTemplate'
 import ShieldIcon from '@components/svg-icons/ShieldIcon'
 import PasswordInput from '@components/password-input/PasswordInput'
 import StateButton from '@components/state-button/StateButton'
+import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
+
 // hooks
 import { useValidation } from '@hooks/useValidation'
 import { ToastContext } from '@hooks/useToast.js'
@@ -80,14 +82,19 @@ export default function Login () {
       } catch (err) {
         console.log('Login.jsx caught: ', err)
         const errType = err.data.errType || ''
+        const headingMap = {
+          [CLIENT_ERROR_TYPES.PENDING_USER]: '승인 대기중!'
+        }
         const msgMap = {
-          'invalid-field': '입력 정보를 다시 확인해 주세요.'
+          [CLIENT_ERROR_TYPES.INVALID_FIELD]: '올바른 이메일/패스워드를 입력해 주세요.',
+          [CLIENT_ERROR_TYPES.PENDING_USER]: '해당 계정은 승인 대기중입니다. 오너에게 문의하세요.'
         }
 
         addToastItem({
           type: 'warning',
-          heading: '로그인 오류!',
-          content: msgMap[errType] || '로그인 처리 중 문제가 발생하였습니다. 확인 후 다시 시도해 주세요.'
+          heading: headingMap[errType] || '로그인 오류!',
+          content: msgMap[errType] || '로그인 처리 중 문제가 발생하였습니다. 확인 후 다시 시도해 주세요.',
+          delay: 5000
         }, true)
       }
     }

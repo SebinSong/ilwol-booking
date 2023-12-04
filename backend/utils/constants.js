@@ -9,6 +9,7 @@ const MONTHS_MILLIS = 30 * DAYS_MILLIS
 const CLIENT_ERROR_TYPES = {
   MISSING_FIELD: 'missing-field',
   INVALID_FIELD: 'invalid-field',
+  PENDING_USER: 'pending-user',
   EXISTING_USER: 'existing-user',
   EXISTING_RESERVATION: 'existing-reservation',
   NO_TOKEN: 'no-token',

@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  permittedAt: {
+    type: Date
+  },
   numLogin: {
     type: Number,
     default: 0

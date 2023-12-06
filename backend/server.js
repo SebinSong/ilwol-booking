@@ -16,6 +16,7 @@ const inquiryRouter = require('./routes/inquiryRoutes')
 const reservationRouter = require('./routes/reservationRoutes')
 const manageRouter = require('./routes/manageRoutes')
 const configRouter = require('./routes/configRoutes')
+const usersRouter = require('./routes/usersRoutes.js')
 
 // middlewares
 const logger = require('./middlewares/logger')
@@ -43,6 +44,7 @@ app.use('/api/inquiry', inquiryRouter)
 app.use('/api/reservation', reservationRouter)
 app.use('/api/manage', manageRouter)
 app.use('/api/config', configRouter)
+app.use('/api/users', usersRouter)
 
 // static server setup
 app.use(express.static(APP_CLIENT_PATH))

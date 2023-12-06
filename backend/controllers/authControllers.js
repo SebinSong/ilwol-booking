@@ -65,11 +65,17 @@ const signup_post = asyncHandler(async (req, res, next) => {
 
   // create a user
   try {
+    const docCount = await User.countDocuments({})
+    const createAdminOwner = isTypeAdmin && (docCount === 0)
     const newUser = await User.create({
       password,
       email,
-      userType: isTypeAdmin ? 'admin-staff' : 'customer',
-      isPermitted: isTypeAdmin ? false : true
+      userType: isTypeAdmin
+      ? createAdminOwner ? 'admin-owner' : 'admin-staff'
+      : 'customer',
+      isPermitted: isTypeAdmin
+        ? createAdminOwner ? true : false
+        : true
     })
 
     generateAndSendToken(newUser, res)

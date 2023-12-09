@@ -18,11 +18,12 @@ import {
 import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 
 const { WarningMessage } = React.Global
-const ANSWER = '창원'
+const ANSWER = 'sunmoonstar'
 
 // hooks
 import { useValidation } from '@hooks/useValidation'
 import { ToastContext } from '@hooks/useToast.js'
+import { setCredentials } from '@store/features/authDetailsSlice'
 
 import './AuthPageCommon.scss'
 
@@ -97,7 +98,21 @@ export default function Signup () {
           password: details.password
         }).unwrap()
 
-        setRequestSubmitted(true)
+        console.log('@@@ signup result: ', res)
+
+        if (res.isPermitted) {
+          addToastItem({
+            type: 'success',
+            heading: '관리자 계정 생성!',
+            content: '주인장님, 관리자 페이지 첫 접속을 환영합니다!',
+            delay: 6000
+          })
+
+          dispatch(setCredentials(res))
+          navigate('/admin/dashboard')
+        } else {
+          setRequestSubmitted(true)
+        }
       } catch (err) {
         console.error('Signup.jsx caught: ', err)
 
@@ -177,7 +192,7 @@ export default function Signup () {
                     hideHelper={true} />
 
                   <label className='form-field'>
-                    <span className='label'>Q. 일월선녀님의 고향은?</span>
+                    <span className='label'>Q. 비밀코드를 입력하세요.</span>
 
                     <input type='text'
                       className={cn('input', isErrorActive('quiz') && 'is-error')}

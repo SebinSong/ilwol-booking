@@ -39,6 +39,7 @@ export const API_BASE_PATH = '/api'
 export const AUTH_PATH = '/auth'
 export const RESERVATION_PATH = '/reservation'
 export const INQUIRY_PATH = '/inquiry'
+export const USERS_PATH = '/users'
 
 // reservations
 export const RESERVATION_STATUSES = [

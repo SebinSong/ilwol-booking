@@ -78,7 +78,13 @@ const signup_post = asyncHandler(async (req, res, next) => {
         : true
     })
 
-    generateAndSendToken(newUser, res)
+    if (createAdminOwner) {
+      generateAndSendToken(newUser, res)
+    } else {
+      res.status(200).json({
+        message: 'successfully created a sign up request'
+      })
+    }
   } catch (err) {
     // check if the email is already in use
     if (err?.code === 11000) {

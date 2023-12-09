@@ -4,7 +4,7 @@
 
   .admin-manage-users-wrapper {
     position: relative;
-    width: 100%;
+    width: 100vw;
     max-width: 100%;
 
     @include from ($small-phone) {
@@ -16,5 +16,37 @@
     position: relative;
     width: max-content;
     margin-bottom: 1.6rem;
+  }
+
+  .users-list-table {
+    .email-copy {
+      align-items: center;
+      font-weight: bold;
+
+      .ctc-content {
+        min-height: unset;
+        height: max-content;
+      }
+    }
+
+    .td-email {
+      padding-right: 1.6rem;
+    }
+
+    .th-type,
+    .td-type,
+    .th-status,
+    .td-status {
+      width: 8.4rem;
+      text-align: center;
+    }
+
+    .td-type {
+      font-weight: bold;
+    }
+
+    .td-created-date {
+      padding-right: 2.4rem;
+    }
   }
 }

@@ -35,6 +35,8 @@ const UserSchema = new mongoose.Schema({
     default: 0
   },
   passwordHistory: { type: [String] }
+}, {
+  timestamps: true
 })
 
 // static methods

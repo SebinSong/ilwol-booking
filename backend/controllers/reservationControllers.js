@@ -324,7 +324,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     // send another notification SMS to the admin contact
     sendSMS({
       toAdmin: true,
-      message: `고객이 예약을 취소하였습니다 - [${stringifyDate(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
+      message: `고객이 예약을 취소하였습니다 - [${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
     })
   }
 })

@@ -197,7 +197,7 @@ export default function AdminManageReservationItem () {
                 </div>
 
                 <div className='summary-list__item'>
-                  <span className='summary-list__label'>총 결재금액</span>
+                  <span className='summary-list__label'>총 결제금액</span>
                   <span className='summary-list__value'>
                     {formatMoney(data?.totalPrice || 0, { minimumFractionDigits: 0 })}
                   </span>

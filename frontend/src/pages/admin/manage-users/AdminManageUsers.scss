@@ -33,6 +33,12 @@
       padding-right: 1.6rem;
     }
 
+    .th-email,
+    .td-email {
+      position: sticky;
+      left: 0;
+    }
+
     .th-type,
     .td-type,
     .th-status,
@@ -41,12 +47,19 @@
       text-align: center;
     }
 
+    .td-status,
     .td-type {
       font-weight: bold;
     }
 
     .td-created-date {
       padding-right: 2.4rem;
+    }
+
+    .td-action .cta-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
     }
   }
 }

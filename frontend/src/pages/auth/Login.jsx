@@ -82,6 +82,11 @@ export default function Login () {
       } catch (err) {
         console.log('Login.jsx caught: ', err)
         const errType = err.data.errType || ''
+
+        const typeMap = {
+          [CLIENT_ERROR_TYPES.INVALID_FIELD]: 'warning',
+          [CLIENT_ERROR_TYPES.PENDING_USER]: 'info'
+        }
         const headingMap = {
           [CLIENT_ERROR_TYPES.PENDING_USER]: '승인 대기중!'
         }
@@ -91,7 +96,7 @@ export default function Login () {
         }
 
         addToastItem({
-          type: 'warning',
+          type: typeMap[errType],
           heading: headingMap[errType] || '로그인 오류!',
           content: msgMap[errType] || '로그인 처리 중 문제가 발생하였습니다. 확인 후 다시 시도해 주세요.',
           delay: 5000

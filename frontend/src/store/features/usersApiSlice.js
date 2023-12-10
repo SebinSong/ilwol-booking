@@ -13,11 +13,30 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         onQueryStarted: handleClientErrors,
         keepUnusedDataFor: 60, // seconds
         providesTags: ['Users']
+      }),
+      permitUser: builder.mutation({
+        query: userId => ({
+          url: `${USERS_PATH}/${userId}`,
+          method: 'PATCH',
+          body: {
+            updates: { isPermitted: true }
+          }
+        }),
+        invalidatesTags: ['Users']
+      }),
+      deleteUser: builder.mutation({
+        query: userId => ({
+          url: `${USERS_PATH}/${userId}`,
+          method: 'DELETE'
+        }),
+        invalidatesTags: ['Users']
       })
     }
   }
 })
 
 export const {
-  useGetAllUsersQuery: useGetAllUsers
+  useGetAllUsersQuery: useGetAllUsers,
+  usePermitUserMutation: usePermitUser,
+  useDeleteUserMutation: useDeleteUser
 } = usersApiSlice

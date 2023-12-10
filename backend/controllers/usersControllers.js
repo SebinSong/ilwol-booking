@@ -27,7 +27,22 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 })
 
+const deleteUser = asyncHandler(async (req, res, next) => {
+  const { id: userId } = req.params
+  const deletedUser = await User.findByIdAndDelete(userId)
+
+  if (!deletedUser) {
+    sendResourceNotFound(res)
+  } else {
+    res.status(200).json({
+      message: 'Successfully deleted the user',
+      deletedId: userId
+    })
+  }
+})
+
 module.exports = {
   getAllUsers,
-  updateUser
+  updateUser,
+  deleteUser
 }

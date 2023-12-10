@@ -1,12 +1,15 @@
 const express = require('express')
 const {
   getAllUsers,
-  updateUser
+  updateUser,
+  deleteUser
 } = require('../controllers/usersControllers')
 const { isAdmin } = require('../middlewares/authMiddlewares')
 const router = express.Router()
 
-router.get('/', isAdmin, getAllUsers)
-router.patch('/:id', isAdmin, updateUser)
+router.use(isAdmin)
+router.get('/', getAllUsers)
+router.patch('/:id', updateUser)
+router.delete('/:id', deleteUser)
 
 module.exports = router

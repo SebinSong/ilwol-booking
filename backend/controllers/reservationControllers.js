@@ -284,7 +284,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     sendResourceNotFound(res)
   } else {
     res.status(200).json({
-      message: `Successfully deleted the reservation item `,
+      message: 'Successfully deleted the reservation item',
       deletedId: reservationId
     })
 

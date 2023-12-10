@@ -25,7 +25,8 @@ import {
   useGetDetailedReservationStatus,
   useGetDayoffs,
   useUpdateDayoffs,
-  flattenDayoffsData
+  flattenDayoffsData,
+  useArchiveOldReservations
 } from '@store/features/adminApiSlice.js'
 
 import './AdminDashboard.scss'
@@ -86,6 +87,10 @@ export default function AdminDashboard ({
     isLoading: isUpdatingDayoffs,
     isError: isDayoffUpdateError,
   }] = useUpdateDayoffs()
+  const [_archiveOldReservations, {
+    isLoading: isArchiving,
+    isError: isArchivingError
+  }] = useArchiveOldReservations()
 
   // computed-state
   const isUpdateEnabled = useMemo(
@@ -99,7 +104,10 @@ export default function AdminDashboard ({
 
   // effects
   useEffect(() => {
-    fetchStatusData()
+    fetchStatusData().then(() => {
+      // run this request behind the scene.
+      archiveOldReservations()
+    })
   }, [])
   useEffect(() => {
     if (Array.isArray(dayOffsData)) {
@@ -148,6 +156,14 @@ export default function AdminDashboard ({
         heading: '업데이트 실패!',
         content: '쉬는 날 업데이트 중 오류가 발생하였습니다. 다시 시도해 주세요.'
       })
+    }
+  }
+
+  const archiveOldReservations = async () => {
+    try {
+      await _archiveOldReservations()
+    } catch (err) {
+      console.error('Failed to archive the old reservations data: ', err)
     }
   }
 

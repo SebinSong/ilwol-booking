@@ -98,8 +98,6 @@ export default function Signup () {
           password: details.password
         }).unwrap()
 
-        console.log('@@@ signup result: ', res)
-
         if (res.isPermitted) {
           addToastItem({
             type: 'success',

@@ -79,6 +79,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           'ReservationStatus',
           'ReservationDetailedStatus'
         ]
+      }),
+
+      archiveOldReservations: builder.mutation({
+        query: () => ({
+          method: 'POST',
+          url: `${RESERVATION_PATH}/archive`
+        })
       })
     }
   }
@@ -139,5 +146,6 @@ export const {
   useGetFutureDayoffsMutation: useGetFutureDayoffs,
   useUpdateDayoffsMutation: useUpdateDayoffs,
   useGetAdminReservationsMutation: useGetAdminReservations,
-  useUpdateReservationDetailsMutation: useUpdateReservationDetails
+  useUpdateReservationDetailsMutation: useUpdateReservationDetails,
+  useArchiveOldReservationsMutation: useArchiveOldReservations
 } = adminApiSlice

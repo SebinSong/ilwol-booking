@@ -1,4 +1,4 @@
-const Reservation = require('./models/reservationModel')
+const { Reservation } = require('./models/reservationModel')
 const { connectDB } = require('./db.js')
 const {
   randomIntBetweenRange,

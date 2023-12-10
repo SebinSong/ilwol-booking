@@ -56,6 +56,10 @@ const ReservationSchema = new mongoose.Schema({
 // index
 ReservationSchema.index({ counselDate: -1, timeSlot: 1 })
 
-const ReservationModel = mongoose.model('Reservation', ReservationSchema)
+const Reservation = mongoose.model('Reservation', ReservationSchema)
+const ArchivedReservation = mongoose.model('ArchivedReservation', ReservationSchema)
 
-module.exports = ReservationModel
+module.exports = {
+  Reservation,
+  ArchivedReservation
+}

@@ -1,5 +1,5 @@
 // models
-const Reservation = require('../models/reservationModel')
+const { Reservation, ArchivedReservation } = require('../models/reservationModel')
 const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
 
@@ -15,6 +15,39 @@ const {
   getCounselTypeNameById
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
+
+// helper
+const archiveOldReservation = asyncHandler(async (req, res, next) => {
+  const dateNumToday = dateObjToNum(new Date())
+  const counselDateFilter = { '$lt': dateNumToday }
+
+  try {
+    const docsToArchive = (await Reservation.find({ counselDate: counselDateFilter }))
+      .map(
+        entry => ({
+          counselDate: entry.counselDate,
+          timeSlot: entry.timeSlot,
+          personalDetails: entry.personalDetails,
+          optionId: entry.optionId,
+          status: entry.status,
+          totalPrice: entry.totalPrice
+        })
+      )
+
+    await ArchivedReservation.create(docsToArchive)
+    await Reservation.deleteMany({ counselDate: counselDateFilter })
+
+    res.status(200).json({
+      message: 'Successfully archived the old proposals'
+    })
+  } catch (err) {
+    console.error('Failed to archive the old reservations due to a following error: ', err)
+    res.status(500).json({
+      message: 'Failed to archive the old reservations',
+      err
+    })
+  }
+})
 
 // middlewares
 const getAllReservation = asyncHandler(async (req, res, next) => {
@@ -326,5 +359,6 @@ module.exports = {
   getReservationStatus,
   getReservationStatusWithDetails,
   updateReservationDetails,
-  deleteReservation
+  deleteReservation,
+  archiveOldReservation
 }

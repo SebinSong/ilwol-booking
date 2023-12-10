@@ -6,13 +6,16 @@ const {
   getReservationStatus,
   getReservationStatusWithDetails,
   updateReservationDetails,
-  deleteReservation
+  deleteReservation,
+  archiveOldReservation
 } = require('../controllers/reservationControllers')
 const { isAdmin } = require('../middlewares/authMiddlewares')
 const router = express.Router()
 
 router.get('/', isAdmin, getAllReservation)
 router.post('/', postReservation)
+
+router.post('/archive', isAdmin, archiveOldReservation)
 
 router.get('/status', getReservationStatus)
 router.get('/detailed-status', isAdmin, getReservationStatusWithDetails)

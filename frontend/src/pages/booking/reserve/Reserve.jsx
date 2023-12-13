@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { humanDate, formatMoney } from '@utils'
+import { humanDate, formatMoney, classNames as cn } from '@utils'
 import {
   COUNSEL_METHOD_ID_NAME_MAP,
   CLIENT_ERROR_TYPES
@@ -44,6 +44,7 @@ export default function ConfirmAndPayment () {
     isError,
     error
   }] = usePostReservation()
+  const [lastConfirmed, setLastConfirmed] = useState(false)
 
   // effects
   useEffect(() => {
@@ -225,11 +226,20 @@ export default function ConfirmAndPayment () {
         showError={isError}
         message={errFeebackMsg} />
 
-      <div className='buttons-container mt-40'>
+      <div className='is-accurate-container mt-30'>
+        <p className='is-accurate-question'>
+          <i className='icon-triangle-exclamation mr-4'></i>
+          기재하신 정보는 모두 정확합니까?
+        </p>
+        <button className='is-secondary is-small' type='button'
+          onClick={() => setLastConfirmed(true)}>예, 맞습니다</button>
+      </div>
+
+      <div className={cn('buttons-container c-reserve-btn-container mt-10 is-right-aligned', lastConfirmed && 'is-revealed')}>
         <StateButton type='button'
           classes='is-primary reserve-btn'
           onClick={onReserveClick}>
-          예약하기
+          예약 제출하기
         </StateButton>
       </div>
     </div>

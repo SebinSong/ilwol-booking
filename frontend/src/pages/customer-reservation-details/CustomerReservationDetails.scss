@@ -78,6 +78,35 @@
     }
   }
 
+  .things-to-note {
+    position: relative;
+    border-radius: 0.8rem;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    border: 2px solid $warning;
+    font-size: 1.4rem;
+    color: $text_0;
+    background-color: $warning-bg;
+
+    .note-title {
+      display: inline-flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+      color: $warning;
+
+      i {
+        font-size: 1.1em;
+        transform: translateY(1px);
+      }
+    }
+
+    ul li:not(:last-of-type) {
+      margin-bottom: 0.8rem;
+    }
+  }
+
   .side-margin {
     margin-left: 0.4rem;
     margin-right: 0.4rem;

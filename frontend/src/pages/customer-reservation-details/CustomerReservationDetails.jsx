@@ -164,6 +164,28 @@ export default function CustomerReservationDetails () {
             isStatusPending
             ? <>
                 <div className='bank-transfer-details'>
+                  <div className='things-to-note mb-30'>
+                    <h3 className='note-title'>
+                      <i className='icon-triangle-exclamation mr-4'></i>
+                      계좌이체 유의사항
+                    </h3>
+
+                    <ul className='list'>
+                      <li>
+                        <span className='has-text-bold mr-4'>1.</span>
+                        <span className='has-text-bold'>입금자</span>와 <span className='has-text-bold'>예약자명</span>은 동일해야 합니다.
+                      </li>
+                      <li>
+                        <span className='has-text-bold mr-4'>2.</span>
+                        상담료 <span className='has-text-bold'>전액</span>을 입금하셔야 하며, 일부 입금시 예약이 확정되지 않습니다.
+                      </li>
+                      <li>
+                        <span className='has-text-bold mr-4'>3.</span>
+                        <span className='has-text-bold'>환불</span>은 예약하신 날짜 기준 <span className='has-text-bold'>1일 전</span>까지 연락주시면 전액 환불해 드립니다.
+                      </li>
+                    </ul>
+                  </div>
+
                   <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
 
                   <CopyToClipboard classes='copy-bank-transfer-details'

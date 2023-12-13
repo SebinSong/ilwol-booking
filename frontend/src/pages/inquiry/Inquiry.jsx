@@ -19,9 +19,9 @@ export default function Inquiry () {
         <div className='inquiry-content-container'>
           <CommunicationIcon classes='sent-icon' width='80' />
 
-          <h3 className='is-title-4 mt-30'>기타 문의사항이 있으시면, 아래 연락처로 문의 바랍니다.</h3>
+          <h3 className='is-title-4 mt-30'>기타 문의사항이 있으시면, 아래 연락처로 <span className='text-bg-black inline-small-padding'>문자</span>로 문의 바랍니다.</h3>
 
-          <CopyToClipboard classes='mt-40'
+          <CopyToClipboard classes='mt-40 mb-30'
             textToCopy='01095398700'
             toastOpt={{
               heading: '전화번호 복사',
@@ -29,10 +29,6 @@ export default function Inquiry () {
             }}>
             <span className='mobile-number-to-copy'>010-9539-8700</span>
           </CopyToClipboard>
-
-          <p className='helper info inquiry-info mt-40 mb-20'>
-            <span className='text-bg-black has-text-bold inline-small-padding'>문자</span>로만 연락 부탁드립니다.
-          </p>
 
           <button className='is-secondary'
             type='button'

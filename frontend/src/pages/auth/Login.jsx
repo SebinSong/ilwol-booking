@@ -49,6 +49,7 @@ export default function Login () {
       }
     ]
   )
+  const hideSignupLink = true
 
   // computed state
   const enableLoginBtn = useMemo(
@@ -138,9 +139,11 @@ export default function Login () {
               type='submit'
               displayLoader={isLoading}
               disabled={!enableLoginBtn}>로그인</StateButton>
-
-            <span className='link signup-link'
-              onClick={() => navigate('/admin-signup')}>계정 새로 만들기</span>
+            {
+              !hideSignupLink &&
+              <span className='link signup-link'
+                onClick={() => navigate('/admin-signup')}>계정 새로 만들기</span>
+            }
           </div>
         </form>
       </div>

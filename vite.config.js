@@ -44,7 +44,23 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
-      outDir: path.resolve(__dirname, './dist')
+      outDir: path.resolve(__dirname, './dist'),
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'third-parties': [
+              'react',
+              'react-dom',
+              'react-redux',
+              'react-router-dom',
+              'react-calendar',
+              '@reduxjs/toolkit',
+              'use-immer',
+              'dayjs'
+            ]
+          }
+        }
+      }
     },
     server: {
       // dev-server configuration

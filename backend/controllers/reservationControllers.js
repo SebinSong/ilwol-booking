@@ -160,7 +160,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
       message: `${pDetails.name}님, [${getReservationTime()}]으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
         '상담료 계좌이체를 해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
-        `(이체정보 및 취소하기: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
+        `(예약내역 확인/이체정보/예약취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
     })
   }
 

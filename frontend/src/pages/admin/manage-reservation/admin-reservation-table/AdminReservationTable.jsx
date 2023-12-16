@@ -32,7 +32,11 @@ const getName = entry => {
 
   return name + (numAttendee >= 2 ? ` 외${numAttendee - 1}명`: '')
 }
-const getCounselTypeName = entry => bookingOptions.find(x => x.id === entry.optionId)?.name || ''
+const getCounselTypeName = entry => {
+  return entry.optionId === 'admin-generated'
+    ? '관리자생성 아이템'
+    : bookingOptions.find(x => x.id === entry.optionId)?.name || ''
+}
 const getCounselMethodName = entry => COUNSEL_METHOD.find(x => x.value === entry.personalDetails.method).name || ''
 const transformListEntry = entry => {
   const r = {

@@ -86,6 +86,15 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'POST',
           url: `${RESERVATION_PATH}/archive`
         })
+      }),
+
+      createAdminReservation: builder.mutation({
+        query: data => ({
+          url: `${RESERVATION_PATH}?admin=true`,
+          method: 'POST',
+          body: data
+        }),
+        invalidatesTags: ['Reservations']
       })
     }
   }
@@ -147,5 +156,6 @@ export const {
   useUpdateDayoffsMutation: useUpdateDayoffs,
   useGetAdminReservationsMutation: useGetAdminReservations,
   useUpdateReservationDetailsMutation: useUpdateReservationDetails,
-  useArchiveOldReservationsMutation: useArchiveOldReservations
+  useArchiveOldReservationsMutation: useArchiveOldReservations,
+  useCreateAdminReservationMutation: useCreateAdminReservation
 } = adminApiSlice

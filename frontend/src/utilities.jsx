@@ -149,7 +149,9 @@ export function compareArrays (arr1, arr2) {
 }
 
 export function getCounselTypeNameById (targetId) {
-  return bookingOptions.find(x => x.id === targetId)?.name || ''
+  return targetId === 'admin-generated'
+    ? '관리자생성 아이템'
+    : bookingOptions.find(x => x.id === targetId)?.name || ''
 }
 
 export function getCounselMethodNameById (targetId) {

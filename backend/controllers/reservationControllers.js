@@ -155,7 +155,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
         counselDate: counselDateNumeric,
         timeSlot,
         personalDetails: pDetails,
-        status: 'confirmed'
+        status: 'pending'
       })
     : await Reservation.create({
         optionId,

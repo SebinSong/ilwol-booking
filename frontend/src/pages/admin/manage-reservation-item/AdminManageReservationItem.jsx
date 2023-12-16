@@ -72,6 +72,7 @@ export default function AdminManageReservationItem () {
   ] = useUpdateReservationDetails()
 
   // computed state
+  const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}
 
   // effects
@@ -82,7 +83,11 @@ export default function AdminManageReservationItem () {
   // methods
   const updateReservationStatus = async () => {
     if (['confirmed', 'cancelled'].includes(currentStatus) &&
-      !window.confirm('정말로 상태 업데이트를 하시겠습니까? 고객에게 알림문자가 날아갑니다.')
+      !window.confirm(
+        isAdminGenerated
+          ? '상태 업데이트를 하시겠습니까?'
+          : '상태 업데이트를 하시겠습니까? 고객에게 알림문자가 날아갑니다.'
+      )
     ) { return }
 
     try {
@@ -159,14 +164,17 @@ export default function AdminManageReservationItem () {
                 <div className='summary-list__title c-table-title'>
                   <span>예약 상세 내역</span>
 
-                  <button className='is-secondary is-table-btn ml-4'
-                    onClick={onModifyBtnClick}>예약 내용 수정</button>
+                  {
+                    !isAdminGenerated &&
+                    <button className='is-secondary is-table-btn ml-4'
+                      onClick={onModifyBtnClick}>예약 내용 수정</button>
+                  }
                 </div>
 
                 <div className='summary-list__item'>
                   <span className='summary-list__label'>상태</span>
                   <span className='summary-list__value'>
-                    <span className={cn('status-tag', getStatusClass( data?.status))}>
+                    <span className={cn('status-tag', getStatusClass(data?.status))}>
                       <i className={cn(getStatusIcon(data?.status))}></i>
                       {`${getStatusName(data?.status)}`}
                     </span>
@@ -177,16 +185,24 @@ export default function AdminManageReservationItem () {
                   <span className='summary-list__label'>이름</span>
                   <span className='summary-list__value is-normal-color'>
                     {pDetails.name}
-                    <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
+                    {
+                      !isAdminGenerated &&
+                      <span className='ml-4'>
+                        {pDetails?.gender === 'male' ? '(남)' : '(여)'}
+                      </span>
+                    }
                   </span>
                 </div>
 
-                <div className='summary-list__item'>
-                  <span className='summary-list__label'>생년월일</span>
-                  <span className='summary-list__value is-normal-color'>
-                    {dobToString(pDetails.dob)}
-                  </span>
-                </div>
+                {
+                  !isAdminGenerated &&
+                  <div className='summary-list__item'>
+                    <span className='summary-list__label'>생년월일</span>
+                    <span className='summary-list__value is-normal-color'>
+                      {dobToString(pDetails.dob)}
+                    </span>
+                  </div>
+                }
 
                 <div className='summary-list__item'>
                   <span className='summary-list__label'>상담 날짜/시간</span>
@@ -196,12 +212,24 @@ export default function AdminManageReservationItem () {
                   </span>
                 </div>
 
-                <div className='summary-list__item'>
-                  <span className='summary-list__label'>총 결제금액</span>
-                  <span className='summary-list__value'>
-                    {formatMoney(data?.totalPrice || 0, { minimumFractionDigits: 0 })}
-                  </span>
-                </div>
+                {
+                  !isAdminGenerated &&
+                  <>
+                    <div className='summary-list__item'>
+                      <span className='summary-list__label'>총 결제금액</span>
+                      <span className='summary-list__value'>
+                        {formatMoney(data?.totalPrice || 0, { minimumFractionDigits: 0 })}
+                      </span>
+                    </div>
+
+                    <div className='summary-list__item'>
+                      <span className='summary-list__label'>총 인원</span>
+                      <span className='summary-list__value is-normal-color'>
+                        {`${pDetails.numAttendee}명`}
+                      </span>
+                    </div>
+                  </>
+                }
 
                 <div className='summary-list__item'>
                   <span className='summary-list__label'>상담 옵션</span>
@@ -217,49 +245,45 @@ export default function AdminManageReservationItem () {
                   </span>
                 </div>
 
-                <div className='summary-list__item'>
-                  <span className='summary-list__label'>총 인원</span>
-                  <span className='summary-list__value is-normal-color'>
-                    {`${pDetails.numAttendee}명`}
-                  </span>
-                </div>
+                {
+                  !isAdminGenerated &&
+                  <div className='summary-list__item is-column'>
+                    <span className='summary-list__label'>연락처</span>
 
-                <div className='summary-list__item is-column'>
-                  <span className='summary-list__label'>연락처</span>
+                    <div className='summary-list__sub-item'>
+                      <span className='sub-label'>핸드폰</span>
+                      <span className='sub-value'>{
+                        pDetails?.mobile?.number
+                          ? <CopyToClipboard textToCopy={combineMobile(pDetails.mobile)}>
+                              {combineMobile(pDetails.mobile)}
+                            </CopyToClipboard>
+                          : 'N/A'
+                      }</span>
+                    </div>
 
-                  <div className='summary-list__sub-item'>
-                    <span className='sub-label'>핸드폰</span>
-                    <span className='sub-value'>{
-                      pDetails?.mobile?.number
-                        ? <CopyToClipboard textToCopy={combineMobile(pDetails.mobile)}>
-                            {combineMobile(pDetails.mobile)}
-                          </CopyToClipboard>
-                        : 'N/A'
-                    }</span>
+                    <div className='summary-list__sub-item'>
+                      <span className='sub-label'>이메일</span>
+                      <span className='sub-value'>{
+                        pDetails?.email
+                          ? <CopyToClipboard textToCopy={pDetails?.email}>
+                              {pDetails?.email}
+                            </CopyToClipboard>
+                          : 'N/A'
+                      }</span>
+                    </div>
+
+                    <div className='summary-list__sub-item'>
+                      <span className='sub-label'>Kakao ID</span>
+                      <span className='sub-value'>{
+                        pDetails?.kakaoId
+                          ? <CopyToClipboard textToCopy={pDetails?.kakaoId}>
+                              {pDetails?.kakaoId}
+                            </CopyToClipboard>
+                          : 'N/A'
+                      }</span>
+                    </div>
                   </div>
-
-                  <div className='summary-list__sub-item'>
-                    <span className='sub-label'>이메일</span>
-                    <span className='sub-value'>{
-                      pDetails?.email
-                        ? <CopyToClipboard textToCopy={pDetails?.email}>
-                            {pDetails?.email}
-                          </CopyToClipboard>
-                        : 'N/A'
-                    }</span>
-                  </div>
-
-                  <div className='summary-list__sub-item'>
-                    <span className='sub-label'>Kakao ID</span>
-                    <span className='sub-value'>{
-                      pDetails?.kakaoId
-                        ? <CopyToClipboard textToCopy={pDetails?.kakaoId}>
-                            {pDetails?.kakaoId}
-                          </CopyToClipboard>
-                        : 'N/A'
-                    }</span>
-                  </div>
-                </div>
+                }
 
                 {
                   pDetails?.memo &&

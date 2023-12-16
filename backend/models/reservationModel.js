@@ -15,19 +15,18 @@ const ReservationSchema = new mongoose.Schema({
   },
   personalDetails: {
     name: { type: String, required: true },
-    gender: { type: String, required: true },
+    gender: { type: String },
     dob: {
       system: {
         type: String,
-        required: true,
         enum: {
           values: ['lunar', 'solar'],
           message: '{VALUE} is not supported'
         }
       },
-      year: { type: String, required: true },
-      month: { type: String, required: true },
-      date: { type: String, required: true }
+      year: { type: String },
+      month: { type: String },
+      date: { type: String }
     },
     numAttendee: {
       type: Number,
@@ -42,7 +41,7 @@ const ReservationSchema = new mongoose.Schema({
     email: String,
     memo: String
   },
-  totalPrice: { type: Number, required: true },
+  totalPrice: { type: Number },
   status: {
     type: String,
     default: 'pending',

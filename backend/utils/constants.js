@@ -62,6 +62,10 @@ const COUNSEL_OPTIONS_LIST = [
     price: 150000,
     additionalPrice: 50000,
     duration: 1
+  },
+  {
+    name: '관리자 생성 아이템',
+    id: 'admin-generated'
   }
 ]
 

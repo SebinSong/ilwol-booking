@@ -21,6 +21,12 @@ const adminNavList = [
     routeTo: '/admin/manage-reservation'
   },
   {
+    id: 'add-reservation-item',
+    name: '예약 생성',
+    icon: 'pencil',
+    routeTo: '/admin/add-reservation-item'
+  },
+  {
     id: 'manage-users',
     name: '유저 관리',
     icon: 'group',

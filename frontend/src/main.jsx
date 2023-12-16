@@ -26,6 +26,7 @@ import AdminInquiryDetails from '@pages/admin/inquiry-details/AdminInquiryDetail
 import AdminManageReservation from '@pages/admin/manage-reservation/AdminManageReservation'
 import AdminManageReservationItem from '@pages/admin/manage-reservation-item/AdminManageReservationItem'
 import AdminUpdateReservationItem from '@pages/admin/update-reservation-item/UpdateReservationItem'
+import AdminAddReservationItem from '@pages/admin/add-reservation-item/AdminAddReservationItem.jsx'
 import AdminManageUsers from '@pages/admin/manage-users/AdminManageUsers'
 
 
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/update-reservation-item/:id',
         element: <AdminUpdateReservationItem />
+      },
+      {
+        path: '/admin/add-reservation-item',
+        element: <AdminAddReservationItem />
       },
       {
         path: '/admin/manage-users',

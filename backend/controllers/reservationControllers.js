@@ -80,6 +80,7 @@ const getReservationById = asyncHandler(async (req, res, next) => {
 })
 
 const postReservation = asyncHandler(async (req, res, next) => {
+  const { admin } = req.query
   const {
     optionId,
     counselDate,
@@ -87,32 +88,37 @@ const postReservation = asyncHandler(async (req, res, next) => {
     personalDetails: pDetails,
     totalPrice
   } = req.body
+  const isAdminGenerated = Boolean(admin)
 
   // check required fields
   checkRequiredFieldsAndThrow(
     req,
     res,
-    ['optionId', 'counselDate', 'timeSlot', 'personalDetails', 'totalPrice']
+    isAdminGenerated
+      ? ['optionId', 'counselDate', 'timeSlot']
+      : ['optionId', 'counselDate', 'timeSlot', 'personalDetails', 'totalPrice']
   )
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
   const todayNumeric = dateObjToNum(new Date())
-  const hasMobileNumber = Boolean(pDetails.mobile?.number)
-  const existingReservation = await Reservation.findOne({ 
-    $or: [
-      { counselDate: counselDateNumeric, timeSlot },
-      optionId === 'overseas-counsel'
-        ? { 
-            'personalDetails.kakaoId': pDetails.kakaoId,
-            counselDate: { '$gte': todayNumeric }
-          }
-        : {
-            'personalDetails.mobile.prefix': pDetails.mobile.prefix,
-            'personalDetails.mobile.number': pDetails.mobile.number,
-            counselDate: { '$gte': todayNumeric }
-          }
-    ]
-  })
+  const hasMobileNumber = Boolean(pDetails?.mobile?.number)
+  const existingReservation = isAdminGenerated
+    ? await Reservation.findOne({ counselDate: counselDateNumeric, timeSlot })
+    : await Reservation.findOne({ 
+        $or: [
+          { counselDate: counselDateNumeric, timeSlot },
+          optionId === 'overseas-counsel'
+            ? {
+                'personalDetails.kakaoId': pDetails.kakaoId,
+                counselDate: { '$gte': todayNumeric }
+              }
+            : {
+                'personalDetails.mobile.prefix': pDetails.mobile.prefix,
+                'personalDetails.mobile.number': pDetails.mobile.number,
+                counselDate: { '$gte': todayNumeric }
+              }
+        ]
+      })
 
   const getReservationTime = () => `${counselDate} ${timeSlot}`
 
@@ -143,16 +149,28 @@ const postReservation = asyncHandler(async (req, res, next) => {
     )
   }
 
-  const newReservation = await Reservation.create({
-    optionId,
-    counselDate: counselDateNumeric,
-    timeSlot,
-    personalDetails: pDetails,
-    totalPrice,
-    status: 'pending'
-  })
+  const newReservation = isAdminGenerated
+    ? await Reservation.create({
+        optionId,
+        counselDate: counselDateNumeric,
+        timeSlot,
+        personalDetails: pDetails,
+        status: 'confirmed'
+      })
+    : await Reservation.create({
+        optionId,
+        counselDate: counselDateNumeric,
+        timeSlot,
+        personalDetails: pDetails,
+        totalPrice,
+        status: 'pending'
+      })
 
   res.status(201).json({ reservationId: newReservation._id })
+
+  if (isAdminGenerated) {
+    return next()
+  }
 
   // send a notification SMS to the customer (if they have provided a contact)
   if (hasMobileNumber) {

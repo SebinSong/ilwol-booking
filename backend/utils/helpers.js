@@ -55,6 +55,7 @@ const dateObjToNum = (date) => {
 }
 
 const numericDateToString = (dateNum) => {
+  // NOTE: dateNum arg only has to be numeric value!
   const s = dateNum.toString()
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }

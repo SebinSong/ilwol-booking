@@ -199,6 +199,8 @@ export default function AdminDashboard ({
         <span>대시보드</span>
       </h2>
 
+      <p className='admin-page-description'>관리자 콘솔 메인 페이지 입니다.</p>
+
       {
         feedbackEl ||
         <>

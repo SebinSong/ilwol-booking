@@ -140,6 +140,8 @@ export default function AdminManageUsers () {
           <span>유저 관리</span>
         </h2>
 
+        <p className='admin-page-description'>관리자 계정들을 한눈에 볼 수 있습니다.</p>
+
         {
           feedbackEl ||
           <>

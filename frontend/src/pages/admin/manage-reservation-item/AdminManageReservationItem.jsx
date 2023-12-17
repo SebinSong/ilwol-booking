@@ -129,7 +129,7 @@ export default function AdminManageReservationItem () {
 
   return (
     <AdminPageTemplate classes='page-admin-manage-reservation-item'>
-      <h2 className='admin-page-title'>
+      <h2 className='admin-page-title mb-40'>
         <i className='icon-clock is-prefix'></i>
         <span>예약 항목 보기</span>
       </h2>

@@ -93,6 +93,8 @@ export default function AdminAddReservationItem () {
         <span>예약 생성</span>
       </h2>
 
+      <p className='admin-page-description'>관리자가 임의로 예약 아이템을 생성합니다.</p>
+
       <div className='admin-add-reservation-item-content'>
         <form className='form-container' onSubmit={undefaultSubmit}>
           <div className='summary-list'>

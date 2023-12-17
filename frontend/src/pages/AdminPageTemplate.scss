@@ -14,12 +14,27 @@
     padding: 0.4rem 0.8rem;
     border: 1px solid $text_0;
     border-radius: 0.6rem;
-    margin-bottom: 4.2rem;
 
     i {
       display: inline-block;
       transform: translateY(1px) scale(1.02);
       margin-right: 0.6rem;
+    }
+  }
+
+  .admin-page-description {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: $text_dark_grey;
+
+    &::before {
+      @include has-icon;
+      content: "\e922";
+      margin-right: 0.4rem;
+      transform: translateY(1px);
     }
   }
 

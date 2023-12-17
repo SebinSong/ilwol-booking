@@ -62,7 +62,7 @@ export default function AdminInquiryDetails () {
 
   return (
     <AdminPageTemplate classes='page-admin-inquiry-details'>
-      <h2 className='admin-page-title'>
+      <h2 className='admin-page-title mb-40'>
         <i className='icon-chat-bubbles is-prefix'></i>
         <span>문의사항 내용</span>
       </h2>

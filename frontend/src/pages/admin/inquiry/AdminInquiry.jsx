@@ -91,6 +91,8 @@ export default function AdminInquiry ({ classes = '' }) {
         <span>고객 문의사항 리스트</span>
       </h2>
 
+      <p className='admin-page-description'>고객 문의사항 내역들을 한눈에 볼 수 있습니다.</p>
+
       <div className='page-admin-inquiry-content'>
         {
           feedbackEl

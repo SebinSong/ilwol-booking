@@ -49,6 +49,9 @@ const ReservationSchema = new mongoose.Schema({
       values: ['pending', 'confirmed', 'cancelled'],
       message: '{VALUE} is not supported'
     }
+  },
+  calendarEventId: {
+    type: String
   }
 })
 

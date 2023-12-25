@@ -2,6 +2,7 @@
 const { Reservation, ArchivedReservation } = require('../models/reservationModel')
 const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
+const { addEvent, updateEvent } = require('../external-services/google-calendar.js')
 
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
@@ -168,25 +169,39 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({ reservationId: newReservation._id })
 
-  if (isAdminGenerated) {
-    return next()
-  }
-
   // send a notification SMS to the customer (if they have provided a contact)
-  if (hasMobileNumber) {
+  if (!isAdminGenerated && hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
       message: `${pDetails.name}님, [${getReservationTime()}]으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
         '상담료 계좌이체를 해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
         `(예약내역 확인/이체정보/예약취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
     })
+    
+    // send another notification SMS to the admin contact
+    await sendSMS({
+      toAdmin: true,
+      message: `새로운 예약이 접수되었습니다. [${getReservationTime()}, ${getCounselTypeNameById(optionId)}] (링크: ${process.env.SITE_URL}/admin/manage-reservation)`
+    })
   }
 
-  // send another notification SMS to the admin contact
-  sendSMS({
-    toAdmin: true,
-    message: `새로운 예약이 접수되었습니다. [${getReservationTime()}, ${getCounselTypeNameById(optionId)}] (링크: ${process.env.SITE_URL}/admin/manage-reservation)`
+  // Add an event item to the Google calendar
+  addEvent({
+    date: counselDate,
+    timeSlot,
+    title: pDetails.name,
+    optionId
   })
+    .then(async ({ data }) => {
+      const eventId = data.id
+      await Reservation.findByIdAndUpdate(
+        newReservation._id,
+        { $set: { calendarEventId: eventId } }
+      )
+    })
+    .catch(err => {
+      console.log('@@ Failed to add an event item to the Google Calendar: ', err)
+    })
 })
 
 // A method for customers to use
@@ -314,9 +329,16 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
             ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
             : ''
 
-        message && sendSMS({
-          to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-          message
+        if (message) {
+          await sendSMS({
+            to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
+            message
+          })
+        }
+
+        doc.calendarEventId && updateEvent({
+          eventId: doc.calendarEventId,
+          statusTo: updates.status
         })
       }
     } catch (err) {

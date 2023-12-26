@@ -44,7 +44,10 @@ export default function CustomerReservationDetails () {
     data = {},
     isLoading,
     isError
-  } = useGetReservationDetails(reservationId)
+  } = useGetReservationDetails(
+    reservationId,
+    { refetchOnMountOrArgChange: true }
+  )
   const [
     deleteReservation,
     {

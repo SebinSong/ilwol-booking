@@ -1,4 +1,12 @@
-const { addEvent, authorize, deleteEvent, updateEvent } = require('./google-calendar.js')
+const {
+  addEvent,
+  authorize,
+  deleteEvent,
+  updateEventStatus,
+  getAllFutureEvents,
+  findEventItemByTime,
+  regenerateEventItem
+} = require('./google-calendar.js')
 const { google } = require('googleapis')
 
 async function main () {
@@ -11,7 +19,7 @@ async function main () {
     })
 
     const eventId = res.data.id
-    const res2 = await updateEvent({
+    const res2 = await updateEventStatus({
       eventId,
       statusTo: 'confirmed'
     })

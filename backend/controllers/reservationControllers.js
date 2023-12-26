@@ -2,7 +2,13 @@
 const { Reservation, ArchivedReservation } = require('../models/reservationModel')
 const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
-const { addEvent, updateEvent } = require('../external-services/google-calendar.js')
+const {
+  addEvent,
+  updateEventStatus,
+  deleteEvent,
+  findEventItemByTime,
+  regenerateEventItem
+} = require('../external-services/google-calendar.js')
 
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
@@ -13,7 +19,8 @@ const {
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
   sendResourceNotFound,
-  getCounselTypeNameById
+  getCounselTypeNameById,
+  mergeObjects
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -335,12 +342,10 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
             message
           })
         }
-
-        doc.calendarEventId && updateEvent({
-          eventId: doc.calendarEventId,
-          statusTo: updates.status
-        })
       }
+
+      const mergedDoc = mergeObjects(doc, updates)
+      regenerateEventItem(mergedDoc)
     } catch (err) {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')
@@ -365,6 +370,18 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     sendSMS({
       toAdmin: true,
       message: `고객이 예약을 취소하였습니다 - [${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
+    })
+
+    // delete the corresponding event item from the google calendar
+    findEventItemByTime({
+      counselDate: deletedReservation.counselDate,
+      timeSlot: deletedReservation.timeSlot 
+    }).then(res => {
+      if (res?.id) {
+        deleteEvent(res.id)
+      }
+    }).catch(err => {
+      console.log('Failed to find and delete an event item in deleteReservation - ', err)
     })
   }
 })

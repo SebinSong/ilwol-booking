@@ -205,3 +205,23 @@ export async function checkDateAndTimeAvailable (dateStr, timeSlot) {
     throw new Error('변경된 날짜/시간에 이미 예약 아이템이 있습니다.')
   }
 }
+
+function isMergeableObject (val) {
+  const nonNullObject = val && typeof val === 'object'
+
+  return nonNullObject &&
+    Object.prototype.toString.call(val) !== '[object RegExp]'&&
+    Object.prototype.toString.call(val) !== '[object Date]'
+}
+
+export function mergeObjects (obj, src) {
+  for (const key in src) {
+    const clone = isMergeableObject(src[key]) ? cloneDeep(src[key]) : undefined
+    if (clone && isMergeableObject(obj[key])) {
+      merge(obj[key], clone)
+      continue
+    }
+    obj[key] = clone || src[key]
+  }
+  return obj
+}

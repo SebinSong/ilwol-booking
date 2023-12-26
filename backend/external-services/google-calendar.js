@@ -3,7 +3,8 @@ const { resolve } = require('path')
 const dotenv = require('dotenv')
 const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
-const { getCounselTypeNameById } = require('../utils/helpers')
+const { getCounselTypeNameById, numericDateToString } = require('../utils/helpers')
+const { DAYS_MILLIS } = require('../utils/constants')
 
 // importing .env file
 dotenv.config({ path: resolve(__dirname, '../.env') })
@@ -80,15 +81,66 @@ async function generateTokenAndSave () {
   return client
 }
 
+async function getAllFutureEvents () {
+  try {
+    const auth = await authorize()
+    const calendar = google.calendar({
+      version: 'v3',
+      auth
+    })
+    const yesterday = new Date()
+    yesterday.setTime(yesterday.getTime() - DAYS_MILLIS)
+    
+    const res = await calendar.events.list({
+      calendarId: process.env.CALENDAR_ID,
+      singleEvents: true,
+      timeMin: yesterday.toISOString(),
+      orderBy: 'startTime'
+    })
+
+    return res?.data?.items || []
+  } catch (err) {
+    console.log(`::: Failed to delete an event item - `, err)
+  }
+}
+
+async function findEventItemByTime ({
+  counselDate, timeSlot
+}) {
+  if (counselDate || timeSlot) {
+    counselDate = (typeof counselDate === 'string')
+      ? counselDate
+      : numericDateToString(counselDate)
+
+    try {
+      const list = await getAllFutureEvents()
+      const found = list.find(entry => {
+        const summary = entry.summary || ''
+        const startDate = entry.start?.date || ''
+  
+        return startDate === counselDate && (summary.includes(timeSlot))
+      })
+  
+      return found || null
+    } catch (err) {
+      console.log('@@ failed to find an item by time - ', err)
+    }
+  }
+
+  return null
+}
+
 async function addEvent ({
-  date, timeSlot, optionId, title, isConfirmed = false
+  date, timeSlot, optionId, title, status, isConfirmed = false
 }) {
   const eventObj = {
     summary: `${timeSlot} ${title}`,
     description: getCounselTypeNameById(optionId),
     start: { date },
     end: { date },
-    colorId: isConfirmed ? 2: 5 // reference: https://lukeboyle.com/blog/posts/google-calendar-api-color-id
+    colorId: status
+      ? colorIdMap[status]
+      : isConfirmed ? 2 : 5 // reference: https://lukeboyle.com/blog/posts/google-calendar-api-color-id
   }
 
   try {
@@ -128,7 +180,7 @@ async function deleteEvent (eventId) {
   }
 }
 
-async function updateEvent ({
+async function updateEventStatus ({
   eventId, statusTo
 }) {
   const colorIdTo = colorIdMap[statusTo] || 5
@@ -153,10 +205,34 @@ async function updateEvent ({
   }
 }
 
+async function regenerateEventItem (reservation) {
+  const { timeSlot, optionId, personalDetails, status } = reservation
+  const counselDate = (typeof reservation.counselDate === 'string')
+    ? reservation.counselDate
+    : numericDateToString(reservation.counselDate)
+
+  const existingDoc = await findEventItemByTime({ counselDate, timeSlot })
+
+  if (existingDoc) {
+    await deleteEvent(existingDoc.id)
+  }
+
+  const res = await addEvent({
+    date: counselDate,
+    timeSlot, optionId, status,
+    title: personalDetails?.name
+  })
+
+  return res
+}
+
 module.exports = {
   generateTokenAndSave,
   authorize,
   addEvent,
   deleteEvent,
-  updateEvent
+  getAllFutureEvents,
+  findEventItemByTime,
+  updateEventStatus,
+  regenerateEventItem
 }

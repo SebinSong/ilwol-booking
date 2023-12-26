@@ -79,8 +79,32 @@ const randomFromArray = arr => {
   return arr[selectedIndex]
 }
 
-const  getCounselTypeNameById = (targetId) => {
+const getCounselTypeNameById = (targetId) => {
   return COUNSEL_OPTIONS_LIST.find(x => x.id === targetId)?.name || ''
+}
+
+const cloneDeep = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+const isMergeableObject = (val) => {
+  const nonNullObject = val && typeof val === 'object'
+
+  return nonNullObject &&
+    Object.prototype.toString.call(val) !== '[object RegExp]'&&
+    Object.prototype.toString.call(val) !== '[object Date]'
+}
+
+const mergeObjects = (obj, src) => {
+  for (const key in src) {
+    const clone = isMergeableObject(src[key]) ? cloneDeep(src[key]) : undefined
+    if (clone && isMergeableObject(obj[key])) {
+      merge(obj[key], clone)
+      continue
+    }
+    obj[key] = clone || src[key]
+  }
+  return obj
 }
 
 module.exports = {
@@ -95,5 +119,7 @@ module.exports = {
   addDaysToDate,
   randomIntBetweenRange,
   randomFromArray,
-  getCounselTypeNameById
+  getCounselTypeNameById,
+  mergeObjects,
+  cloneDeep
 }

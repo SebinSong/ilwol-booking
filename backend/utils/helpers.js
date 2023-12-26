@@ -38,6 +38,7 @@ const checkRequiredFieldsAndThrow = (req, res, keys = []) => {
 }
 
 const stringifyDate = (date) => {
+  // NOTE: passing a numeric date to this func will fail. use numericDateToString() below instead in that case.
   const d = new Date(date)
   const year = d.getFullYear()
   const month = ('0' + (1 + d.getMonth())).slice(-2)
@@ -88,6 +89,7 @@ const cloneDeep = (obj) => {
 }
 
 const isMergeableObject = (val) => {
+  // check if a value is mergable via Object.assign() or anything.
   const nonNullObject = val && typeof val === 'object'
 
   return nonNullObject &&

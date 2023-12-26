@@ -3,21 +3,21 @@ const { resolve } = require('path')
 const dotenv = require('dotenv')
 const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
-const { getCounselTypeNameById, numericDateToString } = require('../utils/helpers')
+const { getCounselTypeNameById, numericDateToString, stringToBase64, base64ToString } = require('../utils/helpers')
 const { DAYS_MILLIS } = require('../utils/constants')
 
 // importing .env file
 dotenv.config({ path: resolve(__dirname, '../.env') })
 
 const scopes = [
-  // If modifying these scopes, delete token.json
+  // If modifying these scopes, delete the token file
   'https://www.googleapis.com/auth/calendar'
 ]
 const paths = {
   // The file token.json stores the user's access and refresh tokens, and is
   // created automatically when the authorization flow completes for the first
   // time.
-  token: resolve(__dirname, '../utils/token.json'),
+  token: resolve(__dirname, '../utils/gt.txt'),
   credentials: resolve(__dirname, '../utils/credentials.json')
 }
 const colorIdMap = {
@@ -31,11 +31,14 @@ let auth = null
 // Reads previously authorized credentials from the save file.
 async function loadSavedCredentialsIfExist () {
   try {
-    const content = await fs.readFile(paths.token)
-    const credentials = JSON.parse(content)
+    let content = await fs.readFile(paths.token)
 
-    auth = await google.auth.fromJSON(credentials)
-    return auth
+    if (content) {
+      const credentials = JSON.parse(base64ToString(content))
+
+      auth = await google.auth.fromJSON(credentials)
+      return auth
+    } else { return null }
   } catch (err) {
     return null
   }
@@ -53,7 +56,7 @@ async function saveCredentials (client) {
     refresh_token: client.credentials.refresh_token
   })
 
-  await fs.writeFile(paths.token, payload)
+  await fs.writeFile(paths.token, stringToBase64(payload))
 }
 
 // Load an authorization to call APIs

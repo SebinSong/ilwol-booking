@@ -107,6 +107,26 @@ const mergeObjects = (obj, src) => {
   return obj
 }
 
+const stringToBase64 = (inputString) => {
+  // Using encodeURIComponent to handle non-ASCII characters
+  const encodedString = encodeURIComponent(inputString)
+      .replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16)))
+  
+  // Using btoa function to encode the string to base64
+  const base64String = btoa(encodedString)
+  return base64String
+}
+
+const base64ToString = (base64String) => {
+  // Using atob function to decode the base64 string
+  const decodedString = atob(base64String)
+  
+  // Using decodeURIComponent to handle non-ASCII characters
+  const originalString = decodeURIComponent(decodedString)
+  
+  return originalString
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -121,5 +141,7 @@ module.exports = {
   randomFromArray,
   getCounselTypeNameById,
   mergeObjects,
-  cloneDeep
+  cloneDeep,
+  stringToBase64,
+  base64ToString
 }

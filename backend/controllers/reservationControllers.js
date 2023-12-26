@@ -356,6 +356,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
 // Delete a reservation (for the customer to use)
 const deleteReservation = asyncHandler(async (req, res, next) => {
   const { id: reservationId } = req.params
+  const { admin } = req.query
   const deletedReservation = await Reservation.findByIdAndDelete(reservationId)
 
   if (!deletedReservation) {
@@ -367,10 +368,12 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     })
 
     // send another notification SMS to the admin contact
-    sendSMS({
-      toAdmin: true,
-      message: `고객이 예약을 취소하였습니다 - [${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
-    })
+    if (!Boolean(admin)) {
+      sendSMS({
+        toAdmin: true,
+        message: `고객이 예약을 취소하였습니다 - [${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
+      })  
+    }
 
     // delete the corresponding event item from the google calendar
     findEventItemByTime({

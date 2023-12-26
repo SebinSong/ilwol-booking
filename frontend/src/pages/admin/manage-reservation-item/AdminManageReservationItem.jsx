@@ -10,7 +10,7 @@ import StateButton from '@components/state-button/StateButton'
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
-import { useUpdateReservationDetails } from '@store/features/adminApiSlice.js'
+import { useUpdateReservationDetails, useAdminDeleteReservation } from '@store/features/adminApiSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 
 // utils
@@ -70,6 +70,12 @@ export default function AdminManageReservationItem () {
       isError: isReservationDetailsError
     }
   ] = useUpdateReservationDetails()
+  const [
+    deleteReservation,
+    {
+      isLoading: isDeletingReservation
+    }
+  ] = useAdminDeleteReservation()
 
   // computed state
   const isAdminGenerated = data?.optionId === 'admin-generated'
@@ -106,9 +112,33 @@ export default function AdminManageReservationItem () {
       console.error('AdminManageReservationItem.jsx caught: ', err)
 
       addToastItem({
-        type: 'success',
+        type: 'warning',
         heading: '업데이트 실패!',
         content: '예약 상태 업데이트중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+      })
+    }
+  }
+  const onDeleteBtnClick = async () => {
+    if (!window.confirm('예약 아이템을 제거하시겠습니까? 데이터는 완전히 사라지며, 복구할 수 없습니다.')) { return } // @@@
+
+    try {
+      const res = await deleteReservation(reservationId).unwrap()
+
+      if (res.deletedId) {
+        addToastItem({
+          type: 'success',
+          heading: '예약 삭제!',
+          content: '예약 아이템이 제거되었습니다.'
+        })
+        navigate(-1)
+      }
+    } catch (err) {
+      console.error('AdminManageReservationItem.jsx caught: ', err)
+
+      addToastItem({
+        type: 'warning',
+        heading: '제거 실패!',
+        content: '예약 아이템 제거중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
       })
     }
   }
@@ -162,13 +192,19 @@ export default function AdminManageReservationItem () {
             <div className='reservation-details-container mt-20'>
               <div className='summary-list'>
                 <div className='summary-list__title c-table-title'>
-                  <span>예약 상세 내역</span>
+                  <span className='mr-4'>예약 상세 내역</span>
 
                   {
                     !isAdminGenerated &&
                     <button className='is-secondary is-table-btn ml-4'
-                      onClick={onModifyBtnClick}>예약 내용 수정</button>
+                      onClick={onModifyBtnClick}>수정</button>
                   }
+
+                  <button className='is-warning is-table-btn ml-4'
+                    onClick={onDeleteBtnClick}
+                    disabled={isDeletingReservation}>
+                    제거
+                  </button>
                 </div>
 
                 <div className='summary-list__item'>

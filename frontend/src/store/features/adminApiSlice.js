@@ -95,6 +95,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           body: data
         }),
         invalidatesTags: ['Reservations']
+      }),
+
+      adminDeleteReservation: builder.mutation({
+        query: reservationId => ({
+          url: `${RESERVATION_PATH}/${reservationId}?admin=true`,
+          method: 'DELETE' 
+        }),
+        invalidatesTags: ['Reservations']
       })
     }
   }
@@ -157,5 +165,6 @@ export const {
   useGetAdminReservationsMutation: useGetAdminReservations,
   useUpdateReservationDetailsMutation: useUpdateReservationDetails,
   useArchiveOldReservationsMutation: useArchiveOldReservations,
-  useCreateAdminReservationMutation: useCreateAdminReservation
+  useCreateAdminReservationMutation: useCreateAdminReservation,
+  useAdminDeleteReservationMutation: useAdminDeleteReservation
 } = adminApiSlice

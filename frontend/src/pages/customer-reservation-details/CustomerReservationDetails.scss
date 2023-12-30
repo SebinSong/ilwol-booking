@@ -10,7 +10,11 @@
   .content-container {
     position: relative;
     @include vertical-flex;
-    margin-top: 2rem;
+
+    margin-top: 0;
+    @include from ($large-phone) {
+      margin-top: 2rem;
+    }
 
     &.is-success > * {
       opacity: 0;
@@ -54,7 +58,7 @@
     position: relative;
     width: 100%;
     max-width: 38rem;
-    margin-top: 4rem;
+    margin-top: 3rem;
   }
 
   .more-attendee {
@@ -68,7 +72,6 @@
     @include vertical-flex;
     width: 100%;
     max-width: 38rem;
-    margin-top: 3rem;
     margin-bottom: 1rem;
 
     p {

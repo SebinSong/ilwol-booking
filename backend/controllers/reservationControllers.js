@@ -14,7 +14,6 @@ const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateToNumeric,
   dateObjToNum,
-  stringifyDate,
   numericDateToString,
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
@@ -328,7 +327,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       if (isUpdatingStatus &&
         Boolean(doc.personalDetails?.mobile?.number)) {
         const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
-        const reservationTime = `${stringifyDate(counselDate)} ${timeSlot}`
+        const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
         const typeName = getCounselTypeNameById(optionId)
         const message = updates.status === 'confirmed'
           ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 '예약확정'되었습니다. 감사합니다.`

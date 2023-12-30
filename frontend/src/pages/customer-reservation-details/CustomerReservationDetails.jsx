@@ -117,7 +117,7 @@ export default function CustomerReservationDetails () {
       <PageTemplate classes='page-customer-reservation-details'>
         <div className='page-width-constraints content-container is-success'>
           <div className='page-header'>
-            <RocketIcon classes='page-icon' width='108' />
+            <RocketIcon classes='page-icon' width='96' />
   
             <h3 className='is-title-3'>
               <span>고객님의 예약은 현재 </span>
@@ -166,8 +166,19 @@ export default function CustomerReservationDetails () {
           {
             isStatusPending
             ? <>
-                <div className='bank-transfer-details'>
-                  <div className='things-to-note mb-30'>
+                <div className='bank-transfer-details mt-10'>
+                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
+
+                  <CopyToClipboard classes='copy-bank-transfer-details mb-30'
+                    textToCopy='제일은행 김은숙 635 20 144462'
+                    toastOpt={{
+                      heading: '계좌정보 복사.',
+                      content: '클립보드에 저장 되었습니다.'
+                    }}>
+                    <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
+                  </CopyToClipboard>
+
+                  <div className='things-to-note'>
                     <h3 className='note-title'>
                       <i className='icon-triangle-exclamation mr-4'></i>
                       계좌이체 유의사항
@@ -188,17 +199,6 @@ export default function CustomerReservationDetails () {
                       </li>
                     </ul>
                   </div>
-
-                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
-
-                  <CopyToClipboard classes='copy-bank-transfer-details'
-                    textToCopy='제일은행 김은숙 635 20 144462'
-                    toastOpt={{
-                      heading: '계좌정보 복사.',
-                      content: '클립보드에 저장 되었습니다.'
-                    }}>
-                    <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
-                  </CopyToClipboard>
                 </div>
 
                 <div className='buttons-container c-btn-container'>
@@ -215,7 +215,7 @@ export default function CustomerReservationDetails () {
                 </div>
               </>
             : isStatusConfirmed
-              ? <div className='inquiry-instruction'>
+              ? <div className='inquiry-instruction mt-30'>
                   <p>예약 날 뵙겠습니다. 문의사항이 있으시면, 선녀님께 
                     <span className='ml-4 has-text-bold'>카톡</span>
                     이나 

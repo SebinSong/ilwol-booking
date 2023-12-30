@@ -85,15 +85,6 @@ $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
   font-weight: bold !important;
 }
 
-.has-text-serif {
-  font-family: "Noto Serif KR";
-  font-weight: 500;
-
-  &.is-bold {
-    font-weight: 900;
-  }
-}
-
 .text-align-center {
   text-align: center;
 }

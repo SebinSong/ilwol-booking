@@ -46,15 +46,6 @@ const COUNSEL_OPTIONS_LIST = [
     duration: 1
   },
   {
-    name: '커플 궁합 상담',
-    id: 'couple-counsel',
-    type: 'group',
-    description: '2인 커플의 사주, 궁합 및 결혼운 등을 주제로 신점 상담합니다.',
-    price: 150000,
-    additionalPrice: 0,
-    duration: 0.5
-  },
-  {
     name: '가족/그룹 상담',
     id: 'family-counsel',
     type: 'group',

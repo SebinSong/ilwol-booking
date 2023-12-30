@@ -2,6 +2,12 @@ import React from 'react'
 import { formatMoney, classNames as cn } from '@utils'
 import './OptionCard.scss'
 
+const iconClassMap = {
+  'individual-counsel': 'icon-user',
+  'overseas-counsel': 'icon-chat-bubbles',
+  'family-counsel': 'icon-group'
+}
+
 function OptionCard ({
   classes = '',
   isSelected = false,
@@ -13,14 +19,14 @@ function OptionCard ({
   id = '',
   onSelect = null
 }) {
-  const iconClass = type === 'individual' ? 'icon-user' : 'icon-group'
+  const iconClass = iconClassMap[id] || 'icon-user'
 
   return (
     <div className={cn(
         'option-card',
         classes,
         isSelected && 'is-selected',
-        'is-type-' + type
+        'is-option-' + id
       )}
       onClick={() => { onSelect && onSelect(id) }}
     >

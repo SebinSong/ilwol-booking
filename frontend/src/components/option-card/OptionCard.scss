@@ -36,11 +36,15 @@
     box-shadow: $box-shadow_light;
 
     i {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: bold;
       line-height: 1;
       color: $text_1;
       opacity: 0.9;
+
+      &.icon-chat-bubbles {
+        font-size: 1.8rem;
+      }
     }
   }
 
@@ -84,11 +88,19 @@
     height: max-content;
   }
 
-  &.is-type-group {
-    background-color: $success-bg;
+  &.is-option-family-counsel {
+    background-color: $validation-bg;
 
     .option-card__icon {
-      background-color: $success;
+      background-color: $validation;
+    }
+  }
+
+  &.is-option-overseas-counsel {
+    background-color: $ilwol-purple-bg;
+
+    .option-card__icon {
+      background-color: $ilwol-purple;
     }
   }
 }

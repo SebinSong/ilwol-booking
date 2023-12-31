@@ -21,6 +21,14 @@
       width: 27%;
       min-width: 5.8rem;
     }
+
+    .year-select {
+      min-width: 12rem;
+
+      @include smallphone {
+        min-width: 10rem;
+      }
+    }
   }
 
   .contact-field {

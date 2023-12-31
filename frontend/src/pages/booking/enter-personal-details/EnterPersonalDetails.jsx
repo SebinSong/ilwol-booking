@@ -20,6 +20,9 @@ import './EnterPersonalDetails.scss'
 const { WarningMessage } = React.Global
 
 // helper
+const thisYear = (new Date()).getFullYear()
+const yearOptions = Array.from(new Array(90), (v, index) => (thisYear - 10 - index) + '') // Age limit: MIN - 10 yrs old , MAX - 100 yrs old
+
 const isNumberLessThan = (val, num) => Boolean(val.length) && parseInt(val) > 0 && parseInt(val) < num
 
 export default function EnterPersonalDetails () {
@@ -45,7 +48,7 @@ export default function EnterPersonalDetails () {
     gender: detailsInStore?.gender || '',
     dob: detailsInStore?.dob || {
       system: 'lunar',
-      year: '',
+      year: 'year-str',
       month: '',
       date: ''
     },
@@ -99,10 +102,10 @@ export default function EnterPersonalDetails () {
     },
     {
       key: 'dob',
-      check: ({ year, month, date }) => year.length === 4 &&
+      check: ({ year, month, date }) => year !== 'year-str' &&
         isNumberLessThan(month, 13) &&
         isNumberLessThan(date, 32),
-      errMsg: '생년월일을 바로 입력하세요. (연도 4자, 월/일 2자 이내)'
+      errMsg: '생년월일을 바로 입력하세요. (연도 선택 및, 월/일 2자 이내)'
     }
   ])
 
@@ -232,10 +235,11 @@ export default function EnterPersonalDetails () {
             <span className='mandatory'>{'(필수)'}</span>
           </span>
 
-          <div className='dob-group'>
+          <div className='dob-group' tabIndex='0'>
             <div className='selectgroup dob-group__year'>
               <div className='selectbox'>
                 <select className='select'
+                  data-vkey='dob'
                   tabIndex='0'
                   value={details.dob.system}
                   onChange={updateDobFactory('system')}>
@@ -244,13 +248,19 @@ export default function EnterPersonalDetails () {
                 </select>
               </div>
 
-              <input type='text' className='input'
-                inputMode='numeric'
-                data-vkey='dob'
-                value={details.dob.year}
-                onInput={updateDobFactory('year', true)}
-                maxLength={4}
-                placeholder='년도' />
+              <div className='selectbox'>
+                <select className='select select--second year-select'
+                  tabIndex='0'
+                  value={details.dob.year}
+                  onChange={updateDobFactory('year', false)}>
+                  <option value='year-str'>년도</option>
+                  {
+                    yearOptions.map(
+                      yearVal => <option key={yearVal} value={yearVal}>{yearVal}</option>
+                    )
+                  }
+                </select>
+              </div>
             </div>
 
             <div className='dob-group__month'>

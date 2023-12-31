@@ -44,6 +44,27 @@
       padding-left: 0.4rem;
       margin-bottom: 0.4rem;
     }
+
+    &__mobile-container {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      gap: 0.6rem;
+
+      .mobile-number-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-grow: 1;
+
+        .dash-sign {
+          display: inline-block;
+          font-size: $size_5;
+          margin: 0 0.4rem;
+        }
+      }
+    }
   }
 
   .num-attendee-select {

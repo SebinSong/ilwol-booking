@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useImmer } from 'use-immer'
@@ -24,6 +24,16 @@ const thisYear = (new Date()).getFullYear()
 const yearOptions = Array.from(new Array(90), (v, index) => (thisYear - 10 - index) + '') // Age limit: MIN - 10 yrs old , MAX - 100 yrs old
 
 const isNumberLessThan = (val, num) => Boolean(val.length) && parseInt(val) > 0 && parseInt(val) < num
+const splitMobileNumber = (val = '', key = 'first') => {
+  if (!val) { return '' }
+
+  val = new String(val)
+  const middle = val.length < 8 ? 3 : 4
+  const first = val.slice(0, middle)
+  const second = val.slice(middle, val.length)
+
+  return key === 'second' ? second : first
+}
 
 export default function EnterPersonalDetails () {
   const navigate = useNavigate()
@@ -43,6 +53,12 @@ export default function EnterPersonalDetails () {
   const isGroupOption = optionType === 'group'
   const numAttendeeOptions = isGroupOption ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
+  const [mobileFirst, setMobileFirst] = useState(
+    detailsInStore?.mobile?.number ? splitMobileNumber(detailsInStore.mobile.number, 'first') : ''
+  )
+  const [mobileSecond, setMobileSecond] = useState(
+    detailsInStore?.mobile?.number ? splitMobileNumber(detailsInStore.mobile.number, 'second') : ''
+  )
   const [details, setDetails] = useImmer({
     name: detailsInStore?.name || '',
     gender: detailsInStore?.gender || '',
@@ -106,6 +122,11 @@ export default function EnterPersonalDetails () {
         isNumberLessThan(month, 13) &&
         isNumberLessThan(date, 32),
       errMsg: '생년월일을 바로 입력하세요. (연도 선택 및, 월/일 2자 이내)'
+    },
+    {
+      key: 'mobile',
+      check: () => mobileFirst.length >=3 && mobileSecond.length >= 3,
+      errMsg: '핸드폰 번호를 바로 입력해 주세요. (각각 3자리 숫자 이상)'
     }
   ])
 
@@ -138,11 +159,25 @@ export default function EnterPersonalDetails () {
     return e => {
       const val = e.target.value
 
-      if (key === 'number' && !isStringNumberOnly(val)) { return }
+      if (['number-first', 'number-second'].includes(key) &&
+        !isStringNumberOnly(val)) { return }
 
-      setDetails(draft => {
-        draft.mobile[key] = val
-      })
+      switch (key) {
+        case 'prefix': {
+          setDetails(draft => {
+            draft.mobile.prefix = val
+          })
+          break
+        }
+        case 'number-first': {
+          setMobileFirst(val)
+          break
+        }
+        case 'number-second': {
+          setMobileSecond(val)
+          break
+        }
+      }
 
       if (formError?.errKey === 'mobile') { clearFormError() }
     }
@@ -172,6 +207,12 @@ export default function EnterPersonalDetails () {
   useEffect(() => {
     checkStepStateAndGo('date-and-time')
   }, [])
+
+  useEffect(() => {
+    setDetails(draft => {
+      draft.mobile.number = mobileFirst + mobileSecond
+    })
+  }, [mobileFirst, mobileSecond])
 
   return (
     <div className='enter-personal-details page-form-constraints'>
@@ -309,7 +350,7 @@ export default function EnterPersonalDetails () {
                   <div className='contact-field'>
                     <span className='contact-field__label'>핸드폰</span>
 
-                    <div className='selectgroup'>
+                    <div className='contact-field__mobile-container'>
                       <div className='selectbox'>
                         <select className='select'
                           value={details.mobile?.prefix}
@@ -320,16 +361,27 @@ export default function EnterPersonalDetails () {
                         </select>
                       </div>
 
-                      <input type='text' className='input'
-                        value={details.mobile.number}
-                        onInput={updateMobileFactory('number')}
-                        maxLength={10}
-                        inputMode='numeric'
-                        placeholder='번호를 입력하세요' />
-                    </div>
+                      <div className='mobile-number-wrapper'>
+                        <input type='text' className='input'
+                          value={mobileFirst}
+                          onInput={updateMobileFactory('number-first')}
+                          maxLength={4}
+                          inputMode='numeric'
+                          placeholder='예) 123, 1234' />
 
-                    <p className='helper info'>띄어쓰기 또는 "-" 없이 숫자만 입력해 주세요.</p>
+                        <span className='dash-sign'>-</span>
+
+                        <input type='text' className='input'
+                          value={mobileSecond}
+                          onInput={updateMobileFactory('number-second')}
+                          maxLength={4}
+                          inputMode='numeric'
+                          placeholder='예) 1234' />
+                      </div>
+                    </div>
                   </div>
+
+                  <WarningMessage toggle={isErrorActive('mobile')} message={formError?.errMsg} />
                 </>
           }
 

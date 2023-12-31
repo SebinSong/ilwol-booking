@@ -22,9 +22,9 @@ const paths = {
 }
 const colorIdMap = {
   // reference: https://lukeboyle.com/blog/posts/google-calendar-api-color-id
-  'confirmed': 2,
-  'pending': 5,
-  'cancelled': 11
+  'confirmed': 9, // blueberry
+  'pending': 10, // basil
+  'cancelled': 11 // tomato
 }
 let auth = null
 
@@ -143,7 +143,7 @@ async function addEvent ({
     end: { date },
     colorId: status
       ? colorIdMap[status]
-      : isConfirmed ? 2 : 5 // reference: https://lukeboyle.com/blog/posts/google-calendar-api-color-id
+      : isConfirmed ? 9 : 10 // reference: https://lukeboyle.com/blog/posts/google-calendar-api-color-id
   }
 
   try {

@@ -4,7 +4,6 @@ const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
 const {
   addEvent,
-  updateEventStatus,
   deleteEvent,
   findEventItemByTime,
   regenerateEventItem

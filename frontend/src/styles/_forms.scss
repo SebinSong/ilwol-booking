@@ -293,7 +293,8 @@ $form-border: 1rem;
     border-radius: $form-border 0 0 $form-border;
   }
 
-  .input {
+  .input,
+  .select--second {
     flex-grow: 1;
     border-radius: 0 $form-border $form-border 0;
   }

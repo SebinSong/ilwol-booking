@@ -125,7 +125,7 @@ export default function EnterPersonalDetails () {
     },
     {
       key: 'mobile',
-      check: () => mobileFirst.length === 4 && mobileSecond.length === 4,
+      check: () => optionId !== 'overseas-counsel' || (mobileFirst.length === 4 && mobileSecond.length === 4),
       errMsg: '핸드폰 번호를 바로 입력해 주세요. (각각 4자리)'
     }
   ])

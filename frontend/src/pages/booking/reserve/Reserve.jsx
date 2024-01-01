@@ -106,7 +106,7 @@ export default function ConfirmAndPayment () {
         <div className='confirm-page__details-item'>
           <span className='label'>상담 종류:</span>
           <span className='details-value has-text-bold'>
-            {counselOption.name}
+            {counselOption?.name}
 
             <button className='is-secondary is-small modify-btn'
               onClick={navigateFactory('/booking/counsel-option')}>변경</button>
@@ -148,7 +148,7 @@ export default function ConfirmAndPayment () {
             {
               numAttendeeSelectable && additionalFee > 0
               ? <span className='family-counsel-price-info'>
-                  {`(${displayMoney(defaultPrice)} + ${additionalAttendee} x ${displayMoney(counselOption.additionalPrice)})`}
+                  {`(${displayMoney(defaultPrice)} + ${additionalAttendee} x ${displayMoney(counselOption?.additionalPrice)})`}
                 </span>
               : null
             }

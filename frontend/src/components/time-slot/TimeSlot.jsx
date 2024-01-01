@@ -11,9 +11,25 @@ export default function TimeSlot ({
   disabledSlots = [],
   value = '',
   onSelect = null,
-  classes = ''
+  classes = '',
+  isOverseasOption = false
 }) {
   const rootEl = useRef(null)
+  const ctcOptions = isOverseasOption
+    ? {
+        textToCopy: 'dragonrex',
+        toastOpt: {
+          heading: '카카오 ID 복사',
+          content: '클립보드에 저장 되었습니다.'
+        }
+      }
+    : {
+        textToCopy: '01095398700',
+        toastOpt: {
+          heading: '연락처 복사',
+          content: '클립보드에 저장 되었습니다.'
+        }
+      }
 
   // methods
   const genEntryClass = target => {
@@ -53,16 +69,12 @@ export default function TimeSlot ({
       </div>
 
       <div className='time-slot-info mt-20'>
-        해당 슬롯 이외의 시간에 상담을 원하시면, 선녀님께
+        제시된 시간 외의 상담 문의는, 선녀님께
         <CopyToClipboard classes='kakao-id-copy'
-          textToCopy='dragonrex'
-          toastOpt={{
-            heading: '카카오 ID 복사',
-            content: '선녀님 카카오 ID가 클립보드에 저장 되었습니다.'
-          }}>
-          카톡
+          {...ctcOptions}>
+          { isOverseasOption ? '카톡' : '문자'}
         </CopyToClipboard>
-        으로 문의 바랍니다.
+         주세요.
       </div>
     </div>
   )

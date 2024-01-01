@@ -11,7 +11,9 @@
   overflow-x: auto;
   overflow-y: auto;
 
-  > * {
+  > .app-toolbar,
+  > .l-page,
+  > .toast-container {
     min-width: 32rem;
   }
 

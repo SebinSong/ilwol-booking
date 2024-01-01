@@ -123,12 +123,12 @@ export default function EnterPersonalDetails () {
         isNumberLessThan(date, 32),
       errMsg: '생년월일을 바로 입력하세요. (연도 선택 및, 월/일 2자 이내)'
     },
-    {
+    optionId !== 'overseas-counsel' && {
       key: 'mobile',
-      check: () => optionId !== 'overseas-counsel' || (mobileFirst.length === 4 && mobileSecond.length === 4),
+      check: () => mobileFirst.length === 4 && mobileSecond.length === 4,
       errMsg: '핸드폰 번호를 바로 입력해 주세요. (각각 4자리)'
     }
-  ])
+  ].filter(Boolean))
 
   // methods
   const updateFactory = key => {

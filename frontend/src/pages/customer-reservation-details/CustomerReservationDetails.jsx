@@ -141,10 +141,13 @@ export default function CustomerReservationDetails () {
                 </span>
               </div>
   
-              <div className='summary-list__item'>
-                <span className='summary-list__label'>상담 옵션</span>
-                <span className='summary-list__value'>{bookingOption.name}</span>
-              </div>
+              {
+                bookingOption &&
+                <div className='summary-list__item'>
+                  <span className='summary-list__label'>상담 옵션</span>
+                  <span className='summary-list__value'>{bookingOption.name}</span>
+                </div>
+              }
   
               <div className='summary-list__item'>
                 <span className='summary-list__label'>날짜/시간</span>

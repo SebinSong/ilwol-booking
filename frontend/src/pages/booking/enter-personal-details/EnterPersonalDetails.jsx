@@ -125,8 +125,8 @@ export default function EnterPersonalDetails () {
     },
     {
       key: 'mobile',
-      check: () => mobileFirst.length >=3 && mobileSecond.length >= 3,
-      errMsg: '핸드폰 번호를 바로 입력해 주세요. (각각 3자리 숫자 이상)'
+      check: () => mobileFirst.length === 4 && mobileSecond.length === 4,
+      errMsg: '핸드폰 번호를 바로 입력해 주세요. (각각 4자리)'
     }
   ])
 
@@ -367,7 +367,7 @@ export default function EnterPersonalDetails () {
                           onInput={updateMobileFactory('number-first')}
                           maxLength={4}
                           inputMode='numeric'
-                          placeholder='예) 123, 1234' />
+                          placeholder='예) 1234' />
 
                         <span className='dash-sign'>-</span>
 

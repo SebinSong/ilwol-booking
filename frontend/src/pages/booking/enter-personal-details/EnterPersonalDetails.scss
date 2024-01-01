@@ -20,6 +20,10 @@
     &__date {
       width: 27%;
       min-width: 5.8rem;
+
+      @include until (300px) {
+        min-width: 4.6rem;
+      }
     }
 
     .year-select {
@@ -27,6 +31,10 @@
 
       @include smallphone {
         min-width: 10rem;
+      }
+
+      @include until (300px) {
+        min-width: 8.6rem;
       }
     }
   }

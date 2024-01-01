@@ -16,8 +16,6 @@ export const DEFAULT_TIME_SLOTS = [
 export const MOBILE_PREFIXES = [
   '010',
   '011',
-  '016',
-  '017',
   '018',
   '019'
 ]

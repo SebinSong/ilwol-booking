@@ -8,8 +8,12 @@
   grid-template-areas:
     "l-toolbar"
     "l-page";
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
+
+  > * {
+    min-width: 32rem;
+  }
 
   .toast-container {
     position: fixed;

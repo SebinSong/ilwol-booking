@@ -34,8 +34,8 @@ export default function ConfirmAndPayment () {
   // local-state
   const {
     counselOptionInstore: counselOption,
-    counselDateInStore: counselDate,
-    counselTimeSlotInStore: counselTimeSlot,
+    counselDateInStore: counselDate = '',
+    counselTimeSlotInStore: counselTimeSlot = '',
     counselPersonalDetailsInStore: personalDetails,
     checkStepStateAndGo
   } = useCounselOptionSteps()
@@ -48,6 +48,7 @@ export default function ConfirmAndPayment () {
 
   // effects
   useEffect(() => {
+    console.log('has it been checked!!!?? ')
     checkStepStateAndGo('personal-details')
   }, [])
 
@@ -92,6 +93,10 @@ export default function ConfirmAndPayment () {
     }
   }
   const navigateFactory = (path) => () => navigate(path)
+
+  if (!personalDetails) {
+    return null
+  }
 
   return (
     <div className='reserve-step page-form-constraints'>

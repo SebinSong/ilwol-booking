@@ -33,6 +33,7 @@ export default function SelectDateAndTime () {
   const {
     counselDateInStore,
     counselTimeSlotInStore,
+    counselOptionInstore,
     checkStepStateAndGo
   } = useCounselOptionSteps()
 
@@ -154,7 +155,8 @@ export default function SelectDateAndTime () {
             slotList={DEFAULT_TIME_SLOTS}
             value={timeSlot}
             occupiedSlots={occupiedTimeSlots}
-            onSelect={setTimeSlot} />
+            onSelect={setTimeSlot}
+            isOverseasOption={counselOptionInstore?.id === 'overseas-counsel'} />
         </div>
       }
 

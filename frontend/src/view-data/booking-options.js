@@ -15,7 +15,7 @@ const COUNSEL_OPTIONS_LIST = [
     description: '본인 포함 2인 이상 상담 옵션입니다. 2인을 기본으로 하며, 1인 추가당 5만원입니다. 가족/커플만 가능하며, 친구 또는 지인은 제외입니다.',
     price: 150000,
     additionalPrice: 50000,
-    duration: 1
+    duration: 0.75
   },
   {
     name: '해외 상담',

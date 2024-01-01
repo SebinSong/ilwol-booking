@@ -8,6 +8,17 @@ const iconClassMap = {
   'family-counsel': 'icon-group'
 }
 
+const getDurationDisplay = (val) => {
+  switch (val) {
+    case 1:
+      return '/시간'
+    case 0.75:
+      return '/30분-1시간'
+    default:
+      return '/30분'
+  }
+}
+
 function OptionCard ({
   classes = '',
   isSelected = false,
@@ -45,7 +56,7 @@ function OptionCard ({
             { ['family-counsel', 'overseas-counsel'].includes(id) && <span>~</span> }
           </span>
           <span className='price-per-hr'>
-            { duration === 1 ? '/시간' : '/30분' }
+            { getDurationDisplay(duration) }
           </span>
         </div>
       </div>

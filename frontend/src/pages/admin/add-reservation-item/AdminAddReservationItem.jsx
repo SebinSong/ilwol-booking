@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
-import { COUNSEL_METHOD, DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
+import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
 import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 
 // components
@@ -40,7 +40,7 @@ export default function AdminAddReservationItem () {
   const [details, setDetails] = useImmer({
     name: '',
     counselDate: todayDateStr,
-    timeSlot: DEFAULT_TIME_SLOTS[0],
+    timeSlot: '12:00',
     method: 'visit'
   })
 
@@ -134,7 +134,7 @@ export default function AdminAddReservationItem () {
                     value={details.timeSlot}
                     onChange={updateFactory('timeSlot')}>
                     {
-                      DEFAULT_TIME_SLOTS.map(slot => (
+                      EXTENDED_TIME_SLOTS.map(slot => (
                         <option value={slot} key={slot}>{slot}</option>
                       ))
                     }

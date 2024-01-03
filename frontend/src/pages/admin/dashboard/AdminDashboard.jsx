@@ -143,7 +143,10 @@ export default function AdminDashboard ({
 
   const submitDayoffsUpdate = async () => {
     try {
-      await updateDayoffs(dayOffs)
+      await updateDayoffs({
+        data: dayOffs,
+        comparison: dayOffsData
+      })
       addToastItem({
         type: 'success',
         heading: '업데이트됨',

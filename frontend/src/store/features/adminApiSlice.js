@@ -37,11 +37,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
 
       updateDayoffs: builder.mutation({
-        query: (data) => {
+        query: ({
+          data, comparison = null
+        }) => {
           return ({
             method: 'PUT',
             url: 'manage/dayoffs',
-            body: { updates: createRequestPayload(data) }
+            body: { updates: createRequestPayload(data, comparison) }
           })
         },
         invalidatesTags: ['Dayoffs']
@@ -136,8 +138,20 @@ export function sortReservationsByTime (data) {
   } else { return data }
 }
 
-export function createRequestPayload (data) {
+export function createRequestPayload (data, comparison = []) {
   const payload = {}
+
+  console.log('@@@ comparison: ', comparison)
+  // generate yearStr object from the comparison model
+  comparison.forEach(dateStr => {
+    const yyyy = dateStr.slice(0, 4)
+
+    if (!payload[yyyy]) {
+      payload[yyyy] = []
+    }
+  })
+
+  console.log('@@@ payload before population: ', payload)
 
   for (const dateStr of data) {
     const yearStr = dateStr.slice(0, 4)

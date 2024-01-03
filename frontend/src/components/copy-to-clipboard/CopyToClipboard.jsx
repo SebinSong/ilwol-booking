@@ -7,7 +7,8 @@ function CopyToClipboard ({
   children = null,
   textToCopy = '',
   classes = '',
-  toastOpt = {}
+  toastOpt = {},
+  onlyButton = false
 }) {
   const { addToastItem, unloadAllToast } = useContext(ToastContext)
 
@@ -35,13 +36,16 @@ function CopyToClipboard ({
   return (
     <div className={`ctc-container ${classes}`}
       onClick={copyTextToClipboard}>
-      <div className='ctc-content'>
-        {
-          children
-            ? children
-            : <span className='ctc-value'>{textToCopy}</span>
-        }
-      </div>
+      {
+        !onlyButton &&
+        <div className='ctc-content'>
+          {
+            children
+              ? children
+              : <span className='ctc-value'>{textToCopy}</span>
+          }
+        </div>
+      }
 
       <button className='is-unstyled ctc-btn'>
         <i className='icon-copy'></i>

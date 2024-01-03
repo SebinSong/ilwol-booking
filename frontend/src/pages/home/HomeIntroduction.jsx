@@ -42,7 +42,7 @@ function HomeIntroduction ({
           ? <TextLoader>로딩중..</TextLoader>
           : <>
               <div className='intro-details'>
-                <div className='intro-header mb-50'>
+                <div className='intro-header mb-70'>
                   <h3 className='home-section-title'>
                     <span className='text'>선녀님 소개</span>
                   </h3>
@@ -54,7 +54,7 @@ function HomeIntroduction ({
                   </button>
                 </div>
 
-                <div className='intro-img-container mb-50'>
+                <div className='intro-img-container mb-70'>
                   <div className='img-wrapper'>
                     <img src={imgPath} alt='Introduction image' />
                   </div>
@@ -94,7 +94,7 @@ function HomeIntroduction ({
                   <span className='text'>오시는 길</span>
                 </h3>
 
-                <p className='intro-paragraph mb-30'><span className='has-text-bold'>오리역 3번출구</span>에도 직진하여 도보로 <span className='has-text-bold'>5분거리</span>에 있습니다. (주차 가능)</p>
+                <p className='intro-paragraph mb-30'><span className='has-text-bold'>오리역 3번출구</span>에서 직진하여 도보로 <span className='has-text-bold'>5분거리</span>에 있습니다. (주차 가능)</p>
 
                 <p className='address mb-10'>
                   <span className='address-label'>주소 :</span>

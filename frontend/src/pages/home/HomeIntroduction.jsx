@@ -75,10 +75,10 @@ function HomeIntroduction ({
                 </ul>
 
                 <h3 className='home-section-title mb-10'>
-                  <span className='text'>JTBC 뉴스 출연</span>
+                  <span className='text'>jtbc 뉴스 출연</span>
                 </h3>
 
-                <p className='intro-paragraph mb-20'>2022년 월드컵 조별 리그 결과 족집게 예측으로, <span className='has-text-bold'>JTBC 뉴스반장</span>에 소개가 되었습니다.</p>
+                <p className='intro-paragraph mb-20'>2022년 월드컵 조별 리그 결과 족집게 예측으로, <span className='has-text-bold'>jtbc 뉴스반장</span>에 소개가 되었습니다.</p>
 
                 <div className='youtube-player-container mb-50'>
                   <iframe width='100%' height='100%'

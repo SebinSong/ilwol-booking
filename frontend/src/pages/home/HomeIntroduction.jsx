@@ -6,7 +6,7 @@ import HomeNaverMap from './HomeNaverMap.jsx'
 
 const imgPath = '/images/introduction-photo.jpeg'
 const videoUrl = 'https://www.youtube-nocookie.com/embed/aGHIsmhuPn8'
-const addressString = '성남시 분당구 성남대로 2번길 6 LG트윈하우스 516호'
+const addressString = '성남시 분당구 성남대로 2번길 6 LG트윈하우스'
 
 function HomeIntroduction ({
   classes = '',

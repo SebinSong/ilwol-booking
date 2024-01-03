@@ -7,11 +7,10 @@ $box2_color: #FF0DFF;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: 100%;
-  overflow-y: auto;
 
   &.showing-introduction {
     padding-top: 6rem;
+    overflow-x: hidden;
 
     @include smallphone {
       padding-top: 3.6rem;

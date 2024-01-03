@@ -11,7 +11,11 @@ $box2_color: #FF0DFF;
   overflow-y: auto;
 
   &.showing-introduction {
-    padding-top: 7.8rem;
+    padding-top: 6rem;
+
+    @include smallphone {
+      padding-top: 3.6rem;
+    }
   }
 
   .content-main,
@@ -74,8 +78,8 @@ $box2_color: #FF0DFF;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: calc(var(--l-img-side) * 1.5);
-        height: calc(var(--l-img-side) * 1.5);
+        width: 46rem;
+        height: 46rem;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);

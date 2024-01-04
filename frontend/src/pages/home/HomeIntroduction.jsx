@@ -44,6 +44,7 @@ function HomeIntroduction ({
               <div className='intro-details'>
                 <div className='intro-header mb-70'>
                   <h3 className='home-section-title'>
+                    <span className='icon-info-circle is-prefix'></span>
                     <span className='text'>선녀님 소개</span>
                   </h3>
 
@@ -75,6 +76,7 @@ function HomeIntroduction ({
                 </ul>
 
                 <h3 className='home-section-title mb-10'>
+                <span className='icon-info-circle is-prefix'></span>
                   <span className='text'>jtbc 뉴스 출연</span>
                 </h3>
 
@@ -91,6 +93,7 @@ function HomeIntroduction ({
                 </div>
 
                 <h3 className='home-section-title mb-10'>
+                  <span className='icon-info-circle is-prefix'></span>
                   <span className='text'>오시는 길</span>
                 </h3>
 

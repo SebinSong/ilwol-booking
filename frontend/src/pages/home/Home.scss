@@ -1,5 +1,5 @@
 $box1_color: #44D2F2;
-$box2_color: #FF0DFF;
+$box2_color: #C4237C;
 
 .page-home {
   position: relative;
@@ -94,7 +94,7 @@ $box2_color: #FF0DFF;
             top: -40px;
             background-color: $box1_color;
             box-shadow:
-              0 0 120px 70px $box1_color;
+              0 0 120px 55px $box1_color;
           }
 
           &.is-2 {
@@ -102,7 +102,7 @@ $box2_color: #FF0DFF;
             left: 20px;
             background-color: $box2_color;
             box-shadow:
-              0 0 120px 70px $box2_color;
+              0 0 120px 55px $box2_color;
           }
         }
       }
@@ -179,8 +179,7 @@ $box2_color: #FF0DFF;
     font-size: $size_3;
     color: $magenta;
 
-    .icon-tag {
-      font-size: 1.1em;
+    .icon-info-circle {
       transform: translateY(2px);
     }
 

@@ -328,8 +328,11 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
         const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
         const typeName = getCounselTypeNameById(optionId)
+        const isMethodVisit = pDetails?.method === 'visit'
+
         const message = updates.status === 'confirmed'
-          ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 '예약확정'되었습니다. 감사합니다.`
+          ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 '예약확정'되었습니다. 감사합니다.` +
+            (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
           : updates.status === 'cancelled'
             ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
             : ''

@@ -41,7 +41,6 @@ export default function Booking () {
 
   return (
     <PageTemplate classes='page-booking'>
-
       <div className='page-width-constraints'>
         <h2 className='is-title-2 is-sans mb-40 page-title'>
           <i className='icon-calendar is-prefix'></i>

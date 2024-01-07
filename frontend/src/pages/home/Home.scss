@@ -117,6 +117,7 @@ $box2_color: #C4237C;
     letter-spacing: 1.5px;
     color: $magenta-deep-dark;
     text-align: center;
+    margin-bottom: 0.2rem;
   }
 
   .project-logo {
@@ -151,6 +152,33 @@ $box2_color: #C4237C;
     i {
       transform: scale(1.015) translateY(1px);
       margin-right: 0.2rem;
+    }
+  }
+
+  .youtube-link {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: $size_6;
+    color: $magenta;
+    margin-bottom: 3rem;
+    text-decoration: none;
+    transition: color 200ms;
+
+    &:hover {
+      color: $magenta-deep-dark;
+    }
+    
+    .icon-youtube {
+      font-size: 1.6em;
+      font-weight: normal;
+      transform: translateY(1px);
+    }
+
+    .youtube-text {
+      display: inline-block;
+      padding-bottom: 1px;
+      border-bottom: 1px solid currentColor;
     }
   }
 
@@ -309,5 +337,10 @@ $box2_color: #C4237C;
       padding-right: 1.2rem;
       min-height: 3.6rem;
     }
+  }
+
+  .y-link {
+    display: inline-block;
+    padding: 0 0.2rem;
   }
 }

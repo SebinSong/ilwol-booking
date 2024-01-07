@@ -3,7 +3,13 @@ const { resolve } = require('path')
 const dotenv = require('dotenv')
 const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
-const { getCounselTypeNameById, numericDateToString, stringToBase64, base64ToString } = require('../utils/helpers')
+const {
+  getCounselTypeNameById,
+  numericDateToString,
+  stringToBase64,
+  base64ToString,
+  promiseAllWithLimit
+} = require('../utils/helpers')
 const { DAYS_MILLIS } = require('../utils/constants')
 
 // importing .env file
@@ -163,6 +169,39 @@ async function addEvent ({
   }
 }
 
+async function addMultipleEvents (data) {
+  if (!Array.isArray(data) || !data.length) { return }
+
+  try {
+    const auth = await authorize()
+    const calendar = google.calendar({
+      version: 'v3',
+      auth
+    })
+
+    const pFuncArr = data.map(reservation => {
+      const { optionId, timeSlot, counselDate, personalDetails, status } = reservation
+      const date = numericDateToString(counselDate)
+
+      return () => calendar.events.insert({
+        resource: {
+          summary: `${timeSlot} ${personalDetails?.name || ''}`,
+          description: getCounselTypeNameById(optionId),
+          start: { date },
+          end: { date },
+          colorId: colorIdMap[status]
+        },
+        calendarId: process.env.CALENDAR_ID
+      })
+    })
+
+    const res = await promiseAllWithLimit(pFuncArr)
+    return res
+  } catch (err) {
+    throw new Error(`::: Failed to create multiple event items - ${JSON.stringify(err)}`)
+  }
+}
+
 async function deleteEvent (eventId) {
   if (eventId) {
     try {
@@ -181,6 +220,35 @@ async function deleteEvent (eventId) {
       console.log(`::: Failed to delete an event item - `, err)
     }
   }
+}
+
+async function clearAllEvents () {
+  const auth = await authorize()
+  const calendar = google.calendar({
+    version: 'v3',
+    auth
+  })
+  const allList = await calendar.events.list({
+    calendarId: process.env.CALENDAR_ID,
+    singleEvents: true,
+    orderBy: 'startTime'
+  })
+  const eventItems = allList?.data?.items
+
+  if (Array.isArray(eventItems) && eventItems.length) {
+    const idList = eventItems.map(entry => entry.id)
+    const pFuncArr = idList.map(id => {
+      return () => calendar.events.delete({
+        calendarId: process.env.CALENDAR_ID,
+        eventId: id
+      })
+    })
+    await promiseAllWithLimit(pFuncArr)
+
+    return { deletedCount: idList.length }
+  }
+
+  return { deletedCount: 0 }
 }
 
 async function updateEventStatus ({
@@ -233,7 +301,9 @@ module.exports = {
   generateTokenAndSave,
   authorize,
   addEvent,
+  addMultipleEvents,
   deleteEvent,
+  clearAllEvents,
   getAllFutureEvents,
   findEventItemByTime,
   updateEventStatus,

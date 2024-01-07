@@ -129,6 +129,27 @@ const base64ToString = (base64String) => {
   return originalString
 }
 
+const promiseAllWithLimit = async (asyncFuncArr, concurrencyLimit = 10) => {
+  // asyncFuncArr: an array of executables that return Promise instances.
+  if (!Array.isArray(asyncFuncArr)) { return }
+
+  const chunksArr = []
+
+  for (let i=0; i<asyncFuncArr.length; i+=concurrencyLimit) {
+    chunksArr.push(asyncFuncArr.slice(i, i+concurrencyLimit))
+  }
+
+  let allResults = []
+  for (const chunks of chunksArr) {
+    const pArr = chunks.map(pFunc => pFunc())
+
+    const results = await Promise.all(pArr)
+    allResults.push(results)
+  }
+
+  return allResults.flat()
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -145,5 +166,6 @@ module.exports = {
   mergeObjects,
   cloneDeep,
   stringToBase64,
-  base64ToString
+  base64ToString,
+  promiseAllWithLimit
 }

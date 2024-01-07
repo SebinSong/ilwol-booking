@@ -73,6 +73,10 @@ function HomeIntroduction ({
                   <li className='intro-list-item'>천신 도사 / 선녀님을 메인 신령님으로 모시고 계십니다.</li>
                   <li className='intro-list-item'><span className='has-text-bold'>미래 지향적</span> 상담을 추구하십니다. (심리 영혼치유의 카운셀링 기법입니다)</li>
                   <li className='intro-list-item'><span className='has-text-bold'>하관 / 낙서 / 주역 / 명리학 / 기문둔갑</span>을 천상에서 공부하신 신의 영매시며, 사심없이 진리와 이치에 충실한 제자이십니다.</li>
+                  <li className='intro-list-item'>현재 <span className='has-text-bold'>유튜브</span> 채널&nbsp;
+                    <a className='y-link has-text-bold text-color-magenta' href='https://www.youtube.com/@ilwolsung' target='_blank'>일월선녀 해달별</a>
+                    을 운영하고 계십니다.
+                  </li>
                 </ul>
 
                 <h3 className='home-section-title mb-10'>

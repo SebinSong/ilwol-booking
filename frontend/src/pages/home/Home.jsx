@@ -32,12 +32,21 @@ export default function Home () {
             : <div className='content-main'>
                 <IlwolLogo classes='project-logo' width={56} />
         
-                <h2 className='is-title-2 is-serif page-title mb-30'>
+                <h2 className='is-title-2 is-serif page-title'>
                   <span>일월선녀</span>
                   <span>해달별</span>
                 </h2>
         
                 <div className='button-container'>
+                  <a className='youtube-link'
+                    href='https://www.youtube.com/@ilwolsung'
+                    target='_blank'>
+                      <span className='icon-youtube'></span>
+                      <span className='youtube-text'>
+                        Youtube 채널 바로가기
+                      </span>
+                  </a>
+
                   <button type='button'
                     className='is-secondary introduction-btn'
                     onClick={() => setShowIntroduction(true)}>

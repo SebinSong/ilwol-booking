@@ -43,7 +43,7 @@ export default function Home () {
                     target='_blank'>
                       <span className='icon-youtube'></span>
                       <span className='youtube-text'>
-                        Youtube 채널 바로가기
+                        <span className='has-text-bold'>Youtube</span> 채널 바로가기
                       </span>
                   </a>
 

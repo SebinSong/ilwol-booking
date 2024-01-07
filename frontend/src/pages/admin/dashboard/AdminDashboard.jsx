@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
+import ManageGoogleCalendar from './ManageGoogleCalendar'
 import Calendar from '@components/calendar/Calendar'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
@@ -156,8 +157,8 @@ export default function AdminDashboard ({
       console.error('submitDayoffsUpdate caught: ', err)
       addToastItem({
         type: 'warning',
-        heading: '업데이트 실패!',
-        content: '쉬는 날 업데이트 중 오류가 발생하였습니다. 다시 시도해 주세요.'
+        heading: '업데이트 오류!',
+        content: '쉬는 날 업데이트 중 에러가 발생하였습니다. 다시 시도해 주세요.'
       })
     }
   }
@@ -293,6 +294,8 @@ export default function AdminDashboard ({
           </section>
         </>
       }
+
+      <ManageGoogleCalendar />
     </AdminPageTemplate>
   )
 }

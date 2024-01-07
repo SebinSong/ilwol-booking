@@ -105,6 +105,20 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'DELETE' 
         }),
         invalidatesTags: ['Reservations']
+      }),
+
+      clearCalendar: builder.mutation({
+        query: () => ({
+          url: '/config/calendar',
+          method: 'DELETE'
+        })
+      }),
+
+      regenerateCalendar: builder.mutation({
+        query: () => ({
+          url: '/config/calendar/all',
+          method: 'POST'
+        })
       })
     }
   }
@@ -141,7 +155,6 @@ export function sortReservationsByTime (data) {
 export function createRequestPayload (data, comparison = []) {
   const payload = {}
 
-  console.log('@@@ comparison: ', comparison)
   // generate yearStr object from the comparison model
   comparison.forEach(dateStr => {
     const yyyy = dateStr.slice(0, 4)
@@ -150,8 +163,6 @@ export function createRequestPayload (data, comparison = []) {
       payload[yyyy] = []
     }
   })
-
-  console.log('@@@ payload before population: ', payload)
 
   for (const dateStr of data) {
     const yearStr = dateStr.slice(0, 4)
@@ -180,5 +191,7 @@ export const {
   useUpdateReservationDetailsMutation: useUpdateReservationDetails,
   useArchiveOldReservationsMutation: useArchiveOldReservations,
   useCreateAdminReservationMutation: useCreateAdminReservation,
-  useAdminDeleteReservationMutation: useAdminDeleteReservation
+  useAdminDeleteReservationMutation: useAdminDeleteReservation,
+  useClearCalendarMutation: useClearCalendar,
+  useRegenerateCalendarMutation: useRegenerateCalendar
 } = adminApiSlice

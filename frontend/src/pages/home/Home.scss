@@ -159,14 +159,14 @@ $box2_color: #C4237C;
     display: flex;
     align-items: center;
     gap: 0.2rem;
-    font-size: $size_6;
+    font-size: 1.3rem;
     color: $magenta;
     margin-bottom: 3rem;
     text-decoration: none;
     transition: color 200ms;
 
     &:hover {
-      color: $magenta-deep-dark;
+      color: $magenta-dark;
     }
     
     .icon-youtube {
@@ -177,7 +177,6 @@ $box2_color: #C4237C;
 
     .youtube-text {
       display: inline-block;
-      padding-bottom: 1px;
       border-bottom: 1px solid currentColor;
     }
   }

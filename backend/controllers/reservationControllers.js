@@ -6,7 +6,8 @@ const {
   addEvent,
   deleteEvent,
   findEventItemByTime,
-  regenerateEventItem
+  regenerateEventItem,
+  updateEventDetails
 } = require('../external-services/google-calendar.js')
 
 const asyncHandler = require('../middlewares/asyncHandler.js')
@@ -195,7 +196,8 @@ const postReservation = asyncHandler(async (req, res, next) => {
     date: counselDate,
     timeSlot,
     title: pDetails.name,
-    optionId
+    optionId,
+    reservationId: newReservation._id
   })
     .then(async ({ data }) => {
       const eventId = data.id
@@ -293,6 +295,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
     sendResourceNotFound(res)
   } else {
     const transformedUpdates = {}
+    const isUpdatingTime = Object.keys(updates).includes('counselDate', 'timeSlot')
 
     for (const key in updates) {
       const value = updates[key]
@@ -346,7 +349,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       }
 
       const mergedDoc = mergeObjects(doc, updates)
-      regenerateEventItem(mergedDoc)
+      updateEventDetails(reservationId, mergedDoc)
     } catch (err) {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')

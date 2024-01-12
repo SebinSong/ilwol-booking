@@ -113,6 +113,26 @@ async function getAllFutureEvents () {
   }
 }
 
+async function getEventByReservationId (reservationId) {
+  try {
+    const allFutureEvents = await getAllFutureEvents()
+    const found = allFutureEvents.find(entry => {
+      const desc = (entry.description || '')
+      const splitted = desc.split('[ID]:')
+      const reservationIdInDesc = desc.length > 1 ? splitted[1] : null
+
+      return reservationIdInDesc
+        ? reservationIdInDesc === reservationId
+        : false
+    })
+
+    return found ? found : null
+  } catch (err) {
+    console.log('::: An error occurred while searching for an event with a reservation ID - ', err)
+    return null
+  }
+}
+
 async function findEventItemByTime ({
   counselDate, timeSlot
 }) {
@@ -140,11 +160,12 @@ async function findEventItemByTime ({
 }
 
 async function addEvent ({
-  date, timeSlot, optionId, title, status, isConfirmed = false
+  date, timeSlot, optionId, title, status, isConfirmed = false,
+  reservationId = ''
 }) {
   const eventObj = {
     summary: `${timeSlot} ${title}`,
-    description: getCounselTypeNameById(optionId),
+    description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
     start: { date },
     end: { date },
     colorId: status
@@ -251,50 +272,47 @@ async function clearAllEvents () {
   return { deletedCount: 0 }
 }
 
-async function updateEventStatus ({
-  eventId, statusTo
-}) {
-  const colorIdTo = colorIdMap[statusTo] || 5
+async function updateEventDetails (reservationId, reservation) {
+  console.log('target reservation: ', reservation._id)
+  const {
+    timeSlot,
+    optionId,
+    personalDetails,
+    status,
+    counselDate
+  } = reservation
+  const dateStr = numericDateToString(counselDate)
 
-  if (eventId) {
-    try {
-      const auth = await authorize()
+  try {
+    const foundEvent = await getEventByReservationId(reservationId)
+
+    if (!foundEvent) {
+      throw new Error('Could not update event details - no corresponding event item found')
+    } else {
+      const eventId = foundEvent.id
       const calendar = google.calendar({
         version: 'v3',
         auth
       })
+      const updateObj = {
+        summary: `${timeSlot} ${personalDetails.name}`,
+        description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
+        start: { date: dateStr },
+        end: { date: dateStr },
+        colorId: colorIdMap[status]
+      }
+
       const res = await calendar.events.patch({
         calendarId: process.env.CALENDAR_ID,
         eventId,
-        resource: { colorId: colorIdTo }
+        resource: updateObj
       })
 
       return res
-    } catch (err) {
-      console.log(`::: Failed to update an event item - `, err)
     }
+  } catch (err) {
+    console.log(`::: Failed to update an event item details - `, err)
   }
-}
-
-async function regenerateEventItem (reservation) {
-  const { timeSlot, optionId, personalDetails, status } = reservation
-  const counselDate = (typeof reservation.counselDate === 'string')
-    ? reservation.counselDate
-    : numericDateToString(reservation.counselDate)
-
-  const existingDoc = await findEventItemByTime({ counselDate, timeSlot })
-
-  if (existingDoc) {
-    await deleteEvent(existingDoc.id)
-  }
-
-  const res = await addEvent({
-    date: counselDate,
-    timeSlot, optionId, status,
-    title: personalDetails?.name
-  })
-
-  return res
 }
 
 module.exports = {
@@ -306,6 +324,6 @@ module.exports = {
   clearAllEvents,
   getAllFutureEvents,
   findEventItemByTime,
-  updateEventStatus,
-  regenerateEventItem
+  updateEventDetails,
+  getEventByReservationId
 }

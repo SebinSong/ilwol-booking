@@ -56,7 +56,7 @@ function AdminToolbar ({
         <h1 className='is-title-4 is-serif toolbar-title'
           onClick={() => navigate('/')}>
           <IlwolLogo classes='toolbar-logo' width={16} />
-          <span>해달별 관리자</span>
+          <span>관리자 콘솔</span>
         </h1>
       </div>
 

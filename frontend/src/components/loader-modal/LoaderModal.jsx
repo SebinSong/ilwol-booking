@@ -9,6 +9,7 @@ import { classNames as cn } from '@utils'
 
 function LoaderModal ({
   showModal = false,
+  children = null,
   loadingText = '로딩중..'
 }) {
   // local-state
@@ -36,9 +37,9 @@ function LoaderModal ({
           <div className='modal__backdrop'></div>
 
           <div className='modal__content'>
-            <CirculationIcon classes='loading-icon' width={56} />
+            <CirculationIcon classes='loading-icon' width={52} />
 
-            <p className='loading-text mt-10'>{loadingText}</p>
+            <p className='loading-text mt-10'>{children || loadingText}</p>
           </div>
         </div>,
         document.querySelector('#modal-container')

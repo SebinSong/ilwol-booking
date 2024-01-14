@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
@@ -10,14 +10,15 @@ import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
 
 // child components
 import StateButton from '@components/state-button/StateButton'
+import LoaderModal from '@components/loader-modal/LoaderModal'
 
 function GoogleCalendarSection ({
   classes = ''
 }) {
   const { addToastItem } = useContext(ToastContext)
-  const [updateStatus, setUpdateStatus] = useState('idle')
 
   // local state
+  const [updateStatus, setUpdateStatus] = useState('idle')
   const [clearCalendar, {
     isLoading: isClearingCalendar
   }] = useClearCalendar()
@@ -29,6 +30,24 @@ function GoogleCalendarSection ({
     isLoading: isLoadingReservations,
     isError: isReservationError
   }] = useGetAdminReservations()
+
+  // computed state
+  const loaderModalOpts = useMemo(() => {
+    switch (updateStatus) {
+      case 'deleting':
+        return {
+          showModal: true,
+          content: <><span>아이템 삭제 및 초기화 중..</span><br/><span>(오랜 시간이 소요될 수 있습니다)</span></>
+        }
+      case 'generating':
+        return {
+          showModal: true,
+          content: <><span>모든 예약 아이템 재생성 중..</span><br/><span>(오랜 시간이 소요될 수 있습니다)</span></>
+        }
+      default:
+        return { showModal: false } 
+    }
+  }, [updateStatus])
 
   const onSyncButtonClick = async () => {
     if (!window.confirm('캘린더 동기화를 실행하시겠습니까? 캘린더의 모든 현재 데이터가 삭제된 후 재생성 됩니다.')) { return }
@@ -80,6 +99,10 @@ function GoogleCalendarSection ({
           <span>동기화하기</span>
         </StateButton>
       </div>
+
+      <LoaderModal showModal={loaderModalOpts.showModal}>
+        {loaderModalOpts.content}
+      </LoaderModal>
     </section>
   )
 }

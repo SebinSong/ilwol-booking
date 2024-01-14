@@ -144,7 +144,7 @@ export function sortReservationsByTime (data) {
     data = data.slice().sort(
       (a, b) => {
         if (a.counselDate === b.counselDate) { return parseInt(a.timeSlot) - parseInt(b.timeSlot) }
-        else { return b.counselDate - a.counselDate }
+        else { return a.counselDate - b.counselDate }
       }
     )
 

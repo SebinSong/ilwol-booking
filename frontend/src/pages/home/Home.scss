@@ -128,11 +128,18 @@ $box2_color: #C4237C;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.2rem;
 
     .introduction-btn {
       padding-left: 1.6rem;
       padding-right: 1.8rem;
+      margin-bottom: 3rem;
+    }
+
+    .youtube-btn {
+      .icon-youtube {
+        font-size: 1.385em;
+      }
     }
   }
 
@@ -152,32 +159,6 @@ $box2_color: #C4237C;
     i {
       transform: scale(1.015) translateY(1px);
       margin-right: 0.2rem;
-    }
-  }
-
-  .youtube-link {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-size: 1.3rem;
-    color: $magenta;
-    margin-bottom: 3rem;
-    text-decoration: none;
-    transition: color 200ms;
-
-    &:hover {
-      color: $magenta-dark;
-    }
-    
-    .icon-youtube {
-      font-size: 1.6em;
-      font-weight: normal;
-      transform: translateY(1px);
-    }
-
-    .youtube-text {
-      display: inline-block;
-      border-bottom: 1px solid currentColor;
     }
   }
 

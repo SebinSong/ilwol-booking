@@ -22,6 +22,9 @@ export default function Home () {
   const onReserveBtnClick = () => {
     navigate('/booking/counsel-option')
   }
+  const onYoutubeBtnClick = () => {
+    window.open('https://www.youtube.com/@ilwolsung', '_blank')
+  }
 
   return (
     <NavermapsProvider ncpClientId='piqbzhw41l'>
@@ -37,15 +40,13 @@ export default function Home () {
                   <span>해달별</span>
                 </h2>
         
-                <div className='button-container'>
-                  <a className='youtube-link'
-                    href='https://www.youtube.com/@ilwolsung'
-                    target='_blank'>
-                      <span className='icon-youtube'></span>
-                      <span className='youtube-text'>
-                        <span className='has-text-bold'>Youtube</span> 채널 바로가기
-                      </span>
-                  </a>
+                <div className='button-container mt-20'>
+                  <button type='button'
+                    className='is-secondary youtube-btn'
+                    onClick={onYoutubeBtnClick}>
+                    <span className='icon-youtube is-prefix'></span>
+                    <span className='has-text-bold mr-4'>Youtube</span> 채널 바로가기
+                  </button>
 
                   <button type='button'
                     className='is-secondary introduction-btn'

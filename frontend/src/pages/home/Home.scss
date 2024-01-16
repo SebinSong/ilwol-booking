@@ -130,6 +130,11 @@ $box2_color: #C4237C;
     align-items: center;
     gap: 1.2rem;
 
+    .youtube-btn,
+    .introduction-btn {
+      min-width: 20rem;
+    }
+
     .introduction-btn {
       padding-left: 1.6rem;
       padding-right: 1.8rem;

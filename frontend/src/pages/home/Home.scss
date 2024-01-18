@@ -328,7 +328,14 @@ $box2_color: #C4237C;
   }
 
   .y-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: 0 0.2rem;
+
+    i {
+      display: inline-block;
+      font-size: 1.2em;
+      transform: translateY(1px);
+    }
   }
 }

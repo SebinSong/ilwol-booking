@@ -68,13 +68,14 @@ function HomeIntroduction ({
 
                 <ul className='intro-list mb-50'>
                   <li className='intro-list-item'>
-                    <span className='has-text-bold'>20년</span> 경력의 맑고 고운 영의 소유자십니다.
+                    단국대(서울) 영문과 학사 출신이시며, <span className='has-text-bold'>20년</span> 가까이 신점 전문가로 활동 중이십니다.
                   </li>
                   <li className='intro-list-item'>천신 도사 / 선녀님을 메인 신령님으로 모시고 계십니다.</li>
-                  <li className='intro-list-item'><span className='has-text-bold'>미래 지향적</span> 상담을 추구하십니다. (심리 영혼치유의 카운셀링 기법입니다)</li>
-                  <li className='intro-list-item'><span className='has-text-bold'>하관 / 낙서 / 주역 / 명리학 / 기문둔갑</span>을 천상에서 공부하신 신의 영매시며, 사심없이 진리와 이치에 충실한 제자이십니다.</li>
+                  <li className='intro-list-item'><span className='has-text-bold'>심리상담사 자격증</span>과 <span className='has-text-bold'>한부모지도사 자격증</span>을 보유하고 계십니다.</li>
+                  <li className='intro-list-item'><span className='has-text-bold'>미래</span>에 있을 사실을 잘 맞추시며, 상담자의 <span className='has-text-bold'>숨겨진 능력 개발</span>에 대한 정확한 조언으로 유명하십니다.</li>
+                  <li className='intro-list-item'><span className='has-text-bold'>사주, 인간, 인생의 진실 / 진리</span>에 입각하여 애정을 담아 카운셀링하십니다.</li>
                   <li className='intro-list-item'>현재 <span className='has-text-bold'>유튜브</span> 채널&nbsp;
-                    <a className='y-link has-text-bold text-color-magenta' href='https://www.youtube.com/@ilwolsung' target='_blank'>일월선녀 해달별</a>
+                    <a className='y-link has-text-bold text-color-magenta' href='https://www.youtube.com/@ilwolsung' target='_blank'><i className='icon-web-link'></i>일월선녀 해달별</a>
                     을 운영하고 계십니다.
                   </li>
                 </ul>

@@ -74,10 +74,10 @@ export default function AdminSendMessage () {
       <div className='admin-send-message-wrapper'>
         <h2 className='admin-page-title'>
           <i className='icon-mail is-prefix'></i>
-          <span>웹발신 문자 보내기</span>
+          <span>문자 전송하기</span>
         </h2>
 
-        <p className='admin-page-description'>"[웹발신] 일월선녀 해달별" 태그가 달린 웹발신 문자를 전송합니다.</p>
+        <p className='admin-page-description'>"[Web발신][일월선녀 해달별]" 태그가 달린 Web발신 문자를 전송합니다.</p>
 
         <div className='page-form-constraints'>
           <div className='form-field'>

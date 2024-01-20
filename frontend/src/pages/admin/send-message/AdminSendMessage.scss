@@ -3,11 +3,13 @@
 
   .admin-send-message-wrapper {
     position: relative;
+    @include width-limited;
     width: 100%;
-    max-width: 100%;
+    margin-left: 0;
+    margin-right: unset;
 
-    @include from ($large-phone) {
-      min-width: 46rem;
+    @include from ($small-phone) {
+      max-width: 48rem;
     }
 
     .add-btn-container {
@@ -18,16 +20,6 @@
       .add-btn {
         min-width: 7.2rem;
         border-radius: 0.8rem;
-      }
-    }
-
-    .mobile-num-list-container {
-      @include width-limited;
-      margin-left: 0;
-      margin-right: unset;
-
-      @include from ($small-phone) {
-        max-width: 52rem;
       }
     }
 
@@ -49,7 +41,7 @@
         overflow: hidden;
         border-radius: 0.8rem;
         background-color: $success-bg;
-        border: 1px solid rgba(0, 0, 0, 0.125);
+        border: 1px solid rgba(0, 0, 0, 0.085);
 
         .num-text {
           display: inline-block;
@@ -79,6 +71,37 @@
           }
         }
       }
+    }
+  }
+
+  .failed-try-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: $size_7;
+    font-weight: bold;
+
+    &:not(:last-of-type) {
+      margin-bottom: 0.8rem;
+    }
+
+    .failed-num {
+      display: block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.8rem;
+      background-color: $warning-bg;
+      color: $warning;
+      border: 1px solid rgba(0, 0, 0, 0.085);
+      flex-shrink: 0;
+    }
+
+    .failed-reason {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.4rem;
+      flex-grow: 1;
+      color: $text_dark_grey;
     }
   }
 }

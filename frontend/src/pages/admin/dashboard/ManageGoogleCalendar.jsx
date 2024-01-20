@@ -66,7 +66,7 @@ function GoogleCalendarSection ({
         content: '구글 캘린더가 성공적으로 동기화 되었습니다. 확인해보세요.'
       })
     } catch (err) {
-      console.error('ManageGoogleCalendar caught: ', err)
+      console.error('ManageGoogleCalendar.jsx caught: ', err)
       addToastItem({
         type: 'warning',
         heading: '업데이트 오류!',

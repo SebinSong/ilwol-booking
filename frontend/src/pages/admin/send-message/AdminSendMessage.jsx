@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useImmer } from 'use-immer'
 import { MOBILE_PREFIXES } from '@view-data/constants.js'
 import { isStringNumberOnly } from '@utils'
+
 // components
 const { WarningMessage } = React.Global
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import StateButton from '@components/state-button/StateButton'
+import LoaderModal from '@components/loader-modal/LoaderModal'
+
+// hooks
+import { ToastContext } from '@hooks/useToast.js'
+import { useSendWebMessage } from '@store/features/adminApiSlice.js'
 
 import './AdminSendMessage.scss'
 
 export default function AdminSendMessage () {
+  const { addToastItem } = useContext(ToastContext)
+
   // local state
   const [details, setDetails] = useImmer({
     prefix: '010',
@@ -18,6 +26,11 @@ export default function AdminSendMessage () {
     mobileNumList: [],
     message: ''
   })
+  const [showFailed, setShowFailed] = useState(false)
+  const [failedTries, setFailedTries] = useState(null)
+  const [sendWebMessage, {
+    isLoading: isSending
+  }] = useSendWebMessage()
   const [additionErr, setAdditionErr] = useState('')
 
   // computed state
@@ -66,7 +79,36 @@ export default function AdminSendMessage () {
     }
   }
   const onSendBtnClick = async () => {
-    alert('준비중...')
+    if (!window.confirm('메세지 발송을 진행하시겠습니까?')) { return }
+
+    setShowFailed(false)
+    const { mobileNumList, message } = details 
+    try {
+      const result = await sendWebMessage({
+        message,
+        to: mobileNumList.map(num => num.replaceAll('-', ''))
+      })
+      const failedLen = result?.failed?.length || 0
+      const successCount = mobileNumList.length - failedLen
+
+      if (failedLen) {
+        setFailedTries(result.failed)
+        setShowFailed(true)
+      }
+
+      addToastItem({
+        type: 'success',
+        heading: `발송 완료 (${successCount}건)`,
+        content: `총 ${successCount} 건의 메세지를 성공적으로 발송하였습니다.`
+      })
+    } catch (err) {
+      console.error('AdminSendMessage.jsx caught: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '발송 오류',
+        content: '메세지 발송에 실패하였습니다. 다시 시도해 주세요.'
+      })
+    }
   }
 
   return (
@@ -77,9 +119,9 @@ export default function AdminSendMessage () {
           <span>문자 전송하기</span>
         </h2>
 
-        <p className='admin-page-description'>"[Web발신][일월선녀 해달별]" 태그가 달린 Web발신 문자를 전송합니다.</p>
+        <p className='admin-page-description'>[일월선녀 해달별] 태그가 달린 Web발신 문자를 전송합니다. 여러개의 번호를 추가하여 단체문자를 보낼수도 있습니다.</p>
 
-        <div className='page-form-constraints'>
+        <div className='page-form-constraint'>
           <div className='form-field'>
             <span className='label'>발신번호 추가:</span>
 
@@ -147,17 +189,32 @@ export default function AdminSendMessage () {
                   ))
                 }
               </div>
+
+              {
+                Boolean(showFailed && failedTries?.length) &&
+                <div className='failed-try-container mt-20'>
+                  <span className='label text-color-warning mb-10'>{`발송 실패 (${failedTries?.length || 0} 건):`}</span>
+
+                  <div className='failed-try-item'>
+                    <div className='failed-num'>01012341234</div>
+                    <div className='failed-reason'>'to' 필드는 숫자만 입력 가능하며, 최대 25자까지 가능합니다</div>
+                  </div>
+                </div>
+              }
             </div>
 
-            <div className='page-form-constraints send-message-form mt-50'>
+            <div className='page-form-constraint send-message-form mt-50'>
               <div className='form-field'>
-                <span className='label'>메세지 작성:</span>
+                <span className='label'>
+                  메세지 작성:
+                  <span className='mandatory'>(최소 10자)</span>
+                </span>
 
                 <textarea type='text' className='textarea'
                   value={details.message}
                   onInput={genUpdateFactory('message')}
                   placeholder='메세지를 입력하세요.'
-                  maxLength={500} />
+                  maxLength={600} />
 
                 <div className='buttons-container is-right-aligned mt-30 mb-0'>
                   <StateButton classes='is-primary'
@@ -170,6 +227,10 @@ export default function AdminSendMessage () {
             </div>
           </>
         }
+
+        <LoaderModal showModal={isSending}>
+          <span>메세지 발송 중..</span>
+        </LoaderModal>
       </div>
     </AdminPageTemplate>
   )

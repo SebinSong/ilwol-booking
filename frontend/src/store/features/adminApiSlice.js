@@ -119,6 +119,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: '/config/calendar/all',
           method: 'POST'
         })
+      }),
+
+      sendWebMessage: builder.mutation({
+        query: (data) => ({
+          url: '/config/sms',
+          method: 'POST',
+          body: data
+        })
       })
     }
   }
@@ -193,5 +201,6 @@ export const {
   useCreateAdminReservationMutation: useCreateAdminReservation,
   useAdminDeleteReservationMutation: useAdminDeleteReservation,
   useClearCalendarMutation: useClearCalendar,
-  useRegenerateCalendarMutation: useRegenerateCalendar
+  useRegenerateCalendarMutation: useRegenerateCalendar,
+  useSendWebMessageMutation: useSendWebMessage
 } = adminApiSlice

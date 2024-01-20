@@ -8,7 +8,8 @@ const {
 const { sendSMSToMultipleCustomers } = require('../external-services/sms.js')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
-  dateObjToNum
+  dateObjToNum,
+  sendBadRequestErr
 } = require('../utils/helpers.js')
 
 // ---------------------- Google Calendar API related jobs ---------------------- //
@@ -60,7 +61,49 @@ const regenateAllEvents = asyncHandler(async (req, res) => {
 // ------------------------------- SMS related jobs ----------------------------- //
 
 const sendWebMessage = asyncHandler(async (req, res) => {
-  res.send('Working !!!')
+  const { to, message = '' } = req.body
+
+  if (message && Array.isArray(to) && to.length) {
+    const result = await sendSMSToMultipleCustomers(message, to)
+    const failedEntries = (result?.failedMessageList || []).map(
+      entry => ({ number: entry.to, errorMsg: entry.statusMessage })
+    )
+
+    res.status(200).json({
+      failed: failedEntries,
+      successCount: to.length - failedEntries.length
+    })
+    /* 
+      *** Data examples ***
+
+      - entry of failedMessageList array :
+      {
+        to: '010adsfasdf',
+        from: '01027881137',
+        type: 'SMS',
+        statusMessage: "'to' 필드는 숫자만 입력 가능하며, 최대 25자까지 가능합니다.",
+        country: '82',
+        messageId: 'M4V20240120185524KXQFKBPBMECQSWM',
+        statusCode: '1011',
+        accountId: '23112012094020'
+      }
+
+      - groupInfo.count:
+      {
+        total: 2,
+        sentTotal: 0,
+        sentFailed: 0,
+        sentSuccess: 0,
+        sentPending: 0,
+        sentReplacement: 0,
+        refund: 0,
+        registeredFailed: 1,
+        registeredSuccess: 1
+      }
+    */
+  } else {
+    sendBadRequestErr(res, "Wrong format of payload")
+  }
 })
 
 // ------------------------------------------------------------------------------ //

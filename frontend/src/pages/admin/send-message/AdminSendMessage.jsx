@@ -46,7 +46,7 @@ export default function AdminSendMessage () {
   const clearAdditionErr = () => setAdditionErr('')
   const addNumberToList = () => {
     const { prefix, firstSlot, secondSlot, mobileNumList } = details
-    const numToAdd = `${prefix} ${firstSlot}${secondSlot}`.trim()
+    const numToAdd = `${prefix}-${firstSlot}-${secondSlot}`.trim()
 
     if (mobileNumList.includes(numToAdd)) {
       showAdditonError('existing-num')

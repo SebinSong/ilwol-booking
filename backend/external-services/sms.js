@@ -35,9 +35,30 @@ async function sendSMS ({
     return res
   } catch (err) {
     console.error('sendOne caught an error while using SolapiMessageService.sendOne : ', err)
+    return null
+  }
+}
+
+async function sendSMSToMultipleCustomers (message = '', toNumbers = []) {
+  if (message && toNumbers?.length) {
+    const payloadArr = toNumbers.map(numTo => ({
+      subject: '[일월선녀 해달별]',
+      text: message,
+      from: SOLAPI_SEND_FROM,
+      to: numTo
+    }))
+
+    try {
+      const res = await smsController.send(payloadArr)
+      return res
+    } catch (err) {
+      console.error('sendSMSToMultipleCustomers caught an error while using SolapiMessageService.send : ', err)
+      return null
+    }
   }
 }
 
 module.exports = {
-  sendSMS
+  sendSMS,
+  sendSMSToMultipleCustomers
 }

@@ -28,7 +28,7 @@ import AdminManageReservationItem from '@pages/admin/manage-reservation-item/Adm
 import AdminUpdateReservationItem from '@pages/admin/update-reservation-item/UpdateReservationItem'
 import AdminAddReservationItem from '@pages/admin/add-reservation-item/AdminAddReservationItem.jsx'
 import AdminManageUsers from '@pages/admin/manage-users/AdminManageUsers'
-
+import AdminSendMessage from '@pages/admin/send-message/AdminSendMessage'
 
 // import global styles
 import './styles/main.scss'
@@ -91,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/manage-users',
         element: <AdminManageUsers />
+      },
+      {
+        path: '/admin/send-message',
+        element: <AdminSendMessage />
       }
     ]
   }

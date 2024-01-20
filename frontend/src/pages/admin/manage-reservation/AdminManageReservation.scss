@@ -9,5 +9,9 @@
     @include from ($small-phone) {
       width: max-content;
     }
+
+    @include from ($large-phone) {
+      min-width: 46rem;
+    }
   }
 }

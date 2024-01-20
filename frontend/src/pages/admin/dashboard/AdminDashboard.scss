@@ -2,6 +2,12 @@
   position: relative;
   display: block;
 
+  .admin-page-section {
+    @include from($large-phone) {
+      max-width: max-content;
+    }
+  }
+
   .day-off-set-container {
     display: flex;
     flex-direction: column;

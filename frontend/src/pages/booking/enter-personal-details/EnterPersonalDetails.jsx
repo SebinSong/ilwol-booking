@@ -350,7 +350,7 @@ export default function EnterPersonalDetails () {
                   <div className='contact-field'>
                     <span className='contact-field__label'>핸드폰</span>
 
-                    <div className='contact-field__mobile-container'>
+                    <div className='contact-field__mobile-container mobile-number-field'>
                       <div className='selectbox'>
                         <select className='select'
                           value={details.mobile?.prefix}

@@ -1,0 +1,84 @@
+.page-admin-send-message {
+  position: relative;
+
+  .admin-send-message-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+
+    @include from ($large-phone) {
+      min-width: 46rem;
+    }
+
+    .add-btn-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+
+      .add-btn {
+        min-width: 7.2rem;
+        border-radius: 0.8rem;
+      }
+    }
+
+    .mobile-num-list-container {
+      @include width-limited;
+      margin-left: 0;
+      margin-right: unset;
+
+      @include from ($small-phone) {
+        max-width: 52rem;
+      }
+    }
+
+    .mobile-num-list {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      .mobile-number-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 1.2rem;
+        padding-right: 2.6rem;
+        height: max-content;
+        overflow: hidden;
+        border-radius: 0.8rem;
+        background-color: $success-bg;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+
+        .num-text {
+          display: inline-block;
+          font-size: $size_6;
+          font-weight: bold;
+          margin-right: 0.6rem;
+        }
+
+        .num-delete-btn {
+          position: absolute;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.2rem;
+          height: 2.2rem;
+          top: 50%;
+          right: 0.4rem;
+          transform: translateY(-50%);
+          font-size: $size_5;
+          color: $text_grey;
+          line-height: 1;
+          cursor: pointer;
+
+          &:hover,
+          &:focus {
+            color: $ilwol-purple;
+          }
+        }
+      }
+    }
+  }
+}

@@ -31,7 +31,13 @@ const adminNavList = [
     name: '유저 관리',
     icon: 'group',
     routeTo: '/admin/manage-users'
-  }
+  },
+  // {
+  //   id: 'send-message',
+  //   name: '웹발신 문자 보내기',
+  //   icon: 'mail',
+  //   routeTo: '/admin/send-message'
+  // }
 ]
 
 function AdminNavigation ({ classes = '' }) {

@@ -77,7 +77,7 @@
   }
 
   .page-form-constraints {
-    @include width-limited;
+    @include width-limited-no-auto-margin;
   }
 
   .section-toggle-btn {

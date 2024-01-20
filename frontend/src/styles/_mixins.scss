@@ -120,6 +120,15 @@ $desktop: 1200px;
   }
 }
 
+@mixin width-limited-no-auto-margin {
+  width: 100%;
+  max-width: 36rem;
+
+  @include from($small-phone) {
+    max-width: 42rem;
+  }
+}
+
 @mixin truncate-text-overflow {
   white-space: nowrap;
   overflow: hidden;

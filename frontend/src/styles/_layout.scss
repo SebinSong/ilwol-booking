@@ -8,8 +8,12 @@
   grid-template-areas:
     "l-toolbar"
     "l-page";
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: auto;
+
+  @include smallphone {
+    overflow-x: auto;
+  }
 
   > .app-toolbar,
   > .l-page,

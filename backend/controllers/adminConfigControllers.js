@@ -1,14 +1,17 @@
 
-const { Reservation } = require('../models/reservationModel')
+const { Reservation } = require('../models/reservationModel.js')
 const {
   addEvent,
   clearAllEvents,
   addMultipleEvents
 } = require('../external-services/google-calendar.js')
+const { sendSMSToMultipleCustomers } = require('../external-services/sms.js')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateObjToNum
-} = require('../utils/helpers')
+} = require('../utils/helpers.js')
+
+// ---------------------- Google Calendar API related jobs ---------------------- //
 
 const clearCalendar = asyncHandler(async (req, res) => {
   try {
@@ -51,7 +54,19 @@ const regenateAllEvents = asyncHandler(async (req, res) => {
   }
 })
 
+// ------------------------------------------------------------------------------ //
+
+
+// ------------------------------- SMS related jobs ----------------------------- //
+
+const sendWebMessage = asyncHandler(async (req, res) => {
+  res.send('Working !!!')
+})
+
+// ------------------------------------------------------------------------------ //
+
 module.exports = {
   clearCalendar,
-  regenateAllEvents
+  regenateAllEvents,
+  sendWebMessage
 }

@@ -58,7 +58,12 @@ export default function AdminReservationList () {
 
     navigate(
       '/admin/send-message',
-      { state: { to: mobileNumArr } }
+      { 
+        state: { 
+          to: mobileNumArr,
+          autoMsg: `안녕하세요.\r\n예약 신청 접수가 완료 되었습니다.\r\n예약확정 및 노쇼방지를 위해 익일까지 입금주시도록 운영하고 있어요. 양해를 부탁드립니다. ^^\r\n\r\n감사합니다!\r\n즐거운 하루 되세요~! ^^♡`
+        }
+      }
     )
   }
 

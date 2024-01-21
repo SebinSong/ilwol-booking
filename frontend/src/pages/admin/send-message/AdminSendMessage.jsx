@@ -26,7 +26,7 @@ export default function AdminSendMessage () {
     firstSlot: '',
     secondSlot: '',
     mobileNumList: Array.isArray(state?.to) ? state.to : [],
-    message: ''
+    message: state?.autoMsg ? state.autoMsg : ''
   })
   const [showFailed, setShowFailed] = useState(false)
   const [failedTries, setFailedTries] = useState(null)

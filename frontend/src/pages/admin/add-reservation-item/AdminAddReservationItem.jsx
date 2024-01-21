@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
-import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
+import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, MOBILE_PREFIXES } from '@view-data/constants.js'
 import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 
 // components
@@ -15,7 +15,8 @@ import { useCreateAdminReservation } from '@store/features/adminApiSlice.js'
 // utils
 import {
   classNames as cn,
-  stringifyDate
+  stringifyDate,
+  isStringNumberOnly
 } from '@utils'
 
 import './AdminAddReservationItem.scss'
@@ -41,11 +42,16 @@ export default function AdminAddReservationItem () {
     name: '',
     counselDate: todayDateStr,
     timeSlot: '12:00',
-    method: 'visit'
+    method: 'visit',
+    mobile: {
+      prefix: '010',
+      firstSlot: '',
+      secondSlot: ''
+    }
   })
 
   // computed state
-  const errFeebackMsg = isError && error.data.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
+  const errFeebackMsg = isError && error?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
     ? '선택한 날짜/시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.'
     : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
 
@@ -60,6 +66,18 @@ export default function AdminAddReservationItem () {
     }
   }
 
+  const updateMobileFactory = (key, numberOnly = false) => {
+    return e => {
+      const val = e.target.value
+
+      if (numberOnly && !isStringNumberOnly(val)) { return }
+
+      setDetails(draft => {
+        draft.mobile[key] = val
+      })
+    }
+  }
+
   const undefaultSubmit = (e) => {
     e.preventDefault()
   }
@@ -68,11 +86,19 @@ export default function AdminAddReservationItem () {
     if (!window.confirm(`[${details.counselDate} ${details.timeSlot}] 예약 아이템을 생성하시겠습니까?`)) { return }
 
     try {
+      const { mobile } = details
+
       const res = await createAdminReservation({
         optionId: 'admin-generated',
         counselDate: details.counselDate,
         timeSlot: details.timeSlot,
-        personalDetails: { name: details.name }
+        personalDetails: {
+          name: details.name,
+          mobile: {
+            prefix: mobile.prefix,
+            number: `${mobile.firstSlot}${mobile.secondSlot}`
+          }
+        }
       }).unwrap()
 
       addToastItem({
@@ -108,6 +134,43 @@ export default function AdminAddReservationItem () {
                   onInput={updateFactory('name')}
                   placeholder='이름을 입력하세요' />
               </label>
+            </div>
+
+            <div className='form-field'>
+              <span className='label'>
+                연락처
+                <span className='optional'>{'(선택사항)'}</span>
+              </span>
+
+              <div className='mobile-number-field'>
+                <div className='selectbox'>
+                  <select className='select'
+                    value={details?.mobile?.prefix}
+                    onChange={updateMobileFactory('prefix')}>
+                    {
+                      MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
+                    }
+                  </select>
+                </div>
+
+                <div className='mobile-number-wrapper'>
+                  <input type='text' className='input'
+                    value={details?.mobile?.firstSlot}
+                    onInput={updateMobileFactory('firstSlot', true)}
+                    maxLength={4}
+                    inputMode='numeric'
+                    placeholder='예) 1234' />
+
+                  <span className='dash-sign'>-</span>
+
+                  <input type='text' className='input'
+                    value={details?.mobile?.secondSlot}
+                    onInput={updateMobileFactory('secondSlot', true)}
+                    maxLength={4}
+                    inputMode='numeric'
+                    placeholder='예) 1234' />
+                </div>
+              </div>
             </div>
 
             <div className='form-field'>

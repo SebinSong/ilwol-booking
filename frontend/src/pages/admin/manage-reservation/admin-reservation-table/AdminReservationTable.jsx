@@ -56,7 +56,8 @@ function AdminReservationTable ({
   classes = '',
   emptyMessage = '보여줄 데이터가 없습니다.',
   toggleBtnType = 'default',
-  toggleBtnText = ''
+  toggleBtnText = '',
+  children = null
 }) {
   const navigate = useNavigate()
 
@@ -105,6 +106,13 @@ function AdminReservationTable ({
                     value={search}
                     onInput={e => setSearch(e.target.value)} />
                 </div>
+
+                {
+                  children &&
+                  <div className='admin-reservation-table__cta-container'>
+                    {children}
+                  </div>
+                }
               </div>
 
               {

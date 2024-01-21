@@ -18,6 +18,12 @@
     width: 100%;
   }
 
+  .mobile-cta-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
   .status-tag {
     display: inline-flex;
     margin-left: 0.6rem;

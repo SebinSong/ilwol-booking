@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import { MOBILE_PREFIXES } from '@view-data/constants.js'
 import { isStringNumberOnly } from '@utils'
@@ -17,13 +18,14 @@ import './AdminSendMessage.scss'
 
 export default function AdminSendMessage () {
   const { addToastItem } = useContext(ToastContext)
+  const { state = {} } = useLocation()
 
   // local state
   const [details, setDetails] = useImmer({
     prefix: '010',
     firstSlot: '',
     secondSlot: '',
-    mobileNumList: [],
+    mobileNumList: Array.isArray(state?.to) ? state.to : [],
     message: ''
   })
   const [showFailed, setShowFailed] = useState(false)

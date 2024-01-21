@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // components
 import TextLoader from '@components/text-loader/TextLoader'
@@ -11,8 +12,10 @@ import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
 
 // utils
 import { dateObjToNumeric } from '@utils'
+const combineMoblie = mobile => `${mobile.prefix}-${mobile.number.slice(0, 4)}-${mobile.number.slice(4)}`
 
 export default function AdminReservationList () {
+  const navigate = useNavigate()
   // local-state
   const [getReservations, {
     data,
@@ -48,6 +51,17 @@ export default function AdminReservationList () {
     }
   }
 
+  const onSendMsgClick = () => {
+    const mobileNumArr = pendingData
+      .map(x => x.personalDetails?.mobile?.number ? combineMoblie(x.personalDetails.mobile) : '')
+      .filter(Boolean)
+
+    navigate(
+      '/admin/send-message',
+      { state: { to: mobileNumArr } }
+    )
+  }
+
   const feedbackEl = isLoadingReservations
     ? <div className='admin-feedback-container'>
         <TextLoader>
@@ -69,7 +83,13 @@ export default function AdminReservationList () {
             list={pendingData}
             emptyMessage='해당 데이터가 없습니다.'
             toggleBtnText='확정 대기중인 예약'
-            toggleBtnType='default' />
+            toggleBtnType='default'>
+            <button className='is-secondary is-small' type='button'
+              onClick={onSendMsgClick}>
+              <span className='icon-mail is-prefix'></span>
+              전체문자 전송
+            </button>
+          </AdminReservationTable>
         </section>
 
         <section className='admin-page-section mb-40 pb-0'>

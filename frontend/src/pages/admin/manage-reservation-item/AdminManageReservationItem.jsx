@@ -80,6 +80,7 @@ export default function AdminManageReservationItem () {
   // computed state
   const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}
+  const hasContactDetails = Boolean(pDetails?.mobile?.number || pDetails?.email || pDetails?.kakaoId)
 
   // effects
   useEffect(() => {
@@ -118,6 +119,7 @@ export default function AdminManageReservationItem () {
       })
     }
   }
+
   const onDeleteBtnClick = async () => {
     if (!window.confirm('예약 아이템을 제거하시겠습니까? 데이터는 완전히 사라지며, 복구할 수 없습니다.')) { return } // @@@
 
@@ -142,7 +144,21 @@ export default function AdminManageReservationItem () {
       })
     }
   }
+
   const onModifyBtnClick = () => { navigate(`/admin/update-reservation-item/${reservationId}`) }
+
+  const onMessageBtnClick = () => {
+    const { prefix = '', number = '' } = pDetails?.mobile || {}
+  
+    navigate(
+      '/admin/send-message',
+      {
+        state: {
+          to: [`${prefix}-${number.slice(0, 4)}-${number.slice(4)}`] 
+        } 
+      }
+    )
+  }
 
   // views
   const feedbackEl = isLoadingDetails
@@ -282,7 +298,7 @@ export default function AdminManageReservationItem () {
                 </div>
 
                 {
-                  !isAdminGenerated &&
+                  hasContactDetails &&
                   <div className='summary-list__item is-column'>
                     <span className='summary-list__label'>연락처</span>
 
@@ -290,9 +306,16 @@ export default function AdminManageReservationItem () {
                       <span className='sub-label'>핸드폰</span>
                       <span className='sub-value'>{
                         pDetails?.mobile?.number
-                          ? <CopyToClipboard textToCopy={combineMobile(pDetails.mobile)}>
-                              {combineMobile(pDetails.mobile)}
-                            </CopyToClipboard>
+                          ? <span className='mobile-cta-container'>
+                              <CopyToClipboard textToCopy={combineMobile(pDetails.mobile)}>
+                                {combineMobile(pDetails.mobile)}
+                              </CopyToClipboard>
+
+                              <button className='is-secondary is-table-btn icon-only' type='button'
+                                onClick={onMessageBtnClick}>
+                                <i className='icon-mail'></i>
+                              </button>
+                            </span>
                           : 'N/A'
                       }</span>
                     </div>

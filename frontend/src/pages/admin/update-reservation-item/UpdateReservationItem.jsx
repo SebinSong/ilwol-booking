@@ -51,7 +51,8 @@ export default function AdminUpdateReservationItem () {
     timeSlot: '',
     optionId: '',
     method: '',
-    numAttendee: 1
+    numAttendee: 1,
+    name: ''
   })
   const [originalData, setOriginalData] = useState({})
   const [updateError, setUpdateError] = useState('') 
@@ -71,7 +72,8 @@ export default function AdminUpdateReservationItem () {
 
   // computed state
   const pDetails = data?.personalDetails || {}
-  const computedTotalPrice = details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
+  const isAdminGenerated = details?.optionId === 'admin-generated'
+  const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
   const enableUpdateBtn = Object.entries(details).some(
     ([key, value]) => Boolean(value) &&  originalData[key] !== value
   )
@@ -106,14 +108,16 @@ export default function AdminUpdateReservationItem () {
         timeSlot: data.timeSlot,
         optionId: data.optionId,
         method: data.personalDetails.method,
-        numAttendee: data.personalDetails.numAttendee
+        numAttendee: data.personalDetails.numAttendee,
+        name: data.personalDetails.name
       })
       setDetails(draft => {
         draft.counselDate = dateStr
         draft.timeSlot = data.timeSlot
         draft.optionId = data.optionId
         draft.method = data.personalDetails.method
-        draft.numAttendee = data.personalDetails.numAttendee
+        draft.numAttendee = data.personalDetails.numAttendee,
+        draft.name = data.personalDetails.name
       })
     }
   }, [data])
@@ -148,7 +152,7 @@ export default function AdminUpdateReservationItem () {
       }
     }
 
-    for (const keyName of ['method', 'numAttendee']) {
+    for (const keyName of ['method', 'numAttendee', 'name']) {
       if (details[keyName] !== originalData[keyName]) {
         if (!updates.personalDetails) {
           updates.personalDetails = {}
@@ -243,12 +247,24 @@ export default function AdminUpdateReservationItem () {
               <div className='summary-list'>
                 <div className='summary-list__title c-table-title'>예약 내용 수정</div>
 
-                <div className='summary-list__item'>
+                
+                <div className='summary-list__item align-center'>
                   <span className='summary-list__label'>이름</span>
-                  <span className='summary-list__value is-normal-color'>
-                    {pDetails.name}
-                    <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
-                  </span>
+                  {
+                    isAdminGenerated
+                      ? <>
+                          <input type='text'
+                            data-vkey='name'
+                            min={todayDateStr}
+                            className={cn('input is-small form-el-value')}
+                            value={details.name}
+                            onInput={updateFactory('name')} />
+                        </>
+                      : <span className='summary-list__value is-normal-color'>
+                          {pDetails.name}
+                          <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
+                        </span>
+                  }
                 </div>
 
                 <div className='summary-list__item align-center'>
@@ -283,24 +299,27 @@ export default function AdminUpdateReservationItem () {
                   </span>
                 </div>
 
-                <div className='summary-list__item align-center'>
-                  <span className='summary-list__label'>상담 옵션</span>
-                  <span className='summary-list__value'>
-                    <span className='selectbox is-small form-el-value'>
-                      <select className='select'
-                        tabIndex='0'
-                        value={details.optionId}
-                        data-vkey='optionId'
-                        onChange={updateFactory('optionId')}>
-                        {
-                          COUNSEL_OPTIONS_LIST.map(entry => (
-                            <option value={entry.id} key={entry.id}>{entry.name}</option>
-                          ))
-                        }
-                      </select>
+                {
+                  !isAdminGenerated &&
+                  <div className='summary-list__item align-center'>
+                    <span className='summary-list__label'>상담 옵션</span>
+                    <span className='summary-list__value'>
+                      <span className='selectbox is-small form-el-value'>
+                        <select className='select'
+                          tabIndex='0'
+                          value={details.optionId}
+                          data-vkey='optionId'
+                          onChange={updateFactory('optionId')}>
+                          {
+                            COUNSEL_OPTIONS_LIST.map(entry => (
+                              <option value={entry.id} key={entry.id}>{entry.name}</option>
+                            ))
+                          }
+                        </select>
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                }
 
                 <div className='summary-list__item align-center'>
                   <span className='summary-list__label'>상담 방식</span>
@@ -321,37 +340,43 @@ export default function AdminUpdateReservationItem () {
                   </span>
                 </div>
 
-                <div className='summary-list__item align-center'>
-                  <span className='summary-list__label'>
-                    총 상담 인원 <span className='text-color-magenta'>(본인 포함)</span>
-                  </span>
-                  <span className='summary-list__value'>
-                    <span className='selectbox is-small form-el-value'>
-                      <select  className={cn('select', isErrorActive('numAttendee') && 'is-error')}
-                        tabIndex='0'
-                        value={details.numAttendee}
-                        data-vkey='numAttendee'
-                        onChange={updateFactory('numAttendee')}>
-                        {
-                          numAttendeeOptions.map(
-                            num => (<option key={num} value={num}>{num}</option>)
-                          )
-                        }
-                      </select>
+                {
+                  !isAdminGenerated &&
+                  <div className='summary-list__item align-center'>
+                    <span className='summary-list__label'>
+                      총 상담 인원 <span className='text-color-magenta'>(본인 포함)</span>
                     </span>
-                  </span>
-                </div>
+                    <span className='summary-list__value'>
+                      <span className='selectbox is-small form-el-value'>
+                        <select  className={cn('select', isErrorActive('numAttendee') && 'is-error')}
+                          tabIndex='0'
+                          value={details.numAttendee}
+                          data-vkey='numAttendee'
+                          onChange={updateFactory('numAttendee')}>
+                          {
+                            numAttendeeOptions.map(
+                              num => (<option key={num} value={num}>{num}</option>)
+                            )
+                          }
+                        </select>
+                      </span>
+                    </span>
+                  </div>
+                }
 
-                <div className='summary-list__item align-center'>
-                  <span className='summary-list__label'>
-                    총 가격 <span className='text-color-magenta'>(자동계산)</span>
-                  </span>
-                  <span className='summary-list__value is-little-big'>
-                    <span className='total-price-value'>
-                      {displayMoney(computedTotalPrice)}
+                {
+                  !isAdminGenerated &&
+                  <div className='summary-list__item align-center'>
+                    <span className='summary-list__label'>
+                      총 가격 <span className='text-color-magenta'>(자동계산)</span>
                     </span>
-                  </span>
-                </div>
+                    <span className='summary-list__value is-little-big'>
+                      <span className='total-price-value'>
+                        {displayMoney(computedTotalPrice)}
+                      </span>
+                    </span>
+                  </div>
+                }
               </div>
 
               {

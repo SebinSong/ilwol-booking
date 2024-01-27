@@ -19,7 +19,8 @@ const {
   checkRequiredFieldsAndThrow,
   sendResourceNotFound,
   getCounselTypeNameById,
-  mergeObjects
+  mergeObjects,
+  extractNameWithNum
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -195,7 +196,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
   addEvent({
     date: counselDate,
     timeSlot,
-    title: pDetails.name,
+    title: extractNameWithNum(pDetails),
     optionId,
     reservationId: newReservation._id
   })

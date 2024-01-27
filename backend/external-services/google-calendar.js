@@ -8,7 +8,8 @@ const {
   numericDateToString,
   stringToBase64,
   base64ToString,
-  promiseAllWithLimit
+  promiseAllWithLimit,
+  extractNameWithNum
 } = require('../utils/helpers')
 const { DAYS_MILLIS } = require('../utils/constants')
 
@@ -163,6 +164,7 @@ async function addEvent ({
   date, timeSlot, optionId, title, status, isConfirmed = false,
   reservationId = ''
 }) {
+  console.log('@!# reservationId: ', reservationId)
   const eventObj = {
     summary: `${timeSlot} ${title}`,
     description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
@@ -201,13 +203,13 @@ async function addMultipleEvents (data) {
     })
 
     const pFuncArr = data.map(reservation => {
-      const { optionId, timeSlot, counselDate, personalDetails, status } = reservation
+      const { optionId, timeSlot, counselDate, personalDetails, status, _id } = reservation
       const date = numericDateToString(counselDate)
 
       return () => calendar.events.insert({
         resource: {
-          summary: `${timeSlot} ${personalDetails?.name || ''}`,
-          description: getCounselTypeNameById(optionId),
+          summary: `${timeSlot} ${personalDetails?.name ? extractNameWithNum(personalDetails) : ''}`,
+          description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${_id}`,
           start: { date },
           end: { date },
           colorId: colorIdMap[status]

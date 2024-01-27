@@ -209,12 +209,8 @@ export default function AdminManageReservationItem () {
               <div className='summary-list'>
                 <div className='summary-list__title c-table-title'>
                   <span className='mr-4'>예약 상세 내역</span>
-
-                  {
-                    !isAdminGenerated &&
-                    <button className='is-secondary is-table-btn ml-4'
-                      onClick={onModifyBtnClick}>수정</button>
-                  }
+                  <button className='is-secondary is-table-btn ml-4'
+                    onClick={onModifyBtnClick}>수정</button>
 
                   <button className='is-warning is-table-btn ml-4'
                     onClick={onDeleteBtnClick}

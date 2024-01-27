@@ -101,7 +101,7 @@ const mergeObjects = (obj, src) => {
   for (const key in src) {
     const clone = isMergeableObject(src[key]) ? cloneDeep(src[key]) : undefined
     if (clone && isMergeableObject(obj[key])) {
-      merge(obj[key], clone)
+      mergeObjects(obj[key], clone)
       continue
     }
     obj[key] = clone || src[key]
@@ -150,6 +150,13 @@ const promiseAllWithLimit = async (asyncFuncArr, concurrencyLimit = 10) => {
   return allResults.flat()
 }
 
+const extractNameWithNum = pDetails => {
+  const { numAttendee, name } = pDetails
+  return numAttendee > 1
+    ? `${name} 외${numAttendee - 1}명`
+    : name
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -167,5 +174,6 @@ module.exports = {
   cloneDeep,
   stringToBase64,
   base64ToString,
-  promiseAllWithLimit
+  promiseAllWithLimit,
+  extractNameWithNum
 }

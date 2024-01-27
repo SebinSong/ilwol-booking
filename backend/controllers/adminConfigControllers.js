@@ -1,7 +1,6 @@
 
 const { Reservation } = require('../models/reservationModel.js')
 const {
-  addEvent,
   clearAllEvents,
   addMultipleEvents
 } = require('../external-services/google-calendar.js')

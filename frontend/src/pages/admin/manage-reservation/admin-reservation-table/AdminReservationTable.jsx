@@ -108,7 +108,7 @@ function AdminReservationTable ({
                 </div>
 
                 {
-                  children &&
+                  Boolean(children && dataToDisplay.length) &&
                   <div className='admin-reservation-table__cta-container'>
                     {children}
                   </div>

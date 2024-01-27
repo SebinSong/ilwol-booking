@@ -27,7 +27,6 @@ const {
 
 // local variables
 const { API_PORT, NODE_ENV } = process.env
-const loggerOutputDest = process.stdout
 
 // Create an app instance & bind routers/ routes / middlewares etc.
 const app = express()

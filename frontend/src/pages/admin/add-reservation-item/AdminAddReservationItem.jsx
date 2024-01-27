@@ -52,7 +52,7 @@ export default function AdminAddReservationItem () {
 
   // computed state
   const errFeebackMsg = isError && error?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
-    ? '선택한 날짜/시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.'
+    ? '선택한 날짜가 휴일로 설정되어 있거나 혹은 그 시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.'
     : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
 
   // methods

@@ -33,7 +33,7 @@ import './AdminDashboard.scss'
 
 // helpers
 const legendList = [
-  { color: 'magenta', text: '선택됨' },
+  { color: 'magenta', text: '쉬는날 선택' },
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '예약내역 있음' }
 ]

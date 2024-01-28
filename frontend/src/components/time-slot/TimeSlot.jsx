@@ -12,7 +12,9 @@ export default function TimeSlot ({
   value = '',
   onSelect = null,
   classes = '',
-  isOverseasOption = false
+  isOverseasOption = false,
+  disableContactMemo = false,
+  disableAutoScroll = false
 }) {
   const rootEl = useRef(null)
   const ctcOptions = isOverseasOption
@@ -44,7 +46,7 @@ export default function TimeSlot ({
 
   useEffect(() => {
     // make sure it's noticeable by user
-    rootEl.current && rootEl.current.scrollIntoView(true)
+    !disableAutoScroll && rootEl.current && rootEl.current.scrollIntoView(true)
   }, [])
 
   useEffect(() => {
@@ -68,14 +70,17 @@ export default function TimeSlot ({
         }
       </div>
 
-      <div className='time-slot-info mt-20'>
-        제시된 시간 외의 상담 문의는, 선녀님께
-        <CopyToClipboard classes='kakao-id-copy'
-          {...ctcOptions}>
-          { isOverseasOption ? '카톡' : '문자'}
-        </CopyToClipboard>
-         주세요.
-      </div>
+      {
+        !disableContactMemo &&
+        <div className='time-slot-info mt-20'>
+          제시된 시간 외의 상담 문의는, 선녀님께
+          <CopyToClipboard classes='kakao-id-copy'
+            {...ctcOptions}>
+            { isOverseasOption ? '카톡' : '문자'}
+          </CopyToClipboard>
+          주세요.
+        </div>
+      }
     </div>
   )
 }

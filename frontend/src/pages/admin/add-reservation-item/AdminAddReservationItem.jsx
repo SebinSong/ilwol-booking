@@ -1,17 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { useNavigate } from 'react-router-dom'
 import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, MOBILE_PREFIXES } from '@view-data/constants.js'
 import { CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 
 // components
+import Calendar from '@components/calendar/Calendar'
+import TimeSlot from '@components/time-slot/TimeSlot'
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import StateButton from '@components/state-button/StateButton'
+import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
-import { useCreateAdminReservation } from '@store/features/adminApiSlice.js'
+import {
+  useCreateAdminReservation,
+  useGetDetailedReservationStatus,
+  useGetDayoffs
+} from '@store/features/adminApiSlice.js'
+
 // utils
 import {
   classNames as cn,
@@ -24,6 +32,11 @@ import './AdminAddReservationItem.scss'
 // helpers
 const { WarningMessage } = React.Global
 const todayDateStr = stringifyDate(new Date())
+const legendList = [
+  { color: 'magenta', text: '선택됨' },
+  { color: 'success', text: '오늘' },
+  { color: 'validation', text: '쉬는날 / 예약 있음' }
+]
 
 export default function AdminAddReservationItem () {
   const navigate = useNavigate()
@@ -38,10 +51,20 @@ export default function AdminAddReservationItem () {
       error
     }
   ] = useCreateAdminReservation()
+  const {
+    data: dayOffsData,
+    isLoading: isDayoffsLoading,
+    isError: isDayoffsError
+  } = useGetDayoffs()
+  const [getDetailedReservationStatus, {
+    data: bookingData,
+    isLoading: isLoadingStatus,
+    isError: isStatusError
+  }] = useGetDetailedReservationStatus()
   const [details, setDetails] = useImmer({
     name: '',
-    counselDate: todayDateStr,
-    timeSlot: '12:00',
+    counselDate: '',
+    timeSlot: '',
     method: 'visit',
     mobile: {
       prefix: '010',
@@ -54,6 +77,19 @@ export default function AdminAddReservationItem () {
   const errFeebackMsg = isError && error?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
     ? '선택한 날짜가 휴일로 설정되어 있거나 혹은 그 시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.'
     : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
+  const occupiedTimeSlots = useMemo(() => {
+    return details?.counselDate && bookingData && bookingData[details.counselDate]
+      ? Object.keys(bookingData[details.counselDate])
+      : []
+  }, [details?.counselDate])
+  const enableSubmitBtn = useMemo(() => {
+    const { name, counselDate, timeSlot } = details
+    return Boolean(name?.length >= 2 && counselDate && timeSlot)
+  }, [details])
+
+  useEffect(() => {
+    getDetailedReservationStatus()
+  }, [])
 
   // methods
   const updateFactory = key => {
@@ -76,6 +112,18 @@ export default function AdminAddReservationItem () {
         draft.mobile[key] = val
       })
     }
+  }
+
+  const onCalendarSelect = value => {
+    setDetails(draft => {
+      draft.counselDate = value
+      draft.timeSlot = ''
+    })
+  }
+  const onTimeSlotSelect = value => {
+    setDetails(draft => {
+      draft.timeSlot = value
+    })
   }
 
   const undefaultSubmit = (e) => {
@@ -112,6 +160,22 @@ export default function AdminAddReservationItem () {
     }
   }
 
+  // views
+  console.log('!@# dayOffsData: ', dayOffsData)
+  const feedbackEl = (isLoadingStatus || isDayoffsLoading)
+    ? <div className='admin-feedback-container'>
+        <TextLoader classes='mb-30'>
+          예약현황/쉬는날 데이터 로딩중...
+        </TextLoader>
+      </div>
+    : (isStatusError || isDayoffsError)
+        ? <Feedback type='error' classes='mt-20 mb-30' showError={true}>
+            예약현황/쉬는날 데이터 로드중 에러가 발생하였습니다.
+          </Feedback>
+        : null
+
+  console.log('!@# bookingData: ', bookingData)
+
   return (
     <AdminPageTemplate classes='page-admin-add-reservation-item'>
       <h2 className='admin-page-title'>
@@ -120,126 +184,129 @@ export default function AdminAddReservationItem () {
       </h2>
 
       <p className='admin-page-description'>관리자가 임의로 예약 아이템을 생성합니다.</p>
+      {
+        feedbackEl ||
+        <div className='admin-add-reservation-item-content'>
+          <form className='form-container' onSubmit={undefaultSubmit}>
+            <div className='form-field select-date-time-container'>
+              <span className='label mb-10'>날짜/시간 선택</span>
+              
+              <div className='calendar-container'>
+                <Calendar onChange={onCalendarSelect}
+                  fullyBookedDates={dayOffsData}
+                  value={details?.counselDate} />
+              </div>
 
-      <div className='admin-add-reservation-item-content'>
-        <form className='form-container' onSubmit={undefaultSubmit}>
-          <div className='summary-list'>
-            <div className='form-field'>
-              <label>
-                <span className='label'>이름</span>
+              <div className='legends-container is-right-aligned mt-20'>
+                {
+                  legendList.map(entry => (
+                    <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
+                      <span className='color-pad'></span>
+                      <span className='item-text'>{entry.text}</span>
+                    </div>
+                  ))
+                }
+              </div>
 
-                <input type='text'
-                  className='input common-input-width'
-                  value={details.name}
-                  onInput={updateFactory('name')}
-                  placeholder='이름을 입력하세요' />
-              </label>
+              {
+                Boolean(details?.counselDate) &&
+                <div className='time-selection-container mt-30'>
+                  <TimeSlot classes='time-slot'
+                    slotList={EXTENDED_TIME_SLOTS}
+                    value={details?.timeSlot}
+                    occupiedSlots={occupiedTimeSlots}
+                    onSelect={onTimeSlotSelect}
+                    disableContactMemo={true}
+                    disableAutoScroll={true} />
+                </div>
+              }
             </div>
 
-            <div className='form-field'>
-              <span className='label'>
-                연락처
-                <span className='optional'>{'(선택사항)'}</span>
-              </span>
+            <div className='summary-list'>
+              <div className='form-field'>
+                <label>
+                  <span className='label'>이름</span>
 
-              <div className='mobile-number-field'>
-                <div className='selectbox'>
-                  <select className='select'
-                    value={details?.mobile?.prefix}
-                    onChange={updateMobileFactory('prefix')}>
-                    {
-                      MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
-                    }
-                  </select>
+                  <input type='text'
+                    className='input common-input-width'
+                    value={details.name}
+                    onInput={updateFactory('name')}
+                    placeholder='이름을 입력하세요' />
+                </label>
+              </div>
+
+              <div className='form-field'>
+                <span className='label'>
+                  연락처
+                  <span className='optional'>{'(선택사항)'}</span>
+                </span>
+
+                <div className='mobile-number-field'>
+                  <div className='selectbox'>
+                    <select className='select'
+                      value={details?.mobile?.prefix}
+                      onChange={updateMobileFactory('prefix')}>
+                      {
+                        MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
+                      }
+                    </select>
+                  </div>
+
+                  <div className='mobile-number-wrapper'>
+                    <input type='text' className='input'
+                      value={details?.mobile?.firstSlot}
+                      onInput={updateMobileFactory('firstSlot', true)}
+                      maxLength={4}
+                      inputMode='numeric'
+                      placeholder='예) 1234' />
+
+                    <span className='dash-sign'>-</span>
+
+                    <input type='text' className='input'
+                      value={details?.mobile?.secondSlot}
+                      onInput={updateMobileFactory('secondSlot', true)}
+                      maxLength={4}
+                      inputMode='numeric'
+                      placeholder='예) 1234' />
+                  </div>
                 </div>
+              </div>
 
-                <div className='mobile-number-wrapper'>
-                  <input type='text' className='input'
-                    value={details?.mobile?.firstSlot}
-                    onInput={updateMobileFactory('firstSlot', true)}
-                    maxLength={4}
-                    inputMode='numeric'
-                    placeholder='예) 1234' />
+              <div className='form-field'>
+                <label>
+                  <span className='label'>상담 방식</span>
 
-                  <span className='dash-sign'>-</span>
-
-                  <input type='text' className='input'
-                    value={details?.mobile?.secondSlot}
-                    onInput={updateMobileFactory('secondSlot', true)}
-                    maxLength={4}
-                    inputMode='numeric'
-                    placeholder='예) 1234' />
-                </div>
+                  <span className='selectbox'>
+                    <select className='select common-input-width'
+                      tabIndex='0'
+                      value={details.method}
+                      data-vkey='method'
+                      onChange={updateFactory('method')}>
+                      {
+                        COUNSEL_METHOD.map(entry => (
+                          <option value={entry.value} key={entry.id}>{entry.name}</option>
+                        ))
+                      }
+                    </select>
+                  </span>
+                </label>
               </div>
             </div>
 
-            <div className='form-field'>
-              <label>
-                <span className='label'>상담 날짜</span>
+            <Feedback type='error' classes='mt-20'
+              showError={isError}
+              message={errFeebackMsg} />
 
-                <input type='date'
-                  lang='ko'
-                  min={todayDateStr}
-                  className='input common-input-width'
-                  value={details.counselDate}
-                  onInput={updateFactory('counselDate')} />
-              </label>
-
+            <div className='buttons-container is-right-aligned mt-30 mb-0'>
+              <StateButton classes='is-primary'
+                type='submit'
+                disabled={!enableSubmitBtn}
+                onClick={submitHandler}
+              >생성하기</StateButton>
             </div>
-
-            <div className='form-field'>
-              <label>
-                <span className='label'>상담 시간</span>
-
-                <span className='selectbox'>
-                  <select className='select common-input-width'
-                    tabIndex='0'
-                    value={details.timeSlot}
-                    onChange={updateFactory('timeSlot')}>
-                    {
-                      EXTENDED_TIME_SLOTS.map(slot => (
-                        <option value={slot} key={slot}>{slot}</option>
-                      ))
-                    }
-                  </select>
-                </span>
-              </label>
-            </div>
-
-            <div className='form-field'>
-              <label>
-                <span className='label'>상담 방식</span>
-
-                <span className='selectbox'>
-                  <select className='select common-input-width'
-                    tabIndex='0'
-                    value={details.method}
-                    data-vkey='method'
-                    onChange={updateFactory('method')}>
-                    {
-                      COUNSEL_METHOD.map(entry => (
-                        <option value={entry.value} key={entry.id}>{entry.name}</option>
-                      ))
-                    }
-                  </select>
-                </span>
-              </label>
-            </div>
-          </div>
-
-          <Feedback type='error' classes='mt-20'
-            showError={isError}
-            message={errFeebackMsg} />
-
-          <div className='buttons-container is-right-aligned mt-30 mb-0'>
-            <StateButton classes='is-primary'
-              type='submit'
-              disabled={details.name.length < 2}
-              onClick={submitHandler}
-            >생성하기</StateButton>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      }
     </AdminPageTemplate>
   )
 }

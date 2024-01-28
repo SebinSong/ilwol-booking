@@ -26,7 +26,6 @@ import {
   useGetDetailedReservationStatus,
   useGetDayoffs,
   useUpdateDayoffs,
-  flattenDayoffsData,
   useArchiveOldReservations
 } from '@store/features/adminApiSlice.js'
 
@@ -209,10 +208,15 @@ export default function AdminDashboard ({
         feedbackEl ||
         <>
           <section className='admin-page-section'>
-            <h3 className='admin-page-section-title'>
+            <h3 className='admin-page-section-title mb-10'>
               <i className='icon-chevron-right-circle is-prefix'></i>
-              <span>쉬는 날 정하기</span>
+              <span>예약현황 보기 / 쉬는날 업데이트</span>
             </h3>
+
+            <p className='helper info mb-20'>
+              고객 예약 아이템, 관리자 생성 예약 아이템, 쉬는 날 현황을 한눈에 확인할 수 있는 달력입니다. <br />
+              날짜를 선택 또는 선택 취소하여, 쉬는 날을 업데이트 할 수 있습니다. 
+            </p>
 
             <div className='day-off-set-container'>
               <div className='calendar-container'>
@@ -242,7 +246,7 @@ export default function AdminDashboard ({
                       type='button'
                       displayLoader={isUpdatingDayoffs}
                       onClick={submitDayoffsUpdate}
-                    >업데이트</StateButton>
+                    >쉬는날 업데이트</StateButton>
                   </div>
                 }
               </div>

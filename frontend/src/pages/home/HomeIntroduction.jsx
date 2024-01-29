@@ -68,7 +68,7 @@ function HomeIntroduction ({
 
                 <ul className='intro-list mb-50'>
                   <li className='intro-list-item'>
-                    단국대(서울 힌남동) 영문과 학사 출신이시며, <span className='has-text-bold'>20년</span> 가까이 신점 전문가로 활동 중이십니다.
+                    단국대(서울 한남동) 영문과 학사 출신이시며, <span className='has-text-bold'>20년</span> 가까이 신점 전문가로 활동 중이십니다.
                   </li>
                   <li className='intro-list-item'><span className='has-text-bold'>심리상담사 자격증</span>과 <span className='has-text-bold'>한부모지도사 자격증</span>을 보유하고 계십니다.</li>
                   <li className='intro-list-item'><span className='has-text-bold'>미래</span>에 있을 사실을 잘 맞추시며 (아래 <span className='has-text-bold'>jtbc 뉴스</span> 참고), 상담자의 <span className='has-text-bold'>숨겨진 능력 개발</span>에 대한 정확한 조언으로 유명하십니다.</li>

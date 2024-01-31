@@ -180,8 +180,8 @@ const postReservation = asyncHandler(async (req, res, next) => {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
       message: `${pDetails.name}님, [${getReservationTime()}]으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
-        '상담료 계좌이체를 해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
-        `(예약내역 확인/이체정보/예약취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
+        '[SC제일은행 김은숙 635-20-144462]로 상담료를 이체해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
+        `(예약내역 확인/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
     })
     
     // send another notification SMS to the admin contact

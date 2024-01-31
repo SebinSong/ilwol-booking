@@ -187,7 +187,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
     // send another notification SMS to the admin contact
     await sendSMS({
       toAdmin: true,
-      message: `새로운 예약이 접수되었습니다. [${getReservationTime()}, ${getCounselTypeNameById(optionId)}] (링크: ${process.env.SITE_URL}/admin/manage-reservation)`
+      message: `새로운 예약이 접수되었습니다. [${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}] (링크: ${process.env.SITE_URL}/admin/manage-reservation)`
     })
   }
 
@@ -368,8 +368,8 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     if (!Boolean(admin)) {
       sendSMS({
         toAdmin: true,
-        message: `고객이 예약을 취소하였습니다 - [${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
-      })  
+        message: `고객이 예약을 취소하였습니다 - [${deletedReservation?.personalDetails?.name || ''} ${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
+      })
     }
 
     // delete the corresponding event item from the google calendar

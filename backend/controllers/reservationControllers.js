@@ -6,7 +6,6 @@ const {
   addEvent,
   deleteEvent,
   findEventItemByTime,
-  regenerateEventItem,
   updateEventDetails
 } = require('../external-services/google-calendar.js')
 
@@ -197,17 +196,10 @@ const postReservation = asyncHandler(async (req, res, next) => {
     date: counselDate,
     timeSlot,
     title: extractNameWithNum(pDetails),
+    method: pDetails?.method || '',
     optionId,
     reservationId: newReservation._id
-  })
-    .then(async ({ data }) => {
-      const eventId = data.id
-      await Reservation.findByIdAndUpdate(
-        newReservation._id,
-        { $set: { calendarEventId: eventId } }
-      )
-    })
-    .catch(err => {
+  }).catch(err => {
       console.log('@@ Failed to add an event item to the Google Calendar: ', err)
     })
 })

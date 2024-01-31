@@ -153,7 +153,7 @@ const promiseAllWithLimit = async (asyncFuncArr, concurrencyLimit = 10) => {
 const extractNameWithNum = pDetails => {
   const { numAttendee, name } = pDetails
   return numAttendee > 1
-    ? `${name} 외${numAttendee - 1}명`
+    ? `${name}외${numAttendee - 1}명`
     : name
 }
 

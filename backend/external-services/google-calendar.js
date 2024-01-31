@@ -12,6 +12,13 @@ const {
   extractNameWithNum
 } = require('../utils/helpers')
 const { DAYS_MILLIS } = require('../utils/constants')
+const getMethodShort = id => {
+  return ({
+    'visit': '(방)',
+    'voice-talk': '(보)',
+    'phone': '(전)'
+  })[id] || ''
+}
 
 // importing .env file
 dotenv.config({ path: resolve(__dirname, '../.env') })
@@ -161,12 +168,13 @@ async function findEventItemByTime ({
 }
 
 async function addEvent ({
-  date, timeSlot, optionId, title, status, isConfirmed = false,
-  reservationId = ''
+  date, timeSlot = '', optionId, title, method = '',
+  status, isConfirmed = false, reservationId = ''
 }) {
-  console.log('@!# reservationId: ', reservationId)
+  const timeFirst = timeSlot.split(':')[0]
+
   const eventObj = {
-    summary: `${timeSlot} ${title}`,
+    summary: `${timeFirst}` + getMethodShort(method) + `${title}`,
     description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
     start: { date },
     end: { date },
@@ -204,11 +212,12 @@ async function addMultipleEvents (data) {
 
     const pFuncArr = data.map(reservation => {
       const { optionId, timeSlot, counselDate, personalDetails, status, _id } = reservation
+      const timeShort = timeSlot.split(':')[0]
       const date = numericDateToString(counselDate)
 
       return () => calendar.events.insert({
         resource: {
-          summary: `${timeSlot} ${personalDetails?.name ? extractNameWithNum(personalDetails) : ''}`,
+          summary: `${timeShort}` + getMethodShort(personalDetails?.method || '') + `${personalDetails?.name ? extractNameWithNum(personalDetails) : ''}`,
           description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${_id}`,
           start: { date },
           end: { date },

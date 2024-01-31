@@ -145,7 +145,8 @@ export default function AdminAddReservationItem () {
           mobile: {
             prefix: mobile.prefix,
             number: `${mobile.firstSlot}${mobile.secondSlot}`
-          }
+          },
+          method: details.method
         }
       }).unwrap()
 
@@ -161,7 +162,6 @@ export default function AdminAddReservationItem () {
   }
 
   // views
-  console.log('!@# dayOffsData: ', dayOffsData)
   const feedbackEl = (isLoadingStatus || isDayoffsLoading)
     ? <div className='admin-feedback-container'>
         <TextLoader classes='mb-30'>
@@ -173,8 +173,6 @@ export default function AdminAddReservationItem () {
             예약현황/쉬는날 데이터 로드중 에러가 발생하였습니다.
           </Feedback>
         : null
-
-  console.log('!@# bookingData: ', bookingData)
 
   return (
     <AdminPageTemplate classes='page-admin-add-reservation-item'>

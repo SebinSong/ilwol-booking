@@ -286,13 +286,14 @@ async function clearAllEvents () {
 async function updateEventDetails (reservationId, reservation) {
   console.log('target reservation: ', reservation._id)
   const {
-    timeSlot,
+    timeSlot = '',
     optionId,
     personalDetails,
     status,
     counselDate
   } = reservation
   const dateStr = numericDateToString(counselDate)
+  const timeShort = timeSlot.split(':')[0]
 
   try {
     const foundEvent = await getEventByReservationId(reservationId)
@@ -306,7 +307,7 @@ async function updateEventDetails (reservationId, reservation) {
         auth
       })
       const updateObj = {
-        summary: `${timeSlot} ${personalDetails.name}`,
+        summary: `${timeShort}` + getMethodShort(personalDetails.method) + `${extractNameWithNum(personalDetails)}`,
         description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
         start: { date: dateStr },
         end: { date: dateStr },

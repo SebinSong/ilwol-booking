@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
-import { COUNSEL_METHOD, DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
+import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
 import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -290,7 +290,7 @@ export default function AdminUpdateReservationItem () {
                         data-vkey='timeSlot'
                         onChange={updateFactory('timeSlot')}>
                         {
-                          DEFAULT_TIME_SLOTS.map(slot => (
+                          EXTENDED_TIME_SLOTS.map(slot => (
                             <option value={slot} key={slot}>{slot}</option>
                           ))
                         }

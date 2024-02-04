@@ -44,7 +44,8 @@ export default function CustomerReservationDetails () {
   const {
     data = {},
     isLoading,
-    isError
+    isError,
+    refetch
   } = useGetReservationDetails(
     reservationId,
     { refetchOnMountOrArgChange: true }
@@ -87,6 +88,10 @@ export default function CustomerReservationDetails () {
     }, 10)
   }
   const updateModeOff = useCallback(() => setIsUpdatingTime(false), [])
+  const onUpdateSuccess = useCallback(() => {
+    setIsUpdatingTime(false)
+    refetch()
+  }, [])
 
   // feedback component
   let feedbackEl = isDeleted
@@ -182,7 +187,8 @@ export default function CustomerReservationDetails () {
                   initialDate={numericDateToString(data.counselDate)}
                   initialTimeSlot={data.timeSlot}
                   isOverseasOption={data?.optionId === 'overseas-counsel'}
-                  onBackClick={updateModeOff} />
+                  onBackClick={updateModeOff}
+                  onUpdateSuccess={onUpdateSuccess} />
               : isStatusPending
                 ? <>
                     <div className='bank-transfer-details mt-10'>

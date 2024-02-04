@@ -407,8 +407,6 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
 
       const prevDate = numericDateToString(doc?.counselDate)
       const prevTime = doc?.timeSlot
-      console.log('@#$ message content: ', `${pDetails.name} 고객이 예약을 변경하였습니다:\r\n`
-      + `['${prevDate} ${prevTime}'] -> ['${updates?.counselDate ? numericDateToString(updates.counselDate) : prevDate} ${updates?.timeSlot || prevTime}']`)
       await sendSMS({
         toAdmin: true,
         message: `${pDetails.name} 고객이 예약을 변경하였습니다:\r\n`

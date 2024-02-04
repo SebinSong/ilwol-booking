@@ -187,7 +187,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
     // send another notification SMS to the admin contact
     await sendSMS({
       toAdmin: true,
-      message: `새로운 예약이 접수되었습니다. [${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}] (링크: ${process.env.SITE_URL}/admin/manage-reservation)`
+      message: `새로운 예약이 접수되었습니다. [${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}]`
     })
   }
 

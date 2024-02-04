@@ -288,7 +288,6 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
     sendResourceNotFound(res)
   } else {
     const transformedUpdates = {}
-    const isUpdatingTime = Object.keys(updates).includes('counselDate', 'timeSlot')
 
     for (const key in updates) {
       const value = updates[key]
@@ -386,6 +385,43 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
   }
 })
 
+const updateReservationSchedule = asyncHandler(async (req, res, next) => {
+  const { id: reservationId } = req.params
+  const { updates = {} } = req.body
+  const doc = await Reservation.findById(reservationId)
+
+  if (!doc) {
+    sendResourceNotFound(res)
+  } else {
+    const pDetails = doc.personalDetails
+    if (updates.counselDate) {
+      updates.counselDate = dateToNumeric(updates.counselDate)
+    }
+
+    try {
+      const result = await doc.updateOne({ $set: updates })
+      res.status(200).json({
+        message: 'Successfully updated the reservation schedule',
+        data: result
+      })
+
+      const prevDate = numericDateToString(doc?.counselDate)
+      const prevTime = doc?.timeSlot
+      await sendSMS({
+        toAdmin: true,
+        message: `${pDetails.name} 고객이 예약을 변경하였습니다:\r\n`
+          + `['${prevDate} ${prevTime}'] -> ['${updates?.counselDate ? numericDateToString(updates.counselDate) : prevDate} ${updates?.timeSlot || prevTime}']`
+      })
+
+      const mergedDoc = mergeObjects(doc, updates)
+      updateEventDetails(reservationId, mergedDoc)
+    } catch (err) {
+      console.error('error caught in updateReservationSchedule (reservationControllers.js): ', err)
+      sendBadRequestErr(res, 'Failed to update the reservation schedule')
+    }
+  }
+})
+
 // archiving purpose
 const getAllReservationPagination = asyncHandler(async (req, res, next) => {
   let { limit = null, page = null } = req.query
@@ -416,6 +452,7 @@ module.exports = {
   getReservationStatus,
   getReservationStatusWithDetails,
   updateReservationDetails,
+  updateReservationSchedule,
   deleteReservation,
   archiveOldReservation
 }

@@ -6,6 +6,7 @@ const {
   getReservationStatus,
   getReservationStatusWithDetails,
   updateReservationDetails,
+  updateReservationSchedule,
   deleteReservation,
   archiveOldReservation
 } = require('../controllers/reservationControllers')
@@ -22,6 +23,7 @@ router.get('/detailed-status', isAdmin, getReservationStatusWithDetails)
 
 router.get('/:id', getReservationById)
 router.patch('/:id', isAdmin, updateReservationDetails)
+router.patch('/schedule/:id', updateReservationSchedule)
 router.delete('/:id', deleteReservation)
 
 module.exports = router

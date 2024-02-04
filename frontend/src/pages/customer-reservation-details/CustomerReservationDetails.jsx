@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import bookingOptions from '@view-data/booking-options.js'
 import {
@@ -15,6 +15,7 @@ import RocketIcon from '@components/svg-icons/RocketIcon'
 import TextLoader from '@components/text-loader/TextLoader'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
+import UpdateReservationSchedule from './UpdateReservationSchedule.jsx'
 
 // hooks
 import {
@@ -56,6 +57,8 @@ export default function CustomerReservationDetails () {
     }
   ] = useDeleteReservation()
   const [isDeleted, setIsDeleted] = useState(false)
+  const [isUpdatingTime, setIsUpdatingTime] = useState(false)
+  const [noAmiation, setNoAnimation] = useState(false)
 
   // methods
   const onDeleteClick = async () => {
@@ -76,6 +79,14 @@ export default function CustomerReservationDetails () {
       })
     }
   }
+
+  const updateModeOn = () => {
+    setNoAnimation(true)
+    setTimeout(() => {
+      setIsUpdatingTime(true)
+    }, 10)
+  }
+  const updateModeOff = useCallback(() => setIsUpdatingTime(false), [])
 
   // feedback component
   let feedbackEl = isDeleted
@@ -115,7 +126,7 @@ export default function CustomerReservationDetails () {
 
     return (
       <PageTemplate classes='page-customer-reservation-details'>
-        <div className='page-width-constraints content-container is-success'>
+        <div className={cn('page-width-constraints content-container is-success', noAmiation && 'no-animation')}>
           <div className='page-header'>
             <RocketIcon classes='page-icon' width='96' />
   
@@ -165,86 +176,109 @@ export default function CustomerReservationDetails () {
               </div>
             </div>
           </div>
-  
           {
-            isStatusPending
-            ? <>
-                <div className='bank-transfer-details mt-10'>
-                  <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
+            isUpdatingTime
+              ? <UpdateReservationSchedule classes='mt-50'
+                  initialDate={numericDateToString(data.counselDate)}
+                  initialTimeSlot={data.timeSlot}
+                  isOverseasOption={data?.optionId === 'overseas-counsel'}
+                  onBackClick={updateModeOff} />
+              : isStatusPending
+                ? <>
+                    <div className='bank-transfer-details mt-10'>
+                      <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
+    
+                      <CopyToClipboard classes='copy-bank-transfer-details mb-30'
+                        textToCopy='제일은행 김은숙 635 20 144462'
+                        toastOpt={{
+                          heading: '계좌정보 복사.',
+                          content: '클립보드에 저장 되었습니다.'
+                        }}>
+                        <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
+                      </CopyToClipboard>
+    
+                      <div className='things-to-note'>
+                        <h3 className='note-title'>
+                          <i className='icon-triangle-exclamation mr-4'></i>
+                          계좌이체 유의사항
+                        </h3>
+    
+                        <ul className='list'>
+                          <li>
+                            <span className='has-text-bold mr-4'>1.</span>
+                            <span className='has-text-bold'>입금자</span>와 <span className='has-text-bold'>예약자명</span>은 동일해야 합니다.
+                          </li>
+                          <li>
+                            <span className='has-text-bold mr-4'>2.</span>
+                            상담료 <span className='has-text-bold'>전액</span>을 입금하셔야 하며, 일부 입금시 예약이 확정되지 않습니다.
+                          </li>
+                          <li>
+                            <span className='has-text-bold mr-4'>3.</span>
+                            <span className='has-text-bold'>환불</span>은 예약하신 날짜 기준 <span className='has-text-bold'>1일 전</span>까지 연락주시면 전액 환불해 드립니다.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+    
+                    <div className='buttons-container c-btn-container'>
+                      <button className='is-secondary'
+                        type='button'
+                        onClick={() => navigate('/booking/counsel-option')}>
+                          <i className='icon-home is-prefix'></i>
+                        <span>예약 홈으로</span>
+                      </button>
 
-                  <CopyToClipboard classes='copy-bank-transfer-details mb-30'
-                    textToCopy='제일은행 김은숙 635 20 144462'
-                    toastOpt={{
-                      heading: '계좌정보 복사.',
-                      content: '클립보드에 저장 되었습니다.'
-                    }}>
-                    <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
-                  </CopyToClipboard>
+                      <button className='is-secondary'
+                        type='button'
+                        onClick={updateModeOn}>
+                        <i className='icon-pencil is-prefix'></i>
+                        <span>날짜/시간 변경</span>
+                      </button>
 
-                  <div className='things-to-note'>
-                    <h3 className='note-title'>
-                      <i className='icon-triangle-exclamation mr-4'></i>
-                      계좌이체 유의사항
-                    </h3>
+                      <StateButton classes='is-warning'
+                        type='button'
+                        displayLoader={isDeletingReservation}
+                        onClick={onDeleteClick}>
+                        <i className='icon-trash is-prefix'></i>
+                        <span>예약 취소하기</span>
+                      </StateButton>
+                    </div>
+                  </>
+                : isStatusConfirmed
+                  ? <div className='inquiry-instruction mt-30'>
+                      <p>예약 날 뵙겠습니다. 문의사항이 있으시면, 선녀님께 
+                        <span className='ml-4 has-text-bold'>카톡</span>
+                        이나 
+                        <span className='ml-4 has-text-bold'>문자</span> 
+                        연락 주시기 바랍니다.
+                      </p>
+    
+                      <CopyToClipboard classes='copy-kakao-id mb-10'
+                        textToCopy='dragonrex'
+                        toastOpt={{
+                          heading: '카카오 ID 복사.',
+                          content: '클립보드에 저장 되었습니다.'
+                        }}>
+                        <span className='ctc-text'>카카오 ID 복사</span>
+                      </CopyToClipboard>
+    
+                      <CopyToClipboard classes='copy-kakao-id'
+                        textToCopy='01095398700'
+                        toastOpt={{
+                          heading: '전화번호 복사.',
+                          content: '클립보드에 저장 되었습니다.'
+                        }}>
+                        <span className='ctc-text'>전화번호 복사</span>
+                      </CopyToClipboard>
 
-                    <ul className='list'>
-                      <li>
-                        <span className='has-text-bold mr-4'>1.</span>
-                        <span className='has-text-bold'>입금자</span>와 <span className='has-text-bold'>예약자명</span>은 동일해야 합니다.
-                      </li>
-                      <li>
-                        <span className='has-text-bold mr-4'>2.</span>
-                        상담료 <span className='has-text-bold'>전액</span>을 입금하셔야 하며, 일부 입금시 예약이 확정되지 않습니다.
-                      </li>
-                      <li>
-                        <span className='has-text-bold mr-4'>3.</span>
-                        <span className='has-text-bold'>환불</span>은 예약하신 날짜 기준 <span className='has-text-bold'>1일 전</span>까지 연락주시면 전액 환불해 드립니다.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className='buttons-container c-btn-container'>
-                  <StateButton classes='is-warning'
-                    type='button'
-                    displayLoader={isDeletingReservation}
-                    onClick={onDeleteClick}>
-                    예약 취소
-                  </StateButton>
-
-                  <button className='is-secondary'
-                    type='button'
-                    onClick={() => navigate('/booking/counsel-option')}>예약 홈으로</button>
-                </div>
-              </>
-            : isStatusConfirmed
-              ? <div className='inquiry-instruction mt-30'>
-                  <p>예약 날 뵙겠습니다. 문의사항이 있으시면, 선녀님께 
-                    <span className='ml-4 has-text-bold'>카톡</span>
-                    이나 
-                    <span className='ml-4 has-text-bold'>문자</span> 
-                    연락 주시기 바랍니다.
-                  </p>
-
-                  <CopyToClipboard classes='copy-kakao-id mb-10'
-                    textToCopy='dragonrex'
-                    toastOpt={{
-                      heading: '카카오 ID 복사.',
-                      content: '클립보드에 저장 되었습니다.'
-                    }}>
-                    <span className='ctc-text'>카카오 ID 복사</span>
-                  </CopyToClipboard>
-
-                  <CopyToClipboard classes='copy-kakao-id'
-                    textToCopy='01095398700'
-                    toastOpt={{
-                      heading: '전화번호 복사.',
-                      content: '클립보드에 저장 되었습니다.'
-                    }}>
-                    <span className='ctc-text'>전화번호 복사</span>
-                  </CopyToClipboard>
-                </div>
-              : null
+                      <button className='is-secondary is-small mt-20'
+                        type='button'
+                        onClick={updateModeOn}>
+                        <i className='icon-pencil is-prefix'></i>
+                        <span>날짜/시간 변경</span>
+                      </button>
+                    </div>
+                  : null
           }
         </div>
       </PageTemplate>

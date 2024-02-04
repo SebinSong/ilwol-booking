@@ -14,7 +14,7 @@ import Feedback from '@components/feedback/Feedback'
 import { addCounselDate, addCounselTimeSlot } from '@store/features/counselDetailsSlice.js'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import { useGetReservationStatus } from '@store/features/reservationApiSlice.js'
-import { useGetFutureDayoffs, flattenDayoffsData } from '@store/features/adminApiSlice.js'
+import { useGetFutureDayoffs } from '@store/features/adminApiSlice.js'
 
 import './SelectDateAndTime.scss'
 
@@ -77,8 +77,10 @@ export default function SelectDateAndTime () {
   }
 
   const loadData = async () => {
-    const responseData = await getReservationStatus().unwrap()
-    const dayoffsData = await getFutureDayoffs().unwrap()
+    const [responseData, dayoffsData] = await Promise.all([
+      getReservationStatus().unwrap(),
+      getFutureDayoffs().unwrap()
+    ])
     const { offs = null, reserved = null, fullyBooked = null } = responseData || {}
 
     offs && setDayoffs(offs)

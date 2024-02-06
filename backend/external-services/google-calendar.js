@@ -141,31 +141,6 @@ async function getEventByReservationId (reservationId) {
   }
 }
 
-async function findEventItemByTime ({
-  counselDate, timeSlot
-}) {
-  if (counselDate || timeSlot) {
-    counselDate = (typeof counselDate === 'string')
-      ? counselDate
-      : numericDateToString(counselDate)
-
-    try {
-      const list = await getAllFutureEvents()
-      const found = list.find(entry => {
-        const summary = entry.summary || ''
-        const startDate = entry.start?.date || ''
-  
-        return startDate === counselDate && (summary.includes(timeSlot))
-      })
-  
-      return found || null
-    } catch (err) {
-      console.log('@@ failed to find an item by time - ', err)
-    }
-  }
-
-  return null
-}
 
 async function addEvent ({
   date, timeSlot = '', optionId, title, method = '',
@@ -284,7 +259,6 @@ async function clearAllEvents () {
 }
 
 async function updateEventDetails (reservationId, reservation) {
-  console.log('target reservation: ', reservation._id)
   const {
     timeSlot = '',
     optionId,
@@ -335,7 +309,6 @@ module.exports = {
   deleteEvent,
   clearAllEvents,
   getAllFutureEvents,
-  findEventItemByTime,
   updateEventDetails,
   getEventByReservationId
 }

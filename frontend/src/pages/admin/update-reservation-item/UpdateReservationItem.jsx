@@ -107,17 +107,17 @@ export default function AdminUpdateReservationItem () {
         counselDate: dateStr,
         timeSlot: data.timeSlot,
         optionId: data.optionId,
-        method: data.personalDetails.method,
-        numAttendee: data.personalDetails.numAttendee,
-        name: data.personalDetails.name
+        method: data.personalDetails?.method,
+        numAttendee: data.personalDetails?.numAttendee,
+        name: data.personalDetails?.name
       })
       setDetails(draft => {
         draft.counselDate = dateStr
         draft.timeSlot = data.timeSlot
         draft.optionId = data.optionId
-        draft.method = data.personalDetails.method
-        draft.numAttendee = data.personalDetails.numAttendee,
-        draft.name = data.personalDetails.name
+        draft.method = data.personalDetails?.method
+        draft.numAttendee = data.personalDetails?.numAttendee,
+        draft.name = data.personalDetails?.name
       })
     }
   }, [data])

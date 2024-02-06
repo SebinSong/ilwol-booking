@@ -179,9 +179,9 @@ const postReservation = asyncHandler(async (req, res, next) => {
   if (!isAdminGenerated && hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-      message: `${pDetails.name}님, '${getReservationTime()}'으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
-        '"SC제일은행 김은숙 635-20-144462"로 상담료를 이체해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
-        `(예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
+      message: `${pDetails.name}님, ${getReservationTime()} ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+        '<SC제일은행 김은숙 635-20-144462>로 상담료를 이체해주시면, 관리자가 확정 안내드리겠습니다. ' +
+        `예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
     })
     
     // send another notification SMS to the admin contact
@@ -326,10 +326,10 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         const isMethodVisit = pDetails?.method === 'visit'
 
         const message = updates.status === 'confirmed'
-          ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이, 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
+          ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
             (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
           : updates.status === 'cancelled'
-            ? `${pDetails.name}님, [${reservationTime}] 에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
+            ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
             : ''
 
         if (message) {

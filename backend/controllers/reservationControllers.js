@@ -5,7 +5,7 @@ const { sendSMS } = require('../external-services/sms.js')
 const {
   addEvent,
   deleteEvent,
-  findEventItemByTime,
+  getEventByReservationId,
   updateEventDetails
 } = require('../external-services/google-calendar.js')
 
@@ -372,10 +372,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     }
 
     // delete the corresponding event item from the google calendar
-    findEventItemByTime({
-      counselDate: deletedReservation.counselDate,
-      timeSlot: deletedReservation.timeSlot 
-    }).then(res => {
+    getEventByReservationId(reservationId).then(res => {
       if (res?.id) {
         deleteEvent(res.id)
       }

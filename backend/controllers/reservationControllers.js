@@ -179,15 +179,15 @@ const postReservation = asyncHandler(async (req, res, next) => {
   if (!isAdminGenerated && hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-      message: `${pDetails.name}님, [${getReservationTime()}]으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
-        '[SC제일은행 김은숙 635-20-144462]로 상담료를 이체해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
+      message: `${pDetails.name}님, '${getReservationTime()}'으로 ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+        '"SC제일은행 김은숙 635-20-144462"로 상담료를 이체해주시면, 선녀님 혹은 관리자가 확인 후 확정 안내드리겠습니다. ' +
         `(예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id})`
     })
     
     // send another notification SMS to the admin contact
     await sendSMS({
       toAdmin: true,
-      message: `새로운 예약이 접수되었습니다. [${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}]`
+      message: `새 예약접수 - ${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}`
     })
   }
 
@@ -367,7 +367,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     if (!Boolean(admin)) {
       sendSMS({
         toAdmin: true,
-        message: `고객이 예약을 취소하였습니다 - [${deletedReservation?.personalDetails?.name || ''} ${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}]`
+        message: `고객 예약취소 - ${deletedReservation?.personalDetails?.name || ''} ${numericDateToString(deletedReservation.counselDate)} ${deletedReservation.timeSlot}`
       })
     }
 
@@ -409,8 +409,8 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
       const prevTime = doc?.timeSlot
       await sendSMS({
         toAdmin: true,
-        message: `${pDetails.name} 고객이 예약을 변경하였습니다:\r\n`
-          + `['${prevDate} ${prevTime}'] -> ['${updates?.counselDate ? numericDateToString(updates.counselDate) : prevDate} ${updates?.timeSlot || prevTime}']`
+        message: `${pDetails.name} 예약변경:\r\n`
+          + `'${prevDate} ${prevTime}' -> '${updates?.counselDate ? numericDateToString(updates.counselDate) : prevDate} ${updates?.timeSlot || prevTime}'`
       })
 
       const mergedDoc = mergeObjects(doc, updates)

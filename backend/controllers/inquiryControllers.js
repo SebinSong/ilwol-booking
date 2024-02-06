@@ -17,7 +17,7 @@ const postInquiry = asyncHandler(async (req, res, next) => {
   // send a notification SMS to the admin contact
   sendSMS({
     toAdmin: true,
-    message: `고객으로부터 문의사항이 접수되었습니다. [${name}, ${stringifyDate(new Date(doc.createdAt))}]`
+    message: `고객 문의사항이 접수 - ${name}, ${stringifyDate(new Date(doc.createdAt))}`
   })
 })
 

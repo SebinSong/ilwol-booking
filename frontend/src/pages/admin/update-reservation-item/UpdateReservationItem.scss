@@ -9,4 +9,13 @@
     margin-left: auto;
     max-width: 14rem;
   }
+
+  .summary-list__item.mobile-field {
+    @include until(420px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      justify-content: flex-start;
+    }
+  }
 }

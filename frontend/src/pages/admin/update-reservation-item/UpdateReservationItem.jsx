@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
 import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
@@ -9,6 +9,7 @@ import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
+import MobileNumberField from '@components/mobile-number-field/MobileNumberField'
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
@@ -52,7 +53,8 @@ export default function AdminUpdateReservationItem () {
     optionId: '',
     method: '',
     numAttendee: 1,
-    name: ''
+    name: '',
+    mobile: ''
   })
   const [originalData, setOriginalData] = useState({})
   const [updateError, setUpdateError] = useState('') 
@@ -102,22 +104,25 @@ export default function AdminUpdateReservationItem () {
   useEffect(() => {
     if (Object.keys(data).length) {
       const dateStr = numericDateToString(data.counselDate)
+      const pDetails = data.personalDetails || {}
 
       setOriginalData({
         counselDate: dateStr,
         timeSlot: data.timeSlot,
         optionId: data.optionId,
-        method: data.personalDetails?.method,
-        numAttendee: data.personalDetails?.numAttendee,
-        name: data.personalDetails?.name
+        method: pDetails.method,
+        numAttendee:pDetails.numAttendee,
+        name: pDetails.name,
+        mobile: `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
       })
       setDetails(draft => {
         draft.counselDate = dateStr
         draft.timeSlot = data.timeSlot
         draft.optionId = data.optionId
-        draft.method = data.personalDetails?.method
-        draft.numAttendee = data.personalDetails?.numAttendee,
-        draft.name = data.personalDetails?.name
+        draft.method = pDetails.method
+        draft.numAttendee = pDetails.numAttendee
+        draft.name = pDetails.name
+        draft.mobile = `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
       })
     }
   }, [data])
@@ -143,23 +148,31 @@ export default function AdminUpdateReservationItem () {
     }
   }
 
+  const onMobileUpdate = useCallback(
+    (val) => setDetails(draft => { draft.mobile = val}), []
+  )
+
   const genUpdatePayload = () => {
     const updates = {}
 
     for (const keyName of ['counselDate', 'timeSlot', 'optionId']) {
-      if (details[keyName] !== originalData[keyName]) {
-        updates[keyName] = details[keyName]
+      const value = details[keyName]
+      if (value !== originalData[keyName]) {
+        updates[keyName] = value
       }
     }
 
-    for (const keyName of ['method', 'numAttendee', 'name']) {
-      if (details[keyName] !== originalData[keyName]) {
-        if (!updates.personalDetails) {
-          updates.personalDetails = {}
-        }
+    for (const keyName of ['method', 'numAttendee', 'name', 'mobile']) {
+      const value = details[keyName]
+      if (value === originalData[keyName]) { continue }
 
-        updates.personalDetails[keyName] = details[keyName]
+      if (!updates.personalDetails) {
+        updates.personalDetails = {}
       }
+
+      updates.personalDetails[keyName] = keyName === 'mobile'
+        ? { prefix: value.split(' ')[0], number:  value.split(' ')[1] }
+        : value
     }
 
     if (computedTotalPrice !== data.totalPrice) {
@@ -265,6 +278,14 @@ export default function AdminUpdateReservationItem () {
                           <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
                         </span>
                   }
+                </div>
+
+                <div className='summary-list__item align-center mobile-field'>
+                  <span className='summary-list__label'>전화번호</span>
+
+                  <MobileNumberField isSmall={true} getAsString={true}
+                    initValueStr={originalData.mobile}
+                    onUpdate={onMobileUpdate} />
                 </div>
 
                 <div className='summary-list__item align-center'>

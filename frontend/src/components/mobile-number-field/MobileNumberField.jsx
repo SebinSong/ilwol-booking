@@ -16,7 +16,8 @@ function MobileNumberField ({
   onUpdate = null,
   getAsString = false,
   isSmall = false,
-  initValueStr = ''
+  initValueStr = '',
+  isError = false
 }) {
   const [prefix, setPrefix] = useState('010')
   const [firstSlot, setFirstSlot] = useState('')
@@ -59,7 +60,7 @@ function MobileNumberField ({
   return (
     <div className={cn('mobile-number-field', classes)}>
       <div className='selectbox'>
-        <select className={cn('select', isSmall && 'is-small')}
+        <select className={cn('select', isSmall && 'is-small', isError && 'is-error')}
           value={prefix}
           onChange={setPrefix}>
           {
@@ -69,7 +70,7 @@ function MobileNumberField ({
       </div>
 
       <div className='mobile-number-wrapper'>
-        <input type='text' className={cn('input', isSmall && 'is-small')}
+        <input type='text' className={cn('input', isSmall && 'is-small', isError && 'is-error')}
           value={firstSlot}
           onInput={e => updateSlot(e.target.value)}
           maxLength={4}
@@ -78,7 +79,7 @@ function MobileNumberField ({
 
         <span className='dash-sign'>-</span>
 
-        <input type='text' className={cn('input', isSmall && 'is-small')}
+        <input type='text' className={cn('input', isSmall && 'is-small', isError && 'is-error')}
           value={secondSlot}
           onInput={e => updateSlot(e.target.value, true)}
           maxLength={4}

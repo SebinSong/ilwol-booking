@@ -1,5 +1,6 @@
 'use strict'
 
+import { isMobilePhone } from 'validator'
 import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD, API_BASE_PATH, RESERVATION_PATH } from '@view-data/constants.js'
 
@@ -190,13 +191,13 @@ export async function checkDateAndTimeAvailable (dateStr, timeSlot) {
     return finalArr
   })
 
-  const reservationStatus = await fetch(
-    `${API_BASE_PATH}${RESERVATION_PATH}/status`, { method: 'GET' }
-  ).then(r => r.json())
-
   if (dayoffData.includes(dateStr)) {
     throw new Error('변경된 날짜가 쉬는 날과 겹칩니다. 다른 날짜를 선택해 주세요.')
   }
+
+  const reservationStatus = await fetch(
+    `${API_BASE_PATH}${RESERVATION_PATH}/status`, { method: 'GET' }
+  ).then(r => r.json())
 
   if (
     Object.keys(reservationStatus?.reserved || {}).includes(dateStr) &&
@@ -224,4 +225,11 @@ export function mergeObjects (obj, src) {
     obj[key] = clone || src[key]
   }
   return obj
+}
+
+export function isMobileNumberValid (numStr = '') {
+  const regEx1 = /\d{3}-\d{4}-\d{4}/
+  const regEx2 = /\d{3}\s?\d{8}/
+
+  return (typeof numStr === 'string') && (regEx1.test(numStr) || regEx2.test(numStr))
 }

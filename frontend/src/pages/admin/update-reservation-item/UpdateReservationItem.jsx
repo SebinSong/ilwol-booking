@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
-import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
+import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -23,7 +23,8 @@ import {
   formatMoney,
   numericDateToString,
   stringifyDate,
-  checkDateAndTimeAvailable
+  checkDateAndTimeAvailable,
+  isMobileNumberValid
 } from '@utils'
 
 import './UpdateReservationItem.scss'
@@ -96,6 +97,11 @@ export default function AdminUpdateReservationItem () {
           else { return true }
         },
         errMsg: '개인상담 옵션은 다수의 인원 선택이 불가합니다.'
+      },
+      {
+        key: 'mobile',
+        check: isMobileNumberValid,
+        errMsg: '연락처가 올바른 형식이 아닙니다. (e.g 123-1234-1234)'
       }
     ]
   )
@@ -149,7 +155,13 @@ export default function AdminUpdateReservationItem () {
   }
 
   const onMobileUpdate = useCallback(
-    (val) => setDetails(draft => { draft.mobile = val}), []
+    (val) => {
+      setDetails(draft => { draft.mobile = val})
+
+      if (isErrorActive('mobile')) {
+        clearFormError()
+      }
+    }, [formError]
   )
 
   const genUpdatePayload = () => {
@@ -184,6 +196,8 @@ export default function AdminUpdateReservationItem () {
 
   const onUpdateHandler = async () => {
     if (validateAll()) {
+      setUpdateError('')
+
       try {
         const updatePayload = genUpdatePayload()
 
@@ -205,7 +219,16 @@ export default function AdminUpdateReservationItem () {
           navigate(`/admin/manage-reservation-item/${reservationId}?reload=true`)
         }
       } catch (err) {
-        setUpdateError(err?.message || err?.data?.message)
+        if (err?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION) {
+          setUpdateError(
+            err.data.invalidType === 'mobile'
+              ? '동일한 연락처의 예약이 이미 존재합니다.'
+              : '중복된 예약 내역이 존재합니다. 날짜/시간 혹은 연락처를 다시 입력해주세요.'
+          )
+        } else {
+          setUpdateError(err?.message || err?.data?.message)
+        }
+
         return
       }
     }
@@ -285,7 +308,8 @@ export default function AdminUpdateReservationItem () {
 
                   <MobileNumberField isSmall={true} getAsString={true}
                     initValueStr={originalData.mobile}
-                    onUpdate={onMobileUpdate} />
+                    onUpdate={onMobileUpdate}
+                    isError={isErrorActive('mobile')} />
                 </div>
 
                 <div className='summary-list__item align-center'>

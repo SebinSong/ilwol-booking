@@ -41,7 +41,7 @@ function AdminToolbar ({
       dispatch(clearCredentials())
       navigate('/admin-login')
     } catch (err) {
-      console.log('AdminToolbar.jsx caught: ', err)
+      console.error('AdminToolbar.jsx caught: ', err)
       addToastItem({
         type: 'warning',
         heading: '로그아웃 오류!',

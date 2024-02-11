@@ -48,7 +48,6 @@ export default function ConfirmAndPayment () {
 
   // effects
   useEffect(() => {
-    console.log('has it been checked!!!?? ')
     checkStepStateAndGo('personal-details')
   }, [])
 

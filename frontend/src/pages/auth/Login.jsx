@@ -81,7 +81,7 @@ export default function Login () {
         dispatch(setCredentials(res))
         navigate('/admin/dashboard')
       } catch (err) {
-        console.log('Login.jsx caught: ', err)
+        console.error('Login.jsx caught: ', err)
         const errType = err.data.errType || ''
 
         const typeMap = {

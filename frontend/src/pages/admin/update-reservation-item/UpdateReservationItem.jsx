@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
-import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS } from '@view-data/constants.js'
+import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -9,6 +9,7 @@ import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
+import MobileNumberField from '@components/mobile-number-field/MobileNumberField'
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
@@ -22,7 +23,8 @@ import {
   formatMoney,
   numericDateToString,
   stringifyDate,
-  checkDateAndTimeAvailable
+  checkDateAndTimeAvailable,
+  isMobileNumberValid
 } from '@utils'
 
 import './UpdateReservationItem.scss'
@@ -52,7 +54,8 @@ export default function AdminUpdateReservationItem () {
     optionId: '',
     method: '',
     numAttendee: 1,
-    name: ''
+    name: '',
+    mobile: ''
   })
   const [originalData, setOriginalData] = useState({})
   const [updateError, setUpdateError] = useState('') 
@@ -94,6 +97,11 @@ export default function AdminUpdateReservationItem () {
           else { return true }
         },
         errMsg: '개인상담 옵션은 다수의 인원 선택이 불가합니다.'
+      },
+      {
+        key: 'mobile',
+        check: isMobileNumberValid,
+        errMsg: '연락처가 올바른 형식이 아닙니다. (e.g 123-1234-1234)'
       }
     ]
   )
@@ -102,22 +110,25 @@ export default function AdminUpdateReservationItem () {
   useEffect(() => {
     if (Object.keys(data).length) {
       const dateStr = numericDateToString(data.counselDate)
+      const pDetails = data.personalDetails || {}
 
       setOriginalData({
         counselDate: dateStr,
         timeSlot: data.timeSlot,
         optionId: data.optionId,
-        method: data.personalDetails?.method,
-        numAttendee: data.personalDetails?.numAttendee,
-        name: data.personalDetails?.name
+        method: pDetails.method,
+        numAttendee:pDetails.numAttendee,
+        name: pDetails.name,
+        mobile: `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
       })
       setDetails(draft => {
         draft.counselDate = dateStr
         draft.timeSlot = data.timeSlot
         draft.optionId = data.optionId
-        draft.method = data.personalDetails?.method
-        draft.numAttendee = data.personalDetails?.numAttendee,
-        draft.name = data.personalDetails?.name
+        draft.method = pDetails.method
+        draft.numAttendee = pDetails.numAttendee
+        draft.name = pDetails.name
+        draft.mobile = `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
       })
     }
   }, [data])
@@ -143,23 +154,37 @@ export default function AdminUpdateReservationItem () {
     }
   }
 
+  const onMobileUpdate = useCallback(
+    (val) => {
+      setDetails(draft => { draft.mobile = val})
+
+      if (isErrorActive('mobile')) {
+        clearFormError()
+      }
+    }, [formError]
+  )
+
   const genUpdatePayload = () => {
     const updates = {}
 
     for (const keyName of ['counselDate', 'timeSlot', 'optionId']) {
-      if (details[keyName] !== originalData[keyName]) {
-        updates[keyName] = details[keyName]
+      const value = details[keyName]
+      if (value !== originalData[keyName]) {
+        updates[keyName] = value
       }
     }
 
-    for (const keyName of ['method', 'numAttendee', 'name']) {
-      if (details[keyName] !== originalData[keyName]) {
-        if (!updates.personalDetails) {
-          updates.personalDetails = {}
-        }
+    for (const keyName of ['method', 'numAttendee', 'name', 'mobile']) {
+      const value = details[keyName]
+      if (value === originalData[keyName]) { continue }
 
-        updates.personalDetails[keyName] = details[keyName]
+      if (!updates.personalDetails) {
+        updates.personalDetails = {}
       }
+
+      updates.personalDetails[keyName] = keyName === 'mobile'
+        ? { prefix: value.split(' ')[0], number:  value.split(' ')[1] }
+        : value
     }
 
     if (computedTotalPrice !== data.totalPrice) {
@@ -171,6 +196,8 @@ export default function AdminUpdateReservationItem () {
 
   const onUpdateHandler = async () => {
     if (validateAll()) {
+      setUpdateError('')
+
       try {
         const updatePayload = genUpdatePayload()
 
@@ -192,7 +219,16 @@ export default function AdminUpdateReservationItem () {
           navigate(`/admin/manage-reservation-item/${reservationId}?reload=true`)
         }
       } catch (err) {
-        setUpdateError(err?.message || err?.data?.message)
+        if (err?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION) {
+          setUpdateError(
+            err.data.invalidType === 'mobile'
+              ? '동일한 연락처의 예약이 이미 존재합니다.'
+              : '중복된 예약 내역이 존재합니다. 날짜/시간 혹은 연락처를 다시 입력해주세요.'
+          )
+        } else {
+          setUpdateError(err?.message || err?.data?.message)
+        }
+
         return
       }
     }
@@ -265,6 +301,15 @@ export default function AdminUpdateReservationItem () {
                           <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
                         </span>
                   }
+                </div>
+
+                <div className='summary-list__item align-center mobile-field'>
+                  <span className='summary-list__label'>전화번호</span>
+
+                  <MobileNumberField isSmall={true} getAsString={true}
+                    initValueStr={originalData.mobile}
+                    onUpdate={onMobileUpdate}
+                    isError={isErrorActive('mobile')} />
                 </div>
 
                 <div className='summary-list__item align-center'>

@@ -102,31 +102,34 @@ const postReservation = asyncHandler(async (req, res, next) => {
     req,
     res,
     isAdminGenerated
-      ? ['optionId', 'counselDate', 'timeSlot']
+      ? ['optionId', 'counselDate', 'timeSlot', 'personalDetails']
       : ['optionId', 'counselDate', 'timeSlot', 'personalDetails', 'totalPrice']
   )
 
   const counselDateNumeric = typeof counselDate === 'string' ? dateToNumeric(counselDate) : counselDate
   const todayNumeric = dateObjToNum(new Date())
   const hasMobileNumber = Boolean(pDetails?.mobile?.number)
-  const existingReservation = isAdminGenerated
-    ? await Reservation.findOne({ counselDate: counselDateNumeric, timeSlot })
-    : await Reservation.findOne({ 
-        $or: [
-          { counselDate: counselDateNumeric, timeSlot },
-          optionId === 'overseas-counsel'
-            ? {
-                'personalDetails.kakaoId': pDetails.kakaoId,
-                counselDate: { '$gte': todayNumeric }
-              }
-            : {
-                'personalDetails.mobile.prefix': pDetails.mobile.prefix,
-                'personalDetails.mobile.number': pDetails.mobile.number,
-                counselDate: { '$gte': todayNumeric }
-              }
-        ]
-      })
+  const checkEntriesForExisting = [
+    { counselDate: counselDateNumeric, timeSlot,  status: { '$ne': 'cancelled' }, },
+    hasMobileNumber
+      ? {
+          'personalDetails.mobile.prefix': pDetails.mobile.prefix,
+          'personalDetails.mobile.number': pDetails.mobile.number,
+          status: { '$ne': 'cancelled' },
+          counselDate: { '$gte': todayNumeric }
+        }
+      : optionId === 'overseas-counsel'
+        ? {
+            'personalDetails.kakaoId': pDetails.kakaoId,
+            status: { '$ne': 'cancelled' },
+            counselDate: { '$gte': todayNumeric }
+          }
+        : null
+  ].filter(Boolean)
 
+  const existingReservation = checkEntriesForExisting.length > 1
+    ? await Reservation.findOne({ $or: checkEntriesForExisting })
+    : await Reservation.findOne(checkEntriesForExisting[0])
   const getReservationTime = () => `${counselDate} ${timeSlot}`
 
   // [ Check - 1 ] : Check if the requested reservation detail already exists in the DB.
@@ -287,6 +290,28 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
   if (!doc) {
     sendResourceNotFound(res)
   } else {
+    const hasMobileNumber = Boolean(updates?.personalDetails?.mobile?.number)
+
+    // if the update payload contains mobile field, check if there is an existing reservation with that contact details.
+    if (hasMobileNumber) {
+      const todayNumeric = dateObjToNum(new Date())
+      const mobile = updates.personalDetails.mobile
+      const existingEntry = await Reservation.findOne({
+        'personalDetails.mobile.prefix': mobile.prefix,
+        'personalDetails.mobile.number': mobile.number,
+        status: { '$ne': 'cancelled' },
+        counselDate: { '$gte': todayNumeric }
+      })
+
+      if (existingEntry) {
+        sendBadRequestErr(
+          res,
+          'Requested reservation entry already exists in the DB.',
+          { errType: CLIENT_ERROR_TYPES.EXISTING_RESERVATION, invalidType: 'mobile' }
+        )
+      }
+    }
+
     const transformedUpdates = {}
 
     for (const key in updates) {

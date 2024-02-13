@@ -182,6 +182,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
   if (!isAdminGenerated && hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
+      title: '[일월선녀 해달별]',
       message: `${pDetails.name}님, ${getReservationTime()} ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
         '<SC제일은행 김은숙 635-20-144462>로 상담료를 이체해주시면, 관리자가 확정 안내드리겠습니다. ' +
         `예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
@@ -359,6 +360,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
 
         if (message) {
           await sendSMS({
+            title: '[일월선녀 해달별]',
             to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
             message
           })

@@ -23,7 +23,7 @@ export default function Home () {
     navigate('/booking/counsel-option')
   }
   const onYoutubeBtnClick = () => {
-    window.open('https://www.youtube.com/@ilwolsung', '_blank')
+    window.open('https://www.youtube.com/@ilwolseonnyeo', '_blank')
   }
 
   return (

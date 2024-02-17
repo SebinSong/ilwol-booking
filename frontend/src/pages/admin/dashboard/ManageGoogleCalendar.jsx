@@ -50,7 +50,7 @@ function GoogleCalendarSection ({
   }, [updateStatus])
 
   const onSyncButtonClick = async () => {
-    if (!window.confirm('캘린더 동기화를 실행하시겠습니까? 캘린더의 모든 현재 데이터가 삭제된 후 재생성 됩니다.')) { return }
+    if (!window.confirm('캘린더를 리셋하시겠습니까? 캘린더의 모든 현재 데이터가 재생성 됩니다.')) { return }
 
     try {
       setUpdateStatus('deleting')
@@ -63,14 +63,14 @@ function GoogleCalendarSection ({
       addToastItem({
         type: 'success',
         heading: '캘린더 업데이트',
-        content: '구글 캘린더가 성공적으로 동기화 되었습니다. 확인해보세요.'
+        content: '구글 캘린더가 성공적으로 리셋 되었습니다. 확인해보세요.'
       })
     } catch (err) {
       console.error('ManageGoogleCalendar.jsx caught: ', err)
       addToastItem({
         type: 'warning',
         heading: '업데이트 오류!',
-        content: '쉬는 날 업데이트 중 오류가 발생하였습니다. 다시 시도해 주세요.'
+        content: '구글 캘린더 업데이트 중 오류가 발생하였습니다. 다시 시도해 주세요.'
       })
     }
 
@@ -84,11 +84,8 @@ function GoogleCalendarSection ({
       </h3>
 
       <div className='form-field'>
-        <span className='label'>캘린더 예약 아이템 동기화:</span>
-        <p className='helper info'>
-          캘린더를 리셋 후, 관리자 페이지 예약 내역들을 기준으로 구글 캘린더 이벤트들을 새로 업데이트 합니다.<br/>
-          조작 실수 등으로 인해 실제 예약 내역과 구글 캘린더 표시 내용이 일치하지 않게 될 때 유용합니다.
-        </p>
+        <span className='label'>캘린더 리셋:</span>
+        <p className='helper info'>구글 캘린더의 예약 아이템들을 모두 지운 후, 다시 새로 재생성 합니다.</p>
 
         <StateButton classes='is-primary mt-20'
           type='button'
@@ -96,7 +93,7 @@ function GoogleCalendarSection ({
           onClick={onSyncButtonClick}
         >
           <i className='icon-gear is-prefix'></i>
-          <span>동기화하기</span>
+          <span>리셋하기</span>
         </StateButton>
       </div>
 

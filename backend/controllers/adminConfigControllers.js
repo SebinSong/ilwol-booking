@@ -1,5 +1,5 @@
 
-const { Reservation } = require('../models/reservationModel.js')
+const { Reservation, getArchivedReservation } = require('../models/reservationModel.js')
 const {
   clearAllEvents,
   addMultipleEvents
@@ -31,17 +31,44 @@ const clearCalendar = asyncHandler(async (req, res) => {
 
 const regenateAllEvents = asyncHandler(async (req, res) => {
   try {
-    const dbQuery = Reservation.find({ counselDate: { '$gte': dateObjToNum(new Date()) } })
-    const data = await dbQuery.exec()
+    const reservationData = await Reservation.find({})
+    const currentYear = (new Date()).getFullYear()
+    let yearArr = [], data
 
-    if (Array.isArray(data) && data.length) {
+    for (let i = 2024; i <= currentYear; i++) { // NOTE: '2024' here is the year in which the project was launched.
+      yearArr.push(i)
+    }
+
+    const archivedData = await Promise.all(
+      yearArr.map(year => {
+        const dbCollection = getArchivedReservation(year)
+
+        return dbCollection.find({})
+          .then(data => {
+            const filtered = []
+
+            for (const item of data) {
+              if (
+                filtered.some(x => x?.originalReservationId && (x.originalReservationId === item?.originalReservationId))
+              ) { continue }
+
+              filtered.push(item)
+            }
+
+            return filtered
+          })
+      })
+    )
+
+    data = [ ...(archivedData.flat()), ...reservationData ]
+
+    if (data.length) {
       const result = await addMultipleEvents(data)
       res.status(200).json({
         message: 'Successfully added all reservation items to the calendar',
         data: result
       })
     } else {
-      console.error('::: regenateAllEvents() caught: ', err)
       res.status(200).json({
         message: 'No data to update'
       })

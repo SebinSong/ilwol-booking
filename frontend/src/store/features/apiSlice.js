@@ -9,7 +9,7 @@ const apiSlice = createApi({
   reducerPath: API_BASE_PATH,
   baseQuery: fetchBaseQuery({
     baseUrl: '/api',
-    timeout: 10000
+    timeout: 60 * 1000 // 1mins
   }),
   tagTypes: [
     'Users',

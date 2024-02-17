@@ -202,7 +202,7 @@ async function addMultipleEvents (data) {
       })
     })
 
-    const res = await promiseAllWithLimit(pFuncArr)
+    const res = await promiseAllWithLimit(pFuncArr, 20)
     return res
   } catch (err) {
     throw new Error(`::: Failed to create multiple event items - ${JSON.stringify(err)}`)
@@ -250,7 +250,7 @@ async function clearAllEvents () {
         eventId: id
       })
     })
-    await promiseAllWithLimit(pFuncArr)
+    await promiseAllWithLimit(pFuncArr, 20)
 
     return { deletedCount: idList.length }
   }

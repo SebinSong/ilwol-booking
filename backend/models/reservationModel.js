@@ -52,16 +52,21 @@ const ReservationSchema = new mongoose.Schema({
   },
   calendarEventId: {
     type: String
-  }
+  },
 })
-
+const ArchivedReservationSchema = ReservationSchema.clone()
+ArchivedReservationSchema.add({
+  originalReservationId: { type: String }
+})
 // index
 ReservationSchema.index({ counselDate: -1, timeSlot: 1 })
 
 const Reservation = mongoose.model('Reservation', ReservationSchema)
-const ArchivedReservation = mongoose.model('ArchivedReservation', ReservationSchema)
+const getArchivedReservation = (year) => {
+  return mongoose.model(`ArchivedReservation${year}`, ArchivedReservationSchema)
+}
 
 module.exports = {
   Reservation,
-  ArchivedReservation
+  getArchivedReservation
 }

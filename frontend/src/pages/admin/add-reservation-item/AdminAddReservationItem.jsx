@@ -24,7 +24,8 @@ import {
 import {
   classNames as cn,
   stringifyDate,
-  isStringNumberOnly
+  isStringNumberOnly,
+  addDaysToDate
 } from '@utils'
 
 import './AdminAddReservationItem.scss'
@@ -37,6 +38,7 @@ const legendList = [
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '쉬는날 / 예약 있음' }
 ]
+const agesAgo = addDaysToDate(new Date(), -1 * 365 * 2)
 
 export default function AdminAddReservationItem () {
   const navigate = useNavigate()
@@ -192,7 +194,8 @@ export default function AdminAddReservationItem () {
               <div className='calendar-container'>
                 <Calendar onChange={onCalendarSelect}
                   fullyBookedDates={dayOffsData}
-                  value={details?.counselDate} />
+                  value={details?.counselDate}
+                  minDate={agesAgo} />
               </div>
 
               <div className='legends-container is-right-aligned mt-20'>

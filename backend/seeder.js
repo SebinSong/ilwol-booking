@@ -27,7 +27,7 @@ const addDummyReservations = async (entryCount = 5) => {
     let dayOftset, timeSlot, whileCount = 0
 
     while (whileCount++ < 10) {
-      dayOffset = randomIntBetweenRange(10, 15)
+      dayOffset = randomIntBetweenRange(-10, 3)
       timeSlot = randomFromArray(DEFAULT_TIME_SLOTS)
 
       if (!entries.some(entry => entry[0] === dayOffset && entry[1] === timeSlot)) {
@@ -78,6 +78,6 @@ connectDB(async (err) => {
   }
 
   console.log('::: DB connection successful!')
-  await addDummyReservations(20)
+  await addDummyReservations(10)
   process.exit(0)
 })

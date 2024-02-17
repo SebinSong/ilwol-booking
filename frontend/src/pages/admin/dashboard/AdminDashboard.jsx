@@ -104,9 +104,12 @@ export default function AdminDashboard ({
 
   // effects
   useEffect(() => {
-    fetchStatusData().then(() => {
+    fetchStatusData().then((succeeded) => {
       // run this request behind the scene.
-      archiveOldReservations()
+
+      if (succeeded === true) {
+        archiveOldReservations()
+      }
     })
   }, [])
   useEffect(() => {
@@ -136,6 +139,8 @@ export default function AdminDashboard ({
       if (data && Object.keys(data).length) {
         setBookedDates(Object.keys(data))
       }
+
+      return true
     } catch (err) {
       console.error('AdminDashboard.jsx caught: ', err)
     }

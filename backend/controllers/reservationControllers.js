@@ -1,5 +1,5 @@
 // models
-const { Reservation, ArchivedReservation } = require('../models/reservationModel')
+const { Reservation, getArchivedReservation } = require('../models/reservationModel')
 const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
 const {
@@ -30,19 +30,36 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
 
   try {
     const docsToArchive = (await Reservation.find({ counselDate: counselDateFilter }))
-      .map(
-        entry => ({
+
+    if (docsToArchive?.length) {
+      const docsSet = {}
+      
+      for (const entry of docsToArchive) {
+        const newEntry = {
           counselDate: entry.counselDate,
           timeSlot: entry.timeSlot,
           personalDetails: entry.personalDetails,
           optionId: entry.optionId,
           status: entry.status,
-          totalPrice: entry.totalPrice
+          totalPrice: entry.totalPrice || 0,
+          originalReservationId: entry._id || ''
+        }
+        const yearStr = new String(entry.counselDate).slice(0, 4)
+
+        if (!docsSet[yearStr]) { docsSet[yearStr] = [] }
+        docsSet[yearStr].push(newEntry)
+      }
+
+      await Promise.all(
+        Object.keys(docsSet).map(async year => {
+          const dbCollection = getArchivedReservation(year)
+          const yearlyData = docsSet[year]
+
+          return dbCollection.create(yearlyData)
         })
       )
-
-    await ArchivedReservation.create(docsToArchive)
-    await Reservation.deleteMany({ counselDate: counselDateFilter })
+      await Reservation.deleteMany({ counselDate: counselDateFilter })
+    }
 
     res.status(200).json({
       message: 'Successfully archived the old reservations'

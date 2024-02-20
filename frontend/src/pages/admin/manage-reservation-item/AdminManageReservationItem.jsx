@@ -81,6 +81,7 @@ export default function AdminManageReservationItem () {
   const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}
   const hasContactDetails = Boolean(pDetails?.mobile?.number || pDetails?.email || pDetails?.kakaoId)
+  const hasMobileNumber = Boolean(pDetails?.mobile?.number)
 
   // effects
   useEffect(() => {
@@ -91,9 +92,9 @@ export default function AdminManageReservationItem () {
   const updateReservationStatus = async () => {
     if (['confirmed', 'cancelled'].includes(currentStatus) &&
       !window.confirm(
-        isAdminGenerated
-          ? '상태 업데이트를 하시겠습니까?'
-          : '상태 업데이트를 하시겠습니까? 고객에게 알림문자가 날아갑니다.'
+        hasMobileNumber
+          ? '상태 업데이트를 하시겠습니까? 고객에게 알림문자가 날아갑니다.'
+          : '상태 업데이트를 하시겠습니까?'
       )
     ) { return }
 

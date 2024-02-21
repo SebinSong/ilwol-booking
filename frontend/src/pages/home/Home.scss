@@ -168,6 +168,12 @@ $box2_color: #C4237C;
       transform: scale(1.015) translateY(1px);
       margin-right: 0.2rem;
     }
+
+    @include smallphone {
+      left: 1.6rem;
+      bottom: 2rem;
+      transform: translateX(0);
+    }
   }
 
   .home-flex-container {
@@ -336,6 +342,28 @@ $box2_color: #C4237C;
       display: inline-block;
       font-size: 1.2em;
       transform: translateY(1px);
+    }
+  }
+
+  .kakao-channel-logo {
+    position: absolute;
+    right: 1.6rem;
+    bottom: 1.6rem;
+    box-shadow: 0 0px 6px 1px rgba(5, 16, 55, 0.075);
+    line-height: 1;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    opacity: 0.75;
+
+    &:focus,
+    &:hover {
+      opacity: 1;
+      transition: opacity 300ms, box-shadow 300ms;
+      box-shadow: 0 0px 12px 1px rgba(5, 16, 55, 0.115);
+    }
+
+    &:active {
+      bottom: 1.5rem;
     }
   }
 }

@@ -4,9 +4,9 @@ const Dayoff = require('../models/dayoffModel.js')
 const { sendSMS } = require('../external-services/sms.js')
 const {
   addEvent,
-  deleteEvent,
   getEventByReservationId,
-  updateEventDetails
+  updateOrAddEventDetails,
+  findEventByReservationIdAndDelete
 } = require('../external-services/google-calendar.js')
 
 const asyncHandler = require('../middlewares/asyncHandler.js')
@@ -302,6 +302,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
   const isUpdatingStatus = Object.keys(updates).includes('status')
+  const isCancellingReservation = isUpdatingStatus && updates.status === 'cancelled'
 
   const doc = await Reservation.findById(reservationId)
 
@@ -371,7 +372,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         const message = updates.status === 'confirmed'
           ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
             (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
-          : updates.status === 'cancelled'
+          : isCancellingReservation
             ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
             : ''
 
@@ -385,7 +386,17 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       }
 
       const mergedDoc = mergeObjects(doc, updates)
-      updateEventDetails(reservationId, mergedDoc)
+      if (isCancellingReservation) {
+        findEventByReservationIdAndDelete(reservationId)
+          .catch(err => {
+            res.status(500).json({
+              message: 'failed to delete a cancelled reservation item from the calendar',
+              err
+            })
+          })
+      } else {
+        updateOrAddEventDetails(reservationId, mergedDoc)
+      }
     } catch (err) {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')
@@ -416,11 +427,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     }
 
     // delete the corresponding event item from the google calendar
-    getEventByReservationId(reservationId).then(res => {
-      if (res?.id) {
-        deleteEvent(res.id)
-      }
-    }).catch(err => {
+    findEventByReservationIdAndDelete(reservationId).catch(err => {
       console.log('Failed to find and delete an event item in deleteReservation - ', err)
     })
   }
@@ -455,7 +462,7 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
       })
 
       const mergedDoc = mergeObjects(doc, updates)
-      updateEventDetails(reservationId, mergedDoc)
+      updateOrAddEventDetails(reservationId, mergedDoc)
     } catch (err) {
       console.error('error caught in updateReservationSchedule (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation schedule')

@@ -2,7 +2,7 @@ const {
   addEvent,
   authorize,
   deleteEvent,
-  getAllFutureEvents,
+  getAllEvents,
   getEventByReservationId,
   clearAllEvents
 } = require('./google-calendar.js')

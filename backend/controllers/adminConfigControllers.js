@@ -31,7 +31,7 @@ const clearCalendar = asyncHandler(async (req, res) => {
 
 const regenateAllEvents = asyncHandler(async (req, res) => {
   try {
-    const reservationData = await Reservation.find({})
+    const reservationData = await Reservation.find({ status: { '$ne': 'cancelled' } })
     const currentYear = (new Date()).getFullYear()
     let yearArr = [], data
 
@@ -43,13 +43,13 @@ const regenateAllEvents = asyncHandler(async (req, res) => {
       yearArr.map(year => {
         const dbCollection = getArchivedReservation(year)
 
-        return dbCollection.find({})
+        return dbCollection.find({ status: { '$ne': 'cancelled' } })
           .then(data => {
             const filtered = []
 
             for (const item of data) {
               if (
-                filtered.some(x => x?.originalReservationId && (x.originalReservationId === item?.originalReservationId))
+                filtered.some(x => x?.originalReservationId && (x.originalReservationId === item?.originalReservationId)) // check if there is a duplicate item
               ) { continue }
 
               filtered.push(item)

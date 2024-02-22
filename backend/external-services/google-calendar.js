@@ -98,20 +98,21 @@ async function generateTokenAndSave () {
   return client
 }
 
-async function getAllFutureEvents () {
+async function getAllEvents (isFuture = false) {
   try {
     const auth = await authorize()
     const calendar = google.calendar({
       version: 'v3',
       auth
     })
+    const agesAgo = new Date(0)
     const yesterday = new Date()
     yesterday.setTime(yesterday.getTime() - DAYS_MILLIS)
     
     const res = await calendar.events.list({
       calendarId: process.env.CALENDAR_ID,
       singleEvents: true,
-      timeMin: yesterday.toISOString(),
+      timeMin: isFuture ? yesterday.toISOString() : agesAgo.toISOString(),
       orderBy: 'startTime'
     })
 
@@ -121,9 +122,9 @@ async function getAllFutureEvents () {
   }
 }
 
-async function getEventByReservationId (reservationId) {
+async function getEventByReservationId (reservationId, isFuture = false) {
   try {
-    const allFutureEvents = await getAllFutureEvents()
+    const allFutureEvents = await getAllEvents(isFuture)
     const found = allFutureEvents.find(entry => {
       const desc = (entry.description || '')
       const splitted = desc.split('[ID]:')
@@ -141,6 +142,19 @@ async function getEventByReservationId (reservationId) {
   }
 }
 
+async function findEventByReservationIdAndDelete (reservationId, isFuture = false) {
+  try {
+    const foundEvent = await getEventByReservationId(reservationId, isFuture)
+
+    if (foundEvent?.id) {
+      await deleteEvent(foundEvent.id)
+
+      return { message: `successfully deleted the event for ${reservationId}` }
+    }
+  } catch (err) {
+    throw err // just pass it on.
+  }
+}
 
 async function addEvent ({
   date, timeSlot = '', optionId, title, method = '',
@@ -229,6 +243,10 @@ async function deleteEvent (eventId) {
   }
 }
 
+async function findByReservationIdAndDelete (reservationId) {
+
+}
+
 async function clearAllEvents () {
   const auth = await authorize()
   const calendar = google.calendar({
@@ -258,7 +276,7 @@ async function clearAllEvents () {
   return { deletedCount: 0 }
 }
 
-async function updateEventDetails (reservationId, reservation) {
+async function updateOrAddEventDetails (reservationId, reservation) {
   const {
     timeSlot = '',
     optionId,
@@ -273,7 +291,16 @@ async function updateEventDetails (reservationId, reservation) {
     const foundEvent = await getEventByReservationId(reservationId)
 
     if (!foundEvent) {
-      throw new Error('Could not update event details - no corresponding event item found')
+      const addResult = await addEvent({
+        date: dateStr,
+        timeSlot,
+        title: extractNameWithNum(personalDetails),
+        method: personalDetails?.method || '',
+        optionId,
+        reservationId
+      })
+
+      return addResult
     } else {
       const eventId = foundEvent.id
       const calendar = google.calendar({
@@ -308,7 +335,8 @@ module.exports = {
   addMultipleEvents,
   deleteEvent,
   clearAllEvents,
-  getAllFutureEvents,
-  updateEventDetails,
+  getAllEvents,
+  updateOrAddEventDetails,
+  findEventByReservationIdAndDelete,
   getEventByReservationId
 }

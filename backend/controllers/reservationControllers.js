@@ -196,17 +196,17 @@ const postReservation = asyncHandler(async (req, res, next) => {
   res.status(201).json({ reservationId: newReservation._id })
 
   // send a notification SMS to the customer (if they have provided a contact)
-  if (!isAdminGenerated && hasMobileNumber) {
+  if (hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
       title: '예약 안내',
-      message: `${pDetails.name}님, ${getReservationTime()} ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+      message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
         '<SC제일은행 김은숙 635-20-144462>로 상담료를 이체해주시면, 관리자가 확정 안내드리겠습니다. ' +
         `예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
     })
-    
+
     // send another notification SMS to the admin contact
-    await sendSMS({
+    (!isAdminGenerated) && await sendSMS({
       toAdmin: true,
       message: `새 예약접수 - ${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}`
     })

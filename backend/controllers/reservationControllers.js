@@ -19,7 +19,8 @@ const {
   sendResourceNotFound,
   getCounselTypeNameById,
   mergeObjects,
-  extractNameWithNum
+  extractNameWithNum,
+  cloneDeep
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -299,6 +300,7 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
 
 // Update an individual reservation details
 const updateReservationDetails = asyncHandler(async (req, res, next) => {
+  const { notifyScheduleUpdate } = req.query
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
   const isUpdatingStatus = Object.keys(updates).includes('status')
@@ -361,31 +363,46 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         data: result
       })
 
+      const mobileAfterUpdate = updates?.personalDetails?.mobile || doc?.personalDetails?.mobile || {}
+      const hasMobileAfterUpdate = Boolean(mobileAfterUpdate.number)
+
       // send SMS to the user about the reservation status update.
-      if (isUpdatingStatus &&
-        Boolean(doc.personalDetails?.mobile?.number)) {
-        const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
-        const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
-        const typeName = getCounselTypeNameById(optionId)
-        const isMethodVisit = pDetails?.method === 'visit'
+      if (hasMobileAfterUpdate) {
+        if (isUpdatingStatus) {
+          const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
+          const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
+          const typeName = getCounselTypeNameById(optionId)
+          const isMethodVisit = pDetails?.method === 'visit'
 
-        const message = updates.status === 'confirmed'
-          ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
-            (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
-          : isCancellingReservation
-            ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
-            : ''
+          const message = updates.status === 'confirmed'
+            ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
+              (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
+            : isCancellingReservation
+              ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
+              : ''
 
-        if (message) {
+          if (message) {
+            await sendSMS({
+              title: '예약 안내',
+              to: `${mobileAfterUpdate.prefix}${mobileAfterUpdate.number}`,
+              message: `${message}`
+            })
+          }
+        } else if (Boolean(notifyScheduleUpdate)) {
+          const pDetails = doc.personalDetails
+          const counselDate = updates.counselDate || numericDateToString(doc.counselDate)
+          const timeSlot = updates.timeSlot || doc.timeSlot
+        
           await sendSMS({
             title: '예약 안내',
-            to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-            message: `${message}`
+            to: `${mobileAfterUpdate.prefix}${mobileAfterUpdate.number}`,
+            message: `${pDetails.name}님, 관리자에 의해 상담일정이 ${counselDate} ${timeSlot} 로 변경되었습니다.`
           })
         }
       }
 
-      const mergedDoc = mergeObjects(doc, updates)
+      // update Google calendar according to the new data
+      const mergedDoc = mergeObjects(cloneDeep(doc), updates)
       if (isCancellingReservation) {
         findEventByReservationIdAndDelete(reservationId)
           .catch(err => {

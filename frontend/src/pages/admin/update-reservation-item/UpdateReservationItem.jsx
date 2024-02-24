@@ -1,9 +1,12 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
 import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, CLIENT_ERROR_TYPES } from '@view-data/constants.js'
 import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
+
 // components
+import Calendar from '@components/calendar/Calendar'
+import TimeSlot from '@components/time-slot/TimeSlot'
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
@@ -13,7 +16,11 @@ import MobileNumberField from '@components/mobile-number-field/MobileNumberField
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
-import { useUpdateReservationDetails } from '@store/features/adminApiSlice.js'
+import {
+  useGetDayoffs,
+  useGetDetailedReservationStatus,
+  useUpdateReservationDetails
+} from '@store/features/adminApiSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 import { useValidation } from '@hooks/useValidation'
 
@@ -41,6 +48,12 @@ const computeTotalPrice = (optionId, numAttendee) => {
 
   return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
 }
+const legendList = [
+  { color: 'magenta', text: '선택됨' },
+  { color: 'success', text: '오늘' },
+  { color: 'validation', text: '쉬는날 / 예약 있음' }
+]
+
 
 export default function AdminUpdateReservationItem () {
   const navigate = useNavigate()
@@ -65,6 +78,16 @@ export default function AdminUpdateReservationItem () {
     isError: isDetailsError,
     refetch
   } = useGetReservationDetails(reservationId)
+  const {
+    data: dayOffsData,
+    isLoading: isDayoffsLoading,
+    isError: isDayoffsError
+  } = useGetDayoffs()
+  const [getDetailedReservationStatus, {
+    data: bookingData,
+    isLoading: isLoadingStatus,
+    isError: isStatusError
+  }] = useGetDetailedReservationStatus()
   const [
     updateReservationDetails,
     {
@@ -77,9 +100,19 @@ export default function AdminUpdateReservationItem () {
   const pDetails = data?.personalDetails || {}
   const isAdminGenerated = details?.optionId === 'admin-generated'
   const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
-  const enableUpdateBtn = Object.entries(details).some(
-    ([key, value]) => Boolean(value) &&  originalData[key] !== value
-  )
+  
+  // memoized computed props
+  const enableUpdateBtn = useMemo(() => {
+    return Boolean(details.timeSlot) &&
+      Object.entries(details).some(
+        ([key, value]) => Boolean(value) &&  originalData[key] !== value
+      )
+  }, [details])
+  const occupiedTimeSlots = useMemo(() => {
+    return details?.counselDate && bookingData && bookingData[details.counselDate]
+      ? Object.keys(bookingData[details.counselDate])
+      : []
+  }, [details?.counselDate])
 
   // validation
   const {
@@ -100,7 +133,11 @@ export default function AdminUpdateReservationItem () {
       },
       {
         key: 'mobile',
-        check: isMobileNumberValid,
+        check: (val) => {
+          val = val.trim()
+          const len = val.length
+          return len > 3 ? isMobileNumberValid(val) : len === 3
+        },
         errMsg: '연락처가 올바른 형식이 아닙니다. (e.g 123-1234-1234)'
       }
     ]
@@ -133,6 +170,10 @@ export default function AdminUpdateReservationItem () {
     }
   }, [data])
 
+  useEffect(() => {
+    getDetailedReservationStatus()
+  }, [])
+
   // methods
   const updateFactory = key => {
     return e => {
@@ -163,6 +204,19 @@ export default function AdminUpdateReservationItem () {
       }
     }, [formError]
   )
+
+  const onCalendarSelect = value => {
+    setDetails(draft => {
+      draft.counselDate = value
+      draft.timeSlot = ''
+    })
+  }
+
+  const onTimeSlotSelect = value => {
+    setDetails(draft => {
+      draft.timeSlot = value
+    })
+  }
 
   const genUpdatePayload = () => {
     const updates = {}
@@ -195,20 +249,28 @@ export default function AdminUpdateReservationItem () {
   }
 
   const onUpdateHandler = async () => {
+    console.log('!@# details: ', details)
     if (validateAll()) {
       setUpdateError('')
 
       try {
         const updatePayload = genUpdatePayload()
+        const isUpdatingSchedule = Boolean(updatePayload.counselDate || updatePayload.timeSlot)
+        const isRemovingMobile = Boolean(updatePayload?.personalDetails?.mobile) && !Boolean(updatePayload.personalDetails.mobile?.number)
+        const hasMobile = !isRemovingMobile && (Boolean(pDetails.mobile.number) || Boolean(updatePayload?.personalDetails?.mobile?.number))
+        const warningMsg = isUpdatingSchedule && hasMobile
+          ? `수정하시겠습니까? 고객에게 일정 변경 알림 문자가 날아갑니다.`
+          : `예약 내용을 수정하시겠습니까?`
 
-        if (updatePayload.counselDate || updatePayload.timeSlot) {
+        if (isUpdatingSchedule) {
           await checkDateAndTimeAvailable(details.counselDate, details.timeSlot)
         }
 
-        if (window.confirm('정말로 수정하시겠습니까?')) {
+        if (window.confirm(warningMsg)) {
           const res = await updateReservationDetails({
             id: reservationId,
-            updates: updatePayload
+            updates: updatePayload,
+            notifyScheduleUpdate: isUpdatingSchedule && hasMobile
           }).unwrap()
 
           addToastItem({
@@ -235,15 +297,15 @@ export default function AdminUpdateReservationItem () {
   }
 
   // views
-  const feedbackEl = isLoadingDetails
+  const feedbackEl = (isLoadingDetails || isDayoffsLoading || isLoadingStatus)
     ? <div className='admin-feedback-container'>
         <TextLoader>
-          예약 아이템 로딩중...
+          예약 아이템/쉬는날 데이터 로딩중...
         </TextLoader>
       </div>
-    : isDetailsError
+    : (isDetailsError || isDayoffsError || isStatusError)
       ? <Feedback type='error' classes='mt-20' showError={true}>
-          예약 아이템 로드중 에러가 발생하였습니다.
+          예약 아이템/쉬는날 데이터 로드중 에러가 발생하였습니다.
         </Feedback>
       : null
 
@@ -279,7 +341,41 @@ export default function AdminUpdateReservationItem () {
               </div>
             </div>
 
-            <div className='reservation-details-container mt-20'>
+            <div className='reservation-details-container mt-30'>
+              <div className='form-field select-date-time-container mb-40'>
+                <span className='label mb-10'>날짜/시간 선택</span>
+
+                <div className='calendar-container'>
+                  <Calendar onChange={onCalendarSelect}
+                    fullyBookedDates={dayOffsData}
+                    value={details?.counselDate} />
+                </div>
+
+                <div className='legends-container is-right-aligned mt-20'>
+                  {
+                    legendList.map(entry => (
+                      <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
+                        <span className='color-pad'></span>
+                        <span className='item-text'>{entry.text}</span>
+                      </div>
+                    ))
+                  }
+                </div>
+
+                {
+                  Boolean(details?.counselDate) &&
+                  <div className='time-selection-container mt-30'>
+                    <TimeSlot classes='time-slot'
+                      slotList={EXTENDED_TIME_SLOTS}
+                      value={details?.timeSlot}
+                      occupiedSlots={occupiedTimeSlots}
+                      onSelect={onTimeSlotSelect}
+                      disableContactMemo={true}
+                      disableAutoScroll={true} />
+                  </div>
+                }
+              </div>
+
               <div className='summary-list'>
                 <div className='summary-list__title c-table-title'>예약 내용 수정</div>
 
@@ -310,38 +406,6 @@ export default function AdminUpdateReservationItem () {
                     initValueStr={originalData.mobile}
                     onUpdate={onMobileUpdate}
                     isError={isErrorActive('mobile')} />
-                </div>
-
-                <div className='summary-list__item align-center'>
-                  <span className='summary-list__label'>상담 날짜</span>
-                  <span className='summary-list__value'>
-                    <input type='date'
-                      lang='ko'
-                      data-vkey='counselDate'
-                      min={todayDateStr}
-                      className={cn('input is-small form-el-value')}
-                      value={details.counselDate}
-                      onInput={updateFactory('counselDate')} />
-                  </span>
-                </div>
-
-                <div className='summary-list__item align-center'>
-                  <span className='summary-list__label'>상담 시간</span>
-                  <span className='summary-list__value'>
-                    <span className='selectbox is-small form-el-value'>
-                      <select className='select'
-                        tabIndex='0'
-                        value={details.timeSlot}
-                        data-vkey='timeSlot'
-                        onChange={updateFactory('timeSlot')}>
-                        {
-                          EXTENDED_TIME_SLOTS.map(slot => (
-                            <option value={slot} key={slot}>{slot}</option>
-                          ))
-                        }
-                      </select>
-                    </span>
-                  </span>
                 </div>
 
                 {

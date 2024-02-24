@@ -284,7 +284,7 @@ async function updateOrAddEventDetails (reservationId, reservation) {
     status,
     counselDate
   } = reservation
-  const dateStr = numericDateToString(counselDate)
+  const dateStr = typeof counselDate === 'string' ? counselDate : numericDateToString(counselDate)
   const timeShort = timeSlot.split(':')[0]
 
   try {

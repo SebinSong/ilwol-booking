@@ -80,27 +80,27 @@ export default function AdminManageUsers () {
 
   // methods
   const onPermitClick = async (user) => {
-    if (!window.confirm(`${user.email} 유저를 승인하시겠습니까?`)) { return }
+    if (!window.confirm(`${user.email} 계정을 승인하시겠습니까?`)) { return }
 
     try {
       const res = await permitUser(user.id).unwrap()
       addToastItem({
         type: 'success',
         heading: '업데이트!',
-        content: '해당 유저를 승인하였습니다.'
+        content: '해당 계정을 승인하였습니다.'
       })
       refetch()
     } catch (err) {
       addToastItem({
         type: 'warning',
         heading: '실패!',
-        content: '유저 업데이트 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+        content: '계정 업데이트 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
       })
     }
   }
 
   const onDeleteClick = async (user) => {
-    if (!window.confirm(`${user.email} 유저를 삭제하시겠습니까? 한번 삭제된 계정은 복구할 수 없습니다.`)) { return }
+    if (!window.confirm(`${user.email} 계정을 삭제하시겠습니까? 한번 삭제된 계정은 복구할 수 없습니다.`)) { return }
   
     try {
       const res = await deleteUser(user.id).unwrap()
@@ -114,7 +114,7 @@ export default function AdminManageUsers () {
       addToastItem({
         type: 'warning',
         heading: '실패!',
-        content: '유저 삭제 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
+        content: '계정 삭제 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.'
       })
     }
   }
@@ -123,12 +123,12 @@ export default function AdminManageUsers () {
   const feedbackEl = isUsersLoading
     ? <div className='admin-feedback-container'>
         <TextLoader>
-          유저 데이터 로딩중...
+          계정 데이터 로딩중...
         </TextLoader>
       </div>
     : isUsersError
       ? <Feedback type='error' classes='mt-20' showError={true}>
-          유저 데이터 로드중 오류가 발생했습니다.
+          계정 데이터 로드중 오류가 발생했습니다.
         </Feedback>
       : null
 
@@ -137,7 +137,7 @@ export default function AdminManageUsers () {
       <div className='admin-manage-users-wrapper'>
         <h2 className='admin-page-title'>
           <i className='icon-group is-prefix'></i>
-          <span>유저 관리</span>
+          <span>관리자 계정 관리</span>
         </h2>
 
         <p className='admin-page-description'>관리자 계정들을 한눈에 볼 수 있습니다.</p>
@@ -164,7 +164,7 @@ export default function AdminManageUsers () {
                         <thead>
                           <tr>
                             <th className='th-email'>이메일</th>
-                            <th className='th-type'>유저 타입</th>
+                            <th className='th-type'>계정 타입</th>
                             <th className='th-status'>승인/대기</th>
                             <th className='th-created-date'>생성 날짜</th>
                             <th className='th-action'></th>

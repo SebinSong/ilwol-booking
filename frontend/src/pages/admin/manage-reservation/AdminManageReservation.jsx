@@ -12,7 +12,7 @@ export default function AdminManageReservation () {
     <AdminPageTemplate classes='page-admin-manage-reservation'>
       <div className='admin-manage-reservation-wrapper'>
         <h2 className='admin-page-title'>
-          <i className='icon-bulleted-list is-prefix'></i>
+          <i className='icon-calendar is-prefix'></i>
           <span>예약 관리</span>
         </h2>
 

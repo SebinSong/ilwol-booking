@@ -17,7 +17,7 @@ const adminNavList = [
   {
     id: 'manage-reservation',
     name: '예약 관리',
-    icon: 'bulleted-list',
+    icon: 'calendar',
     routeTo: '/admin/manage-reservation'
   },
   {
@@ -27,18 +27,31 @@ const adminNavList = [
     routeTo: '/admin/add-reservation-item'
   },
   {
-    id: 'manage-users',
-    name: '유저 관리',
-    icon: 'group',
-    routeTo: '/admin/manage-users'
+    id: 'reservation-history',
+    name: '예약 히스토리',
+    icon: 'bulleted-list',
+    routeTo: '/admin/reservation-history',
+    hidden: true
   },
   {
     id: 'send-message',
     name: 'Web문자 전송',
     icon: 'mail',
     routeTo: '/admin/send-message'
+  },
+  {
+    id: 'customer-contact',
+    name: '고객 주소록',
+    icon: 'id-card',
+    routeTo: '/admin/customer-contact'
+  },
+  {
+    id: 'manage-users',
+    name: '관리자 계정 관리',
+    icon: 'group',
+    routeTo: '/admin/manage-users'
   }
-]
+].filter(entry => !entry.hidden)
 
 function AdminNavigation ({ classes = '' }) {
   const navigate = useNavigate()

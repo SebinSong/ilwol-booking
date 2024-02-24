@@ -69,10 +69,11 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
 
       updateReservationDetails: builder.mutation({
-        query: ({ id, updates }) => {
+        query: ({ id, updates, notifyScheduleUpdate = false }) => {
           return ({
             method: 'PATCH',
-            url: `${RESERVATION_PATH}/${id}`,
+            url: `${RESERVATION_PATH}/${id}`
+              + (notifyScheduleUpdate ? '?notifyScheduleUpdate=true' : ''),
             body: { updates }
           })
         },

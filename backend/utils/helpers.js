@@ -100,12 +100,14 @@ const isMergeableObject = (val) => {
 const mergeObjects = (obj, src) => {
   for (const key in src) {
     const clone = isMergeableObject(src[key]) ? cloneDeep(src[key]) : undefined
-    if (clone && isMergeableObject(obj[key])) {
+
+    if (clone) {
       mergeObjects(obj[key], clone)
-      continue
+    } else {
+      obj[key] = src[key]
     }
-    obj[key] = clone || src[key]
   }
+
   return obj
 }
 

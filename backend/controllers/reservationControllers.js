@@ -19,7 +19,8 @@ const {
   sendResourceNotFound,
   getCounselTypeNameById,
   mergeObjects,
-  extractNameWithNum
+  extractNameWithNum,
+  cloneDeep
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -196,17 +197,17 @@ const postReservation = asyncHandler(async (req, res, next) => {
   res.status(201).json({ reservationId: newReservation._id })
 
   // send a notification SMS to the customer (if they have provided a contact)
-  if (!isAdminGenerated && hasMobileNumber) {
+  if (hasMobileNumber) {
     await sendSMS({
       to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
       title: '예약 안내',
-      message: `${pDetails.name}님, ${getReservationTime()} ${getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+      message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
         '<SC제일은행 김은숙 635-20-144462>로 상담료를 이체해주시면, 관리자가 확정 안내드리겠습니다. ' +
         `예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
     })
-    
+
     // send another notification SMS to the admin contact
-    await sendSMS({
+    (!isAdminGenerated) && await sendSMS({
       toAdmin: true,
       message: `새 예약접수 - ${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}`
     })
@@ -299,6 +300,7 @@ const getReservationStatusWithDetails = asyncHandler(async (req, res, next) => {
 
 // Update an individual reservation details
 const updateReservationDetails = asyncHandler(async (req, res, next) => {
+  const { notifyScheduleUpdate } = req.query
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
   const isUpdatingStatus = Object.keys(updates).includes('status')
@@ -361,31 +363,46 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
         data: result
       })
 
+      const mobileAfterUpdate = updates?.personalDetails?.mobile || doc?.personalDetails?.mobile || {}
+      const hasMobileAfterUpdate = Boolean(mobileAfterUpdate.number)
+
       // send SMS to the user about the reservation status update.
-      if (isUpdatingStatus &&
-        Boolean(doc.personalDetails?.mobile?.number)) {
-        const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
-        const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
-        const typeName = getCounselTypeNameById(optionId)
-        const isMethodVisit = pDetails?.method === 'visit'
+      if (hasMobileAfterUpdate) {
+        if (isUpdatingStatus) {
+          const { counselDate, timeSlot, optionId, personalDetails: pDetails } = doc
+          const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
+          const typeName = getCounselTypeNameById(optionId)
+          const isMethodVisit = pDetails?.method === 'visit'
 
-        const message = updates.status === 'confirmed'
-          ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
-            (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
-          : isCancellingReservation
-            ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
-            : ''
+          const message = updates.status === 'confirmed'
+            ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
+              (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
+            : isCancellingReservation
+              ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
+              : ''
 
-        if (message) {
+          if (message) {
+            await sendSMS({
+              title: '예약 안내',
+              to: `${mobileAfterUpdate.prefix}${mobileAfterUpdate.number}`,
+              message: `${message}`
+            })
+          }
+        } else if (Boolean(notifyScheduleUpdate)) {
+          const pDetails = doc.personalDetails
+          const counselDate = updates.counselDate || numericDateToString(doc.counselDate)
+          const timeSlot = updates.timeSlot || doc.timeSlot
+        
           await sendSMS({
             title: '예약 안내',
-            to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-            message: `${message}`
+            to: `${mobileAfterUpdate.prefix}${mobileAfterUpdate.number}`,
+            message: `${pDetails.name}님, 관리자에 의해 상담일정이 ${counselDate} ${timeSlot} 로 변경되었습니다.`
           })
         }
       }
 
-      const mergedDoc = mergeObjects(doc, updates)
+      // update Google calendar according to the new data
+      const mergedDoc = mergeObjects(cloneDeep(doc), updates)
       if (isCancellingReservation) {
         findEventByReservationIdAndDelete(reservationId)
           .catch(err => {

@@ -132,11 +132,17 @@ export default function AdminAddReservationItem () {
   }
 
   const submitHandler = async () => {
-    if (!window.confirm(`[${details.counselDate} ${details.timeSlot}] 예약 아이템을 생성하시겠습니까?`)) { return }
+    const { mobile } = details
+    const hasMobileField = Boolean(mobile.firstSlot || mobile.secondSlot)
+    let warningText = `[${details.counselDate} ${details.timeSlot}] 예약 아이템을 생성하시겠습니까?`
+
+    if (hasMobileField) {
+      // !!TODO!! - add validation for correct mobile-number format here.
+      warningText += ` 고객에게 입금 안내 문자가 날아갑니다.`
+    }
+    if (!window.confirm(warningText)) { return }
 
     try {
-      const { mobile } = details
-
       const res = await createAdminReservation({
         optionId: 'admin-generated',
         counselDate: details.counselDate,

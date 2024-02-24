@@ -125,6 +125,7 @@ export default function CustomerReservationDetails () {
   } else {
     const pDetails = data.personalDetails || {}
     const bookingOption = bookingOptions.find(item => item.id === data.optionId)
+    const isAdminGenerated = data.optionId === 'admin-generated'
     const counselDate = data.counselDate
     const isStatusPending = data?.status == 'pending'
     const isStatusConfirmed = data?.status == 'confirmed'
@@ -176,7 +177,7 @@ export default function CustomerReservationDetails () {
               <div className='summary-list__item'>
                 <span className='summary-list__label'>상담료</span>
                 <span className='summary-list__value is-big text-color-default'>
-                  { formatMoney(data.totalPrice, { minimumFractionDigits: 0 }) }
+                  { isAdminGenerated ? 'N/A' : formatMoney(data.totalPrice, { minimumFractionDigits: 0 }) }
                 </span>
               </div>
             </div>

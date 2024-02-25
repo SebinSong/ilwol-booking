@@ -1,5 +1,5 @@
 import apiSlice from './apiSlice.js'
-import { RESERVATION_PATH } from '@view-data/constants.js'
+import { RESERVATION_PATH, CONTACTS_PATH } from '@view-data/constants.js'
 import { handleClientErrors } from './utils.js'
 import { dateObjToNumeric, numericDateToString, dateToNumeric } from '@utils'
 
@@ -128,6 +128,27 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'POST',
           body: data
         })
+      }),
+
+      getDayoffs: builder.query({
+        query: () => ({
+          url: '/config/dayoffs',
+          method: 'GET'
+        }),
+        transformResponse: response => {
+          return flattenDayoffsData(response)
+        },
+        keepUnusedDataFor: 60, // seconds
+        providesTags: ['Dayoffs']
+      }),
+
+      getAllContacts: builder.query({
+        query: () => ({
+          url: `${CONTACTS_PATH}`,
+          method: 'GET'
+        }),
+        providesTags: ['Contacts'],
+        keepUnusedDataFor: 10 * 60 // seconds
       })
     }
   }
@@ -203,5 +224,6 @@ export const {
   useAdminDeleteReservationMutation: useAdminDeleteReservation,
   useClearCalendarMutation: useClearCalendar,
   useRegenerateCalendarMutation: useRegenerateCalendar,
-  useSendWebMessageMutation: useSendWebMessage
+  useSendWebMessageMutation: useSendWebMessage,
+  useGetAllContactsQuery: useGetAllContacts
 } = adminApiSlice

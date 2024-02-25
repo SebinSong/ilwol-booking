@@ -46,14 +46,13 @@ export default function AdminInquiry ({ classes = '' }) {
 
   // local-state
   const [search, setSearch] = useState('')
-  const [queryArgs, setQueryArgs] = useState({})
   const {
     data = [],
     isError,
     error,
     isLoading,
     isFetching
-  } = useGetInquiries(queryArgs, { refetchOnMountOrArgChange: true })
+  } = useGetInquiries({}, { refetchOnMountOrArgChange: true })
   const isLoadingData = isLoading || isFetching
 
   // computed state

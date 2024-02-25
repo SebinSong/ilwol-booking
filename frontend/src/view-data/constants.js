@@ -52,6 +52,7 @@ export const AUTH_PATH = '/auth'
 export const RESERVATION_PATH = '/reservation'
 export const INQUIRY_PATH = '/inquiry'
 export const USERS_PATH = '/users'
+export const CONTACTS_PATH = '/contacts'
 
 // reservations
 export const RESERVATION_STATUSES = [

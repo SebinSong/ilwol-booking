@@ -31,6 +31,8 @@ const CustomerContactSchema = new mongoose.Schema({
     reservationId: { type: String },
     _id: false
   }]
+}, {
+  timestamps: true
 })
 
 const CustomerContact = mongoose.model('CustomerContact', CustomerContactSchema)

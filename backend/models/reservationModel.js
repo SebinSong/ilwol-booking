@@ -54,6 +54,8 @@ const ReservationSchema = new mongoose.Schema({
   calendarEventId: {
     type: String
   },
+}, {
+  timestamps: true
 })
 const ArchivedReservationSchema = ReservationSchema.clone()
 ArchivedReservationSchema.add({

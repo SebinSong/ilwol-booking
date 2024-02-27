@@ -6,7 +6,7 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 export default function AdminReservationHistory () {
   return (
     <AdminPageTemplate classes='page-admin-reservation-history'>
-      <div classNaame='admin-reservation-history-wrapper'>
+      <div className='admin-reservation-history-wrapper'>
         <h2 className='admin-page-title'>
           <i className='icon-bulleted-list is-prefix'></i>
           <span>예약 히스토리</span>

@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
-
+import ContactLine from './contact-line/ContactLine'
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
 
@@ -39,7 +39,7 @@ export default function AdminCustomerContact () {
 
   return (
     <AdminPageTemplate classes='page-admin-customer-contact'>
-      <div classNaame='admin-customer-contact-wrapper'>
+      <div className='page-width-constraints'>
         <h2 className='admin-page-title'>
           <i className='icon-id-card is-prefix'></i>
           <span>고객 주소록</span>
@@ -52,6 +52,11 @@ export default function AdminCustomerContact () {
             feedbackEl ||
             <>
               <p>{contactData.length}개의 주소록 데이터가 로드되었습니다.</p>
+              <div className='mt-30'>
+                {
+                  contactData.map(entry => <ContactLine data={entry} key={entry._id} />)
+                }
+              </div>
             </>
           }
         </div>

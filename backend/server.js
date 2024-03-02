@@ -17,6 +17,7 @@ const reservationRouter = require('./routes/reservationRoutes')
 const manageRouter = require('./routes/manageRoutes')
 const configRouter = require('./routes/configRoutes')
 const usersRouter = require('./routes/usersRoutes.js')
+const contactsRouter = require('./routes/contactsRoutes.js')
 
 // middlewares
 const logger = require('./middlewares/logger')
@@ -44,6 +45,7 @@ app.use('/api/reservation', reservationRouter)
 app.use('/api/manage', manageRouter)
 app.use('/api/config', configRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/contacts', contactsRouter)
 
 // static server setup
 app.use(express.static(APP_CLIENT_PATH))

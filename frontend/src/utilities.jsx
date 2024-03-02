@@ -132,7 +132,7 @@ export function dateObjToNumeric (date) {
 }
 
 export function numericDateToString (numericDate) {
-  const s = numericDate.toString()
+  const s = typeof numericDate === 'string' ? numericDate : numericDate.toString()
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }
 

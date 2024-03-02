@@ -8,7 +8,7 @@ const {
   updateOrAddEventDetails,
   findEventByReservationIdAndDelete
 } = require('../external-services/google-calendar.js')
-
+const { saveContactsFromReservations } = require('./customerContactControllers.js')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateToNumeric,
@@ -60,6 +60,8 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
         })
       )
       await Reservation.deleteMany({ counselDate: counselDateFilter })
+
+      saveContactsFromReservations(docsToArchive)
     }
 
     res.status(200).json({

@@ -14,9 +14,17 @@
 .pt-0 { padding-top: 0 !important; }
 .pb-0 { padding-bottom: 0 !important; }
 
+.ml-2 {
+  display: inline-block;
+  margin-left: 0.2rem;
+}
 .ml-4 {
   display: inline-block;
   margin-left: 0.4rem;
+}
+.mr-2 {
+  display: inline-block;
+  margin-right: 0.2rem;
 }
 .mr-4 {
   display: inline-block;

@@ -249,7 +249,6 @@ export default function AdminUpdateReservationItem () {
   }
 
   const onUpdateHandler = async () => {
-    console.log('!@# details: ', details)
     if (validateAll()) {
       setUpdateError('')
 

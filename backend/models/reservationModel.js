@@ -7,7 +7,8 @@ const ReservationSchema = new mongoose.Schema({
   },
   counselDate: {
     type: Number,
-    required: true
+    required: true,
+    index: true
   },
   timeSlot: {
     type: String,
@@ -53,13 +54,13 @@ const ReservationSchema = new mongoose.Schema({
   calendarEventId: {
     type: String
   },
+}, {
+  timestamps: true
 })
 const ArchivedReservationSchema = ReservationSchema.clone()
 ArchivedReservationSchema.add({
   originalReservationId: { type: String }
 })
-// index
-ReservationSchema.index({ counselDate: -1, timeSlot: 1 })
 
 const Reservation = mongoose.model('Reservation', ReservationSchema)
 const getArchivedReservation = (year) => {

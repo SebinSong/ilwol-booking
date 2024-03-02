@@ -69,7 +69,7 @@ export default function AdminCustomerContact () {
                         <div className='input-with-pre-icon'>
                           <i className='icon-search pre-icon'></i>
 
-                          <input className='input is-small'
+                          <input className='input is-small search-input'
                             type='text'
                             value={search}
                             placeholder='이름 또는 번호 입력'

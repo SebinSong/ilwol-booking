@@ -22,4 +22,10 @@
     border: 1px solid $text_grey;
     background-color: $ilwol-purple-bg;
   }
+
+  .search-input {
+    @include smallphone {
+      width: 40vw;
+    }
+  }
 }

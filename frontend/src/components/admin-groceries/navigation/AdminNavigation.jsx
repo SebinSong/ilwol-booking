@@ -41,7 +41,7 @@ const adminNavList = [
   },
   {
     id: 'customer-contact',
-    name: '고객 주소록',
+    name: '고객 연락처',
     icon: 'id-card',
     routeTo: '/admin/customer-contact'
   },

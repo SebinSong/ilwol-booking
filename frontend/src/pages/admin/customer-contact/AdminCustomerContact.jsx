@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -17,6 +17,7 @@ export default function AdminCustomerContact () {
     isLoading: isContactsLoading,
     isError: isContactsError
   } = useGetAllContacts()
+  const [search, setSearch] = useState('')
 
   // computed state
   const feedbackEl = useMemo(
@@ -36,6 +37,12 @@ export default function AdminCustomerContact () {
     },
     [isContactsLoading, isContactsError]
   )
+  const dataToShow = useMemo(
+    () => {
+      return (contactData || []).filter(entry => entry.searchable.includes(search))
+    },
+    [contactData, search]
+  )
 
   return (
     <AdminPageTemplate classes='page-admin-customer-contact'>
@@ -51,10 +58,25 @@ export default function AdminCustomerContact () {
           {
             feedbackEl ||
             <>
-              <p>{contactData.length}개의 주소록 데이터가 로드되었습니다.</p>
-              <div className='mt-30'>
+              <div className='search-bar-container'>
+                <p className='contact-load-info'>
+                  <span className='has-text-bold text-color-magenta mr-2'>{contactData.length}</span>개의 주소록이 로드됨.
+                </p>
+
+                <div className='input-with-pre-icon'>
+                  <i className='icon-search pre-icon'></i>
+
+                  <input className='input is-small'
+                    type='text'
+                    value={search}
+                    placeholder='이름 또는 번호 입력'
+                    onInput={e => setSearch(e.target.value)} />
+                </div>
+              </div>
+              
+              <div className='admin-contact-list'>
                 {
-                  contactData.map(entry => <ContactLine data={entry} key={entry._id} />)
+                  dataToShow.map(entry => <ContactLine data={entry} key={entry._id} />)
                 }
               </div>
             </>

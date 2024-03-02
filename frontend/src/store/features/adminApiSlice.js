@@ -147,8 +147,17 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: `${CONTACTS_PATH}`,
           method: 'GET'
         }),
+        transformResponse: response => {
+          const updatedResponse = response.map(entry => {
+            return {
+              ...entry,
+              searchable: `${entry.name}___${entry.contact}`
+            }
+          })
+          return updatedResponse
+        },
         providesTags: ['Contacts'],
-        keepUnusedDataFor: 10 * 60 // seconds
+        keepUnusedDataFor: 60 // seconds
       })
     }
   }

@@ -1,3 +1,25 @@
 .page-admin-customer-contact {
   position: relative;
+
+  .contact-load-info {
+    position: relative;
+    font-size: $size_6;
+  }
+
+  .search-bar-container {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .admin-contact-list {
+    position: relative;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    border-radius: 0.8rem;
+    border: 1px solid $text_grey;
+    background-color: $ilwol-purple-bg;
+  }
 }

@@ -31,7 +31,7 @@ const saveContactsFromReservations = async (reservations) => {
       if (!targetArr.includes(entry => entry.reservationId === reservationId)) { // make sure there is no duplicated data created.
         await foundDoc.updateOne({ $set: {
           [status]: [
-            { counselDate, timeSlot, reservationId },
+            { counselDate, timeSlot, reservationId, method: pd?.method || '' },
             ...foundDoc[status]
           ]
         }})
@@ -41,7 +41,7 @@ const saveContactsFromReservations = async (reservations) => {
         name: pd.name,
         contact: contactValue,
         contactType,
-        [status]: [{ counselDate, timeSlot, reservationId }]
+        [status]: [{ counselDate, timeSlot, reservationId, method: pd?.method || '' }]
       })
     }
   }

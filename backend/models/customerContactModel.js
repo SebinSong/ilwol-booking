@@ -23,14 +23,14 @@ const CustomerContactSchema = new mongoose.Schema({
     counselDate: { type: String },
     timeSlot: { type: String },
     reservationId: { type: String },
-    method: { type: String }
+    method: { type: String },
     _id: false
   }],
   confirmed: [{
     counselDate: { type: String },
     timeSlot: { type: String },
     reservationId: { type: String },
-    method: { type: String }
+    method: { type: String },
     _id: false
   }]
 }, {

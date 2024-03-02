@@ -88,7 +88,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         query: () => ({
           method: 'POST',
           url: `${RESERVATION_PATH}/archive`
-        })
+        }),
+        invalidatesTags: ['Contacts']
       }),
 
       createAdminReservation: builder.mutation({

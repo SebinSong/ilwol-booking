@@ -50,7 +50,8 @@ export default function AdminManageReservationItem () {
   const navigate = useNavigate()
   const { id: reservationId } = useParams()
   const [searchParams] = useSearchParams()
-  const { addToastItem } = useContext(ToastContext)
+  const { addToastItem, unloadAllToast } = useContext(ToastContext)
+  const customerItemLink = `${window.location.origin}/reservation-details/${reservationId}`
 
   // local-state
   const [currentStatus, setCurrentStatus] = useState('')
@@ -118,6 +119,23 @@ export default function AdminManageReservationItem () {
         heading: '업데이트 실패!',
         content: '예약 상태 업데이트중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
       })
+    }
+  }
+
+  const copyCustomerLink = () => {
+    if (navigator.clipboard) {
+      try {
+        navigator.clipboard.writeText(customerItemLink)
+
+        unloadAllToast()
+        addToastItem({
+          type: 'success',
+          heading: '고객링크 복사',
+          content: '클립보드에 저장 되었습니다.'
+        })
+      } catch (err) {
+        console.error('copy-to-clipboard action failed: ', err)
+      }
     }
   }
 
@@ -291,6 +309,17 @@ export default function AdminManageReservationItem () {
                   <span className='summary-list__label'>상담 방식</span>
                   <span className='summary-list__value is-normal-color'>
                     {getCounselMethodNameById(pDetails.method)}
+                  </span>
+                </div>
+
+                <div className='summary-list__item'>
+                  <span className='summary-list__label'>고객용 예약 링크</span>
+                  <span className='summary-list__value'>
+                    <button className='is-table-btn is-secondary'
+                      onClick={copyCustomerLink}>
+                        <i className='icon-copy is-prefix'></i>
+                      <span>복사하기</span>
+                    </button>
                   </span>
                 </div>
 

@@ -29,7 +29,7 @@ import { RESERVATION_STATUSES } from '@view-data/constants.js'
 import './AdminManageReservationItem.scss'
 
 // helpers
-const combineMobile = mobile => mobile?.number ? `${mobile.prefix} ${mobile.number}` : ''
+const combineMobile = mobile => mobile?.number ? `${mobile.prefix}${mobile.number}` : ''
 
 const getStatusClass = status => {
   return ({

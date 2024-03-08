@@ -61,11 +61,12 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
       )
       await Reservation.deleteMany({ counselDate: counselDateFilter })
 
-      saveContactsFromReservations(docsToArchive)
+      await saveContactsFromReservations(docsToArchive)
     }
 
     res.status(200).json({
-      message: 'Successfully archived the old reservations'
+      message: 'Successfully archived the old reservations',
+      data: docsToArchive.length ? docsToArchive : []
     })
   } catch (err) {
     console.error('Failed to archive the old reservations due to a following error: ', err)

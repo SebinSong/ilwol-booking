@@ -204,18 +204,20 @@ const postReservation = asyncHandler(async (req, res, next) => {
       await sendSMS({
         to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
         title: '예약 안내',
-        message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
-          '<SC제일은행 김은숙 635-20-144462>로 상담료를 이체해주시면, 관리자가 확정 안내드리겠습니다. ' +
-          `예약 확인/변경/취소: ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
+        message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약 신청 완료. ` + 
+          '상담료이체 계좌 <SC제일은행 김은숙 635-20-144462>, 이체 확인 후 예약확정 문자발송. ' +
+          `@예약확인@변경@취소 -> ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
       })
 
       // send another notification SMS to the admin contact
-      (!isAdminGenerated) && await sendSMS({
-        toAdmin: true,
-        message: `새 예약접수 - ${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}`
-      })
+      if (!isAdminGenerated) {
+        await sendSMS({
+          toAdmin: true,
+          message: `새 예약접수 - ${pDetails.name}, ${getReservationTime()}, ${getCounselTypeNameById(optionId)}`
+        })
+      }
     } catch (err) {
-      console.error('!@# sms notification in postReservation()has failed! : ', err)
+      console.error('[Error] sms notification in postReservation()has failed! : ', err)
     }
   }
 
@@ -465,7 +467,10 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
     sendResourceNotFound(res)
   } else {
     const pDetails = doc.personalDetails
-    if (updates.counselDate) {
+    const mobile = pDetails.mobile
+    const isUpdatingCounselDate = Boolean(updates?.counselDate)
+
+    if (isUpdatingCounselDate) {
       updates.counselDate = dateToNumeric(updates.counselDate)
     }
 
@@ -476,12 +481,23 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
         data: result
       })
 
-      const prevDate = numericDateToString(doc?.counselDate)
-      const prevTime = doc?.timeSlot
+      const prevDate = numericDateToString(doc.counselDate)
+      const afterDate = isUpdatingCounselDate ? numericDateToString(updates.counselDate) : prevDate
+      const prevTime = doc.timeSlot
+      const afterTime = updates?.timeSlot || prevTime
+
+      if (Boolean(mobile?.number)) {
+        await sendSMS({
+          title: '예약 안내',
+          to: `${mobile.prefix}${mobile.number}`,
+          message: `${pDetails.name}님, 상담일정이 ${afterDate} ${afterTime}로 변경되었습니다.`
+        })
+      }
+  
       await sendSMS({
         toAdmin: true,
         message: `${pDetails.name} 예약변경:\r\n`
-          + `'${prevDate} ${prevTime}' -> '${updates?.counselDate ? numericDateToString(updates.counselDate) : prevDate} ${updates?.timeSlot || prevTime}'`
+          + `'${prevDate} ${prevTime}' -> '${afterDate} ${afterTime}'`
       })
 
       const mergedDoc = mergeObjects(doc, updates)

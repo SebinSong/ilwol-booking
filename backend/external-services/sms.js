@@ -42,6 +42,7 @@ async function sendSMS ({
 async function sendSMSToMultipleCustomers (message = '', toNumbers = []) {
   if (message && toNumbers?.length) {
     const payloadArr = toNumbers.map(numTo => ({
+      title: '예약 안내',
       text: `[일월선녀 해달별] ${message}`,
       from: SOLAPI_SEND_FROM,
       to: numTo

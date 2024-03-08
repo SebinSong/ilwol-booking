@@ -57,7 +57,7 @@ function ContactLine ({
   const copyContact = () => {
     if (navigator.clipboard && contact) {
       try {
-        navigator.clipboard.writeText(contact)
+        navigator.clipboard.writeText(contact.replace(/\s/g, ''))
 
         addToastItem({
           type: 'success',

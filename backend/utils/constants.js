@@ -60,10 +60,10 @@ const COUNSEL_OPTIONS_LIST = [
     duration: 1
   },
   {
-    name: '가족/그룹 상담',
+    name: '가족/커플 상담',
     id: 'family-counsel',
     type: 'group',
-    description: '본인 포함 2인 이상 상담 옵션입니다. 2인을 기본으로 하며, 1인 추가당 5만원입니다.',
+    description: '가족/커플 상담입니다. 친구 지인은 제외되고 1인당 5만원 추가입니다.',
     price: 150000,
     additionalPrice: 50000,
     duration: 1

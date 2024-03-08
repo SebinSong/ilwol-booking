@@ -297,6 +297,7 @@ async function updateOrAddEventDetails (reservationId, reservation) {
         title: extractNameWithNum(personalDetails),
         method: personalDetails?.method || '',
         optionId,
+        status,
         reservationId
       })
 

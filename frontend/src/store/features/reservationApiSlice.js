@@ -37,11 +37,11 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
           url: `${RESERVATION_PATH}/status`
         })
       }),
-      updateReservationSchedule: builder.mutation({
-        query: ({ id, updates }) => {
+      updateReservationDetailsByCustomer: builder.mutation({
+        query: ({ id, updates, type = 'details' }) => {
           return ({
             method: 'PATCH',
-            url: `${RESERVATION_PATH}/schedule/${id}`,
+            url: `${RESERVATION_PATH}/customer/${id}?type=${type}`,
             body: { updates }
           })
         }
@@ -63,5 +63,5 @@ export const {
   useGetReservationDetailsQuery: useGetReservationDetails,
   useGetReservationStatusMutation: useGetReservationStatus,
   useDeleteReservationMutation: useDeleteReservation,
-  useUpdateReservationScheduleMutation: useUpdateReservationSchedule
+  useUpdateReservationDetailsByCustomerMutation: useUpdateReservationDetailsByCustomer
 } = reservationApiSlice

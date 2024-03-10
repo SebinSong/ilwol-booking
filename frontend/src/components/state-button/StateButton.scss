@@ -9,4 +9,10 @@
     margin-right: 0.6rem;
     bottom: -2px;
   }
+
+  &.is-small {
+    .state-button__loader {
+      bottom: -1px;
+    }
+  }
 }

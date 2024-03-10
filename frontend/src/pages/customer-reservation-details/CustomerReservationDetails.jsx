@@ -6,6 +6,7 @@ import {
   numericDateToString,
   formatMoney,
   getStatusName,
+  getCounselMethodNameById,
   classNames as cn
 } from '@utils'
 
@@ -16,6 +17,7 @@ import TextLoader from '@components/text-loader/TextLoader'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
 import UpdateReservationSchedule from './UpdateReservationSchedule.jsx'
+import CounselMethodRow from './CounselMethodRow.jsx'
 
 // hooks
 import {
@@ -84,6 +86,8 @@ export default function CustomerReservationDetails () {
   const updateModeOn = () => {
     setNoAnimation(true)
     setTimeout(() => {
+      if (isUpdatingTime) { return }
+
       setIsUpdatingTime(true)
     }, 10)
   }
@@ -126,6 +130,7 @@ export default function CustomerReservationDetails () {
     const pDetails = data.personalDetails || {}
     const bookingOption = bookingOptions.find(item => item.id === data.optionId)
     const isAdminGenerated = data.optionId === 'admin-generated'
+    const isOverseasOption = data.optionId === 'overseas-counsel'
     const counselDate = data.counselDate
     const isStatusPending = data?.status == 'pending'
     const isStatusConfirmed = data?.status == 'confirmed'
@@ -145,7 +150,15 @@ export default function CustomerReservationDetails () {
   
           <div className='reservation-summary'>
             <div className='summary-list'>
-              <div className='summary-list__title'>예약 내역</div>
+              <div className='summary-list__title'>
+                <span>예약 내역</span>
+                <StateButton classes='is-warning is-small cancel-btn'
+                  type='button'
+                  displayLoader={isDeletingReservation}
+                  onClick={onDeleteClick}>
+                  <span>예약 취소</span>
+                </StateButton>
+              </div>
   
               <div className='summary-list__item'>
                 <span className='summary-list__label'>상담자</span>
@@ -165,9 +178,21 @@ export default function CustomerReservationDetails () {
                   <span className='summary-list__value'>{bookingOption.name}</span>
                 </div>
               }
+
+              {
+                Boolean(!isAdminGenerated && pDetails.method) &&
+                <CounselMethodRow method={pDetails.method}
+                  disableUpdate={isOverseasOption}
+                  onUpdateSuccess={refetch} />
+              }
   
-              <div className='summary-list__item'>
-                <span className='summary-list__label'>날짜/시간</span>
+              <div className='summary-list__item align-center'>
+                <span className='summary-list__label'>
+                  <span>날짜/시간</span>
+                  <button className='is-small is-secondary modify-btn'
+                    type='button'
+                    onClick={updateModeOn}>변경</button>
+                </span>
                 <span className='summary-list__value'>
                   <span>{ humanDate(numericDateToString(data.counselDate), { month: 'short', day: 'numeric', year: 'numeric' }) }</span>
                   <span className='ml-4'>{ data.timeSlot }</span>
@@ -187,7 +212,7 @@ export default function CustomerReservationDetails () {
               ? <UpdateReservationSchedule classes='mt-50'
                   initialDate={numericDateToString(data.counselDate)}
                   initialTimeSlot={data.timeSlot}
-                  isOverseasOption={data?.optionId === 'overseas-counsel'}
+                  isOverseasOption={isOverseasOption}
                   onBackClick={updateModeOff}
                   onUpdateSuccess={onUpdateSuccess} />
               : isStatusPending
@@ -234,21 +259,6 @@ export default function CustomerReservationDetails () {
                           <i className='icon-home is-prefix'></i>
                         <span>예약 홈으로</span>
                       </button>
-
-                      <button className='is-secondary'
-                        type='button'
-                        onClick={updateModeOn}>
-                        <i className='icon-pencil is-prefix'></i>
-                        <span>날짜/시간 변경</span>
-                      </button>
-
-                      <StateButton classes='is-warning'
-                        type='button'
-                        displayLoader={isDeletingReservation}
-                        onClick={onDeleteClick}>
-                        <i className='icon-trash is-prefix'></i>
-                        <span>예약 취소하기</span>
-                      </StateButton>
                     </div>
                   </>
                 : isStatusConfirmed
@@ -277,13 +287,6 @@ export default function CustomerReservationDetails () {
                         }}>
                         <span className='ctc-text'>전화번호 복사</span>
                       </CopyToClipboard>
-
-                      <button className='is-secondary is-small mt-20'
-                        type='button'
-                        onClick={updateModeOn}>
-                        <i className='icon-pencil is-prefix'></i>
-                        <span>날짜/시간 변경</span>
-                      </button>
                     </div>
                   : null
           }

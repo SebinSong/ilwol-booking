@@ -138,6 +138,7 @@ export default function AdminManageReservationItem () {
       }
     }
   }
+  const goToCustomerLink = () => { window.open(customerItemLink, '_blank') }
 
   const onDeleteBtnClick = async () => {
     if (!window.confirm('예약 아이템을 제거하시겠습니까? 데이터는 완전히 사라지며, 복구할 수 없습니다.')) { return } // @@@
@@ -318,7 +319,13 @@ export default function AdminManageReservationItem () {
                     <button className='is-table-btn is-secondary'
                       onClick={copyCustomerLink}>
                         <i className='icon-copy is-prefix'></i>
-                      <span>복사하기</span>
+                      <span>복사</span>
+                    </button>
+
+                    <button className='is-table-btn is-secondary ml-4'
+                      onClick={goToCustomerLink}>
+                        <i className='icon-web-link is-prefix'></i>
+                      <span>바로가기</span>
                     </button>
                   </span>
                 </div>

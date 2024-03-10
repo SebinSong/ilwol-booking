@@ -152,12 +152,15 @@ export default function CustomerReservationDetails () {
             <div className='summary-list'>
               <div className='summary-list__title'>
                 <span>예약 내역</span>
-                <StateButton classes='is-warning is-small cancel-btn'
-                  type='button'
-                  displayLoader={isDeletingReservation}
-                  onClick={onDeleteClick}>
-                  <span>예약 취소</span>
-                </StateButton>
+                {
+                  isStatusPending &&
+                  <StateButton classes='is-warning is-small cancel-btn'
+                    type='button'
+                    displayLoader={isDeletingReservation}
+                    onClick={onDeleteClick}>
+                    <span>예약 취소</span>
+                  </StateButton>
+                }
               </div>
   
               <div className='summary-list__item'>

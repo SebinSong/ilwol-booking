@@ -75,6 +75,12 @@ const COUNSEL_OPTIONS_LIST = [
   }
 ]
 
+const COUNSEL_METHOD = [
+  { id: 'visit', value: 'visit', name: '방문' },
+  { id: 'phone', value: 'phone', name: '전화 통화' },
+  { id: 'voice-talk', value: 'voice-talk', name: '보이스톡' }
+]
+
 const RESERVATION_STATUSES = [
   { value: 'confirmed', name: '확정' },
   { value: 'cancelled', name: '취소' },
@@ -98,6 +104,7 @@ module.exports = {
   DEFAULT_TIME_SLOTS,
   EXTENDED_TIME_SLOTS,
   COUNSEL_OPTIONS_LIST,
+  COUNSEL_METHOD,
   RESERVATION_STATUSES,
   RESERVATION_STATUS_VALUE
 }

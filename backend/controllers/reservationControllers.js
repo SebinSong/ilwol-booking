@@ -18,6 +18,7 @@ const {
   checkRequiredFieldsAndThrow,
   sendResourceNotFound,
   getCounselTypeNameById,
+  getCounselMethodNameById,
   mergeObjects,
   extractNameWithNum,
   cloneDeep
@@ -459,16 +460,21 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
   }
 })
 
-const updateReservationSchedule = asyncHandler(async (req, res, next) => {
+const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
   const { id: reservationId } = req.params
   const { updates = {} } = req.body
-  const doc = await Reservation.findById(reservationId)
+  const { type = '' } = req.query
 
-  if (!doc) {
-    sendResourceNotFound(res)
-  } else {
-    const pDetails = doc.personalDetails
-    const mobile = pDetails.mobile
+  if (!type) { return sendBadRequestErr(res, "'type' query param must be specified") }
+
+  const doc = await Reservation.findById(reservationId)
+  if (!doc) { return sendResourceNotFound(res) }
+
+  const pDetails = doc.personalDetails
+  const mobile = pDetails.mobile || {}
+  const hasMobileNumber = Boolean(mobile?.number)
+
+  if (type === 'schedule') {
     const isUpdatingCounselDate = Boolean(updates?.counselDate)
 
     if (isUpdatingCounselDate) {
@@ -478,7 +484,7 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
     try {
       const result = await doc.updateOne({ $set: updates })
       res.status(200).json({
-        message: 'Successfully updated the reservation schedule',
+        message: 'Successfully updated the reservation schedule by customer',
         data: result
       })
 
@@ -487,7 +493,7 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
       const prevTime = doc.timeSlot
       const afterTime = updates?.timeSlot || prevTime
 
-      if (Boolean(mobile?.number)) {
+      if (hasMobileNumber) {
         await sendSMS({
           title: '예약 안내',
           to: `${mobile.prefix}${mobile.number}`,
@@ -504,8 +510,69 @@ const updateReservationSchedule = asyncHandler(async (req, res, next) => {
       const mergedDoc = mergeObjects(doc, updates)
       updateOrAddEventDetails(reservationId, mergedDoc)
     } catch (err) {
-      console.error('error caught in updateReservationSchedule (reservationControllers.js): ', err)
-      sendBadRequestErr(res, 'Failed to update the reservation schedule')
+      console.error('error caught while updating schedule in updateReservationByCustomer (reservationControllers.js): ', err)
+      sendBadRequestErr(res, 'Failed to update the reservation schedule by customer', { error: err })
+    }
+  } else {
+    const getUpdateObj = () => {
+      switch (type) {
+        case 'method': {
+          return { 'personalDetails.method': updates.method }
+        }
+        default: return updates
+      }
+    }
+    const getCustomerSMS = () => {
+      return type === 'method'
+        ? `${pDetails.name}님, 상담방식이 '${getCounselMethodNameById(updates.method)}'로 성공적으로 변경되었습니다.`
+        : `${pDetails.name}님, 상담내역이 성공적으로 변경되었습니다.`
+    }
+    const getAdminSMS = () => {
+      return type === 'method'
+        ? `${pDetails.name} 예약변경:\r\n'${getCounselMethodNameById(pDetails.method)}' -> '${getCounselMethodNameById(updates.method)}'`
+        : `${pDetails.name} 셀프 예약변경`
+    }
+    const reorderUpdates = () => {
+      const transformed = {}
+      const inPD = ['method', 'name', 'mobile']
+
+      for (const key in updates) {
+        if (inPD.includes(key)) {
+          if (!transformed.personalDetails) { transformed.personalDetails = {} }
+
+          transformed.personalDetails[key] = updates[key]
+        } else {
+          transformed[key] = updates[key]
+        }
+      }
+
+      return transformed
+    }
+
+    try {
+      const result = await doc.updateOne({ $set: getUpdateObj() })
+      res.status(200).json({
+        message: 'Successfully updated the reservation details by customer',
+        data: result
+      })
+
+      if (hasMobileNumber) {
+        await sendSMS({
+          to: `${mobile.prefix}${mobile.number}`,
+          message: getCustomerSMS()
+        })
+      }
+
+      await sendSMS({
+        toAdmin: true,
+        message: getAdminSMS()
+      })
+
+      const mergedDoc = mergeObjects(doc, reorderUpdates())
+      updateOrAddEventDetails(reservationId, mergedDoc)
+    } catch (err) {
+      console.error('error caught while updating details in updateReservationByCustomer (reservationControllers.js): ', err)
+      sendBadRequestErr(res, 'Failed to update the reservation details by customer', { error: err })
     }
   }
 })
@@ -540,7 +607,7 @@ module.exports = {
   getReservationStatus,
   getReservationStatusWithDetails,
   updateReservationDetails,
-  updateReservationSchedule,
+  updateReservationByCustomer,
   deleteReservation,
   archiveOldReservation
 }

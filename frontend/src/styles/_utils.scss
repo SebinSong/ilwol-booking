@@ -136,6 +136,12 @@
     text-align: right;
     color: $magenta;
 
+    &.is-inline-flex {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
     &.is-normal-color {
       color: $text_0;
     }

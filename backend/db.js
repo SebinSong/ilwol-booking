@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const colors = require('colors')
 const path = require('path')
 const dotenv = require('dotenv')
 
@@ -18,8 +19,12 @@ exports.connectDB = async (cb, useProd = false) => {
 
     // register event handlers for DB connection.
     connection.on('disconnected', err => {
-      console.error('::: DB disconnected: ', err)
-      process.exit(1)
+      console.error('::: DB disconnected: '.brightWhite.bgBrightRed, err)
+      // process.exit(1)
+    })
+
+    connection.on('reconnected', () => {
+      console.error('::: DB reconnected!'.brightWhite.bgBrightGreen)
     })
 
     connection.on('error', err => {

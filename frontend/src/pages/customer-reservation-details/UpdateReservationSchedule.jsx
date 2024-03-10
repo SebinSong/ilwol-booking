@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useContext } from 'react'
+import React, { useRef, useState, useMemo, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { DEFAULT_TIME_SLOTS } from '@view-data/constants.js'
 
@@ -12,7 +12,7 @@ import StateButton from '@components/state-button/StateButton'
 // hooks
 import {
   useGetReservationStatus,
-  useUpdateReservationSchedule
+  useUpdateReservationDetailsByCustomer
 } from '@store/features/reservationApiSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 import { useGetFutureDayoffs } from '@store/features/adminApiSlice.js'
@@ -50,12 +50,13 @@ function UpdateReservationSchedule ({
     isLoading: isUpdatingReservationSchedule,
     isError: isReservationScheduleError,
     error: reservationScheduleError
-  }] = useUpdateReservationSchedule()
+  }] = useUpdateReservationDetailsByCustomer()
   const [disabledDates, setDisabledDates] = useState(null)
   const [reservedDays, setReservedDays] = useState({})
   const [date, setDate] = useState(initialDate)
   const [timeSlot, setTimeSlot] = useState(initialTimeSlot)
   const [updateError, setUpdateError] = useState('')
+  const rootEl = useRef(null)
 
   /// computed state
   const occupiedTimeSlots = useMemo(
@@ -111,7 +112,8 @@ function UpdateReservationSchedule ({
       await checkDateAndTimeAvailable(date, timeSlot)
       const res = await updateReservationSchedule({
         id: reservationId,
-        updates: { counselDate: date, timeSlot }
+        updates: { counselDate: date, timeSlot },
+        type: 'schedule'
       }).unwrap()
 
       addToastItem({
@@ -133,10 +135,17 @@ function UpdateReservationSchedule ({
   // effects
   useEffect(() => {
     loadData()
+
+    if (rootEl?.current) {
+      rootEl.current.scrollIntoView({
+        block: 'center',
+        inline: "nearest"
+      })
+    }
   }, [])
 
   return (
-    <div className={`update-reservation-schedule-container page-form-constraints ${classes}`}>
+    <div ref={rootEl} className={`update-reservation-schedule-container page-form-constraints ${classes}`}>
       {
         feedbackEl
           ? <div className='update-feedback-container'>{ feedbackEl }</div>

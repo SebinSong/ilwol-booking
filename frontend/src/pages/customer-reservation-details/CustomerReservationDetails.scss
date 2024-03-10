@@ -59,6 +59,10 @@
     width: 100%;
     max-width: 38rem;
     margin-top: 3rem;
+
+    .summary-list__item.align-center {
+      align-items: center;
+    }
   }
 
   .more-attendee {
@@ -139,5 +143,34 @@
     button {
       width: 14rem;
     }
+  }
+
+  button.modify-btn {
+    margin-left: 0.4rem;
+    font-size: $size_7;
+    min-height: 2.2rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  button.cancel-btn,
+  button.update-btn {
+    margin-left: 0.8rem;
+    font-size: 1.25rem;
+    min-height: 2.4rem;
+    padding: 0.4rem 0.6rem;
+    line-height: 1;
+
+    i.is-prefix {
+      margin-right: 0.2rem;
+      transform: translateY(2px)
+    }
+  }
+
+  button.update-btn {
+    min-height: 2.8rem;
+  }
+
+  .selectbox.counsel-method-select {
+    width: 10rem;
   }
 }

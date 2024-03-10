@@ -2,7 +2,8 @@
 const {
   CLIENT_ERROR_TYPES,
   DAYS_MILLIS,
-  COUNSEL_OPTIONS_LIST
+  COUNSEL_OPTIONS_LIST,
+  COUNSEL_METHOD
 } = require('./constants.js')
 
 const sendBadRequestErr = (res, msg, errObj = null) => {
@@ -82,6 +83,10 @@ const randomFromArray = arr => {
 
 const getCounselTypeNameById = (targetId) => {
   return COUNSEL_OPTIONS_LIST.find(x => x.id === targetId)?.name || ''
+}
+
+const getCounselMethodNameById = (targetId) => {
+  return COUNSEL_METHOD.find(x => x.value === targetId).name || ''
 }
 
 const cloneDeep = (obj) => {
@@ -172,6 +177,7 @@ module.exports = {
   randomIntBetweenRange,
   randomFromArray,
   getCounselTypeNameById,
+  getCounselMethodNameById,
   mergeObjects,
   cloneDeep,
   stringToBase64,

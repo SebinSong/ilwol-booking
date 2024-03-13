@@ -158,12 +158,15 @@ async function findEventByReservationIdAndDelete (reservationId, isFuture = fals
 
 async function addEvent ({
   date, timeSlot = '', optionId, title, method = '',
-  status, isConfirmed = false, reservationId = ''
+  status, isConfirmed = false, reservationId = '', calendarMemo = ''
 }) {
   const timeFirst = timeSlot.split(':')[0]
 
   const eventObj = {
-    summary: `${timeFirst}` + getMethodShort(method) + `${title}`,
+    summary: `${timeFirst}` +
+      getMethodShort(method) +
+      `${title}` +
+      (calendarMemo ? `_${calendarMemo}` : ''),
     description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
     start: { date },
     end: { date },
@@ -200,13 +203,16 @@ async function addMultipleEvents (data) {
     })
 
     const pFuncArr = data.map(reservation => {
-      const { optionId, timeSlot, counselDate, personalDetails, status, _id } = reservation
+      const { optionId, timeSlot, counselDate, personalDetails, status, _id, calendarMemo = '' } = reservation
       const timeShort = timeSlot.split(':')[0]
       const date = numericDateToString(counselDate)
 
       return () => calendar.events.insert({
         resource: {
-          summary: `${timeShort}` + getMethodShort(personalDetails?.method || '') + `${personalDetails?.name ? extractNameWithNum(personalDetails) : ''}`,
+          summary: `${timeShort}` +
+            getMethodShort(personalDetails?.method || '') +
+            `${personalDetails?.name ? extractNameWithNum(personalDetails) : ''}` +
+            (calendarMemo ? `_${calendarMemo}` : ''),
           description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${_id}`,
           start: { date },
           end: { date },
@@ -282,7 +288,8 @@ async function updateOrAddEventDetails (reservationId, reservation) {
     optionId,
     personalDetails,
     status,
-    counselDate
+    counselDate,
+    calendarMemo = ''
   } = reservation
   const dateStr = typeof counselDate === 'string' ? counselDate : numericDateToString(counselDate)
   const timeShort = timeSlot.split(':')[0]
@@ -298,6 +305,7 @@ async function updateOrAddEventDetails (reservationId, reservation) {
         method: personalDetails?.method || '',
         optionId,
         status,
+        calendarMemo,
         reservationId
       })
 
@@ -309,7 +317,10 @@ async function updateOrAddEventDetails (reservationId, reservation) {
         auth
       })
       const updateObj = {
-        summary: `${timeShort}` + getMethodShort(personalDetails.method) + `${extractNameWithNum(personalDetails)}`,
+        summary: `${timeShort}` +
+          getMethodShort(personalDetails.method) +
+          `${extractNameWithNum(personalDetails)}` +
+          (calendarMemo ? `_${calendarMemo}` : ''),
         description: `${getCounselTypeNameById(optionId)}` + `\r\n[ID]:${reservationId}`,
         start: { date: dateStr },
         end: { date: dateStr },

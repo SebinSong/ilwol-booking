@@ -51,9 +51,9 @@ const ReservationSchema = new mongoose.Schema({
       message: '{VALUE} is not supported'
     }
   },
-  calendarEventId: {
+  calendarMemo: {
     type: String
-  },
+  }
 }, {
   timestamps: true
 })

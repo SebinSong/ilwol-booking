@@ -68,7 +68,8 @@ export default function AdminUpdateReservationItem () {
     method: '',
     numAttendee: 1,
     name: '',
-    mobile: ''
+    mobile: '',
+    calendarMemo: ''
   })
   const [originalData, setOriginalData] = useState({})
   const [updateError, setUpdateError] = useState('') 
@@ -156,7 +157,8 @@ export default function AdminUpdateReservationItem () {
         method: pDetails.method,
         numAttendee:pDetails.numAttendee,
         name: pDetails.name,
-        mobile: `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
+        mobile: `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`,
+        calendarMemo: data?.calendarMemo || ''
       })
       setDetails(draft => {
         draft.counselDate = dateStr
@@ -166,6 +168,7 @@ export default function AdminUpdateReservationItem () {
         draft.numAttendee = pDetails.numAttendee
         draft.name = pDetails.name
         draft.mobile = `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`
+        draft.calendarMemo = data?.calendarMemo || ''
       })
     }
   }, [data])
@@ -221,7 +224,7 @@ export default function AdminUpdateReservationItem () {
   const genUpdatePayload = () => {
     const updates = {}
 
-    for (const keyName of ['counselDate', 'timeSlot', 'optionId']) {
+    for (const keyName of ['counselDate', 'timeSlot', 'optionId', 'calendarMemo']) {
       const value = details[keyName]
       if (value !== originalData[keyName]) {
         updates[keyName] = value
@@ -396,6 +399,16 @@ export default function AdminUpdateReservationItem () {
                           <span className='ml-4'>{pDetails.gender === 'male' ? '(남)' : '(여)'}</span>
                         </span>
                   }
+                </div>
+
+                <div className='summary-list__item align-center'>
+                  <span className='summary-list__label'>캘린더 꼬리말</span>
+
+                  <input type='text'
+                    data-vkey='calendarMemo'
+                    className={cn('input is-small form-el-value')}
+                    value={details.calendarMemo}
+                    onInput={updateFactory('calendarMemo')} />
                 </div>
 
                 <div className='summary-list__item align-center mobile-field'>

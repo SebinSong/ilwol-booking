@@ -20,7 +20,7 @@ import Login from '@pages/auth/Login'
 import Signup from '@pages/auth/Signup'
 
 // admin pages
-import AdminDashboard from '@pages/admin/dashboard/AdminDashboard'
+import AdminDayoffsAndCalendar from '@pages/admin/admin-dayoffs-and-calendar/AdminDayoffsAndCalendar'
 import AdminInquiry from '@pages/admin/inquiry/AdminInquiry'
 import AdminInquiryDetails from '@pages/admin/inquiry-details/AdminInquiryDetails'
 import AdminManageReservation from '@pages/admin/manage-reservation/AdminManageReservation'
@@ -71,12 +71,12 @@ const router = createBrowserRouter([
 
       // admin pages
       {
-        path: '/admin/dashboard',
-        element: <AdminDashboard />
-      },
-      {
         path: '/admin/manage-reservation',
         element: <AdminManageReservation />
+      },
+      {
+        path: '/admin/dayoffs-and-calendar',
+        element: <AdminDayoffsAndCalendar />
       },
       {
         path: '/admin/manage-reservation-item/:id',

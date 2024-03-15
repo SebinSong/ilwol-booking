@@ -79,7 +79,7 @@ export default function Login () {
         }).unwrap()
 
         dispatch(setCredentials(res))
-        navigate('/admin/dashboard')
+        navigate('/admin/manage-reservation')
       } catch (err) {
         console.error('Login.jsx caught: ', err)
         const errType = err.data.errType || ''

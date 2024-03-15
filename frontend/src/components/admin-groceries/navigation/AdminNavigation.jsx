@@ -9,16 +9,16 @@ import './AdminNavigation.scss'
 
 const adminNavList = [
   {
-    id: 'dashboard',
-    name: '대시보드',
-    icon: 'home',
-    routeTo: '/admin/dashboard'
-  },
-  {
     id: 'manage-reservation',
     name: '예약 관리',
     icon: 'calendar',
     routeTo: '/admin/manage-reservation'
+  },
+  {
+    id: 'dashboard',
+    name: '쉬는날 / 구글 캘린더',
+    icon: 'gear',
+    routeTo: '/admin/dayoffs-and-calendar'
   },
   {
     id: 'add-reservation-item',

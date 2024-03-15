@@ -107,7 +107,7 @@ export default function Signup () {
           })
 
           dispatch(setCredentials(res))
-          navigate('/admin/dashboard')
+          navigate('/admin/manage-reservation')
         } else {
           setRequestSubmitted(true)
         }

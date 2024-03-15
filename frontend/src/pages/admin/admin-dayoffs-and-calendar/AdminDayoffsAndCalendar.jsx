@@ -29,7 +29,7 @@ import {
   useArchiveOldReservations
 } from '@store/features/adminApiSlice.js'
 
-import './AdminDashboard.scss'
+import './AdminDayoffsAndCalendar.scss'
 
 // helpers
 const legendList = [
@@ -203,8 +203,8 @@ export default function AdminDashboard ({
   return (
     <AdminPageTemplate classes={cn('page-admin-dashboard', classes)}>
       <h2 className='admin-page-title'>
-        <i className='icon-home is-prefix'></i>
-        <span>대시보드</span>
+        <i className='icon-gear is-prefix'></i>
+        <span>쉬는날 / 구글 캘린더</span>
       </h2>
 
       <p className='admin-page-description'>관리자 콘솔 메인 페이지 입니다.</p>

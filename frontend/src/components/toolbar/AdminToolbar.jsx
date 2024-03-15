@@ -31,7 +31,7 @@ function AdminToolbar ({
   )
 
   // methods
-  const toAdminHome = () => navigate('/admin/dashboard')
+  const toAdminHome = () => navigate('/admin/manage-reservation')
 
   const logoutHandler = async () => {
     if (!window.confirm('로그아웃 하시겠습니까?')) { return }

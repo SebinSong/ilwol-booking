@@ -102,6 +102,21 @@ export default function AdminDashboard ({
     [dayOffs, dayOffsData]
   )
 
+  const formatBookingData = useMemo(
+    () => {
+      if (!bookingData || !selectedBookedDate) { return [] }
+
+      const targetData = bookingData[selectedBookedDate]
+      if (!targetData) { return [] }
+
+      const transformed = Object.entries(targetData)
+        .map(([key, entry]) => ({ ...entry, time: key }))
+    
+      transformed.sort((a, b) => parseInt(a.time) - parseInt(b.time))
+      return transformed
+    }, [bookingData, selectedBookedDate]
+  )
+
   // effects
   useEffect(() => {
     fetchStatusData().then((succeeded) => {
@@ -173,14 +188,6 @@ export default function AdminDashboard ({
     } catch (err) {
       console.error('Failed to archive the old reservations data: ', err)
     }
-  }
-
-  const formatBookingData = () => {
-    const targetData = bookingData[selectedBookedDate]
-    if (!targetData) { return [] }
-
-    return Object.entries(targetData)
-      .map(([key, entry]) => ({ ...entry, time: key }))
   }
 
   const onPreviewItemClick = entry => {
@@ -278,7 +285,7 @@ export default function AdminDashboard ({
 
                         <tbody>
                           {
-                            formatBookingData().map(entry => (
+                            formatBookingData.map(entry => (
                               <tr key={entry.time}>
                                 <td className='td-time'>{entry.time}</td>
                                 <td className='td-name'

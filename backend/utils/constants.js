@@ -16,7 +16,7 @@ const CLIENT_ERROR_TYPES = {
   INVALID_TOKEN: 'invalid-token',
   UNAUTHORIZED: 'unauthorized'
 }
-const JWT_MAX_AGE = 3 * DAYS_MILLIS // 3 days
+const JWT_MAX_AGE = 30 * DAYS_MILLIS // 30 days
 
 const DEFAULT_TIME_SLOTS = [
   '12:00',

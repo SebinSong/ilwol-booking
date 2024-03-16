@@ -15,12 +15,6 @@ const adminNavList = [
     routeTo: '/admin/manage-reservation'
   },
   {
-    id: 'dashboard',
-    name: '쉬는날 / 구글 캘린더',
-    icon: 'gear',
-    routeTo: '/admin/dayoffs-and-calendar'
-  },
-  {
     id: 'add-reservation-item',
     name: '예약 생성',
     icon: 'pencil',
@@ -32,6 +26,12 @@ const adminNavList = [
     icon: 'bulleted-list',
     routeTo: '/admin/reservation-history',
     hidden: true
+  },
+  {
+    id: 'dashboard',
+    name: '쉬는날 / 구글 캘린더',
+    icon: 'gear',
+    routeTo: '/admin/dayoffs-and-calendar'
   },
   {
     id: 'send-message',

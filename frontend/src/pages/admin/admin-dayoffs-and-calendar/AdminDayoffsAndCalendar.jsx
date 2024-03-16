@@ -207,7 +207,7 @@ export default function AdminDashboard ({
         <span>쉬는날 / 구글 캘린더</span>
       </h2>
 
-      <p className='admin-page-description'>관리자 콘솔 메인 페이지 입니다.</p>
+      <p className='admin-page-description'>쉬는 날을 설정하고, 구글 캘린더를 관리합니다.</p>
 
       {
         feedbackEl ||

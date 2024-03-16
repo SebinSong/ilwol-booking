@@ -44,7 +44,8 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
           optionId: entry.optionId,
           status: entry.status,
           totalPrice: entry.totalPrice || 0,
-          originalReservationId: entry._id || ''
+          originalReservationId: entry._id || '',
+          originalCreatedAt: entry.createdAt || ''
         }
         const yearStr = new String(entry.counselDate).slice(0, 4)
 
@@ -577,27 +578,22 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
   }
 })
 
-// archiving purpose
-const getAllReservationPagination = asyncHandler(async (req, res, next) => {
-  let { limit = null, page = null } = req.query
-  let data
-
-  if (limit && page) {
-    limit = parseInt(limit)
-    page = parseInt(page)
-    const dbQuery = Reservation.find({})
-      .sort({ createdAt: -1 })
-
-    if (page > 0) {
-      dbQuery.skip(limit * page)
-    }
-    data = await dbQuery.exec()
-  } else {
-    data = await Reservation.find({})
-      .sort({ createdAt: -1 })
+const getReservationHistory = asyncHandler(async (req, res, next) => {
+  const thisYear = new Date().getFullYear()
+  let yearArr = []
+  for (let i=thisYear; i>=2024; i--) {
+    yearArr.push(i)
   }
 
-  res.status(200).json(data)
+  const pArr = yearArr.map(year => {
+    const dbCollection = getArchivedReservation(year)
+
+    const dbQuery = dbCollection.find({}).sort({ counselDate: -1 })
+    return dbQuery.exec()
+  })
+
+  const resultArr = await Promise.all(pArr)
+  res.status(200).json(resultArr.flat())
 })
 
 module.exports = {
@@ -609,5 +605,6 @@ module.exports = {
   updateReservationDetails,
   updateReservationByCustomer,
   deleteReservation,
-  archiveOldReservation
+  archiveOldReservation,
+  getReservationHistory
 }

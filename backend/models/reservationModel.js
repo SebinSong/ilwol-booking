@@ -59,7 +59,8 @@ const ReservationSchema = new mongoose.Schema({
 })
 const ArchivedReservationSchema = ReservationSchema.clone()
 ArchivedReservationSchema.add({
-  originalReservationId: { type: String }
+  originalReservationId: { type: String },
+  originalCreatedAt: { type: String }
 })
 
 const Reservation = mongoose.model('Reservation', ReservationSchema)

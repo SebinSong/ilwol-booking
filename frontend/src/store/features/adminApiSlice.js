@@ -89,7 +89,19 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'POST',
           url: `${RESERVATION_PATH}/archive`
         }),
-        invalidatesTags: ['Contacts']
+        invalidatesTags: [
+          'ArchivedReservations',
+          'Contacts'
+        ]
+      }),
+
+      getArchivedReservations: builder.query({
+        query: () => ({
+          method: 'GET',
+          url: `${RESERVATION_PATH}/archive`
+        }),
+        keepUnusedDataFor: 60, // seconds
+        providesTags: ['ArchivedReservations']
       }),
 
       createAdminReservation: builder.mutation({
@@ -235,5 +247,6 @@ export const {
   useClearCalendarMutation: useClearCalendar,
   useRegenerateCalendarMutation: useRegenerateCalendar,
   useSendWebMessageMutation: useSendWebMessage,
-  useGetAllContactsQuery: useGetAllContacts
+  useGetAllContactsQuery: useGetAllContacts,
+  useGetArchivedReservationsQuery: useGetArchivedReservations
 } = adminApiSlice

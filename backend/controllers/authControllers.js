@@ -29,7 +29,7 @@ const generateAndSendToken = (user, res) => {
     httpOnly: true,
     secure: isEnvProduction,
     sameSite: 'strict',
-    maxAge: JWT_MAX_AGE // NOTE: has to be specified in seconds
+    maxAge: JWT_MAX_AGE // NOTE: has to be specified in milli-seconds (https://expressjs.com/en/5x/api.html#res.cookie)
   })
   res.status(201).json({
     email: user.email,

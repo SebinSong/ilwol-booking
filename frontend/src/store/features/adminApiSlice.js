@@ -167,6 +167,10 @@ export const adminApiSlice = apiSlice.injectEndpoints({
               searchable: `${entry.name}___${entry.contact}`
             }
           })
+
+          updatedResponse.sort(
+            (a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+          )
           return updatedResponse
         },
         providesTags: ['Contacts'],

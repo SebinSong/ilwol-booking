@@ -22,10 +22,9 @@ const adminNavList = [
   },
   {
     id: 'reservation-history',
-    name: '예약 히스토리',
+    name: '지난 예약 보기',
     icon: 'bulleted-list',
-    routeTo: '/admin/reservation-history',
-    hidden: true
+    routeTo: '/admin/reservation-history'
   },
   {
     id: 'dashboard',

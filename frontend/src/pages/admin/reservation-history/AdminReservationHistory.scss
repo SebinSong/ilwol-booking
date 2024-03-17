@@ -1,0 +1,65 @@
+.page-admin-reservation-history {
+  position: relative;
+
+  .admin-reservation-history-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+
+    @include from ($small-phone) {
+      width: max-content;
+    }
+
+    @include from ($large-phone) {
+      min-width: 50rem;
+    }
+  }
+
+  .status-pill {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+
+  .history-table {
+    position: relative;
+
+    .th-counsel-time,
+    .td-counsel-time {
+      position: sticky;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .td-name {
+      padding-right: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .th-status,
+    .td-status {
+      width: 8rem;
+      text-align: center;
+    }
+
+    .th-counsel-type,
+    .td-counsel-type {
+      text-align: center;
+      width: 14rem;
+    }
+
+    .th-counsel-method,
+    .td-counsel-method {
+      width: 10rem;
+      text-align: center;
+    }
+  }
+}

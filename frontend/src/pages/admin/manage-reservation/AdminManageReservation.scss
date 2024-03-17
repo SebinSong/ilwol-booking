@@ -11,7 +11,7 @@
     }
 
     @include from ($large-phone) {
-      min-width: 46rem;
+      min-width: 50rem;
     }
   }
 }

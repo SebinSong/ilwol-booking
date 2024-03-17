@@ -8,7 +8,8 @@ const {
   updateReservationDetails,
   updateReservationByCustomer,
   deleteReservation,
-  archiveOldReservation
+  archiveOldReservation,
+  getReservationHistory
 } = require('../controllers/reservationControllers')
 const { isAdmin } = require('../middlewares/authMiddlewares')
 const router = express.Router()
@@ -16,6 +17,7 @@ const router = express.Router()
 router.get('/', isAdmin, getAllReservation)
 router.post('/', postReservation)
 
+router.get('/archive', isAdmin, getReservationHistory)
 router.post('/archive', isAdmin, archiveOldReservation)
 
 router.get('/status', getReservationStatus)

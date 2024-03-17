@@ -5,6 +5,7 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import ContactLine from './contact-line/ContactLine'
+
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
 

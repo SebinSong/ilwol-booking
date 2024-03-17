@@ -9,7 +9,7 @@ function ReservationHistoryTable ({
 
   // methods
   const onItemClick = (entry) => {
-    alert('TODO!')
+    alert('준비중!')
   }
 
   return (
@@ -33,11 +33,13 @@ function ReservationHistoryTable ({
                 return (
                   <tr key={entry._id}>
                     <td className='td-counsel-time'>{entry.dateAndTime}</td>
-                    <td className='td-name'>{entry.name}</td>
+                    <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                    <td className='td-status'>{entry.status}</td>
                     <td className='td-counsel-type'>{entry.counselType}</td>
                     <td className='td-counsel-method'>{entry.methodName}</td>
                     <td className='td-action'>
-                      <button className='is-secondary is-table-btn'>보기</button>
+                      <button className='is-secondary is-table-btn'
+                        onClick={() => onItemClick(entry)}>보기</button>
                     </td>
                   </tr>
                 )

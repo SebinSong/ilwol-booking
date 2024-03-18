@@ -44,6 +44,7 @@ const transformListEntry = entry => {
     name: getName(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
+    createdDate: entry.createdAt ? humanDate(entry.createdAt, { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
     id: entry._id
   }
 
@@ -90,7 +91,7 @@ function AdminReservationTable ({
         onToggle={toggleTable}
         initValue={true}
         type={toggleBtnType}>
-        { toggleBtnText || '예약 내역' }
+        { `${toggleBtnText + (!noData ? ` (${list.length}건)` : '')}` || '예약 내역' }
       </AccordionButton>
 
       {
@@ -128,6 +129,7 @@ function AdminReservationTable ({
                                 <th className='th-name'>이름</th>
                                 <th className='th-counsel-type'>상담 종류</th>
                                 <th className='th-counsel-method'>상담 방식</th>
+                                <th className='th-created-at'>생성일자</th>
                                 <th className='th-action'></th>
                               </tr>
                             </thead>
@@ -141,6 +143,7 @@ function AdminReservationTable ({
                                       <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
                                       <td className='td-counsel-type'>{entry.counselType}</td>
                                       <td className='td-counsel-method'>{entry.methodName}</td>
+                                      <td className='td-created-at'>{entry.createdDate}</td>
                                       <td className='td-action'>
                                         <button className='is-secondary is-table-btn'
                                           onClick={() => onItemClick(entry)}>보기</button>

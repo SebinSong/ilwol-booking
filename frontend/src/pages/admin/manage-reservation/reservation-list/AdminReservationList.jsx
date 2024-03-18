@@ -83,12 +83,12 @@ export default function AdminReservationList () {
   else {
     return (
       <>
-        <section className='admin-page-section mb-40 pb-0'>
+        <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={pendingData}
             emptyMessage='해당 데이터가 없습니다.'
             toggleBtnText='확정 대기중인 예약'
-            toggleBtnType='default'>
+            toggleBtnType='validation'>
             <button className='is-secondary is-small' type='button'
               onClick={onSendMsgClick}>
               <span className='icon-mail is-prefix'></span>
@@ -97,7 +97,7 @@ export default function AdminReservationList () {
           </AdminReservationTable>
         </section>
 
-        <section className='admin-page-section mb-40 pb-0'>
+        <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={confirmedData}
             emptyMessage='해당 데이터가 없습니다.'
@@ -105,7 +105,7 @@ export default function AdminReservationList () {
             toggleBtnType='success' />
         </section>
 
-        <section className='admin-page-section mb-40 pb-0'>
+        <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={cancelledData}
             emptyMessage='해당 데이터가 없습니다.'

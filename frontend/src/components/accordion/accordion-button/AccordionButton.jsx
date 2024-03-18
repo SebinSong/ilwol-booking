@@ -32,7 +32,7 @@ function AccordionButton ({
     >
       <i className='icon-info-circle accordion-button__pre-icon'></i>
       <span className='accordion-button__text'>{children}</span>
-      <i className='icon-chevron-down-circle accordion-button__arrow'></i>
+      <i className='icon-chevron-down accordion-button__arrow'></i>
     </button>
   )
 }

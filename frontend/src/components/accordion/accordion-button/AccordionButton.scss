@@ -7,11 +7,10 @@ button.accordion-button {
   display: flex;
   align-items: center;
   border-radius: 0.8rem;
-  border: 1px solid currentColor;
+  border: 1px solid var(--button-border-secondary);
   font-size: $size_5;
-  font-weight: 800;
-  padding: 0.6rem 1.2rem;
-  color: var(--l-btn-color);
+  padding: 1rem 1.2rem;
+  color: $text_0;
   background-color: var(--l-btn-bg-color);
   transition: background-color 200ms linear;
   width: 100%;
@@ -21,17 +20,18 @@ button.accordion-button {
   &:hover,
   &:active,
   &.is-open {
-    color: var(--l-btn-color);
+    color: $text_0;
     background-color: var(--l-btn-bg-color);
-    border: 1px solid currentColor;
-
-    .accordion-button__text {
-      text-decoration: underline;
-    }
+    border: 1px solid var(--button-border-secondary);
   }
 
   &:focus {
     box-shadow: 0 0 2px 0 currentColor;
+  }
+
+  &.is-type-validation {
+    --l-btn-color: #{$validation};
+    --l-btn-bg-color: #{$validation-bg};
   }
 
   &.is-type-success {
@@ -50,6 +50,7 @@ button.accordion-button {
     transform: translateY(1px);
     margin-right: 0.6rem;
     flex-shrink: 0;
+    color: $text_dark_grey;
   }
 
   .accordion-button__text {
@@ -60,10 +61,11 @@ button.accordion-button {
 
   .accordion-button__arrow {
     display: inline-block;
-    font-size: 1.35em;
+    font-size: 1.3em;
     transform: translateY(1px);
     transition: transform 250ms ease-out;
     flex-shrink: 0;
+    color: $text_dark_grey;
   }
 
   &.is-open {

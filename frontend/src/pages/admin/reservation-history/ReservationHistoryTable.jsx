@@ -20,6 +20,7 @@ function ReservationHistoryTable ({
             <tr>
               <th className='th-counsel-time'>날짜/시간</th>
               <th className='th-name'>이름</th>
+              <th className='th-contact'>연락처</th>
               <th className='th-status'>상태</th>
               <th className='th-counsel-type'>상담 종류</th>
               <th className='th-counsel-method'>상담 방식</th>
@@ -31,9 +32,10 @@ function ReservationHistoryTable ({
             {
               data.map((entry) => {
                 return (
-                  <tr key={entry._id}>
+                  <tr key={entry.id}>
                     <td className='td-counsel-time'>{entry.dateAndTime}</td>
                     <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                    <td className='td-contact'>{entry.contact}</td>
                     <td className='td-status'>{entry.status}</td>
                     <td className='td-counsel-type'>{entry.counselType}</td>
                     <td className='td-counsel-method'>{entry.methodName}</td>

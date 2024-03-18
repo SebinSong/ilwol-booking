@@ -37,6 +37,13 @@ const getName = entry => {
 
   return name + (numAttendee >= 2 ? ` 외${numAttendee - 1}명`: '')
 }
+const getContact = entry => {
+  const pd = entry.personalDetails || {}
+
+  if (pd?.mobile?.number) {
+    return `${pd.mobile.prefix}${pd.mobile.number}`
+  } else { return 'N/A' }
+}
 const getCounselTypeName = entry => {
   return entry.optionId === 'admin-generated'
     ? '관리자생성 아이템'
@@ -75,13 +82,14 @@ const transformListEntry = entry => {
   const r = {
     dateAndTime: combineDateAndTime(entry),
     name: getName(entry),
+    contact: getContact(entry),
     status: getStatus(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
     id: entry._id
   }
 
-  r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.counselType}__${r.methodName}`
+  r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.contact}`
   return r
 }
 
@@ -133,6 +141,17 @@ export default function AdminReservationHistory () {
             feedbackEl || (
               data?.length > 0
                 ? <>
+                    <div className='history-search-and-page-navigation mb-20'>
+                      <div className='input-with-pre-icon is-small history-search-input'>
+                        <i className='icon-search pre-icon'></i>
+
+                        <input className='input'
+                          type='text'
+                          value={search}
+                          placeholder='이름/연락처/etc. 검색'
+                          onInput={e => setSearch(e.target.value)} />
+                      </div>
+                    </div>
                     <ReservationHistoryTable classes='history-table' data={dataToDisplay} />
                   </>
                 : <p className='helper info'>로드된 데이터가 없습니다.</p>

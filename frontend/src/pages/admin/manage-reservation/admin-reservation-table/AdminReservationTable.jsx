@@ -105,6 +105,7 @@ function AdminReservationTable ({
                   <input className='input'
                     type='text'
                     value={search}
+                    placeholder='이름/날짜/etc. 검색'
                     onInput={e => setSearch(e.target.value)} />
                 </div>
 

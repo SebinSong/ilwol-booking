@@ -86,7 +86,8 @@ const transformListEntry = entry => {
     status: getStatus(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
-    id: entry._id
+    id: entry._id,
+    data: entry
   }
 
   r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.contact}`
@@ -99,6 +100,7 @@ export default function AdminReservationHistory () {
     data, isLoading, isError
   } = useGetArchivedReservations()
   const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState(['pending', 'confirmed', 'cancelled'])
 
   // computed state
   const dataToDisplay = useMemo(
@@ -107,7 +109,8 @@ export default function AdminReservationHistory () {
   
       return data.map(transformListEntry)
         .filter(entry => entry.searchable.includes(search.trim()))
-    }, [data, search]
+        .filter(entry => statusFilter.includes(entry.data.status))
+    }, [data, search, statusFilter]
   )
 
   // computed state
@@ -126,6 +129,15 @@ export default function AdminReservationHistory () {
     }, [isLoading, isError]
   )
 
+  // methods
+  const toggleStatusFilter = (value) => {
+    setStatusFilter(current => {
+      return current.includes(value)
+        ? current.filter(x => x !== value)
+        : [ ...current, value ]
+    })
+  }
+
   return (
     <AdminPageTemplate classes='page-admin-reservation-history'>
       <div className='admin-reservation-history-wrapper'>
@@ -141,6 +153,25 @@ export default function AdminReservationHistory () {
             feedbackEl || (
               data?.length > 0
                 ? <>
+                    <div className='history-filters-container mb-10'>
+                      <div className='history-filter-line'>
+                        <span className='history-filter-label has-text-bold'>상태 필터:</span>
+                        <div className='cta-containers'>
+                          <span tabIndex='0'
+                            onClick={() => toggleStatusFilter('pending')}
+                            className={cn('status-pill text-bg-validation status-filter-item', statusFilter.includes('pending') && 'is-active')}
+                          >대기</span>
+                          <span tabIndex='0'
+                            onClick={() => toggleStatusFilter('confirmed')}
+                            className={cn('status-pill text-bg-success status-filter-item', statusFilter.includes('confirmed') && 'is-active')}
+                          >확정</span>
+                          <span tabIndex='0'
+                            onClick={() => toggleStatusFilter('cancelled')}
+                            className={cn('status-pill text-bg-warning status-filter-item', statusFilter.includes('cancelled') && 'is-active')}
+                          >취소</span>
+                        </div>
+                      </div>
+                    </div>
                     <div className='history-search-and-page-navigation mb-20'>
                       <div className='input-with-pre-icon is-small history-search-input'>
                         <i className='icon-search pre-icon'></i>

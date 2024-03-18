@@ -30,22 +30,28 @@ function ReservationHistoryTable ({
 
           <tbody>
             {
-              data.map((entry) => {
-                return (
-                  <tr key={entry.id}>
-                    <td className='td-counsel-time'>{entry.dateAndTime}</td>
-                    <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
-                    <td className='td-contact'>{entry.contact}</td>
-                    <td className='td-status'>{entry.status}</td>
-                    <td className='td-counsel-type'>{entry.counselType}</td>
-                    <td className='td-counsel-method'>{entry.methodName}</td>
-                    <td className='td-action'>
-                      <button className='is-secondary is-table-btn'
-                        onClick={() => onItemClick(entry)}>보기</button>
-                    </td>
+              data?.length
+                ? data.map((entry) => {
+                    return (
+                      <tr key={entry.id}>
+                        <td className='td-counsel-time'>{entry.dateAndTime}</td>
+                        <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                        <td className='td-contact'>{entry.contact}</td>
+                        <td className='td-status'>{entry.status}</td>
+                        <td className='td-counsel-type'>{entry.counselType}</td>
+                        <td className='td-counsel-method'>{entry.methodName}</td>
+                        <td className='td-action'>
+                          <button className='is-secondary is-table-btn'
+                            onClick={() => onItemClick(entry)}>보기</button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                : <tr>
+                  <td colSpan={6}>
+                    <p className='helper info'>보여줄 데이터가 없습니다.</p>
+                  </td>
                   </tr>
-                )
-              })
             }
           </tbody>
         </table>

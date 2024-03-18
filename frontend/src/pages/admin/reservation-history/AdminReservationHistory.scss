@@ -15,6 +15,43 @@
     }
   }
 
+  .history-filter-line {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: $size_7;
+    gap: 0.6rem;
+
+    .cta-containers {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 1.125em;
+    }
+
+    .status-filter-item {
+      cursor: pointer;
+      filter: grayscale(60%);
+      opacity: 0.625;
+      transition: opacity 350ms;
+
+      &::before {
+        content: '-';
+        display: inline-block;
+        margin-right: 0.4rem;
+      }
+
+      &.is-active {
+        filter: none;
+        opacity: 1;
+
+        &::before {
+          content: '+'
+        }
+      }
+    }
+  }
+
   .status-pill {
     display: inline-block;
     margin-left: 0.4rem;
@@ -67,6 +104,13 @@
     .td-counsel-method {
       width: 10rem;
       text-align: center;
+    }
+
+    .helper.info {
+      font-size: $size_7;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.2rem 0;
     }
   }
 }

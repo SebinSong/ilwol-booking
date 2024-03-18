@@ -14,10 +14,6 @@ function HomeIntroduction ({
 }) {
   // local-state
   const [isImageLoaded, setIsImageLoaded] = useState(false)
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
-
-  // computed state
-  const isAssetsLoaded = isImageLoaded && isVideoLoaded
 
   // method
   const preloadImage = () => {
@@ -36,9 +32,9 @@ function HomeIntroduction ({
 
   return (
     <div className={`content-introduction ${classes}`}>
-      <iframe id='ghost-iframe' src={videoUrl} onLoad={() => setIsVideoLoaded(true)}></iframe>
+      <iframe id='ghost-iframe' src={videoUrl}></iframe>
       {
-        !isAssetsLoaded
+        !isImageLoaded
           ? <TextLoader>로딩중..</TextLoader>
           : <>
               <div className='intro-details'>

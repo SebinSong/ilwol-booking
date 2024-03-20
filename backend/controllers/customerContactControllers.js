@@ -17,7 +17,7 @@ const saveContactsFromReservations = async (reservations) => {
         ? 'kakaoId'
         : null
 
-    if (!contactType) { continue }
+    if (!contactType || status === 'cancelled') { continue }
 
     const contactValue = contactType === 'mobile'
       ? `${pd.mobile.prefix} ${pd.mobile.number}`

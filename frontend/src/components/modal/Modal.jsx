@@ -8,11 +8,18 @@ export default function Modal ({
   classes='',
   showModal = false,
   children = null,
-  onCloseClick = () => {}
+  onCloseClick = () => {},
+  onBackDropClick = () => {}
 }) {
   // local-state
   const [isDisplaying, setIsDisplaying] = useState(false)
   const [isHiding, setIsHiding] = useState(false)
+
+  // methods
+  const onBackDropClickHandler = () => {
+    console.log('Backdrop click!!')
+    onBackDropClick()
+  }
 
   // effects
   useEffect(() => {
@@ -27,15 +34,15 @@ export default function Modal ({
 
   return isDisplaying
     ? createPortal(
-        <div className={cn('modal', classes, isHiding && 'is-leaving')}>
-          <div className='modal__backdrop'></div>
+        <div className={cn('modal', isHiding && 'is-leaving')}>
+          <div className='modal__backdrop' onClick={onBackDropClickHandler}></div>
 
           <div className='modal__wrapper'>
             <button className='modal-close-btn' onClick={onCloseClick}>
               <i className='icon-close'></i>
             </button>
 
-            <section>
+            <section className={cn('modal__content', classes)}>
               {children}
             </section>
           </div>

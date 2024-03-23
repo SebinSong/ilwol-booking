@@ -68,9 +68,11 @@ function ReservationHistoryTable ({
         </table>
       </div>
 
-      <Modal classes='reservation-history-details-modal'
+      <Modal classes='reservation-history-details'
         showModal={showModal}
-        onCloseClick={() => setShowModal(false)}>
+        onCloseClick={() => setShowModal(false)}
+        onBackDropClick={() => setShowModal(false)}
+      >
         {`ID: ${detailContent?.id}, name: ${detailContent?.name}`}
       </Modal>
     </div>

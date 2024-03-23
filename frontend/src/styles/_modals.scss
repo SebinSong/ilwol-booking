@@ -26,10 +26,10 @@
     left: 0;
     background-color: var(--modal-backdrop-bg-color);
     opacity: 0;
-    animation: fade-in 500ms ease-out forwards;
+    animation: fade-in 350ms ease-out forwards;
   }
 
-  &__content {
+  &__wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
     box-shadow: 0 10px 30px 3px rgba(56, 21, 82, 0.085);
 
     opacity: 0;
-    animation: slide-in-from-bottom 400ms ease-out 200ms forwards;
+    animation: slide-in-from-bottom 300ms ease-out 100ms forwards;
 
     @include from (28rem) {
       min-width: 28rem;
@@ -62,7 +62,7 @@
       animation: fade-out 300ms ease-out 100ms forwards;
     }
 
-    .modal__content {
+    .modal__wrapper {
       animation: slide-out-to-bottom 300ms ease-out forwards;
     }
   }

@@ -5,6 +5,7 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import ReservationHistoryTable from './ReservationHistoryTable.jsx'
+import Modal from '@components/modal/Modal.jsx'
 
 // hooks
 import { useGetArchivedReservations } from '@store/features/adminApiSlice.js'
@@ -15,7 +16,8 @@ import { COUNSEL_METHOD } from '@view-data/constants.js'
 import {
   classNames as cn,
   numericDateToString,
-  humanDate
+  humanDate,
+  cloneDeep
 } from '@utils'
 
 // css
@@ -87,7 +89,7 @@ const transformListEntry = entry => {
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
     id: entry._id,
-    data: entry
+    data: cloneDeep(entry)
   }
 
   r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.contact}`

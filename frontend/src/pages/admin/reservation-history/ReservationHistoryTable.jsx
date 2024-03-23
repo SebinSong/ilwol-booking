@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { classNames as cn } from '@utils'
+// components
+import Modal from '@components/modal/Modal.jsx'
+
+// utils
+import {
+  classNames as cn,
+  cloneDeep
+} from '@utils'
 
 function ReservationHistoryTable ({
   data = [],
   classes = ''
 }) {
+  // local-state
+  const [showModal, setShowModal] = useState(false)
+  const [detailContent, setDetailsContent] = useState(null)
 
   // methods
   const onItemClick = (entry) => {
-    alert('준비중!')
+    setDetailsContent(entry)
+    setShowModal(true)
   }
 
   return (
@@ -56,6 +67,12 @@ function ReservationHistoryTable ({
           </tbody>
         </table>
       </div>
+
+      <Modal classes='reservation-history-details-modal'
+        showModal={showModal}
+        onCloseClick={() => setShowModal(false)}>
+        {`ID: ${detailContent?.id}, name: ${detailContent?.name}`}
+      </Modal>
     </div>
   )
 }

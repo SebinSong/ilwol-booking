@@ -36,7 +36,7 @@ function LoaderModal ({
         <div className={cn('modal loader-modal', isHiding && 'is-leaving')}>
           <div className='modal__backdrop'></div>
 
-          <div className='modal__content'>
+          <div className='modal__wrapper'>
             <CirculationIcon classes='loading-icon' width={52} />
 
             <p className='loading-text mt-10'>{children || loadingText}</p>

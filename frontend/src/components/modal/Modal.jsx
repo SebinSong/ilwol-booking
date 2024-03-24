@@ -8,6 +8,9 @@ export default function Modal ({
   classes='',
   showModal = false,
   children = null,
+  hideCloseBtn = false,
+  icon = 'info-circle',
+  title = '',
   onCloseClick = () => {},
   onBackDropClick = () => {}
 }) {
@@ -38,9 +41,14 @@ export default function Modal ({
           <div className='modal__backdrop' onClick={onBackDropClickHandler}></div>
 
           <div className='modal__wrapper'>
-            <button className='modal-close-btn' onClick={onCloseClick}>
-              <i className='icon-close'></i>
-            </button>
+            <header className='modal__header'>
+              <i className={cn(`icon-${icon}`, 'modal__icon')}></i>
+              {Boolean(title) && <h3 className='modal__title is-title-5'>{title}</h3>}
+
+              <button className='modal-close-btn' onClick={onCloseClick}>
+                <i className='icon-close'></i>
+              </button>
+            </header>
 
             <section className={cn('modal__content', classes)}>
               {children}

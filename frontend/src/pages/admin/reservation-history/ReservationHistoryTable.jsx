@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 // components
 import Modal from '@components/modal/Modal.jsx'
+import HistoryItemSummary from './HistoryItemSummary.jsx'
 
 // utils
 import {
@@ -20,6 +21,7 @@ function ReservationHistoryTable ({
   // methods
   const onItemClick = (entry) => {
     setDetailsContent(entry)
+    console.log('clicked: ', entry)
     setShowModal(true)
   }
 
@@ -34,7 +36,6 @@ function ReservationHistoryTable ({
               <th className='th-contact'>연락처</th>
               <th className='th-status'>상태</th>
               <th className='th-counsel-type'>상담 종류</th>
-              <th className='th-counsel-method'>상담 방식</th>
               <th className='th-action'></th>
             </tr>
           </thead>
@@ -50,7 +51,6 @@ function ReservationHistoryTable ({
                         <td className='td-contact'>{entry.contact}</td>
                         <td className='td-status'>{entry.status}</td>
                         <td className='td-counsel-type'>{entry.counselType}</td>
-                        <td className='td-counsel-method'>{entry.methodName}</td>
                         <td className='td-action'>
                           <button className='is-secondary is-table-btn'
                             onClick={() => onItemClick(entry)}>보기</button>
@@ -72,8 +72,10 @@ function ReservationHistoryTable ({
         showModal={showModal}
         onCloseClick={() => setShowModal(false)}
         onBackDropClick={() => setShowModal(false)}
+        title='예약 상세 내역'
+        icon='document'
       >
-        {`ID: ${detailContent?.id}, name: ${detailContent?.name}`}
+        <HistoryItemSummary classes='history-details-table' data={detailContent} />
       </Modal>
     </div>
   )

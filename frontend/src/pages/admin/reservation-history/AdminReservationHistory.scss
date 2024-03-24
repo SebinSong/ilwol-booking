@@ -116,6 +116,97 @@
 }
 
 .modal__content.reservation-history-details {
-  color: $magenta;
-  font-weight: bold;
+  .history-details-table {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid $neautral-bg;
+    padding: 0.7rem 1.5rem;
+
+    .history-item-summary__line {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      font-size: $size_6;
+      width: 100%;
+      padding: 0.8rem 0;
+
+      .sub-line-container {
+        position: relative;
+        width: 100%;
+        margin-top: 1.4rem;
+        padding: 0 0.4rem;
+      }
+
+      .sub-line {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 0.3rem 0;
+        color: $text_dark_grey;
+        font-size: 1.3rem;
+        width: 100%;
+
+        .sub-line__label {
+          font-weight: bold;
+          flex-shrink: 0;
+          color: $text_grey;
+          width: 37.5%;
+        }
+
+        .sub-line__value {
+          text-align: right;
+          flex-grow: 1;
+        }
+      }
+
+      &.is-vertical {
+        flex-direction: column;
+
+        .item-summary__label {
+          width: 100%;
+        }
+      }
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid $neautral-bg;
+      }
+
+      .item-summary__label {
+        width: 40%;
+        flex-shrink: 0;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .item-summary__values {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        color: $text_dark_grey;
+      }
+    }
+  }
+
+  .status-pill {
+    font-weight: bold;
+    padding: 0.15em 0.2em;
+    border-radius: 0.4rem;
+  }
+
+  .ctc-preview {
+    position: relative;
+    max-width: 14rem;
+    @include truncate-text-overflow;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:active {
+      font-weight: bold;
+    }
+  }
 }

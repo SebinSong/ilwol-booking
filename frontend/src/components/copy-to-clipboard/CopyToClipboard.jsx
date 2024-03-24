@@ -8,7 +8,8 @@ function CopyToClipboard ({
   textToCopy = '',
   classes = '',
   toastOpt = {},
-  onlyButton = false
+  onlyButton = false,
+  disablePopup = false
 }) {
   const { addToastItem, unloadAllToast } = useContext(ToastContext)
 
@@ -21,12 +22,15 @@ function CopyToClipboard ({
         navigator.clipboard.writeText(textToCopy)
 
         unloadAllToast()
-        addToastItem({
-          type: 'success',
-          heading: '복사 완료!',
-          content: '클립보드에 저장 되었습니다.',
-          ...toastOpt
-        })
+
+        if (!disablePopup) {
+          addToastItem({
+            type: 'success',
+            heading: '복사 완료!',
+            content: '클립보드에 저장 되었습니다.',
+            ...toastOpt
+          })
+        }
       } catch (err) {
         console.error('copy-to-clipboard action failed: ', err)
       }

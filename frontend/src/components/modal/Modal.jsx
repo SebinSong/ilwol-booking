@@ -8,11 +8,21 @@ export default function Modal ({
   classes='',
   showModal = false,
   children = null,
-  onCloseClick = () => {}
+  hideCloseBtn = false,
+  icon = 'info-circle',
+  title = '',
+  onCloseClick = () => {},
+  onBackDropClick = () => {}
 }) {
   // local-state
   const [isDisplaying, setIsDisplaying] = useState(false)
   const [isHiding, setIsHiding] = useState(false)
+
+  // methods
+  const onBackDropClickHandler = () => {
+    console.log('Backdrop click!!')
+    onBackDropClick()
+  }
 
   // effects
   useEffect(() => {
@@ -27,15 +37,20 @@ export default function Modal ({
 
   return isDisplaying
     ? createPortal(
-        <div className={cn('modal', classes, isHiding && 'is-leaving')}>
-          <div className='modal__backdrop'></div>
+        <div className={cn('modal', isHiding && 'is-leaving')}>
+          <div className='modal__backdrop' onClick={onBackDropClickHandler}></div>
 
           <div className='modal__wrapper'>
-            <button className='modal-close-btn' onClick={onCloseClick}>
-              <i className='icon-close'></i>
-            </button>
+            <header className='modal__header'>
+              <i className={cn(`icon-${icon}`, 'modal__icon')}></i>
+              {Boolean(title) && <h3 className='modal__title is-title-5'>{title}</h3>}
 
-            <section>
+              <button className='modal-close-btn' onClick={onCloseClick}>
+                <i className='icon-close'></i>
+              </button>
+            </header>
+
+            <section className={cn('modal__content', classes)}>
               {children}
             </section>
           </div>

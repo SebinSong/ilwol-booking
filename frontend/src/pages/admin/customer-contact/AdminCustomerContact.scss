@@ -1,11 +1,6 @@
 .page-admin-customer-contact {
   position: relative;
 
-  .contact-load-info {
-    position: relative;
-    font-size: $size_6;
-  }
-
   .search-bar-container {
     position: relative;
     display: flex;
@@ -27,5 +22,11 @@
     @include smallphone {
       width: 40vw;
     }
+  }
+
+  .load-info-box {
+    padding-left: 0.4rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
   }
 }

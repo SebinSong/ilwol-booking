@@ -18,6 +18,7 @@ export default function AdminCustomerContact () {
     isLoading: isContactsLoading,
     isError: isContactsError
   } = useGetAllContacts()
+  const [sortByDate, setSortByDate] = useState(false)
   const [search, setSearch] = useState('')
 
   // computed state
@@ -40,10 +41,17 @@ export default function AdminCustomerContact () {
   )
   const dataToShow = useMemo(
     () => {
-      return (contactData || []).filter(entry => entry.searchable.includes(search))
+      const list = (contactData || []).filter(entry => entry.searchable.includes(search))
+
+      if (sortByDate) {
+        list.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+      }
+      return list
     },
-    [contactData, search]
+    [contactData, search, sortByDate]
   )
+
+  console.log('!@# contactData: ', contactData)
 
   return (
     <AdminPageTemplate classes='page-admin-customer-contact'>
@@ -62,11 +70,13 @@ export default function AdminCustomerContact () {
               {
                 contactData?.length > 0
                   ? <>
-                      <div className='search-bar-container'>
+                      <div className='load-info-box'>
                         <p className='contact-load-info'>
                           <span className='has-text-bold text-color-magenta mr-2'>{contactData.length}</span>개의 연락처가 로드됨.
                         </p>
+                      </div>
 
+                      <div className='search-bar-container'>
                         <div className='input-with-pre-icon'>
                           <i className='icon-search pre-icon'></i>
 
@@ -76,6 +86,14 @@ export default function AdminCustomerContact () {
                             placeholder='이름 또는 번호 입력'
                             onInput={e => setSearch(e.target.value)} />
                         </div>
+
+                        <button className='is-secondary is-extra-small sort-btn'
+                          onClick={() => setSortByDate(v => !v)}>
+                          <i className='icon-bulleted-list is-prefix'></i>
+                          <span>
+                            { sortByDate ? '가나다 순으로' : '최근 순서로' }
+                          </span>
+                        </button>
                       </div>
 
                       <div className='admin-contact-list'>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 // components
 import Modal from '@components/modal/Modal.jsx'
 import HistoryItemSummary from './HistoryItemSummary.jsx'
+import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 
 // utils
 import {
@@ -48,7 +49,16 @@ function ReservationHistoryTable ({
                       <tr key={entry.id}>
                         <td className='td-counsel-time'>{entry.dateAndTime}</td>
                         <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
-                        <td className='td-contact'>{entry.contact}</td>
+                        <td className='td-contact'>
+                          {
+                            entry.contact !== 'N/A'
+                              ? <CopyToClipboard classes='copy-contact'
+                                  textToCopy={entry.contact}>
+                                  <span className='copy-contact-value'>{entry.contact}</span>
+                                </CopyToClipboard>
+                              : entry.contact
+                          }
+                        </td>
                         <td className='td-status'>{entry.status}</td>
                         <td className='td-counsel-type'>{entry.counselType}</td>
                         <td className='td-action'>

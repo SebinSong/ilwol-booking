@@ -35,6 +35,7 @@ function ReservationHistoryTable ({
               <th className='th-counsel-time'>날짜/시간</th>
               <th className='th-name'>이름</th>
               <th className='th-contact'>연락처</th>
+              <th className='th-created-date'>생성 날짜</th>
               <th className='th-status'>상태</th>
               <th className='th-counsel-type'>상담 종류</th>
               <th className='th-action'></th>
@@ -59,6 +60,7 @@ function ReservationHistoryTable ({
                               : entry.contact
                           }
                         </td>
+                        <td className='td-created-date'>{entry.createdDate}</td>
                         <td className='td-status'>{entry.status}</td>
                         <td className='td-counsel-type'>{entry.counselType}</td>
                         <td className='td-action'>

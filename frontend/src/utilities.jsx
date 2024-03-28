@@ -101,6 +101,11 @@ export function humanDate (date, options = { month: 'short', day: 'numeric' }, l
   return new Date(date).toLocaleDateString(locale, options)
 }
 
+export function humanDateWithTime (date) {
+  const d = new Date(date)
+  return d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+}
+
 export function humanTimeString (date, locale = 'ko-KR') {
   return new Date(date).toLocaleTimeString(locale)
 }

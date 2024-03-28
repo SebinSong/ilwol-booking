@@ -35,7 +35,7 @@ export default function Feedback ({
       setClosed(false)
 
       setTimeout(() => {
-        rootEl.current.scrollIntoView({
+        rootEl.current && rootEl.current.scrollIntoView({
           block: 'center',
           inline: "nearest"
         })

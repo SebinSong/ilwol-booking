@@ -17,6 +17,7 @@ import {
   classNames as cn,
   numericDateToString,
   humanDate,
+  humanDateWithTime,
   cloneDeep
 } from '@utils'
 
@@ -88,6 +89,12 @@ const transformListEntry = entry => {
     status: getStatus(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
+    createdDate: entry.originalCreatedAt
+      ? humanDateWithTime(entry.originalCreatedAt)
+      : 'N/A',
+    createdDateMil: entry.originalCreatedAt
+      ? new Date(entry.originalCreatedAt).getTime()
+      : 0,
     id: entry._id,
     data: cloneDeep(entry)
   }
@@ -95,12 +102,22 @@ const transformListEntry = entry => {
   r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.contact}`
   return r
 }
+const getSortFunc = (type = 'created-date') => {
+  return ({
+    'created-date': (a,b) => {
+      return a.createdDateMil === 0 && b.createdDateMil === 0
+        ? (b.data.counselDate + parseInt(b.data.timeSlot)) - (a.data.counselDate + parseInt(a.data.timeSlot))
+        : b.createdDateMil - a.createdDateMil
+    }
+  })[type]
+}
 
 export default function AdminReservationHistory () {
   // local-state
   const {
     data, isLoading, isError
   } = useGetArchivedReservations()
+  const [sortType, setSortType] = useState('created-date')
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState(['pending', 'confirmed', 'cancelled'])
 
@@ -108,11 +125,16 @@ export default function AdminReservationHistory () {
   const dataToDisplay = useMemo(
     () => {
       if (!data?.length) { return [] }
-  
-      return data.map(transformListEntry)
+      
+      const list = data.map(transformListEntry)
         .filter(entry => entry.searchable.includes(search.trim()))
         .filter(entry => statusFilter.includes(entry.data.status))
-    }, [data, search, statusFilter]
+
+      const sortFunc = getSortFunc(sortType)
+      list.sort(sortFunc)
+
+      return list
+    }, [data, search, statusFilter, sortType]
   )
 
   // computed state

@@ -51,8 +51,6 @@ export default function AdminCustomerContact () {
     [contactData, search, sortByDate]
   )
 
-  console.log('!@# contactData: ', contactData)
-
   return (
     <AdminPageTemplate classes='page-admin-customer-contact'>
       <div className='page-width-constraints'>

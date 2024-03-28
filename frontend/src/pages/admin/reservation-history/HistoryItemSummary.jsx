@@ -30,6 +30,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
     status,
     counselType,
     methodName,
+    createdDate,
     data: originalData = {}
   } = data
 
@@ -70,7 +71,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
           </div>
 
           <div className='sub-line'>
-            <span className='sub-line__label'>연락처(모바일)</span>
+            <span className='sub-line__label'>모바일</span>
             <span className='sub-line__value'>
             {
               pd?.mobile?.number
@@ -83,7 +84,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
           </div>
 
           <div className='sub-line'>
-            <span className='sub-line__label'>연락처(카카오ID)</span>
+            <span className='sub-line__label'>카카오ID</span>
             <span className='sub-line__value'>
               {
                 pd?.kakaoId ? <span className='has-text-bold'>{pd.kakaoId}</span> : 'N/A'
@@ -92,7 +93,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
           </div>
 
           <div className='sub-line'>
-            <span className='sub-line__label'>연락처(이메일)</span>
+            <span className='sub-line__label'>이메일</span>
             <span className='sub-line__value'>
               {
                 pd?.email ? <span className='has-text-bold'>{pd.email}</span> : 'N/A'
@@ -103,10 +104,15 @@ function HistoryItemSummary ({ classes = '', data = null }) {
       </li>
 
       <li className='history-item-summary__line'>
-        <label className='item-summary__label'>상담 날짜</label>
+        <label className='item-summary__label'>상담 날짜/시간</label>
         <div className='item-summary__values'>
           <span className='has-text-bold'>{dateAndTime}</span>
         </div>
+      </li>
+
+      <li className='history-item-summary__line'>
+        <label className='item-summary__label'>예약 생성 날짜</label>
+        <div className='item-summary__values'>{createdDate}</div>
       </li>
 
       <li className='history-item-summary__line'>

@@ -1,0 +1,70 @@
+.table-navigation-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  column-gap: 1.4rem;
+  width: max-content;
+
+  .unit-select {
+    width: 6.8rem;
+
+    select {
+      min-width: 6.8rem;
+    }
+  }
+
+  .current-nav-status {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.3rem;
+    color: $text_dark_grey;
+
+    > * {
+      display: inline-block;
+    }
+
+    .curr-start,
+    .curr-end,
+    .total-val {
+      color: $text_0;
+      font-weight: bold;
+      font-size: 1.05em;
+    }
+
+    .delimeter {
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+    }
+
+    .of {
+      margin-left: 0.4rem;
+      margin-right: 0.4rem;
+    }
+  }
+
+  .table-navigation-cta-container {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.8rem;
+  }
+
+  .nav-buttons {
+    display: inline-flex;
+    column-gap: 0.4rem; 
+
+    button.nav-btn {
+      $btn-side: 2.6rem;
+
+      min-width: $btn-side;
+      min-height: $btn-side;
+      width: $btn-side;
+      height: $btn-side;
+      padding: 0.2rem 0.4rem;
+      border-radius: $btn-side;
+
+      i {
+        font-size: 1.7rem;
+      }
+    }
+  }
+}

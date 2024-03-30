@@ -15,40 +15,98 @@
     }
   }
 
-  .history-filter-line {
+  .history-filters-container {
     position: relative;
     display: flex;
     align-items: center;
-    font-size: $size_7;
-    gap: 0.6rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    column-gap: 1.6rem;
+    row-gap: 0.8rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $neautral-bg;
+    padding-right: 0.4rem;
+    padding-top: 2.4rem;
 
-    .cta-containers {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-      font-size: 1.125em;
+    @include smallphone {
+      padding-top: 3.6rem;
     }
+  
+    .filter-line {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
 
-    .status-filter-item {
-      cursor: pointer;
-      filter: grayscale(60%);
-      opacity: 0.625;
-      transition: opacity 350ms;
-
-      &::before {
-        content: '-';
+      .filter-label {
         display: inline-block;
-        margin-right: 0.4rem;
+        font-size: $size_7;
+        font-weight: bold;
+        flex-shrink: 0;
       }
 
-      &.is-active {
-        filter: none;
-        opacity: 1;
+      @include smallphone {
+        width: 100%;
+        justify-content: space-between;
 
-        &::before {
-          content: '+'
+        .filter-label {
+          text-align: left;
+          flex-grow: 1;
         }
       }
+    }
+
+    .status-filter-content {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    button.all-status-btn {
+      min-height: 1.6rem;
+      font-size: 1.2rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.6rem;
+    }
+
+    .sort-select-el {
+      min-width: 10rem;
+    }
+  }
+
+  .slight-section-title {
+    position: absolute;
+    top: 0;
+    right: 0.4rem;
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    color: $text_grey;
+    width: 100%;
+
+    &::before {
+      @include has-icon;
+      content: '\e94a';
+      margin-right: 0.4rem;
+    }
+  }
+
+  .history-search-and-page-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-right: 0.4rem;
+    column-gap: 2.8rem;
+    margin-bottom: 1.2rem;
+
+    @include until (430px) {
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+      row-gap: 1.2rem;
     }
   }
 

@@ -1,0 +1,54 @@
+.carousel-slider {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+// carousel-slider navigation
+.carousel-slider__nav {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1.4rem;
+  margin-top: 1.2rem;
+
+  .carousel-slider__nav-dots {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    pointer-events: none;
+  }
+
+  .carousel-slider__index-dot {
+    --dot-side: 0.8rem;
+
+    display: inline-block;
+    width: var(--dot-side);
+    height: var(--dot-side);
+    border-radius: var(--dot-side);
+    color: $text_0;
+    border: 1px solid currentColor;
+    transition: background-color 120ms linear;
+
+    &.is-active {
+      background-color: currentColor;
+    }
+  }
+
+  button.carousel-slider__nav-btn {
+    border-radius: 50%;
+    min-height: 2.6rem;
+    min-width: 2.6rem;
+    height: 2.6rem;
+    width: 2.6rem;
+    padding: 0;
+
+    i {
+      font-size: 1.6rem;
+    }
+  }
+}

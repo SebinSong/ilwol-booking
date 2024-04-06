@@ -9,11 +9,11 @@ $box2_color: #47176b;
   justify-content: center;
 
   &.showing-introduction {
-    padding-top: 6rem;
+    padding-top: 4.2rem;
     overflow-x: hidden;
 
     @include smallphone {
-      padding-top: 3.6rem;
+      padding-top: 2.8rem;
     }
   }
 
@@ -44,10 +44,10 @@ $box2_color: #47176b;
       margin-left: auto;
       margin-right: auto;
 
-      --l-img-side: 28rem;
+      --l-img-side: 22rem;
 
       @include smallphone {
-        --l-img-side: 24rem;
+        --l-img-side: 16rem;
       }
 
       @include phone {
@@ -77,12 +77,17 @@ $box2_color: #47176b;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 46rem;
-        height: 46rem;
+        width: 38rem;
+        height: 38rem;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 0;
+
+        @include phone {
+          width: 18rem;
+          height: 18rem;
+        }
 
         .box {
           position: relative;
@@ -93,16 +98,22 @@ $box2_color: #47176b;
             left: -20px;
             top: -40px;
             background-color: $box1_color;
-            box-shadow:
-              0 0 120px 55px $box1_color;
+            box-shadow: 0 0 120px 55px $box1_color;
+            
+            @include phone {
+              box-shadow: 0 0 90px 42px $box1_color;
+            }
           }
 
           &.is-2 {
             top: 40px;
             left: 20px;
             background-color: $box2_color;
-            box-shadow:
-              0 0 120px 55px $box2_color;
+            box-shadow: 0 0 120px 55px $box2_color;
+
+            @include phone {
+              box-shadow: 0 0 90px 42px $box2_color;
+            }
           }
         }
       }
@@ -264,7 +275,7 @@ $box2_color: #47176b;
   .intro-paragraph {
     position: relative;
     padding-left: 2.4rem;
-    line-height: 1.5;
+    line-height: 1.4;
     color: $text_dark_grey;
 
     .has-text-bold {

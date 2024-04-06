@@ -4,7 +4,6 @@ import { useImmer } from 'use-immer'
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import AdminReservationList from './reservation-list/AdminReservationList'
-import CarouselSlider from '@components/carousel-slider/CarouselSlider.jsx'
 
 import './AdminManageReservation.scss'
 
@@ -18,8 +17,6 @@ export default function AdminManageReservation () {
         </h2>
 
         <p className='admin-page-description'>예약 아이템들을 한 눈에 볼 수 있습니다.</p>
-
-        <CarouselSlider classes='mt-20 mb-20 carousel-slider-example' />
 
         <AdminReservationList />
       </div>

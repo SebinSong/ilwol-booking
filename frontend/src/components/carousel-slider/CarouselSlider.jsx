@@ -17,13 +17,10 @@ const dataMap = {
 
 function CarouselSlider ({
   classes = '',
-  children = null,
   type = 'testimonial' // enum of ['testimonial', 'youtube'] etc.
 }) {
   // local-state
   const [currentIndex, setCurrentIndex] = useState(1)
-  const [nextIndex, setNextIndex] = useState(1)
-  const [isScrolling, setIsScrolling] = useState(false)
   const scrollTimeoutId = useRef(null)
   const scrollContainerEl = useRef(null)
 
@@ -33,44 +30,37 @@ function CarouselSlider ({
 
   // methods
   const scrollHandler = (e) => {
-    if (!isScrolling) {
-      setIsScrolling(true)
-    }
-
     clearTimeout(scrollTimeoutId.current)
     scrollTimeoutId.current = setTimeout(() => {
-      setIsScrolling(false)
-    }, 40)
+      onScrollEnd()
+    }, 80)
   }
   const onScrollEnd = () => {
-    console.log('!@# scroll ended!')
-    setCurrentIndex(nextIndex)
+    const containerEl = scrollContainerEl.current
+    const scrollLeft = containerEl.scrollLeft
+    const allChildren = Array.from(containerEl.querySelectorAll('[data-index]'))
+      .map(childEl => ({ index: parseInt(childEl.dataset.index), left: childEl.offsetLeft }))
+    const closestChild = allChildren.find(x => x.left > scrollLeft)
+
+    if (closestChild && closestChild.index !== currentIndex) {
+      setCurrentIndex(closestChild.index)
+    }
   }
 
   const navButtonClickHandler = (targetIndex) => {
-    console.log('!@# navButtonClickHandler is called -  targetIndex: ', currentIndex, targetIndex)
     if (currentIndex !== targetIndex && scrollContainerEl.current) {
-      console.log('!@# here !! aaaaa')
       const targetCard = scrollContainerEl.current.querySelector(`[data-index="${targetIndex}"]`)
 
-      console.log('!@# targetCard: ', targetCard)
       if (targetCard) {
         targetCard.scrollIntoView({
           behavior: 'smooth',
-          block: 'center',
-          inline: 'center'
+          block: 'nearest',
+          inline: (targetIndex === 1 || targetIndex === totalDataLen) ? 'nearest' : 'center'
         })
-        setNextIndex(targetIndex)
+        setCurrentIndex(targetIndex)
       }
     }
   }
-
-  // effects
-  useEffect(() => {
-    if (!isScrolling) {
-      onScrollEnd()
-    }
-  }, [isScrolling])
 
   return (
     <div className={cn('carousel-slider', `is-type-${type}`, classes)}>

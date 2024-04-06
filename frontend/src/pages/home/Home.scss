@@ -210,6 +210,24 @@ $box2_color: #C4237C;
       padding-bottom: 0.2rem;
       border-bottom: 1px solid currentColor;
     }
+
+    &.intro-title {
+      font-size: $size_4;
+      color: $ilwol-purple;
+    }
+  }
+
+  .home-intro-title {
+    display: block;
+    width: 100%;
+    font-size: $size_4;
+    font-weight: bold;
+    color: $ilwol-purple;
+    font-family: "Lato";
+
+    i {
+      transform: translateY(1px);
+    }
   }
 
   .intro-details {
@@ -229,6 +247,10 @@ $box2_color: #C4237C;
     align-items: center;
     justify-content: space-between;
     z-index: 1;
+
+    button {
+      flex-shrink: 0;
+    }
   }
 
   .intro-list {

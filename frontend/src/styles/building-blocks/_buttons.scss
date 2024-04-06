@@ -147,6 +147,10 @@ button,
   &.is-warning {
     @include addButtonColorStyles('warning');
   }
+
+  &.is-purple {
+    @include addButtonColorStyles('purple');
+  }
 }
 
 .buttons-container {

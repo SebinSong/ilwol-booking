@@ -3,6 +3,7 @@ import { Container as MapContainer } from 'react-naver-maps'
 import TextLoader from '@components/text-loader/TextLoader'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import HomeNaverMap from './HomeNaverMap.jsx'
+import CarouselSlider from '@components/carousel-slider/CarouselSlider.jsx'
 
 const imgPath = '/images/introduction-photo.jpeg'
 const videoUrl = 'https://www.youtube-nocookie.com/embed/aGHIsmhuPn8'
@@ -39,9 +40,9 @@ function HomeIntroduction ({
           : <>
               <div className='intro-details'>
                 <div className='intro-header mb-70'>
-                  <h3 className='home-section-title'>
-                    <span className='icon-info-circle is-prefix'></span>
-                    <span className='text'>선녀님 소개</span>
+                  <h3 className='home-intro-title'>
+                    <i className='icon-info-circle is-prefix'></i>
+                    선녀님 소개
                   </h3>
 
                   <button type='button' className='is-secondary is-small'
@@ -75,9 +76,16 @@ function HomeIntroduction ({
                   </li>
                 </ul>
 
-                <h3 className='home-section-title mb-10'>
-                <span className='icon-info-circle is-prefix'></span>
-                  <span className='text'>jtbc 뉴스 출연</span>
+                <h3 className='home-intro-title mb-20'>
+                  <i className='icon-info-circle is-prefix'></i>
+                  고객 리뷰
+                </h3>
+
+                <CarouselSlider classes='intro-carousel-slider mb-50' type='testimonial' />
+
+                <h3 className='home-intro-title mb-20'>
+                  <i className='icon-info-circle is-prefix'></i>
+                  jtbc 뉴스 출연
                 </h3>
 
                 <p className='intro-paragraph mb-20'>2022년 월드컵 조별 리그 결과 족집게 예측으로, <span className='has-text-bold'>jtbc 뉴스반장</span>에 소개가 되었습니다.</p>
@@ -92,9 +100,9 @@ function HomeIntroduction ({
                   </iframe>
                 </div>
 
-                <h3 className='home-section-title mb-10'>
-                  <span className='icon-info-circle is-prefix'></span>
-                  <span className='text'>오시는 길</span>
+                <h3 className='home-intro-title mb-20'>
+                  <i className='icon-info-circle is-prefix'></i>
+                  오시는 길
                 </h3>
 
                 <p className='intro-paragraph mb-30'><span className='has-text-bold'>오리역 3번출구</span>에서 직진하여 도보로 <span className='has-text-bold'>5분거리</span>에 있습니다. (주차 가능)</p>

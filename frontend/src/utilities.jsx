@@ -154,6 +154,13 @@ export function compareArrays (arr1, arr2) {
   else { return arr1.every(x => arr2.includes(x)) }
 }
 
+export function genArrayFromNumber(num, nonZero = false) {
+  if (!num) return []
+  
+  const arr = Array.from(Array(num).keys())
+  return nonZero ? arr.map(v => v + 1) : arr
+}
+
 export function getCounselTypeNameById (targetId) {
   return targetId === 'admin-generated'
     ? '관리자생성 아이템'

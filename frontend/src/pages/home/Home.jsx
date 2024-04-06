@@ -65,7 +65,7 @@ export default function Home () {
                       className='is-secondary introduction-btn'
                       onClick={() => setShowIntroduction(true)}>
                       <span className='icon-info-circle is-prefix'></span>
-                      선녀님 소개 / 오시는 길
+                      소개 / 리뷰 / 오시는 길
                     </button>
           
                     <button type='button'

@@ -33,7 +33,7 @@ function CarouselSlider ({
     clearTimeout(scrollTimeoutId.current)
     scrollTimeoutId.current = setTimeout(() => {
       onScrollEnd()
-    }, 80)
+    }, 60)
   }
   const onScrollEnd = () => {
     const containerEl = scrollContainerEl.current

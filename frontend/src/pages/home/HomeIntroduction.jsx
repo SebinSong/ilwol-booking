@@ -71,7 +71,7 @@ function HomeIntroduction ({
                   <li className='intro-list-item'><span className='has-text-bold'>미래</span>에 있을 사실을 잘 맞추시며 (아래 <span className='has-text-bold'>jtbc 뉴스</span> 참고), 상담자의 <span className='has-text-bold'>숨겨진 능력 개발</span>에 대한 정확한 조언으로 유명하십니다.</li>
                   <li className='intro-list-item'><span className='has-text-bold'>사주, 인간, 인생의 진실 / 진리</span>에 입각하여 애정을 담아 카운셀링하십니다.</li>
                   <li className='intro-list-item'>현재 <span className='has-text-bold'>유튜브</span> 채널&nbsp;
-                    <a className='y-link has-text-bold text-color-magenta' href='https://www.youtube.com/@ilwolseonnyeo' target='_blank'><i className='icon-web-link'></i>일월선녀 해달별</a>
+                    <a className='y-link has-text-bold text-color-purple' href='https://www.youtube.com/@ilwolseonnyeo' target='_blank'><i className='icon-web-link'></i>일월선녀 해달별</a>
                     을 운영하고 계십니다.
                   </li>
                 </ul>

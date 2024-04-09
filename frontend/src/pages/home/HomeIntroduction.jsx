@@ -69,10 +69,10 @@ function HomeIntroduction ({
                   </li>
                   <li className='intro-list-item'><span className='has-text-bold'>심리상담사 자격증</span>, <span className='has-text-bold'>한부모지도사 자격증</span> 보유.</li>
                   <li className='intro-list-item'><span className='has-text-bold'>미래</span>에 있을 사실을 잘 맞추십니다. (아래 <span className='has-text-bold'>jtbc 뉴스</span> 참고).</li>
-                  <li className='intro-list-item'><span className='has-text-bold'>사주, 인간, 인생의 진실 / 진리</span>에 입각한 애정을 담은 카운셀링.</li>
+                  <li className='intro-list-item'><span className='has-text-bold'>사주, 인간, 인생의 진실 / 진리</span>에 입각해, 애정을 담아 카운셀링 하십니다.</li>
                   <li className='intro-list-item'><span className='has-text-bold'>유튜브</span> 채널&nbsp;
                     <a className='y-link has-text-bold text-color-purple' href='https://www.youtube.com/@ilwolseonnyeo' target='_blank'><i className='icon-web-link'></i>일월선녀 해달별</a>
-                     운영.
+                     운영중.
                   </li>
                 </ul>
 

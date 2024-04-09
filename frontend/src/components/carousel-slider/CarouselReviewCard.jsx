@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react"
 // helpers
 const typeMap = {
   'youtube-feedback': '유튜브 댓글',
-  'visit-review': '방문 리뷰'
+  'visit-review': '방문 후기'
 }
 
 function CarouselReviewCard ({

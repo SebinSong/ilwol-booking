@@ -40,6 +40,11 @@
       min-width: 14.6rem;
     }
 
+    .th-checkbox,
+    .td-checkbox {
+      padding-right: 0.6rem !important;
+    }
+
     .th-counsel-time,
     .td-counsel-time {
       position: sticky;
@@ -87,5 +92,9 @@
       width: 16rem;
       font-size: $size_6;
     }
+  }
+
+  .table-checkbox {
+    transform: translateY(3px);
   }
 }

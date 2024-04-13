@@ -34,10 +34,13 @@ function HistoryItemSummary ({ classes = '', data = null }) {
     data: originalData = {}
   } = data
 
+  console.log('!@# originalData: ', originalData)
+
   const {
     originalReservationId = '',
     totalPrice = 0,
-    personalDetails: pd = {}
+    personalDetails: pd = {},
+    calendarMemo = ''
   } = originalData
 
   return (
@@ -100,6 +103,13 @@ function HistoryItemSummary ({ classes = '', data = null }) {
               }
             </span>
           </div>
+        </div>
+      </li>
+
+      <li className='history-item-summary__line'>
+        <label className='item-summary__label'>캘린더 메모</label>
+        <div className='item-summary__values'>
+          <span className='has-text-bold'>{calendarMemo || 'N/A'}</span>
         </div>
       </li>
 

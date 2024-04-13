@@ -78,6 +78,8 @@ export default function AdminManageReservationItem () {
     }
   ] = useAdminDeleteReservation()
 
+  console.log('!@# data: ', data)
+
   // computed state
   const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}
@@ -262,6 +264,13 @@ export default function AdminManageReservationItem () {
                   </span>
                 </div>
 
+                <div className='summary-list__item'>
+                  <span className='summary-list__label'>캘린더 메모</span>
+                  <span className='summary-list__value is-normal-color'>
+                    {data?.calendarMemo || 'N/A' }
+                  </span>
+                </div>
+
                 {
                   !isAdminGenerated &&
                   <div className='summary-list__item'>
@@ -380,7 +389,7 @@ export default function AdminManageReservationItem () {
                 {
                   pDetails?.memo &&
                   <div className='summary-list__item is-column'>
-                    <span className='summary-list__label'>메모</span>
+                    <span className='summary-list__label'>고객 메모</span>
 
                     <p className='memo-value'>
                       {pDetails?.memo}

@@ -21,6 +21,7 @@
     border-color: var(--button-border-disabled-#{$type});
     cursor: default;
     opacity: 0.675;
+    pointer-events: none;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // components
@@ -22,6 +22,7 @@ export default function AdminReservationList () {
     isLoading: isLoadingReservations,
     isError: isReservationError
   }] = useGetAdminReservations()
+  const [msgIdList, setMsgIdList] = useState([])
 
   // computed state
   const cancelledData = useMemo(
@@ -53,8 +54,8 @@ export default function AdminReservationList () {
 
   const onSendMsgClick = () => {
     const mobileNumArr = pendingData
-      .map(x => x.personalDetails?.mobile?.number ? combineMoblie(x.personalDetails.mobile) : '')
-      .filter(Boolean)
+      .filter(x => msgIdList.includes(x._id) && x.personalDetails?.mobile?.number)
+      .map(x => combineMoblie(x.personalDetails.mobile))
 
     navigate(
       '/admin/send-message',
@@ -66,6 +67,10 @@ export default function AdminReservationList () {
       }
     )
   }
+
+  const onTableSelectionChange = useCallback((list) => {
+    setMsgIdList(list)
+  }, [])
 
   const feedbackEl = isLoadingReservations
     ? <div className='admin-feedback-container'>
@@ -86,11 +91,14 @@ export default function AdminReservationList () {
         <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={pendingData}
+            usetableSelection={true}
+            onSelectionChange={onTableSelectionChange}
             emptyMessage='해당 데이터가 없습니다.'
             toggleBtnText='확정 대기중인 예약'
             toggleBtnType='validation'>
             <button className='is-secondary is-small' type='button'
-              onClick={onSendMsgClick}>
+              onClick={onSendMsgClick}
+              disabled={!msgIdList.length}>
               <span className='icon-mail is-prefix'></span>
               전체문자 전송
             </button>

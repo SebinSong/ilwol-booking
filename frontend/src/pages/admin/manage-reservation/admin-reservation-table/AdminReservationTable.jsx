@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   classNames as cn,
@@ -10,6 +10,7 @@ import { COUNSEL_METHOD } from '@view-data/constants.js'
 
 // components
 import AccordionButton from '@components/accordion/accordion-button/AccordionButton'
+import Checkbox from '@components/checkbox/Checkbox.jsx'
 
 import './AdminReservationTable.scss'
 
@@ -29,8 +30,9 @@ const combineDateAndTimeSearchable = entry => {
 }
 const getName = entry => {
   const { name, numAttendee } = entry.personalDetails
+  const calendarMemo = entry?.calendarMemo ? `(${entry.calendarMemo})` : ''
 
-  return name + (numAttendee >= 2 ? ` 외${numAttendee - 1}명`: '')
+  return name + (numAttendee >= 2 ? ` 외${numAttendee - 1}명`: '') + calendarMemo
 }
 const getCounselTypeName = entry => {
   return entry.optionId === 'admin-generated'
@@ -58,13 +60,17 @@ function AdminReservationTable ({
   emptyMessage = '보여줄 데이터가 없습니다.',
   toggleBtnType = 'default',
   toggleBtnText = '',
-  children = null
+  children = null,
+  usetableSelection = false,
+  onSelectionChange = () => {}
 }) {
   const navigate = useNavigate()
 
   // local-state
   const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
+  const [allSelected, setAllSelected] = useState(false)
+  const [selectedItems, setSelectedItems] = useState([])
 
   // computed state
   const noData = !list || list.length === 0
@@ -77,6 +83,11 @@ function AdminReservationTable ({
     }, [list, search]
   )
 
+  // effects
+  useEffect(() => {
+    onSelectionChange(selectedItems)
+  }, [selectedItems])
+
   // methods
   const onItemClick = (entry) => {
     navigate(`/admin/manage-reservation-item/${entry.id}`)
@@ -84,6 +95,24 @@ function AdminReservationTable ({
   const toggleTable = useCallback(
     (val) => { setIsDisplaying(val) }, []
   )
+  const toggleAllCheckbox = useCallback(
+    () => setAllSelected(v => {
+      const newVal = !v
+
+      setSelectedItems(
+        newVal ? list.map(entry => entry._id) : []
+      )
+      return newVal
+    }), [] 
+  )
+  const onItemCheckBoxClick = (targetId) => {
+    setSelectedItems(idList => {
+      return idList.includes(targetId)
+        ? idList.filter(v => v !== targetId)
+        : [...idList, targetId]
+    })
+  }
+
 
   return (
     <div className={cn('admin-reservation-table', classes)}>
@@ -126,6 +155,14 @@ function AdminReservationTable ({
                           <table className='ilwol-table'>
                             <thead>
                               <tr>
+                                {
+                                  usetableSelection &&
+                                  <th className='th-checkbox'>
+                                    <Checkbox classes='table-checkbox'
+                                      value={allSelected}
+                                      onChange={toggleAllCheckbox} />
+                                  </th>
+                                }
                                 <th className='th-counsel-time'>날짜/시간</th>
                                 <th className='th-name'>이름</th>
                                 <th className='th-counsel-type'>상담 종류</th>
@@ -140,6 +177,14 @@ function AdminReservationTable ({
                                 dataToDisplay.map((entry) => {
                                   return (
                                     <tr key={entry.id}>
+                                      {
+                                        usetableSelection &&
+                                        <td className='td-checkbox'>
+                                          <Checkbox classes='table-checkbox'
+                                            value={selectedItems.includes(entry.id)}
+                                            onChange={() => onItemCheckBoxClick(entry.id)} />
+                                        </td>
+                                      }
                                       <td className='td-counsel-time'>{entry.dateAndTime}</td>
                                       <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
                                       <td className='td-counsel-type'>{entry.counselType}</td>

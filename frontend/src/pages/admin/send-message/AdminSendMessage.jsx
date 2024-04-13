@@ -218,7 +218,7 @@ export default function AdminSendMessage () {
                   placeholder='메세지를 입력하세요.'
                   maxLength={600} />
 
-                <div className='buttons-container is-right-aligned mt-30 mb-0'>
+                <div className='buttons-container is-left-aligned mt-20 mb-30'>
                   <StateButton classes='is-primary'
                     type='button'
                     disabled={details.message.length < 10}

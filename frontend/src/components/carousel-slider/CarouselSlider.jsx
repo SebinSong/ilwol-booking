@@ -3,16 +3,22 @@ import React, { useState, useEffect, useRef } from 'react'
 // components
 import CarouselSliderNav from './CarouselSliderNav.jsx'
 import CarouselReviewCard from './CarouselReviewCard.jsx'
+import CarouselYoutubeCard from './CarouselYoutubeCard.jsx'
 
 // utils
 import { classNames as cn } from '@utils'
-import testimonials from '@view-data/testimonials.js'
+import { testimonials, youtubeData } from '@view-data/carousel-data.js'
 
 import './CarouselSlider.scss'
 
 // helpers
 const dataMap = {
-  'testimonial': testimonials
+  'testimonial': testimonials,
+  'youtube': youtubeData
+}
+const cardComponentMap = {
+  'testimonial': CarouselReviewCard,
+  'youtube': CarouselYoutubeCard
 }
 
 function CarouselSlider ({
@@ -23,6 +29,7 @@ function CarouselSlider ({
   const [currentIndex, setCurrentIndex] = useState(1)
   const scrollTimeoutId = useRef(null)
   const scrollContainerEl = useRef(null)
+  const CardComponent = cardComponentMap[type]
 
   // derived local-state
   const data = dataMap[type]
@@ -68,7 +75,7 @@ function CarouselSlider ({
         onScroll={scrollHandler}>
         {
           data.map(
-            (entry, index) => <CarouselReviewCard key={entry.id} index={index+1} {...entry} />
+            (entry, index) => <CardComponent key={entry.id} index={index+1} {...entry} />
           )
         }
       </div>

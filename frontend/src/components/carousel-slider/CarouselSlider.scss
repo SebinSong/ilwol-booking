@@ -27,6 +27,10 @@
   &::-webkit-scrollbar {
     width: 0 !important;
   }
+
+  .is-type-youtube & {
+    padding: 1.2rem;
+  }
 }
 
 // carousel-slider navigation
@@ -65,15 +69,29 @@
   }
 
   button.carousel-slider__nav-btn {
+    --carousel-nav-side: 2.6rem;
+
     border-radius: 50%;
-    min-height: 2.6rem;
-    min-width: 2.6rem;
-    height: 2.6rem;
-    width: 2.6rem;
+    min-height: var(--carousel-nav-side);
+    min-width: var(--carousel-nav-side);
+    height: var(--carousel-nav-side);
+    width: var(--carousel-nav-side);
     padding: 0;
 
     i {
       font-size: 1.6rem;
+    }
+  }
+
+  .is-type-youtube & {
+    column-gap: 0.8rem;
+
+    button.carousel-slider__nav-btn {
+      --carousel-nav-side: 2.2rem;
+
+      i {
+        font-size: 1.4rem;
+      }
     }
   }
 }
@@ -186,5 +204,101 @@
         }
       }
     }
+  }
+}
+
+// carousel-youtube-card
+.carousel-youtube-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-radius: 1.2rem;
+  border: 1px solid $inactive-grey;
+  width: 32rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: $box-shadow_deep-light;
+  scroll-snap-align: center;
+  padding: 1.2rem;
+  cursor: pointer;
+
+  @include smallphone {
+    width: 30rem;
+  }
+
+  .youtube-img-container {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 7.6rem;
+    height: 5.7rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: $neautral-bg;
+      top: 0;
+      left: 0;
+      animation: img-loading-ani 1.2s linear infinite alternate;
+    }
+
+    > img {
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+
+    &.is-loaded {
+      box-shadow: $box-shadow_light;
+
+      &::after {
+        animation: none;
+      }
+
+      > img {
+        opacity: 1;
+      }
+    }
+  }
+
+  .youtube-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .details-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .details-desc {
+      font-size: 1rem;
+      color: $text_dark_grey;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    .youtube-details .details-title {
+      text-decoration: underline;
+    }
+  }
+
+  &:active {
+    border-color: $text_dark_grey;
+  }
+
+  @keyframes img-loading-ani {
+    0% { background-color: #e1e1e6; }
+    100% { background-color: #d5d5dc; }
   }
 }

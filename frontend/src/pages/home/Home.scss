@@ -31,6 +31,11 @@ $box2_color: #47176b;
     height: auto;
     opacity: 0;
     animation: slide-in-from-bottom 450ms ease-out forwards;
+    margin-top: -2rem;
+
+    @include smallphone {
+      margin-top: -4rem;
+    }
   }
 
   .content-introduction {
@@ -141,7 +146,7 @@ $box2_color: #47176b;
     align-items: center;
     gap: 1.2rem;
 
-    .youtube-btn,
+    .booking-btn,
     .introduction-btn {
       min-width: 20rem;
     }
@@ -149,16 +154,6 @@ $box2_color: #47176b;
     .introduction-btn {
       padding-left: 1.6rem;
       padding-right: 1.8rem;
-      margin-bottom: 3rem;
-    }
-
-    .youtube-btn {
-      padding-left: 1.6rem;
-      padding-right: 1.8rem;
-
-      .icon-youtube {
-        font-size: 1.385em;
-      }
     }
   }
 
@@ -397,6 +392,40 @@ $box2_color: #47176b;
 
     &:active {
       bottom: 1.5rem;
+    }
+  }
+
+  .home-carousel-container {
+    position: relative;
+
+    .youtube-news-tag {
+      position: absolute;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 0.8rem;
+      font-weight: bold;
+      padding: 0.2rem 0.8rem;
+      left: 1.2rem;
+      background-color: $magenta;
+      color: $background_0;
+      box-shadow: $box-shadow_light;
+      z-index: 2;
+      transform: translateY(-35%);
+
+      i {
+        font-size: 1.25em;
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  .home-youtube-carousel {
+    position: relative;
+    width: 34.4rem;
+
+    .carousel-slider-content {
+      padding-top: 2rem;
     }
   }
 }

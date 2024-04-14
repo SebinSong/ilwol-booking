@@ -9,6 +9,7 @@ import { classNames as cn } from '@utils'
 import PageTemplate from '../PageTemplate'
 import HomeIntroduction from './HomeIntroduction'
 import KakaoChannelIcon from '@components/svg-icons/KakaoChannelIcon'
+import CarouselSlider from '@components/carousel-slider/CarouselSlider.jsx'
 
 const { IlwolLogo } = React.Global
 
@@ -46,21 +47,22 @@ export default function Home () {
               </>
             : <>
                 <div className='content-main'>
-                  <IlwolLogo classes='project-logo' width={56} />
+                  <IlwolLogo classes='project-logo' width={38} />
           
                   <h2 className='is-title-2 is-serif page-title'>
                     <span>일월선녀</span>
                     <span>해달별</span>
                   </h2>
-          
-                  <div className='button-container mt-20'>
-                    <button type='button'
-                      className='is-secondary youtube-btn'
-                      onClick={onYoutubeBtnClick}>
-                      <span className='icon-youtube is-prefix'></span>
-                      <span className='has-text-bold mr-4'>Youtube</span> 채널 바로가기
-                    </button>
 
+                  <div className='home-carousel-container mt-20'>
+                    <span className='youtube-news-tag'>
+                      <i className='icon-youtube is-prefix'></i>
+                      <span className='youtube-text'>유튜브 소식</span>
+                    </span>
+                    <CarouselSlider classes='home-youtube-carousel mb-20' type='youtube' />
+                  </div>
+          
+                  <div className='button-container mt-10'>
                     <button type='button'
                       className='is-secondary introduction-btn'
                       onClick={() => setShowIntroduction(true)}>

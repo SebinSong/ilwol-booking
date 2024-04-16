@@ -38,12 +38,11 @@ import './UpdateReservationItem.scss'
 
 // helpers
 const todayDateStr = stringifyDate(new Date())
-const numAttendeeOptions = [1, 2, 3, 4, 5]
 const combineMobile = mobile => mobile?.number ? `${mobile.prefix} ${mobile.number}` : ''
 const displayMoney = val => formatMoney(val, { minimumFractionDigits: 0 })
 const computeTotalPrice = (optionId, numAttendee) => {
   const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
-  const additionalAttendee = numAttendee - 1
+  const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
   const { price, additionalPrice } = option
 
   return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
@@ -101,7 +100,8 @@ export default function AdminUpdateReservationItem () {
   const pDetails = data?.personalDetails || {}
   const isAdminGenerated = details?.optionId === 'admin-generated'
   const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
-  
+  const numAttendeeOptions = data?.optionId === 'family-counsel' ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
+
   // memoized computed props
   const enableUpdateBtn = useMemo(() => {
     return Boolean(details.timeSlot) &&

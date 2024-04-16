@@ -34,8 +34,6 @@ function HistoryItemSummary ({ classes = '', data = null }) {
     data: originalData = {}
   } = data
 
-  console.log('!@# originalData: ', originalData)
-
   const {
     originalReservationId = '',
     totalPrice = 0,

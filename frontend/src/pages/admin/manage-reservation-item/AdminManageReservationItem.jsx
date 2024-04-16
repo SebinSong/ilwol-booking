@@ -78,8 +78,6 @@ export default function AdminManageReservationItem () {
     }
   ] = useAdminDeleteReservation()
 
-  console.log('!@# data: ', data)
-
   // computed state
   const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}

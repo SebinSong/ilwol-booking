@@ -271,6 +271,7 @@ button:enabled.react-calendar__tile.react-calendar__tile--now {
     background-color: $success-bg;
   }
 
+  &.react-calendar__tile--active,
   &:focus,
   &:active {
     color: $text_0;

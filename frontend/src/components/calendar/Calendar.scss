@@ -170,17 +170,6 @@ button.react-calendar__month-view__days__day--neighboringMonth {
   }
 }
 
-button.react-calendar__tile--now {
-  color: $success;
-  font-weight: bold;
-  background-color: $success-bg;
-
-  &[disabled] {
-    color: $success;
-    background-color: $success-bg;
-  }
-}
-
 button.react-calendar__tile--hasActive,
 button:enabled.react-calendar__tile.is-multiple-selected {
   background-color: rgba(0, 0, 0, 0);
@@ -232,7 +221,7 @@ button:enabled.react-calendar__month-view__days__day.is-fully-booked:not(.react-
   font-weight: 800;
 }
 
-button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-calendar__month-view__days__day--neighboringMonth) {
+button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-calendar__month-view__days__day--neighboringMonth):not(.react-calendar__tile--now) {
   position: relative;
   font-weight: bold;
   color: $validation;
@@ -264,6 +253,28 @@ button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-cale
     transform: translate(-50%, -50%) scale(0.96);
     background-color: $validation-bg-strong;
     z-index: 0;
+  }
+}
+
+button:enabled.react-calendar__tile.react-calendar__tile--now {
+  color: $success;
+  font-weight: bold;
+  background-color: $success-bg;
+
+  &[disabled] {
+    color: $success;
+    background-color: $success-bg;
+  }
+
+  &:hover {
+    color: $text_0;
+  }
+
+  &:focus,
+  &:active {
+    color: $text_0;
+    border: none;
+    background-color: $success-bg;
   }
 }
 

@@ -237,6 +237,7 @@ export default function AdminDashboard ({
                   onChange={onCalendarClick}
                   onBookedDateClick={setSelectedBookedDate}
                   allowMultiple={true}
+                  minDate={new Date()}
                   bookedDates={bookedDates}
                   value={dayOffs} />
 

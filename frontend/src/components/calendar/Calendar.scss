@@ -256,30 +256,6 @@ button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-cale
   }
 }
 
-button:enabled.react-calendar__tile.react-calendar__tile--now {
-  color: $success;
-  font-weight: bold;
-  background-color: $success-bg;
-
-  &[disabled] {
-    color: $success;
-    background-color: $success-bg;
-  }
-
-  &:hover {
-    color: $text_0;
-    background-color: $success-bg;
-  }
-
-  &.react-calendar__tile--active,
-  &:focus,
-  &:active {
-    color: $text_0;
-    border: 1px solid $inactive-grey;
-    background-color: $success-bg;
-  }
-}
-
 button.react-calendar__tile--active {
   background-color: $magenta;
   color: $text_1;
@@ -296,5 +272,29 @@ button.react-calendar__tile--active {
   &:enabled:hover {
     background-color: $magenta;
     color: $text_1;
+  }
+}
+
+button.react-calendar__tile.react-calendar__tile--now {
+  color: $success;
+  font-weight: bold;
+  background-color: $success-bg;
+
+  &[disabled] {
+    color: $success;
+    background-color: $success-bg;
+  }
+
+  &:hover {
+    color: $text_0;
+    background-color: $success-bg;
+  }
+
+  &.react-calendar__tile--active,
+  &:focus,
+  &:enabled:active {
+    color: $text_0;
+    border: 1px solid $inactive-grey;
+    background-color: $success-bg;
   }
 }

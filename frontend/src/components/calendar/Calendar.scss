@@ -268,12 +268,13 @@ button:enabled.react-calendar__tile.react-calendar__tile--now {
 
   &:hover {
     color: $text_0;
+    background-color: $success-bg;
   }
 
   &:focus,
   &:active {
     color: $text_0;
-    border: none;
+    border: 1px solid $inactive-grey;
     background-color: $success-bg;
   }
 }

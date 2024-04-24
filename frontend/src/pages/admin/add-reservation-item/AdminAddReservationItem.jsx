@@ -73,11 +73,9 @@ export default function AdminAddReservationItem () {
       secondSlot: ''
     }
   })
+  const [errFeebackMsg, setErrFeedbackMsg] = useState('')
 
   // computed state
-  const errFeebackMsg = isError && error?.data?.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
-    ? '선택한 날짜가 휴일로 설정되어 있거나 혹은 그 시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.'
-    : '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
   const occupiedTimeSlots = useMemo(() => {
     return details?.counselDate && bookingData && bookingData[details.counselDate]
       ? Object.keys(bookingData[details.counselDate])
@@ -164,6 +162,17 @@ export default function AdminAddReservationItem () {
       })
       navigate('/admin/manage-reservation')
     } catch (err) {
+      const errData = err.data || {}
+      const errMsgMap = {
+        'time': '선택한 날짜가 휴일로 설정되어 있거나 혹은 그 시간에 이미 예약 아이템이 존재합니다. 다른 옵션을 선택해 주세요.',
+        'mobile': '입력한 전화번호로 이미 예약한 내역이 존재합니다.',
+        'default': '예약 처리중 오류가 발생하였습니다. 다시 시도해 주세요.'
+      }
+      const displayErrMsg = errData.errType === CLIENT_ERROR_TYPES.EXISTING_RESERVATION
+        ? errMsgMap[errData.invalidType] || errMsgMap.default
+        : errMsgMap.default
+
+      setErrFeedbackMsg(displayErrMsg)
       console.error('AdminAddReservationItem caught: ', err)
     }
   }
@@ -198,6 +207,7 @@ export default function AdminAddReservationItem () {
               
               <div className='calendar-container'>
                 <Calendar onChange={onCalendarSelect}
+                  minDate={new Date()}
                   fullyBookedDates={dayOffsData}
                   value={details?.counselDate} />
               </div>

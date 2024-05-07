@@ -134,6 +134,21 @@ $box2_color: #47176b;
     color: $magenta-deep-dark;
     text-align: center;
     margin-bottom: 0.2rem;
+
+    @media screen and (min-height: 820px) {
+      font-size: 4.6rem;
+      margin-bottom: 2rem;
+    }
+
+    @media screen and (min-height: 820px) and (min-width: 1200px) {
+      font-size: 5.8rem;
+      margin-bottom: 2rem;
+    }
+
+    @media screen and (min-height: 1020px) {
+      font-size: 6.7rem;
+      margin-bottom: 3rem;
+    }
   }
 
   .project-logo {
@@ -423,6 +438,10 @@ $box2_color: #47176b;
   .home-youtube-carousel {
     position: relative;
     width: 34.4rem;
+
+    @include from ($small-phone) {
+      width: 42rem;
+    }
 
     .carousel-slider-content {
       padding-top: 2rem;

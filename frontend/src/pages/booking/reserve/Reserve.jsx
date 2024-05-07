@@ -103,7 +103,7 @@ export default function ConfirmAndPayment () {
         <ConfirmIcon classes='confirm-page__confirm-icon'
           width={82} />
 
-        <h3 className='is-title-2 is-sans step-title'>예약 정보</h3>
+        <h3 className='is-title-2 is-sans step-title'>내용 확인 및 등록</h3>
       </div>
 
       <div className='confirm-page__details-table'>
@@ -243,7 +243,7 @@ export default function ConfirmAndPayment () {
         <StateButton type='button'
           classes='is-primary reserve-btn'
           onClick={onReserveClick}>
-          예약 제출하기
+          예약 등록하기
         </StateButton>
       </div>
     </div>

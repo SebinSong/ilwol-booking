@@ -85,22 +85,22 @@ export const testimonials = [
 export const youtubeData = [
   {
     id: genId(),
-    title: "[HOT] 선녀님의 영화 '파묘' 감상평",
-    description: '무속을 주제로 한 2024년 상반기 천만 관객 영화 파묘에 대한 이야기를 해봤습니다. 채널의 가장 핫한 인기 컨텐츠입니다.',
+    title: "선녀님의 영화 '파묘' 감상평",
+    description: "무속을 주제로 한 천만 영화 '파묘'에 대한 이야기를 해봤습니다. 채널의 가장 핫한 인기 컨텐츠입니다.",
     imgSrc: 'https://img.youtube.com/vi/C52vu9F-cuk/0.jpg',
     url: 'https://youtu.be/C52vu9F-cuk'
   },
   {
     id: genId(),
     title: "[상담 맛보기] 일월상담소 - #1",
-    description: "실제 고객들을 초대해서 진행하는 컨텐츠 '일월상담소'는, 선녀님과의 신점 상담이 어떤식으로 진행되는지 맛보기 좋은 컨텐츠입니다.",
+    description: "채널 컨텐츠 '일월상담소'는, 선녀님과의 신점 상담이 어떤식으로 진행되는지 맛보기 좋은 컨텐츠입니다.",
     imgSrc: 'https://img.youtube.com/vi/FJvhIZceVBk/0.jpg',
     url: 'https://youtu.be/FJvhIZceVBk'
   },
   {
     id: genId(),
-    title: "무당에게 절대로 해서는 안되는 말",
-    description: " 신점/사주 상담을 보러 가셨을 때 무속인에게 절대로 해서는 안되는 말이나 행동에 대한 영상입니다. 미리 보고가시면 좋습니다.",
+    title: "무당에게 절대로 해선 안되는 말",
+    description: " 신점을 보러갈 때 주의해야 할 말이나 행동에 대한 영상입니다. 미리 보고가시면 좋습니다.",
     imgSrc: 'https://img.youtube.com/vi/Z5iq-lWvxnk/0.jpg',
     url: 'https://youtu.be/Z5iq-lWvxnk'
   }

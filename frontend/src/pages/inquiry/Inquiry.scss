@@ -26,5 +26,10 @@
       font-size: $size_7;
       color: $text_dark_grey;
     }
+
+    .inline-small-padding {
+      display: inline-block;
+      margin-right: 2px;
+    }
   }
 }

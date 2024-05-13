@@ -30,7 +30,6 @@ export default function Calendar ({
 }) {
   const tomorrow = addDaysToDate(new Date(), 1)
 
-  console.log('!@# tommorrow: ', tomorrow)
   // methods
   const changeHandler = date => {
     const dateStr = stringifyDate(date)

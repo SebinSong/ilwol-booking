@@ -63,7 +63,7 @@ function UpdateReservationSchedule ({
     () => {
       const arrToUse = reservedDays && date ? reservedDays[date] || [] : []
 
-      return initialTimeSlot
+      return initialDate === date && initialTimeSlot
         ? arrToUse.filter(v => v !== initialTimeSlot)
         : arrToUse
     },

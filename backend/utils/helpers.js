@@ -164,6 +164,22 @@ const extractNameWithNum = pDetails => {
     : name
 }
 
+const parseNodeArgFlags = () => {
+  const { argv = [] } = process
+  const flagPattern = /--\w+\=\w+/
+  const filtered = argv.filter(arg => flagPattern.test(arg))
+  const flags = {}
+
+  for (const arg of filtered) {
+    let [key, val] = arg.split('=')
+    key = key.replace('--', '')
+
+    flags[key] = val
+  }
+
+  return flags
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -183,5 +199,6 @@ module.exports = {
   stringToBase64,
   base64ToString,
   promiseAllWithLimit,
-  extractNameWithNum
+  extractNameWithNum,
+  parseNodeArgFlags
 }

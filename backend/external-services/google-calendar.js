@@ -9,7 +9,8 @@ const {
   stringToBase64,
   base64ToString,
   promiseAllWithLimit,
-  extractNameWithNum
+  extractNameWithNum,
+  parseNodeArgFlags
 } = require('../utils/helpers')
 const { DAYS_MILLIS } = require('../utils/constants')
 const getMethodShort = id => {
@@ -22,6 +23,11 @@ const getMethodShort = id => {
 
 // importing .env file
 dotenv.config({ path: resolve(__dirname, '../.env') })
+const { isProd = false } = parseNodeArgFlags()
+
+const calendarIdToUse = isProd
+  ? process.env.CALENDAR_ID_PROD || process.env.CALENDAR_ID
+  : process.env.CALENDAR_ID
 
 const scopes = [
   // If modifying these scopes, delete the token file
@@ -110,7 +116,7 @@ async function getAllEvents (isFuture = false) {
     yesterday.setTime(yesterday.getTime() - DAYS_MILLIS)
     
     const res = await calendar.events.list({
-      calendarId: process.env.CALENDAR_ID,
+      calendarId: calendarIdToUse,
       singleEvents: true,
       timeMin: isFuture ? yesterday.toISOString() : agesAgo.toISOString(),
       orderBy: 'startTime'
@@ -183,7 +189,7 @@ async function addEvent ({
     })
     const res = await calendar.events.insert({
       resource: eventObj,
-      calendarId: process.env.CALENDAR_ID
+      calendarId: calendarIdToUse
     })
 
     return res
@@ -218,7 +224,7 @@ async function addMultipleEvents (data) {
           end: { date },
           colorId: colorIdMap[status]
         },
-        calendarId: process.env.CALENDAR_ID
+        calendarId: calendarIdToUse
       })
     })
 
@@ -238,7 +244,7 @@ async function deleteEvent (eventId) {
         auth
       })
       const res = await calendar.events.delete({
-        calendarId: process.env.CALENDAR_ID,
+        calendarId: calendarIdToUse,
         eventId
       })
 
@@ -260,7 +266,7 @@ async function clearAllEvents () {
     auth
   })
   const allList = await calendar.events.list({
-    calendarId: process.env.CALENDAR_ID,
+    calendarId: calendarIdToUse,
     singleEvents: true,
     orderBy: 'startTime'
   })
@@ -270,7 +276,7 @@ async function clearAllEvents () {
     const idList = eventItems.map(entry => entry.id)
     const pFuncArr = idList.map(id => {
       return () => calendar.events.delete({
-        calendarId: process.env.CALENDAR_ID,
+        calendarId: calendarIdToUse,
         eventId: id
       })
     })
@@ -328,7 +334,7 @@ async function updateOrAddEventDetails (reservationId, reservation) {
       }
 
       const res = await calendar.events.patch({
-        calendarId: process.env.CALENDAR_ID,
+        calendarId: calendarIdToUse,
         eventId,
         resource: updateObj
       })

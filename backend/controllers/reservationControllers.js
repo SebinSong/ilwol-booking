@@ -422,7 +422,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
               err
             })
           })
-      } else {
+      } else if (mergedDoc.status !== 'cancelled') {
         updateOrAddEventDetails(reservationId, mergedDoc)
       }
     } catch (err) {

@@ -4,6 +4,7 @@ import { NavermapsProvider } from 'react-naver-maps'
 
 // utils
 import { classNames as cn } from '@utils'
+import useMq from '@hooks/useMediaQuery'
 
 // child components
 import PageTemplate from '../PageTemplate'
@@ -19,6 +20,9 @@ export default function Home () {
   // local state
   const navigate = useNavigate()
   const [showIntroduction, setShowIntroduction] = useState(false)
+
+  // hooks
+  const isDesktop = useMq('desktop')
 
   // methods
   const onReserveBtnClick = () => {
@@ -46,14 +50,13 @@ export default function Home () {
                 </button>
               </>
             : <>
-                <div className='content-main'>
-                  <IlwolLogo classes='project-logo' width={38} />
-          
-                  <h2 className='is-title-2 is-serif page-title'>
-                    <span>일월선녀</span>
-                    <span>해달별</span>
-                  </h2>
+                <div className='main-toolbar'>
+                  <IlwolLogo classes='project-logo' width={isDesktop ? 18 : 16} />
+            
+                  <h2 className='is-serif has-text-bold page-title'>일월선녀 해달별</h2>
+                </div>
 
+                <div className='content-main'>
                   <div className='home-carousel-container mt-20'>
                     <span className='youtube-news-tag'>
                       <i className='icon-youtube is-prefix'></i>

@@ -62,7 +62,7 @@ export default function Home () {
                       <i className='icon-youtube is-prefix'></i>
                       <span className='youtube-text'>유튜브 소식</span>
                     </span>
-                    <CarouselSlider classes='home-youtube-carousel mb-20' type='youtube' />
+                    <CarouselSlider classes='home-youtube-carousel' type='youtube' />
                   </div>
           
                   <div className='button-container mt-10'>

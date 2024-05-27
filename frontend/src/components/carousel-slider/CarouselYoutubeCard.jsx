@@ -29,7 +29,9 @@ function CarouselYoutubeCard ({
       onClick={clickHandler}
     >
       <div className={cn('youtube-img-container', imageLoaded && 'is-loaded')}>
-        <img src={imgSrc} onLoad={onLoadHandler} />
+        <div className='img-aspect-ratio-box'>
+          <img src={imgSrc} onLoad={onLoadHandler} />
+        </div> 
       </div>
 
       <div className='youtube-details'>

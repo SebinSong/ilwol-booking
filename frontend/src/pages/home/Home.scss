@@ -17,6 +17,27 @@ $box2_color: #47176b;
     }
   }
 
+  .main-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    min-height: $toolbar-height;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    z-index: $zindex-toolbar;
+    padding: 0 2rem;
+
+    @include from ($desktop) {
+      min-height: 7.2rem;
+      gap: 1rem;
+      padding: 0 2.8rem;
+    }
+  }
+
   .content-main,
   .content-introduction {
     position: relative;
@@ -28,6 +49,7 @@ $box2_color: #47176b;
 
   .content-main {
     width: max-content;
+    max-width: 100%;
     height: auto;
     opacity: 0;
     animation: slide-in-from-bottom 450ms ease-out forwards;
@@ -129,25 +151,15 @@ $box2_color: #47176b;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 3.6rem;
-    letter-spacing: 1.5px;
+    font-size: 1.8rem;
     color: $magenta-deep-dark;
-    text-align: center;
-    margin-bottom: 0.2rem;
 
-    @media screen and (min-height: 820px) {
-      font-size: 4.6rem;
-      margin-bottom: 2rem;
+    @include from ($desktop) {
+      font-size: 2rem;
     }
 
-    @media screen and (min-height: 820px) and (min-width: 1200px) {
-      font-size: 5.8rem;
-      margin-bottom: 2rem;
-    }
-
-    @media screen and (min-height: 1020px) {
-      font-size: 6.7rem;
-      margin-bottom: 3rem;
+    @include from ($desktop-large) {
+      font-size: 2.4rem;
     }
   }
 
@@ -415,7 +427,7 @@ $box2_color: #47176b;
 
     .youtube-news-tag {
       position: absolute;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       display: inline-flex;
       align-items: center;
       border-radius: 0.8rem;
@@ -426,7 +438,12 @@ $box2_color: #47176b;
       color: $background_0;
       box-shadow: $box-shadow_light;
       z-index: 2;
-      transform: translateY(-35%);
+      transform: translateY(-40%);
+
+      @include from ($large-phone) {
+        font-size: 1.4rem;
+        transform: translateY(-50%);
+      }
 
       i {
         font-size: 1.25em;
@@ -437,10 +454,20 @@ $box2_color: #47176b;
 
   .home-youtube-carousel {
     position: relative;
-    width: 34.4rem;
+    width: 35.2rem;
+    max-width: 100%;
+    margin-bottom: 5rem;
+
+    @media screen and (max-height: 700px) {
+      margin-bottom: 3rem;
+    }
 
     @include from ($small-phone) {
       width: 42rem;
+    }
+
+    @include from ($small-phone) {
+      width: 55rem;
     }
 
     .carousel-slider-content {

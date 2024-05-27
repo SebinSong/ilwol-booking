@@ -11,13 +11,15 @@ const smallphone = 576
 const largephone = 768
 const tablet = 992
 const desktop = 1200
+const largedesktop = 1600
 
 const queryMap = {
   'smallphone': `(max-width: ${smallphone - 1}px)`,
   'from-smallphone-until-largephone': `(min-width: ${smallphone}px) and (max-width: ${largephone - 1}px)`,
   'until-largephone': `(max-width: ${largephone - 1}px)`,
   'from-tablet': `(min-width: ${tablet}px)`,
-  'desktop': `(min-width: ${desktop}px)`
+  'desktop': `(min-width: ${desktop}px)`,
+  'desktop-large': `(min-width: ${largedesktop}px)`
 }
 
 function useMq (deviceOption = '', customQueryString) {

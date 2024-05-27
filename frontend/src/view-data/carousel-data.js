@@ -86,22 +86,23 @@ export const youtubeData = [
   {
     id: genId(),
     title: "선녀님의 영화 '파묘' 감상평",
-    description: "무속을 주제로 한 천만 영화 '파묘'에 대한 이야기를 해봤습니다. 채널의 가장 핫한 인기 컨텐츠입니다.",
+    description: "무속을 주제로 한, 2024 상반기 국내 천만관객 영화 '파묘'에 대한 이야기를 해봤습니다. " +
+      "현직 무당으로써 느낀 감상평을 가미한 해설을 내용으로 하는, 흥미로운 영상으로, 채널의 가장 인기 컨텐츠 중 하나입니다.",
     imgSrc: 'https://img.youtube.com/vi/C52vu9F-cuk/0.jpg',
     url: 'https://youtu.be/C52vu9F-cuk'
   },
   {
     id: genId(),
-    title: "[상담 맛보기] 일월상담소 - #1",
-    description: "채널 컨텐츠 '일월상담소'는, 선녀님과의 신점 상담이 어떤식으로 진행되는지 맛보기 좋은 컨텐츠입니다.",
-    imgSrc: 'https://img.youtube.com/vi/FJvhIZceVBk/0.jpg',
-    url: 'https://youtu.be/FJvhIZceVBk'
+    title: "어도어 '민희진' 대표의 사주 분석",
+    description: "그룹 뉴진스의 제작자이자 어머니로 불리는 민희진 대표의 사주 풀이에 대한 영상입니다. 하이브 그룹과의 분쟁은 어떤식으로 진행될 지, 민대표의 향후 미래는 어떠한 모습일 지에 관한 선녀님의 흥미로운 분석입니다.",
+    imgSrc: 'https://img.youtube.com/vi/vdEfaLyxPEY/0.jpg',
+    url: 'https://youtu.be/vdEfaLyxPEY'
   },
   {
     id: genId(),
-    title: "무당에게 절대로 해선 안되는 말",
-    description: " 신점을 보러갈 때 주의해야 할 말이나 행동에 대한 영상입니다. 미리 보고가시면 좋습니다.",
-    imgSrc: 'https://img.youtube.com/vi/Z5iq-lWvxnk/0.jpg',
-    url: 'https://youtu.be/Z5iq-lWvxnk'
+    title: "죽음을 앞둔 사람은 무당한테 어떻게 보일까?",
+    description: "2023년 말 세상을 떠난 배우 '이선균'씨 사건을 맞아, 죽음을 주제로 선녀님과 대화를 해보았습니다. 생과 사를 스스로 결정하는 일에 대하여, 신을 모시는 일을 오래 해오신 무속 전문가의 심도깊은 견해를 주십니다.",
+    imgSrc: 'https://img.youtube.com/vi/Jb3BRj37mAo/0.jpg',
+    url: 'https://youtu.be/Jb3BRj37mAo'
   }
 ]

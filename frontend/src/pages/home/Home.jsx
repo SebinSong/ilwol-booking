@@ -11,6 +11,7 @@ import PageTemplate from '../PageTemplate'
 import HomeIntroduction from './HomeIntroduction'
 import KakaoChannelIcon from '@components/svg-icons/KakaoChannelIcon'
 import CarouselSlider from '@components/carousel-slider/CarouselSlider.jsx'
+import NewsBanner from './NewsBanner.jsx'
 
 const { IlwolLogo } = React.Global
 
@@ -57,7 +58,7 @@ export default function Home () {
                 </div>
 
                 <div className='content-main'>
-                  <div className='home-carousel-container mt-20'>
+                  <div className='home-carousel-container mt-30'>
                     <span className='youtube-news-tag'>
                       <i className='icon-youtube is-prefix'></i>
                       <span className='youtube-text'>유튜브 소식</span>
@@ -65,7 +66,9 @@ export default function Home () {
                     <CarouselSlider classes='home-youtube-carousel' type='youtube' />
                   </div>
           
-                  <div className='button-container mt-10'>
+                  <div className='button-container'>
+                    <NewsBanner />
+
                     <button type='button'
                       className='is-secondary introduction-btn'
                       onClick={() => setShowIntroduction(true)}>

@@ -1,6 +1,8 @@
 $box1_color: #44D2F2;
 $box2_color: #47176b;
 
+$home-small-width: 420px;
+
 .page-home {
   position: relative;
   display: flex;
@@ -150,7 +152,7 @@ $box2_color: #47176b;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     color: $magenta-deep-dark;
 
     @include from ($desktop) {
@@ -168,7 +170,7 @@ $box2_color: #47176b;
     display: block;
     z-index: 100;
 
-    @include smallphone {
+    @include until($home-small-width) {
       width: 100vw;
     }
   }
@@ -193,7 +195,7 @@ $box2_color: #47176b;
       padding-right: 1.8rem;
     }
 
-    @include smallphone {
+    @include until ($home-small-width) {
       flex-direction: row;
       justify-content: center;
       padding: 0 1.5rem;
@@ -466,7 +468,7 @@ $box2_color: #47176b;
     }
 
     &:active {
-      bottom: 1.5rem;
+      top: 1.3rem;
     }
   }
 
@@ -502,20 +504,22 @@ $box2_color: #47176b;
 
   .home-youtube-carousel {
     position: relative;
-    width: 35.2rem;
+    width: 100vw;
     max-width: 100%;
     margin-bottom: 3rem;
 
+    .carousel-slider-content {
+      padding-top: 2rem;
+      border-radius: 0;
+    }
+
     @include from ($small-phone) {
       width: 42rem;
+      border-radius: 1.2rem;
     }
 
     @include from ($small-phone) {
       width: 55rem;
-    }
-
-    .carousel-slider-content {
-      padding-top: 2rem;
     }
   }
 
@@ -524,19 +528,18 @@ $box2_color: #47176b;
     display: flex;
     align-items: flex-start;
     width: 100%;
-    max-width: 38rem;
     gap: 1.2rem;
     border: 1px solid $inactive-grey;
     overflow: hidden;
     flex-shrink: 0;
-    padding: 1.4rem 2rem;
+    padding: 1.4rem 1.5rem;
     cursor: pointer;
     margin: 0 auto 4rem;
 
-    @include from ($small-phone) {
+    @include from ($home-small-width) {
       align-items: center;
       border-radius: 1.2rem;
-      width: 36rem;
+      width: 38rem;
       max-width: unset;
       padding: 1.6rem;
       box-shadow: $box-shadow_deep-light;
@@ -550,9 +553,9 @@ $box2_color: #47176b;
       position: relative;
       display: inline-flex;
       flex-shrink: 0;
-      width: 25%;
-      min-width: 7.2rem;
-      max-width: 8.4rem;
+      width: 27.5%;
+      min-width: 7.8rem;
+      max-width: 9rem;
       height: auto;
       border-radius: 0.8rem;
       overflow: hidden;
@@ -614,20 +617,18 @@ $box2_color: #47176b;
       flex-grow: 1;
 
       .details-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.6rem;
+
+        @include from ($home-small-width) {
+          margin-bottom: 0.4rem;
+        }
       }
 
       .details-desc {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         color: $text_dark_grey;
-      }
-
-      @include from ($small-phone) {
-        .details-desc {
-          font-size: 1.3rem;
-        }
       }
     }
 

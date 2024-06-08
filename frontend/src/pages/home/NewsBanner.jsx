@@ -27,7 +27,9 @@ export default function NewsVideoBanner ({
 
       <div className='video-details'>
         <span className='details-title'>2022년 'JTBC 사건반장' 출연!</span>
-        <span className='details-desc'>2022년 월드컵 조별예선 결과 족집게 예측이 큰 이슈가 되어 뉴스에 소개되었었습니다.</span>
+        <span className='details-desc'>
+          2022년 월드컵 조별예선 결과 족집게 예측이 인터넷 상에 큰 이슈가 되어 뉴스에 소개됨.
+        </span>
       </div>
     </div>
   )

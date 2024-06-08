@@ -162,6 +162,17 @@ $box2_color: #47176b;
     }
   }
 
+  .home-content-container {
+    position: relative;
+    height: max-content;
+    display: block;
+    z-index: 100;
+
+    @include smallphone {
+      width: 100vw;
+    }
+  }
+
   .project-logo {
     color: $magenta-deep-dark;
   }
@@ -181,6 +192,39 @@ $box2_color: #47176b;
       padding-left: 1.6rem;
       padding-right: 1.8rem;
     }
+
+    @include smallphone {
+      flex-direction: row;
+      justify-content: center;
+      padding: 0 1.5rem;
+
+      .booking-btn,
+      .introduction-btn {
+        min-width: unset;
+        font-size: $size_7;
+      }
+
+      .booking-btn {
+        min-width: 14rem;
+      }
+    }
+
+    @include until (380px) {
+      justify-content: space-between;
+
+      .booking-btn,
+      .introduction-btn {
+        min-width: unset;
+        min-height: 3.4rem;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        border-radius: 0.8rem;
+      }
+
+      .booking-btn {
+        min-width: 12rem;
+      }
+    }
   }
 
   .admin-login-cta {
@@ -189,7 +233,7 @@ $box2_color: #47176b;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.675em;
-    opacity: 0.725;
+    opacity: 0.75;
 
     &:hover,
     &:focus {
@@ -202,9 +246,7 @@ $box2_color: #47176b;
     }
 
     @include smallphone {
-      left: 1.6rem;
       bottom: 2rem;
-      transform: translateX(0);
     }
   }
 
@@ -400,14 +442,21 @@ $box2_color: #47176b;
   }
 
   .kakao-channel-logo {
-    position: absolute;
+    position: fixed;
     right: 1.6rem;
-    bottom: 1.6rem;
+    top: 1.6rem;
     box-shadow: 0 0px 6px 1px rgba(5, 16, 55, 0.075);
     line-height: 1;
     border-radius: 0.8rem;
     cursor: pointer;
-    opacity: 0.75;
+    opacity: 0.8;
+    z-index: $zindex-tooltip;
+
+    @include smallphone {
+      top: 1.2rem;
+      right: 1.2rem;
+      transform: scale(0.9);
+    }
 
     &:focus,
     &:hover {
@@ -473,35 +522,44 @@ $box2_color: #47176b;
   .jtbc-banner {
     position: relative;
     display: flex;
-    align-items: center;
-    width: 32rem;
-    gap: 1rem;
-    border-radius: 1.2rem;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 38rem;
+    gap: 1.2rem;
     border: 1px solid $inactive-grey;
     overflow: hidden;
     flex-shrink: 0;
-    box-shadow: $box-shadow_deep-light;
-    padding: 1.2rem;
+    padding: 1.4rem 2rem;
     cursor: pointer;
-    margin-bottom: 2rem;
+    margin: 0 auto 4rem;
 
     @include from ($small-phone) {
+      align-items: center;
+      border-radius: 1.2rem;
       width: 36rem;
-      gap: 1.2rem;
+      max-width: unset;
       padding: 1.6rem;
+      box-shadow: $box-shadow_deep-light;
+    }
+
+    @media screen and (min-height: 860px) {
+      margin-bottom: 8rem;
     }
 
     .img-container {
       position: relative;
       display: inline-flex;
       flex-shrink: 0;
-      width: 27.5%;
+      width: 25%;
+      min-width: 7.2rem;
+      max-width: 8.4rem;
       height: auto;
       border-radius: 0.8rem;
       overflow: hidden;
 
       @include from ($small-phone) {
         width: 30%;
+        max-width: unset;
       }
 
       .img-aspect-ratio-box {
@@ -558,7 +616,7 @@ $box2_color: #47176b;
       .details-title {
         font-size: 1.5rem;
         font-weight: bold;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.4rem;
       }
 
       .details-desc {
@@ -567,10 +625,6 @@ $box2_color: #47176b;
       }
 
       @include from ($small-phone) {
-        .details-title {
-          margin-bottom: 0.4rem;
-        }
-  
         .details-desc {
           font-size: 1.3rem;
         }

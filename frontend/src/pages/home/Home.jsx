@@ -66,20 +66,23 @@ export default function Home () {
                     <CarouselSlider classes='home-youtube-carousel' type='youtube' />
                   </div>
           
-                  <div className='button-container'>
-                    <NewsBanner />
+                  <div className='home-content-container'>
+                    <NewsBanner classes='home-news-banner' />
 
-                    <button type='button'
-                      className='is-secondary introduction-btn'
-                      onClick={() => setShowIntroduction(true)}>
-                      <span className='icon-info-circle is-prefix'></span>
-                      소개 / 리뷰 / 오시는 길
-                    </button>
-          
-                    <button type='button'
-                      className='booking-btn'
-                      onClick={onReserveBtnClick}
-                    >예약하기</button>
+                    <div className='button-container'>
+                      <button type='button'
+                        className='is-secondary introduction-btn'
+                        onClick={() => setShowIntroduction(true)}>
+                        <span className='icon-info-circle is-prefix'></span>
+                        소개 / 리뷰 / 오시는 길
+                      </button>
+            
+                      <button type='button'
+                        className='booking-btn'
+                        onClick={onReserveBtnClick}
+                      >예약하기</button>
+                    </div>
+                      
                   </div>
                 </div>
 
@@ -90,7 +93,7 @@ export default function Home () {
                     <span>관리자 로그인</span>
                 </span>
 
-                <KakaoChannelIcon classes='kakao-channel-logo' width={38}
+                <KakaoChannelIcon classes='kakao-channel-logo' width={34}
                   onClick={onChannelIconClick} />
               </>
         }

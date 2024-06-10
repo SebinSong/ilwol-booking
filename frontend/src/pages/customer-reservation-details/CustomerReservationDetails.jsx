@@ -224,12 +224,12 @@ export default function CustomerReservationDetails () {
                       <p>아래 계좌로 입금해 주시면, 선녀님 또는 관리자가 예약을 <span className='reservation-status-tag text-bg-success inline-small-padding mr-4'>확정</span>후 알려 드리겠습니다.</p>
     
                       <CopyToClipboard classes='copy-bank-transfer-details mb-30'
-                        textToCopy='제일은행 김은숙 635 20 144462'
+                        textToCopy='우리은행 심순애 1002-358-833662'
                         toastOpt={{
                           heading: '계좌정보 복사.',
                           content: '클립보드에 저장 되었습니다.'
                         }}>
-                        <span className='bank-transfer-info'>제일은행 김은숙 635 20 144462</span>
+                        <span className='bank-transfer-info'>우리은행 심순애 1002 358 833662</span>
                       </CopyToClipboard>
     
                       <div className='things-to-note'>

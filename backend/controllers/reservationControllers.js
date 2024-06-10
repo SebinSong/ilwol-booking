@@ -208,7 +208,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
         to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
         title: '예약 안내',
         message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약 신청 완료. ` + 
-          '상담료이체 계좌 <SC제일은행 김은숙 635-20-144462>, 이체 확인 후 예약확정 문자발송. ' +
+          '상담료이체 계좌 <우리은행 심순애 1002-358-833662>, 이체 확인 후 예약확정 문자발송. ' +
           `@예약확인@변경@취소 -> ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
       })
 

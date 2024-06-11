@@ -5,6 +5,13 @@ const displayDate = str => humanDate(str, { month: 'short', day: 'numeric', year
 export const testimonials = [
   {
     id: genId(),
+    type: 'visit-review',
+    name: '유진* 님',
+    date: '2024년 6월',
+    content: '말씀해주신대로 월별운을 정말 잘 맞으시네요! 진짜 소개팅이 들어와서 나가니, 맘에 드는 한살 어린 여자애가 나타나네요! 이번주 금요일에 또 만나요!! 후기 말씀드리려구요ㅋㅋ'
+  },
+  {
+    id: genId(),
     name: '김지* 님',
     type: 'visit-review',
     date: displayDate('2024-04-09'),
@@ -44,13 +51,6 @@ export const testimonials = [
     type: 'visit-review',
     date: displayDate('2023-10-25'),
     content: '올해 여름에 다녀갔었는데 변리사 최종합격했습니다. 불안할때마다 상담 녹음파일 들으며 버텼습니다.<br/>감사합니다.'
-  },
-  {
-    id: genId(),
-    type: 'visit-review',
-    name: '유진* 님',
-    date: '2023년 하반기',
-    content: '힐링도 되고, 앞으로 어떤 방향성을 가지고 열심히 살아야 하는지 알려주시고, 진심어린 설명을 잘 해주셔서 마음이 따뜻해지는 상담이었습니다. 또 무슨 일 생기면 찾아뵐게요!!<br/>아빠한테도 존버하라고 전해드렸더니 웃으시더라구요ㅎㅎ 감사합니다.'
   },
   {
     id: genId(),

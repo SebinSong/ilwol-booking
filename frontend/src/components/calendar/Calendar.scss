@@ -107,10 +107,23 @@
       font-size: 1.15rem;
       font-weight: bold;
       user-select: none;
-      color: $magenta;
+      color: $text-0;
       text-decoration: none;
+
+      &[title="토요일"] {
+        color: $skyblue;
+        font-size: 1.25rem;
+        border-bottom: 1px solid currentColor;
+      }
+
+      &[title="일요일"] {
+        color: $warning;
+        font-size: 1.25rem;
+        border-bottom: 1px solid currentColor;
+      }
     }
   }
+
 }
 
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
@@ -126,13 +139,16 @@
   row-gap: 0.4rem;
 }
 
-/*
-NOTE: color the weekends differently.
-
-button.react-calendar__month-view__days__day--weekend {
+button.react-calendar__month-view__days__day:nth-child(7n) {
   color: $warning;
+  font-weight: bold;
 }
-*/
+
+button.react-calendar__month-view__days__day:nth-child(7n - 1) {
+  color: $skyblue;
+  font-weight: bold;
+}
+
 
 button.react-calendar__month-view__days__day--neighboringMonth {
   color: $text_grey;

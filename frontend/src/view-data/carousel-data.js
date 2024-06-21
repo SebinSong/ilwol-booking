@@ -12,6 +12,13 @@ export const testimonials = [
   },
   {
     id: genId(),
+    type: 'visit-review',
+    name: '문덕* 님',
+    date: '2024년 6월',
+    content: '초 켜주시고 기도해주신 덕에 딸이 많이 변했습니다. 고맙습니다.'
+  },
+  {
+    id: genId(),
     name: '김지* 님',
     type: 'visit-review',
     date: displayDate('2024-04-09'),

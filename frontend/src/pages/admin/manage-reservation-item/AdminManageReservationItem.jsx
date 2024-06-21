@@ -270,7 +270,7 @@ export default function AdminManageReservationItem () {
                 </div>
 
                 {
-                  !isAdminGenerated &&
+                  (!isAdminGenerated && Boolean(pDetails.dob)) &&
                   <div className='summary-list__item'>
                     <span className='summary-list__label'>생년월일</span>
                     <span className='summary-list__value is-normal-color'>

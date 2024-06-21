@@ -66,10 +66,13 @@ function HistoryItemSummary ({ classes = '', data = null }) {
             <span className='sub-line__value'>{getGender(pd?.gender)}</span>
           </div>
 
-          <div className='sub-line'>
-            <span className='sub-line__label'>생년월일</span>
-            <span className='sub-line__value'>{getDOB(pd?.dob)}</span>
-          </div>
+          {
+            Boolean(pd?.dob) &&
+            <div className='sub-line'>
+              <span className='sub-line__label'>생년월일</span>
+              <span className='sub-line__value'>{ getDOB(pd?.dob) }</span>
+            </div>
+          }
 
           <div className='sub-line'>
             <span className='sub-line__label'>모바일</span>

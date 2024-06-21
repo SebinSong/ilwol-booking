@@ -20,7 +20,6 @@ export default function Modal ({
 
   // methods
   const onBackDropClickHandler = () => {
-    console.log('Backdrop click!!')
     onBackDropClick()
   }
 

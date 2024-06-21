@@ -22,7 +22,6 @@ function ReservationHistoryTable ({
   // methods
   const onItemClick = (entry) => {
     setDetailsContent(entry)
-    console.log('clicked: ', entry)
     setShowModal(true)
   }
 

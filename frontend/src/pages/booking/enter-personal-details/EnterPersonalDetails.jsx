@@ -20,6 +20,7 @@ import './EnterPersonalDetails.scss'
 const { WarningMessage } = React.Global
 
 // helper
+const ENABLE_DOB = false
 const thisYear = (new Date()).getFullYear()
 const yearOptions = Array.from(new Array(90), (v, index) => (thisYear - 10 - index) + '') // Age limit: MIN - 10 yrs old , MAX - 100 yrs old
 
@@ -62,12 +63,6 @@ export default function EnterPersonalDetails () {
   const [details, setDetails] = useImmer({
     name: detailsInStore?.name || '',
     gender: detailsInStore?.gender || '',
-    dob: detailsInStore?.dob || {
-      system: 'lunar',
-      year: 'year-str',
-      month: '',
-      date: ''
-    },
     numAttendee: isGroupOption ? 2 : 1,
     mobile: detailsInStore?.mobile || {
       prefix: '010',
@@ -81,6 +76,14 @@ export default function EnterPersonalDetails () {
         : '',
     email: detailsInStore?.email || '',
     memo: detailsInStore?.memo || ''
+    // *** NOTE: re-enable below if we decide to re-add DOB to the app.
+    //
+    // dob: detailsInStore?.dob || {
+    //   system: 'lunar',
+    //   year: 'year-str',
+    //   month: '',
+    //   date: ''
+    // },
   })
   const methodList = isOverseasCounsel
     ? COUNSEL_METHOD.filter(entry => 'voice-talk' === entry.id)
@@ -88,7 +91,6 @@ export default function EnterPersonalDetails () {
   const enableContinueBtn = [
     'name',
     'gender',
-    'dob',
     isOverseasCounsel ? 'kakaoId' : 'mobile',
     'method'
   ].every(key => {
@@ -116,7 +118,7 @@ export default function EnterPersonalDetails () {
       check: val => !val || validateEmail(val),
       errMsg: '올바른 포맷의 이메일을 입력하세요.'
     },
-    {
+    ENABLE_DOB && {
       key: 'dob',
       check: ({ year, month, date }) => year !== 'year-str' &&
         isNumberLessThan(month, 13) &&
@@ -269,63 +271,67 @@ export default function EnterPersonalDetails () {
           </label>
         </div>
 
+        {
+          ENABLE_DOB &&
+          <>
+            <div className='form-field'>
+              <span className='label'>
+                생년월일
+                <span className='mandatory'>{'(필수)'}</span>
+              </span>
 
-        <div className='form-field'>
-          <span className='label'>
-            생년월일
-            <span className='mandatory'>{'(필수)'}</span>
-          </span>
+              <div className='dob-group' tabIndex='0'>
+                <div className='selectgroup dob-group__year'>
+                  <div className='selectbox'>
+                    <select className='select'
+                      data-vkey='dob'
+                      tabIndex='0'
+                      value={details.dob.system}
+                      onChange={updateDobFactory('system')}>
+                      <option value='lunar'>양력</option>
+                      <option value='solar'>음력</option>
+                    </select>
+                  </div>
 
-          <div className='dob-group' tabIndex='0'>
-            <div className='selectgroup dob-group__year'>
-              <div className='selectbox'>
-                <select className='select'
-                  data-vkey='dob'
-                  tabIndex='0'
-                  value={details.dob.system}
-                  onChange={updateDobFactory('system')}>
-                  <option value='lunar'>양력</option>
-                  <option value='solar'>음력</option>
-                </select>
+                  <div className='selectbox'>
+                    <select className='select select--second year-select'
+                      tabIndex='0'
+                      value={details.dob.year}
+                      onChange={updateDobFactory('year', false)}>
+                      <option value='year-str'>년도</option>
+                      {
+                        yearOptions.map(
+                          yearVal => <option key={yearVal} value={yearVal}>{yearVal}</option>
+                        )
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div className='dob-group__month'>
+                  <input type='text' className='input'
+                    inputMode='numeric'
+                    value={details.dob.month}
+                    onInput={updateDobFactory('month', true)}
+                    maxLength={2}
+                    placeholder='월' />
+                </div>
+
+                <div className='dob-group__date'>
+                  <input type='text' className='input'
+                    inputMode='numeric'
+                    value={details.dob.date}
+                    onInput={updateDobFactory('date', true)}
+                    maxLength={2}
+                    placeholder='일' />
+                </div>
               </div>
-
-              <div className='selectbox'>
-                <select className='select select--second year-select'
-                  tabIndex='0'
-                  value={details.dob.year}
-                  onChange={updateDobFactory('year', false)}>
-                  <option value='year-str'>년도</option>
-                  {
-                    yearOptions.map(
-                      yearVal => <option key={yearVal} value={yearVal}>{yearVal}</option>
-                    )
-                  }
-                </select>
-              </div>
             </div>
 
-            <div className='dob-group__month'>
-              <input type='text' className='input'
-                inputMode='numeric'
-                value={details.dob.month}
-                onInput={updateDobFactory('month', true)}
-                maxLength={2}
-                placeholder='월' />
-            </div>
-
-            <div className='dob-group__date'>
-              <input type='text' className='input'
-                inputMode='numeric'
-                value={details.dob.date}
-                onInput={updateDobFactory('date', true)}
-                maxLength={2}
-                placeholder='일' />
-            </div>
-          </div>
-        </div>
-
-        <WarningMessage toggle={isErrorActive('dob')} message={formError?.errMsg} />
-
+            <WarningMessage toggle={isErrorActive('dob')} message={formError?.errMsg} />
+          </>
+        }
+        
         <div className='form-field'>
           <span className='label'>
             연락처

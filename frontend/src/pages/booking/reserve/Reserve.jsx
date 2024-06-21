@@ -175,16 +175,19 @@ export default function ConfirmAndPayment () {
             </span>
           </div>
 
-          <div className='personal-details-item'>
-            <span className='sub-label'>생년월일</span>
+          {
+            Boolean(personalDetails.dob) &&
+            <div className='personal-details-item'>
+              <span className='sub-label'>생년월일</span>
 
-            <span className='sub-value'>
-              <span>{personalDetails.dob.system === 'solar' ? '음력' : '양력'}</span>
-              <span className='unit-append'>{personalDetails.dob.year}년</span>
-              <span className='unit-append'>{personalDetails.dob.month}월</span>
-              <span className='unit-append'>{personalDetails.dob.date}일</span>
-            </span>
-          </div>
+              <span className='sub-value'>
+                <span>{personalDetails.dob.system === 'solar' ? '음력' : '양력'}</span>
+                <span className='unit-append'>{personalDetails.dob.year}년</span>
+                <span className='unit-append'>{personalDetails.dob.month}월</span>
+                <span className='unit-append'>{personalDetails.dob.date}일</span>
+              </span>
+            </div>
+          }
 
           {
             isOverseasCounsel

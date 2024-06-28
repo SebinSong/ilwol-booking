@@ -301,7 +301,7 @@ async function updateOrAddEventDetails (reservationId, reservation) {
   const timeShort = timeSlot.split(':')[0]
 
   try {
-    const foundEvent = await getEventByReservationId(reservationId)
+    const foundEvent = await getEventByReservationId(reservationId, true)
 
     if (!foundEvent) {
       const addResult = await addEvent({

@@ -415,7 +415,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       // update Google calendar according to the new data
       const mergedDoc = mergeObjects(cloneDeep(doc), updates)
       if (isCancellingReservation) {
-        findEventByReservationIdAndDelete(reservationId)
+        findEventByReservationIdAndDelete(reservationId, true)
           .catch(err => {
             res.status(500).json({
               message: 'failed to delete a cancelled reservation item from the calendar',
@@ -455,7 +455,7 @@ const deleteReservation = asyncHandler(async (req, res, next) => {
     }
 
     // delete the corresponding event item from the google calendar
-    findEventByReservationIdAndDelete(reservationId).catch(err => {
+    findEventByReservationIdAndDelete(reservationId, true).catch(err => {
       console.log('Failed to find and delete an event item in deleteReservation - ', err)
     })
   }

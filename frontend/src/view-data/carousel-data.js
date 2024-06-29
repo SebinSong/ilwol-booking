@@ -5,6 +5,14 @@ const displayDate = str => humanDate(str, { month: 'short', day: 'numeric', year
 export const testimonials = [
   {
     id: genId(),
+    type: 'youtube-feedback',
+    name: "아이디 'jenas**' 님",
+    date: '2024년 6월',
+    content: '몇해전에 선생님 뵙고 마음이 정말 좋았거든요. 제 딴에 존경하는 마음 담아 인사도 올리고, 케익도 올리고 와서 그런지 요새도 한번 걸음해볼까 생각이 들기도 합니다!<br/>' +
+     '다시 영상보게 되어 좋아요! 말씀 정말 잘하시는 것 같아요, 위안이 됩니다.<br/>아이는 낳으라 하셨었는데 도전중에 있는 일이 있어서 어렵네요ㅜ 영상보니깐 선생님이 해주셨던 말씀이 더 생각나요.'
+  },
+  {
+    id: genId(),
     type: 'visit-review',
     name: '유진* 님',
     date: '2024년 6월',

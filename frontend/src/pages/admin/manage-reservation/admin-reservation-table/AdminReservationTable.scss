@@ -22,12 +22,25 @@
     }
   }
 
+  &__cta-container,
   &__search-and-filter {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+  }
+
+  &__search-and-filter {
     margin-bottom: 1.6rem;
+    column-gap: 1rem;
+  }
+
+  .sort-select-el {
+    width: 10rem;
+  }
+
+  &__cta-container {
+    margin: 1.2rem 0 0 0;
   }
 
   &__table {
@@ -62,6 +75,21 @@
         text-decoration: underline;
       }
     }
+
+    .th-mobile,
+    .td-mobile {
+      text-align: center;
+      width: 12rem;
+    }
+
+    .td-mobile {
+      color: $text_dark_grey;
+
+      .copy-contact {
+        align-items: center;
+        font-weight: bold;
+      }
+    }
   
     .th-counsel-type,
     .td-counsel-type {
@@ -87,10 +115,15 @@
   }
   
   &__search-input {
+    i.pre-icon {
+      font-size: 1.6rem !important;
+    }
+
     input {
-      height: 3.6rem;
       width: 16rem;
-      font-size: $size_6;
+      font-size: $size_7;
+      height: 3rem;
+      padding-left: 2.8rem !important;
     }
   }
 

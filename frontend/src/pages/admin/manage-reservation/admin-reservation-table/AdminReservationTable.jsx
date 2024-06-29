@@ -9,6 +9,7 @@ import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
 
 // components
+import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import AccordionButton from '@components/accordion/accordion-button/AccordionButton'
 import Checkbox from '@components/checkbox/Checkbox.jsx'
 
@@ -34,6 +35,12 @@ const getName = entry => {
 
   return name + (numAttendee >= 2 ? ` 외${numAttendee - 1}명`: '') + calendarMemo
 }
+const getMobileDisplay = entry => {
+  const { mobile } = entry.personalDetails
+  return mobile?.number
+    ? `${mobile.prefix}${mobile.number}`
+    : 'N/A'
+}
 const getCounselTypeName = entry => {
   return entry.optionId === 'admin-generated'
     ? '관리자생성 아이템'
@@ -43,16 +50,25 @@ const getCounselMethodName = entry => COUNSEL_METHOD.find(x => x.value === entry
 const transformListEntry = entry => {
   const r = {
     dateAndTime: combineDateAndTime(entry),
+    counselDateOriginal: entry.counselDate,
     name: getName(entry),
+    mobileDisplay: getMobileDisplay(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
     createdDate: entry.createdAt ? humanDate(entry.createdAt, { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
+    createdDateOriginal: entry.createdAt,
     id: entry._id
   }
 
   r.searchable = `${combineDateAndTimeSearchable(entry)}__${r.name}__${r.counselType}__${r.methodName}`
   return r
 }
+
+// sort & filter related
+const sortTypeList = [
+  { id: 'created-date', name: '생성날짜순', value: 'created-date' },
+  { id: 'booking-date', name: '최근예약순', value: 'booking-date' },
+]
 
 function AdminReservationTable ({
   list,
@@ -69,6 +85,7 @@ function AdminReservationTable ({
   // local-state
   const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
+  const [sortType, setSortType] = useState('created-date') // either 'created-date' or 'reservation-date'
   const [allSelected, setAllSelected] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -78,9 +95,22 @@ function AdminReservationTable ({
     () => {
       if (!list) { return [] }
 
-      return list.map(transformListEntry)
+      let listClone = list.map(transformListEntry)
         .filter(entry => entry.searchable.includes(search.trim()))
-    }, [list, search]
+
+      if (sortType === 'created-date') {
+        const ArrHasCreatedAt = listClone.filter(entry => Boolean(entry.createdDateOriginal))
+        const ArrNoCreatedAt = listClone.filter(entry => !entry.createdDateOriginal)
+        
+        ArrHasCreatedAt.sort((a, b) => (new Date(b.createdDateOriginal).getTime() - new Date(a.createdDateOriginal).getTime()))
+        ArrNoCreatedAt.sort((a, b) => (new Date(b.counselDateOriginal).getTime() - new Date(a.counselDateOriginal).getTime()))
+        listClone = [ ...ArrHasCreatedAt, ...ArrNoCreatedAt ]
+      } else {
+        listClone.sort((a, b) => (b.counselDateOriginal - a.counselDateOriginal))
+      }
+
+      return listClone
+    }, [list, search, sortType]
   )
 
   // effects
@@ -128,22 +158,30 @@ function AdminReservationTable ({
           ? isDisplaying && <p className='admin-no-data'>{emptyMessage}</p>
           : <div className={cn('admin-reservation-table__content', !isDisplaying && 'is-hidden')}>
               <div className='admin-reservation-table__search-and-filter'>
+                <span className='selectbox is-small sort-select-el'>
+                  <select className='select'
+                    tabIndex='0'
+                    value={sortType}
+                    data-vkey='table-sort'
+                    onChange={e => setSortType(e.target.value)}>
+                    {
+                      sortTypeList.map(entry => (
+                        <option value={entry.value} key={entry.id}>{entry.name}</option>
+                      ))
+                    }
+                  </select>
+                </span>
+    
                 <div className='input-with-pre-icon admin-reservation-table__search-input'>
                   <i className='icon-search pre-icon'></i>
 
-                  <input className='input'
+                  <input className='input search-input-el'
                     type='text'
                     value={search}
                     placeholder='이름/날짜/etc. 검색'
                     onInput={e => setSearch(e.target.value)} />
                 </div>
 
-                {
-                  Boolean(children && dataToDisplay.length) &&
-                  <div className='admin-reservation-table__cta-container'>
-                    {children}
-                  </div>
-                }
               </div>
 
               {
@@ -163,11 +201,12 @@ function AdminReservationTable ({
                                       onChange={toggleAllCheckbox} />
                                   </th>
                                 }
-                                <th className='th-counsel-time'>날짜/시간</th>
+                                <th className='th-created-at'>생성일자</th>
+                                <th className='th-counsel-time'>상담 날짜/시간</th>
                                 <th className='th-name'>이름</th>
+                                <th className='th-mobile'>연락처</th>
                                 <th className='th-counsel-type'>상담 종류</th>
                                 <th className='th-counsel-method'>상담 방식</th>
-                                <th className='th-created-at'>생성일자</th>
                                 <th className='th-action'></th>
                               </tr>
                             </thead>
@@ -185,11 +224,21 @@ function AdminReservationTable ({
                                             onChange={() => onItemCheckBoxClick(entry.id)} />
                                         </td>
                                       }
+                                      <td className='td-created-at'>{entry.createdDate}</td>
                                       <td className='td-counsel-time'>{entry.dateAndTime}</td>
                                       <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                                      <td className='td-mobile'>
+                                        {
+                                          entry.mobileDisplay !== 'N/A'
+                                            ? <CopyToClipboard classes='copy-contact'
+                                                textToCopy={entry.mobileDisplay}>
+                                                <span className='copy-contact-value'>{entry.mobileDisplay}</span>
+                                              </CopyToClipboard>
+                                            : entry.mobileDisplay
+                                        }
+                                      </td>
                                       <td className='td-counsel-type'>{entry.counselType}</td>
                                       <td className='td-counsel-method'>{entry.methodName}</td>
-                                      <td className='td-created-at'>{entry.createdDate}</td>
                                       <td className='td-action'>
                                         <button className='is-secondary is-table-btn'
                                           onClick={() => onItemClick(entry)}>보기</button>
@@ -203,6 +252,13 @@ function AdminReservationTable ({
                         </div>
                       </div>
                     </>
+              }
+
+              {
+                Boolean(children && dataToDisplay.length) &&
+                <div className='admin-reservation-table__cta-container'>
+                  {children}
+                </div>
               }
             </div>
       }

@@ -62,6 +62,8 @@
     .td-counsel-time {
       position: sticky;
       left: 0;
+      background-color: $background_1;
+      z-index: 1;
     }
   
     .td-name {
@@ -80,6 +82,7 @@
     .td-mobile {
       text-align: center;
       width: 12rem;
+      z-index: 0;
     }
 
     .td-mobile {
@@ -88,6 +91,7 @@
       .copy-contact {
         align-items: center;
         font-weight: bold;
+        z-index: 0;
       }
     }
   

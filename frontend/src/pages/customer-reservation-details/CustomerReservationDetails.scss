@@ -63,6 +63,18 @@
     .summary-list__item.align-center {
       align-items: center;
     }
+
+    .summary-list__item.is-customer-memo {
+      flex-direction: column;
+      align-items: flex-start;
+      row-gap: 0.8rem;
+
+      .summary-list__value {
+        text-align: left;
+        font-weight: normal;
+        color: $text_dark_grey;
+      }
+    }
   }
 
   .more-attendee {

@@ -15,22 +15,22 @@ const adminNavList = [
     routeTo: '/admin/manage-reservation'
   },
   {
+    id: 'dashboard',
+    name: '쉬는날 / 구글 캘린더',
+    icon: 'gear',
+    routeTo: '/admin/dayoffs-and-calendar'
+  },
+  {
     id: 'add-reservation-item',
     name: '예약 생성',
     icon: 'pencil',
     routeTo: '/admin/add-reservation-item'
   },
   {
-    id: 'reservation-history',
-    name: '지난 예약 보기',
-    icon: 'bulleted-list',
-    routeTo: '/admin/reservation-history'
-  },
-  {
-    id: 'dashboard',
-    name: '쉬는날 / 구글 캘린더',
-    icon: 'gear',
-    routeTo: '/admin/dayoffs-and-calendar'
+    id: 'customer-contact',
+    name: '고객 연락처',
+    icon: 'id-card',
+    routeTo: '/admin/customer-contact'
   },
   {
     id: 'send-message',
@@ -39,10 +39,10 @@ const adminNavList = [
     routeTo: '/admin/send-message'
   },
   {
-    id: 'customer-contact',
-    name: '고객 연락처',
-    icon: 'id-card',
-    routeTo: '/admin/customer-contact'
+    id: 'reservation-history',
+    name: '지난 예약 보기',
+    icon: 'bulleted-list',
+    routeTo: '/admin/reservation-history'
   },
   {
     id: 'manage-users',

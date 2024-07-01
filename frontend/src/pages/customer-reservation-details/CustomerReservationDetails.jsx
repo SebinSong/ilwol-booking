@@ -63,6 +63,7 @@ export default function CustomerReservationDetails () {
   const [isUpdatingTime, setIsUpdatingTime] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
 
+  console.log('!@# data: ', data)
   // methods
   const onDeleteClick = async () => {
     if (!window.confirm('취소된 예약은 복구가 불가합니다. 정말 취소하시겠습니까?')) { return }
@@ -134,6 +135,7 @@ export default function CustomerReservationDetails () {
     const counselDate = data.counselDate
     const isStatusPending = data?.status == 'pending'
     const isStatusConfirmed = data?.status == 'confirmed'
+    const customerMemo = pDetails.memo || ''
 
     return (
       <PageTemplate classes='page-customer-reservation-details'>
@@ -201,6 +203,15 @@ export default function CustomerReservationDetails () {
                   <span className='ml-4'>{ data.timeSlot }</span>
                 </span>
               </div>
+              
+              {
+                Boolean(customerMemo) &&
+                <div className='summary-list__item is-customer-memo'>
+                  <span className='summary-list__label'>상담 메모</span>
+                  <span className='summary-list__value'>{customerMemo}</span>
+                </div>
+              }
+              
 
               <div className='summary-list__item'>
                 <span className='summary-list__label'>상담료</span>

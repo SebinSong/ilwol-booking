@@ -68,4 +68,4 @@ connectDB((err) => {
   app.listen(API_PORT, () => {
     console.log(`Server running in ${NODE_ENV} mode on port ${API_PORT}.`.bold.yellow.underline)
   })
-}, true)
+})

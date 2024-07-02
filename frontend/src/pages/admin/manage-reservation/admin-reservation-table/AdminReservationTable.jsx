@@ -103,10 +103,10 @@ function AdminReservationTable ({
         const ArrNoCreatedAt = listClone.filter(entry => !entry.createdDateOriginal)
         
         ArrHasCreatedAt.sort((a, b) => (new Date(b.createdDateOriginal).getTime() - new Date(a.createdDateOriginal).getTime()))
-        ArrNoCreatedAt.sort((a, b) => (new Date(b.counselDateOriginal).getTime() - new Date(a.counselDateOriginal).getTime()))
+        ArrNoCreatedAt.sort((a, b) => (new Date(a.counselDateOriginal).getTime() - new Date(b.counselDateOriginal).getTime()))
         listClone = [ ...ArrHasCreatedAt, ...ArrNoCreatedAt ]
       } else {
-        listClone.sort((a, b) => (b.counselDateOriginal - a.counselDateOriginal))
+        listClone.sort((a, b) => (a.counselDateOriginal - b.counselDateOriginal))
       }
 
       return listClone

@@ -47,9 +47,13 @@ function ContactLine ({
     name,
     contact,
     contactType,
-    confirmed = [],
-    pending = []
+    records = []
   } = data
+
+  // derived-state
+  const confirmed = records.filter(record => record.status === 'confirmed')
+  const pending = records.filter(record => record.status === 'pending')
+  const cancelled = records.filter(record => record.status === 'cancelled')
 
   // methods
   const toggleContent = () => { setIsContentOpen(v => !v) }
@@ -159,6 +163,25 @@ function ContactLine ({
             <div className='history-content'>
               {
                 pending.map((entry, index) => (
+                  <div className='history-item' key={index}>
+                    <span>{`${dateReadable(entry.counselDate)} ${entry.timeSlot}`}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        }
+
+        {
+          cancelled.length > 0 &&
+          <div className='contact-reservation-history'>
+            <div className='history-type'>
+              <span className='inline-small-padding status-pill text-bg-warning mr-4'>취소</span>
+              내역 -
+            </div>
+            <div className='history-content'>
+              {
+                cancelled.map((entry, index) => (
                   <div className='history-item' key={index}>
                     <span>{`${dateReadable(entry.counselDate)} ${entry.timeSlot}`}</span>
                   </div>

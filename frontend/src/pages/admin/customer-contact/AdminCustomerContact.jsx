@@ -9,6 +9,12 @@ import ContactLine from './contact-line/ContactLine'
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
 
+// helpers
+const sortTypeList = [
+  { id: 'created-date', name: '생성날짜순', value: 'created-date' },
+  { id: 'alphabetical', name: '가나다순', value: 'alphabetical' }
+]
+
 import './AdminCustomerContact.scss'
 
 export default function AdminCustomerContact () {
@@ -18,7 +24,7 @@ export default function AdminCustomerContact () {
     isLoading: isContactsLoading,
     isError: isContactsError
   } = useGetAllContacts()
-  const [sortByDate, setSortByDate] = useState(false)
+  const [sortType, setSortType] = useState('created-date')
   const [search, setSearch] = useState('')
 
   // computed state
@@ -43,12 +49,12 @@ export default function AdminCustomerContact () {
     () => {
       const list = (contactData || []).filter(entry => entry.searchable.includes(search))
 
-      if (sortByDate) {
+      if (sortType === 'created-date') {
         list.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
       }
       return list
     },
-    [contactData, search, sortByDate]
+    [contactData, search, sortType]
   )
 
   return (
@@ -85,13 +91,19 @@ export default function AdminCustomerContact () {
                             onInput={e => setSearch(e.target.value)} />
                         </div>
 
-                        <button className='is-secondary is-extra-small sort-btn'
-                          onClick={() => setSortByDate(v => !v)}>
-                          <i className='icon-bulleted-list is-prefix'></i>
-                          <span>
-                            { sortByDate ? '가나다 순으로' : '최근 순서로' }
-                          </span>
-                        </button>
+                        <span className='selectbox is-small sort-select-el'>
+                          <select className='select'
+                            tabIndex='0'
+                            value={sortType}
+                            data-vkey='table-sort'
+                            onChange={e => setSortType(e.target.value)}>
+                            {
+                              sortTypeList.map(entry => (
+                                <option value={entry.value} key={entry.id}>{entry.name}</option>
+                              ))
+                            }
+                          </select>
+                        </span>
                       </div>
 
                       <div className='admin-contact-list'>

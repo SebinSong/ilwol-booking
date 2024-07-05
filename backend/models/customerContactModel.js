@@ -19,6 +19,16 @@ const CustomerContactSchema = new mongoose.Schema({
       message: '{VALUE} is not supported'
     }
   },
+  records: [{
+    counselDate: { type: String },
+    timeSlot: { type: String },
+    reservationId: { type: String },
+    method: { type: String },
+    status: { type: String },
+    _id: false
+  }],
+
+  // legacy fields
   pending: [{
     counselDate: { type: String },
     timeSlot: { type: String },

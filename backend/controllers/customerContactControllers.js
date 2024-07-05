@@ -49,12 +49,15 @@ const saveContactsFromReservations = async (reservations) => {
 
 const saveContactFromReservation = async (reservation) => {
   const { counselDate, timeSlot, originalReservationId = '', _id, personalDetails: pd, status } = reservation
-  const reservationId = originalReservationId || _id
+  const reservationId = String(originalReservationId || _id)
   const contactType = Boolean(pd?.mobile?.number)
     ? 'mobile'
     : Boolean(pd?.kakaoId)
       ? 'kakaoId'
       : null
+
+  if (!contactType) { return false }
+
   const contactValue = contactType === 'mobile'
     ? `${pd.mobile.prefix} ${pd.mobile.number}`
     : pd.kakaoId
@@ -71,6 +74,7 @@ const saveContactFromReservation = async (reservation) => {
   if (foundDoc) {
     const recordExists = Array.isArray(foundDoc.records) &&
       foundDoc.records.some(entry => entry.reservationId === reservationId)
+
     const newRecords = recordExists
       ? foundDoc.records.map(record => {
         return record.reservationId === reservationId

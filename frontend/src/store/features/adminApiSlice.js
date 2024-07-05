@@ -80,7 +80,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         invalidatesTags: [
           'Reservations',
           'ReservationStatus',
-          'ReservationDetailedStatus'
+          'ReservationDetailedStatus',
+          'Contacts'
         ]
       }),
 

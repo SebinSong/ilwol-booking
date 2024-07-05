@@ -63,7 +63,6 @@ export default function CustomerReservationDetails () {
   const [isUpdatingTime, setIsUpdatingTime] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
 
-  console.log('!@# data: ', data)
   // methods
   const onDeleteClick = async () => {
     if (!window.confirm('취소된 예약은 복구가 불가합니다. 정말 취소하시겠습니까?')) { return }

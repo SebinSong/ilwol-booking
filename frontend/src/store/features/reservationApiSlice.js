@@ -44,7 +44,8 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
             url: `${RESERVATION_PATH}/customer/${id}?type=${type}`,
             body: { updates }
           })
-        }
+        },
+        invalidatesTags: ['Contacts']
       }),
       deleteReservation: builder.mutation({
         query: reservationId => ({

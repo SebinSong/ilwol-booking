@@ -8,7 +8,7 @@ const {
   updateOrAddEventDetails,
   findEventByReservationIdAndDelete
 } = require('../external-services/google-calendar.js')
-const { saveContactsFromReservations } = require('./customerContactControllers.js')
+const { saveContactFromReservation } = require('./customerContactControllers.js')
 const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateToNumeric,
@@ -62,8 +62,6 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
         })
       )
       await Reservation.deleteMany({ counselDate: counselDateFilter })
-
-      await saveContactsFromReservations(docsToArchive)
     }
 
     res.status(200).json({
@@ -233,7 +231,12 @@ const postReservation = asyncHandler(async (req, res, next) => {
     optionId,
     reservationId: newReservation._id
   }).catch(err => {
-      console.log('@@ Failed to add an event item to the Google Calendar: ', err)
+    console.log('@@ Failed to add an event item to the Google Calendar: ', err)
+  })
+
+  saveContactFromReservation(newReservation)
+    .catch(err => {
+      console.log('@@ Failed to create a new user contact: ', err)
     })
 })
 
@@ -425,6 +428,9 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       } else if (mergedDoc.status !== 'cancelled') {
         updateOrAddEventDetails(reservationId, mergedDoc)
       }
+
+      // update the customer-contact accordingly
+      saveContactFromReservation(mergedDoc)
     } catch (err) {
       console.error('error caught in updateReservationDetails (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details')
@@ -509,7 +515,12 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
       })
 
       const mergedDoc = mergeObjects(doc, updates)
+
+      // update google-calendar accordingly
       updateOrAddEventDetails(reservationId, mergedDoc)
+
+      // update the customer-contact accordingly
+      saveContactFromReservation(mergedDoc)
     } catch (err) {
       console.error('error caught while updating schedule in updateReservationByCustomer (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation schedule by customer', { error: err })
@@ -570,7 +581,12 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
       })
 
       const mergedDoc = mergeObjects(doc, reorderUpdates())
+
+      // update google-calendar accordingly
       updateOrAddEventDetails(reservationId, mergedDoc)
+
+      // update the customer-contact accordingly
+      saveContactFromReservation(mergedDoc)
     } catch (err) {
       console.error('error caught while updating details in updateReservationByCustomer (reservationControllers.js): ', err)
       sendBadRequestErr(res, 'Failed to update the reservation details by customer', { error: err })

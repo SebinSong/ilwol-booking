@@ -85,7 +85,7 @@ function AdminReservationTable ({
   // local-state
   const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
-  const [sortType, setSortType] = useState('created-date') // either 'created-date' or 'reservation-date'
+  const [sortType, setSortType] = useState('booking-date') // either 'created-date' or 'reservation-date'
   const [allSelected, setAllSelected] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
 

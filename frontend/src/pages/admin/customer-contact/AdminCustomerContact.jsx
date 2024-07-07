@@ -5,6 +5,7 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import ContactLine from './contact-line/ContactLine'
+import ContactActions from './contact-actions/ContactActions'
 
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
@@ -53,7 +54,6 @@ export default function AdminCustomerContact () {
         list.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
       }
 
-      console.log('!@# sorted list: ', list)
       return list
     },
     [contactData, search, sortType]
@@ -121,6 +121,8 @@ export default function AdminCustomerContact () {
             </>
           }
         </div>
+
+        <ContactActions />
       </div>
     </AdminPageTemplate>
   )

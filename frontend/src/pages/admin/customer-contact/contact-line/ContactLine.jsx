@@ -36,7 +36,9 @@ const wrapSearchWithMarkEl = (str, search) => {
 function ContactLine ({
   data = {},
   classes = '',
-  searchValue = ''
+  searchValue = '',
+  onSelect = null,
+  selected = false
 }) {
   const navigate = useNavigate()
   const { addToastItem } = useContext(ToastContext)
@@ -74,6 +76,12 @@ function ContactLine ({
     }
   }
 
+  const onItemSelect = (e) => {
+    e.preventDefault()
+
+    onSelect && onSelect()
+  }
+
   const onMessageBtnClick = () => {
     if (contactType !== 'mobile') { return }
 
@@ -101,14 +109,15 @@ function ContactLine ({
   }, [searchValue])
 
   return (
-    <div className={cn('admin-contact-line-container', isContentOpen && 'is-content-open', classes)}>
+    <div className={cn('admin-contact-line-container', isContentOpen && 'is-content-open', selected && 'is-selected', classes)}>
       <div className='contact-line__upper-section'>
         <span className='icon-container'>
-          <i className='icon-user'></i>
+          <i className={cn(selected ? 'icon-check' : 'icon-user')}></i>
         </span>
 
-        <div className='name-and-contact'>
-          <span className='name-value'>{nameValue}</span>
+        <div className='name-and-contact'
+          onClick={onItemSelect}>
+          <span className='name-value' onClick={onItemSelect}>{nameValue}</span>
           <span className='contact-value'>{contactValue}</span>
         </div>
 

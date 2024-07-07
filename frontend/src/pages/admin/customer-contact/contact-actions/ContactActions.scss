@@ -1,0 +1,42 @@
+.contact-actions-container {
+  position: fixed;
+  padding: 1.2rem;
+  border-radius: 0.8rem;
+  border: 1px solid $text_grey;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+  background-color: $background_0;
+  box-shadow: $box-shadow_medium;
+  display: flex;
+  align-items: center;
+  column-gap: 0.8rem;
+  opacity: 0;
+  animation: reveal-container 200ms linear forwards;
+
+  .select-count {
+    display: inline-flex;
+    align-items: flex-end;
+    column-gap: 0.4rem;
+    font-weight: bold;
+    font-size: $size_7;
+    user-select: none;
+
+    .num {
+      font-size: 1.1em;
+      color: $magenta;
+    }
+  }
+
+  @keyframes reveal-container {
+    0% {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

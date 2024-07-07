@@ -3,7 +3,7 @@ import { memo } from 'react'
 import './ContactActions.scss'
 
 function ContactActions ({ classes, selectCount = 0 }) {
-  if (selectCount = 0) { return null }
+  if (selectCount === 0) { return null }
 
   // methods
   const onSendClick = () => {

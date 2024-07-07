@@ -54,7 +54,6 @@ export default function AdminCustomerContact () {
         list.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
       }
 
-      console.log('!@# sorted list: ', list)
       return list
     },
     [contactData, search, sortType]

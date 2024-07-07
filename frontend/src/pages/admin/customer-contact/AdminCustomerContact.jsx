@@ -5,6 +5,7 @@ import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import ContactLine from './contact-line/ContactLine'
+import ContactActions from './contact-actions/ContactActions'
 
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
@@ -121,6 +122,8 @@ export default function AdminCustomerContact () {
             </>
           }
         </div>
+
+        <ContactActions />
       </div>
     </AdminPageTemplate>
   )

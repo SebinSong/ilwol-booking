@@ -12,6 +12,8 @@ import StateButton from '@components/state-button/StateButton'
 import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 
+const { WarningMessage } = React.Global
+
 // hooks
 import { ToastContext } from '@hooks/useToast.js'
 import {
@@ -31,7 +33,6 @@ import {
 import './AdminAddReservationItem.scss'
 
 // helpers
-const { WarningMessage } = React.Global
 const todayDateStr = stringifyDate(new Date())
 const legendList = [
   { color: 'magenta', text: '선택됨' },
@@ -69,8 +70,7 @@ export default function AdminAddReservationItem () {
     method: 'visit',
     mobile: {
       prefix: '010',
-      firstSlot: '',
-      secondSlot: ''
+      number: ''
     }
   })
   const [errFeebackMsg, setErrFeedbackMsg] = useState('')
@@ -107,6 +107,7 @@ export default function AdminAddReservationItem () {
 
       if (numberOnly && !isStringNumberOnly(val)) { return }
 
+      errFeebackMsg && setErrFeedbackMsg('')
       setDetails(draft => {
         draft.mobile[key] = val
       })
@@ -131,14 +132,20 @@ export default function AdminAddReservationItem () {
 
   const submitHandler = async () => {
     const { mobile } = details
-    const hasMobileField = Boolean(mobile.firstSlot || mobile.secondSlot)
+    const hasMobileField = Boolean(mobile.number)
     let warningText = `[${details.counselDate} ${details.timeSlot}] 예약 아이템을 생성하시겠습니까?`
 
+    errFeebackMsg && setErrFeedbackMsg('')
+
     if (hasMobileField) {
-      // !!TODO!! - add validation for correct mobile-number format here.
-      warningText += ` 고객에게 입금 안내 문자가 날아갑니다.`
+      if (mobile.number.length < 8) {
+        return setErrFeedbackMsg('연락처 번호에 8자리를 입력하세요.')
+      } else {
+        warningText += ` 고객에게 입금 안내 문자가 날아갑니다.`
+      }
     }
     if (!window.confirm(warningText)) { return }
+
 
     try {
       const res = await createAdminReservation({
@@ -149,7 +156,7 @@ export default function AdminAddReservationItem () {
           name: details.name,
           mobile: {
             prefix: mobile.prefix,
-            number: `${mobile.firstSlot}${mobile.secondSlot}`
+            number: mobile.number
           },
           method: details.method
         }
@@ -269,20 +276,11 @@ export default function AdminAddReservationItem () {
 
                   <div className='mobile-number-wrapper'>
                     <input type='text' className='input'
-                      value={details?.mobile?.firstSlot}
-                      onInput={updateMobileFactory('firstSlot', true)}
-                      maxLength={4}
+                      value={details?.mobile?.number}
+                      onInput={updateMobileFactory('number', true)}
+                      maxLength={8}
                       inputMode='numeric'
-                      placeholder='예) 1234' />
-
-                    <span className='dash-sign'>-</span>
-
-                    <input type='text' className='input'
-                      value={details?.mobile?.secondSlot}
-                      onInput={updateMobileFactory('secondSlot', true)}
-                      maxLength={4}
-                      inputMode='numeric'
-                      placeholder='예) 1234' />
+                      placeholder='예) 12341234' />
                   </div>
                 </div>
               </div>
@@ -309,8 +307,9 @@ export default function AdminAddReservationItem () {
             </div>
 
             <Feedback type='error' classes='mt-20'
-              showError={isError}
-              message={errFeebackMsg} />
+              showError={isError || Boolean(errFeebackMsg)}
+              message={errFeebackMsg}
+              onClose={() => setErrFeedbackMsg('')} />
 
             <div className='buttons-container is-right-aligned mt-30 mb-0'>
               <StateButton classes='is-primary'

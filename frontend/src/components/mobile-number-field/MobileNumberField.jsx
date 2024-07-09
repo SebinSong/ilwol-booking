@@ -20,27 +20,25 @@ function MobileNumberField ({
   isError = false
 }) {
   const [prefix, setPrefix] = useState('010')
-  const [firstSlot, setFirstSlot] = useState('')
-  const [secondSlot, setSecondSlot] = useState('')
+  const [mobNum, setMobNum] = useState('')
 
   // method
-  const updateSlot = (val, isSecond = false) => {
-    const updateFunc = isSecond ? setSecondSlot : setFirstSlot
-
+  const updateNumber = (val) => {
     if (!isStringNumberOnly(val)) { return }
-    updateFunc(val)
+
+    setMobNum(val)
   }
 
   // effects
   useEffect(() => {
     if (onUpdate) {
       const combined = getAsString
-      ? `${prefix} ${firstSlot}${secondSlot}`
-      : { prefix, number: `${firstSlot}${secondSlot}` }
+      ? `${prefix} ${mobNum}`
+      : { prefix, number: mobNum }
 
       onUpdate(combined)
     }
-  }, [prefix, firstSlot, secondSlot])
+  }, [prefix, mobNum])
 
   useEffect(() => {
     if (initValueStr) {
@@ -51,8 +49,7 @@ function MobileNumberField ({
       }
 
       if (numberInit) {
-        setFirstSlot(numberInit.slice(0, 4))
-        setSecondSlot(numberInit.slice(4))
+        setMobNum(numberInit.trim())
       }
     }
   }, [initValueStr])
@@ -71,20 +68,11 @@ function MobileNumberField ({
 
       <div className='mobile-number-wrapper'>
         <input type='text' className={cn('input', isSmall && 'is-small', isError && 'is-error')}
-          value={firstSlot}
-          onInput={e => updateSlot(e.target.value)}
-          maxLength={4}
+          value={mobNum}
+          onInput={e => updateNumber(e.target.value)}
+          maxLength={8}
           inputMode='numeric'
-          placeholder='예) 1234' />
-
-        <span className='dash-sign'>-</span>
-
-        <input type='text' className={cn('input', isSmall && 'is-small', isError && 'is-error')}
-          value={secondSlot}
-          onInput={e => updateSlot(e.target.value, true)}
-          maxLength={4}
-          inputMode='numeric'
-          placeholder='예) 1234' />
+          placeholder='예) 12341234' />
       </div>
     </div>
   )

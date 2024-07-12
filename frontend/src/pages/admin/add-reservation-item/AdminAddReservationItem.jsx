@@ -68,10 +68,7 @@ export default function AdminAddReservationItem () {
     counselDate: '',
     timeSlot: '',
     method: 'visit',
-    mobile: {
-      prefix: '010',
-      number: ''
-    }
+    mobile: ''
   })
   const [errFeebackMsg, setErrFeedbackMsg] = useState('')
 
@@ -91,27 +88,29 @@ export default function AdminAddReservationItem () {
   }, [])
 
   // methods
-  const updateFactory = key => {
+  const updateFactory = (key, isNumberOnly = false) => {
     return e => {
       const val = e.target.value
 
+      if (isNumberOnly && !isStringNumberOnly(val)) { return }
       setDetails(draft => {
         draft[key] = val
       })
     }
   }
 
-  const updateMobileFactory = (key, numberOnly = false) => {
-    return e => {
-      const val = e.target.value
+  const updateMobile = (e, numberOnly = false) => {
+    const val = e.target.value
+    
+    if (!isStringNumberOnly(val)) { return }
 
-      if (numberOnly && !isStringNumberOnly(val)) { return }
+    const prefix = val.slice(0, 3)
+    const number = va.length > 3 ? val.slice(3) : ''
 
-      errFeebackMsg && setErrFeedbackMsg('')
-      setDetails(draft => {
-        draft.mobile[key] = val
-      })
-    }
+    setDetails(draft => {
+      draft.mobile.prefix = prefix
+      draft.mobile.number = number
+    })
   }
 
   const onCalendarSelect = value => {
@@ -132,14 +131,14 @@ export default function AdminAddReservationItem () {
 
   const submitHandler = async () => {
     const { mobile } = details
-    const hasMobileField = Boolean(mobile.number)
+    const hasMobileField = Boolean(mobile)
     let warningText = `[${details.counselDate} ${details.timeSlot}] 예약 아이템을 생성하시겠습니까?`
 
     errFeebackMsg && setErrFeedbackMsg('')
 
     if (hasMobileField) {
-      if (mobile.number.length < 8) {
-        return setErrFeedbackMsg('연락처 번호에 8자리를 입력하세요.')
+      if (mobile < 11) {
+        return setErrFeedbackMsg('연락처 번호는 11자리이어야 합니다 (예. 01012341234).')
       } else {
         warningText += ` 고객에게 입금 안내 문자가 날아갑니다.`
       }
@@ -155,8 +154,8 @@ export default function AdminAddReservationItem () {
         personalDetails: {
           name: details.name,
           mobile: {
-            prefix: mobile.prefix,
-            number: mobile.number
+            prefix: mobile.slice(0, 3),
+            number: mobile.slice(3)
           },
           method: details.method
         }
@@ -258,31 +257,19 @@ export default function AdminAddReservationItem () {
               </div>
 
               <div className='form-field'>
-                <span className='label'>
-                  연락처
-                  <span className='optional'>{'(선택사항)'}</span>
-                </span>
+                <label>
+                  <span className='label'>
+                    연락처
+                    <span className='optional'>{'(선택사항)'}</span>
+                  </span>
 
-                <div className='mobile-number-field'>
-                  <div className='selectbox'>
-                    <select className='select'
-                      value={details?.mobile?.prefix}
-                      onChange={updateMobileFactory('prefix')}>
-                      {
-                        MOBILE_PREFIXES.map(entry => <option key={entry} value={entry}>{entry}</option>)
-                      }
-                    </select>
-                  </div>
-
-                  <div className='mobile-number-wrapper'>
-                    <input type='text' className='input'
-                      value={details?.mobile?.number}
-                      onInput={updateMobileFactory('number', true)}
-                      maxLength={8}
-                      inputMode='numeric'
-                      placeholder='예) 12341234' />
-                  </div>
-                </div>
+                  <input type='text' className='input common-input-width'
+                    value={details.mobile}
+                    onInput={updateFactory('mobile', true)}
+                    maxLength={11}
+                    inputMode='numeric'
+                    placeholder='숫자 11자리 입력' />
+                </label>
               </div>
 
               <div className='form-field'>

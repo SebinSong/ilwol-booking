@@ -36,6 +36,10 @@
   
       .common-input-width {
         width: 17rem;
+
+        @include from ($small-phone) {
+          width: 20rem;
+        }
       }
     }
 

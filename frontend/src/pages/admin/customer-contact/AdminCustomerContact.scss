@@ -12,10 +12,11 @@
   .admin-contact-list {
     position: relative;
     width: 100%;
-    padding: 2rem 1.5rem;
+    padding: 0;
     border-radius: 0.8rem;
     border: 1px solid $text_grey;
     background-color: $ilwol-purple-bg;
+    overflow: hidden;
   }
 
   .search-input {

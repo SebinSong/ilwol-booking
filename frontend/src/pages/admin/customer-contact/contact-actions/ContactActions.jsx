@@ -2,12 +2,33 @@ import { memo } from 'react'
 
 import './ContactActions.scss'
 
-function ContactActions ({ classes, selectCount = 0 }) {
+function ContactActions ({
+  classes,
+  selectCount = 0,
+  onSend = () => {},
+  onCancel = () => {}
+}) {
   if (selectCount === 0) { return null }
 
   // methods
-  const onSendClick = () => {
+  const onCtaClick = (e, action) => {
+    e.stopPropagation()
 
+    switch (action) {
+      case 'cancel': {
+        onCancel && onCancel()
+        break
+      }
+      case 'send': {
+        onSend && onSend()
+        break
+      }
+    }
+  }
+  const onSendClick = (e) => {
+    e.stopPropagation()
+
+    onSend && onSend()
   }
 
   return (
@@ -17,11 +38,19 @@ function ContactActions ({ classes, selectCount = 0 }) {
         <span>개의 연락처 선택</span>
       </div>
 
-      <button className='is-secondary is-extra-small'
-        onClick={onSendClick}>
+      <div className='btns-container'>
+        <button className='is-secondary is-extra-small'
+          onClick={e => onCtaClick(e, 'cancel')}>
+          <i className='icon-trash is-prefix'></i>
+          <span>전체 취소</span>
+        </button>
+
+        <button className='is-primary is-extra-small'
+         onClick={e => onCtaClick(e, 'send')}>
           <i className='icon-mail is-prefix'></i>
-        <span>{ selectCount >= 2? '단체문자 보내기' : '문자 보내기' }</span>
-      </button>
+          <span>단체 문자</span>
+        </button>
+      </div>
     </div>
   )
 }

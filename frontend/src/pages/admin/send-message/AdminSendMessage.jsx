@@ -20,6 +20,7 @@ export default function AdminSendMessage () {
   const { addToastItem } = useContext(ToastContext)
   const { state = {} } = useLocation()
 
+  console.log('!@# state.to: ', state?.to)
   // local state
   const [details, setDetails] = useImmer({
     prefix: '010',
@@ -61,7 +62,7 @@ export default function AdminSendMessage () {
   const clearAdditionErr = () => setAdditionErr('')
   const addNumberToList = () => {
     const { prefix, firstSlot, secondSlot, mobileNumList } = details
-    const numToAdd = `${prefix}-${firstSlot}-${secondSlot}`.trim()
+    const numToAdd = `${prefix}${firstSlot}${secondSlot}`.trim()
 
     if (mobileNumList.includes(numToAdd)) {
       showAdditonError('existing-num')

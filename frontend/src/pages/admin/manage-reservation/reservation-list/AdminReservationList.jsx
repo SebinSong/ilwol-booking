@@ -12,7 +12,7 @@ import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
 
 // utils
 import { dateObjToNumeric } from '@utils'
-const combineMoblie = mobile => `${mobile.prefix}-${mobile.number.slice(0, 4)}-${mobile.number.slice(4)}`
+const combineMoblie = mobile => `${mobile.prefix}${mobile.number}`
 
 export default function AdminReservationList () {
   const navigate = useNavigate()

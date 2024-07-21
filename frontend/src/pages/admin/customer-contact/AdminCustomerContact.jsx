@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -9,6 +10,7 @@ import ContactActions from './contact-actions/ContactActions'
 
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
+import { storeSelectedContacts, clearSelectedContacts, selectStoredSelectedContacts } from '@store/features/customerContactsSlice.js'
 
 // helpers
 const sortTypeList = [
@@ -19,14 +21,18 @@ const sortTypeList = [
 import './AdminCustomerContact.scss'
 
 export default function AdminCustomerContact () {
+  const dispatch = useDispatch()
+
   // local-state
   const {
     data: contactData,
     isLoading: isContactsLoading,
     isError: isContactsError
   } = useGetAllContacts()
+  const storedCustomerContacts = useSelector(selectStoredSelectedContacts)
   const [sortType, setSortType] = useState('created-date')
   const [search, setSearch] = useState('')
+  const [selectedItems, setSelectedItems] = useState([]) // list of Ids of the selected items
 
   // computed state
   const feedbackEl = useMemo(
@@ -58,6 +64,33 @@ export default function AdminCustomerContact () {
     },
     [contactData, search, sortType]
   )
+
+  // methods
+  const onItemSelect = (data) => {
+    let updatedList
+
+    if (selectedItems.includes(data._id)) {
+      updatedList = selectedItems.filter(x => x !== data._id)
+    } else {
+      updatedList = [ ...selectedItems, data._id ]
+    }
+
+    setSelectedItems(updatedList)
+    dispatch(storeSelectedContacts(updatedList))
+  }
+
+  const onClearList = useCallback(
+    () => {
+      dispatch(clearSelectedContacts())
+    }, []
+  )
+
+  // effects
+  useEffect(() => {
+    if (storedCustomerContacts?.length) {
+      setSelectedItems(storedCustomerContacts.slice())
+    }
+  }, [])
 
   return (
     <AdminPageTemplate classes='page-admin-customer-contact'>
@@ -111,7 +144,7 @@ export default function AdminCustomerContact () {
                       <div className='admin-contact-list'>
                         {
                           dataToShow.length > 0
-                            ? dataToShow.map(entry => <ContactLine data={entry} key={entry._id} searchValue={search} />)
+                            ? dataToShow.map(entry => <ContactLine data={entry} key={entry._id} searchValue={search} selected={selectedItems.includes(entry._id)} onSelect={onItemSelect} />)
                             : <p className='helper info mt-0'>검색결과가 없습니다.</p>
                         }
                       </div>
@@ -122,7 +155,10 @@ export default function AdminCustomerContact () {
           }
         </div>
 
-        <ContactActions />
+        {
+          !isContactsLoading && !isContactsError &&
+          <ContactActions selectCount={selectedItems?.length || 0} />
+        }
       </div>
     </AdminPageTemplate>
   )

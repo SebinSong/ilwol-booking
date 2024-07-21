@@ -174,8 +174,8 @@ export default function AdminManageReservationItem () {
       '/admin/send-message',
       {
         state: {
-          to: [`${prefix}-${number.slice(0, 4)}-${number.slice(4)}`] 
-        } 
+          to: [`${prefix}${number}`] 
+        }
       }
     )
   }

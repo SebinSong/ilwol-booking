@@ -3,16 +3,31 @@
   padding: 1.2rem;
   border-radius: 0.8rem;
   border: 1px solid $text_grey;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1.5rem;
+  right: 1.5rem;
   z-index: 100;
   background-color: $background_0;
   box-shadow: $box-shadow_medium;
   display: flex;
-  align-items: center;
-  column-gap: 0.8rem;
+  align-items: flex-start;
+  flex-direction: column;
+  row-gap: 0.4rem;
   opacity: 0;
   animation: reveal-container 200ms linear forwards;
+
+  @include from ($small-phone) {
+    right: 3.2rem;
+  }
+
+  @include from (856px) {
+    right: unset;
+    left: #{$navigation-width-desktop + 3.2rem + 58rem};
+    transform: translateX(-100%);
+  }
+
+  @include from (1160px) {
+    transform: translateX(3rem);
+  }
 
   .select-count {
     display: inline-flex;
@@ -28,15 +43,15 @@
     }
   }
 
-  @keyframes reveal-container {
-    0% {
-      opacity: 0;
-      transform: translateY(-1rem);
-    }
+  .btns-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+  }
 
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes reveal-container {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 }

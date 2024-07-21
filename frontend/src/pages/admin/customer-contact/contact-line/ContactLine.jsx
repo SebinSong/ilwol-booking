@@ -58,9 +58,14 @@ function ContactLine ({
   const cancelled = records.filter(record => record.status === 'cancelled')
 
   // methods
-  const toggleContent = () => { setIsContentOpen(v => !v) }
+  const toggleContent = (e) => {
+    e.stopPropagation()
+    setIsContentOpen(v => !v) 
+  }
 
-  const copyContact = () => {
+  const copyContact = (e) => {
+    e.stopPropagation()
+
     if (navigator.clipboard && contact) {
       try {
         navigator.clipboard.writeText(contact.replace(/\s/g, ''))
@@ -79,10 +84,12 @@ function ContactLine ({
   const onItemSelect = (e) => {
     e.preventDefault()
 
-    onSelect && onSelect()
+    onSelect && onSelect(data)
   }
 
-  const onMessageBtnClick = () => {
+  const onMessageBtnClick = (e) => {
+    e.stopPropagation()
+
     if (contactType !== 'mobile') { return }
 
     const [prefix, number] = contact.split(' ')
@@ -90,7 +97,7 @@ function ContactLine ({
       '/admin/send-message',
       {
         state: {
-          to: [`${prefix}-${number.slice(0, 4)}-${number.slice(4)}`] 
+          to: [`${prefix}${number}`] 
         } 
       }
     )
@@ -109,15 +116,15 @@ function ContactLine ({
   }, [searchValue])
 
   return (
-    <div className={cn('admin-contact-line-container', isContentOpen && 'is-content-open', selected && 'is-selected', classes)}>
+    <div className={cn('admin-contact-line-container', isContentOpen && 'is-content-open', selected && 'is-selected', classes)}
+      onClick={onItemSelect}>
       <div className='contact-line__upper-section'>
         <span className='icon-container'>
           <i className={cn(selected ? 'icon-check' : 'icon-user')}></i>
         </span>
 
-        <div className='name-and-contact'
-          onClick={onItemSelect}>
-          <span className='name-value' onClick={onItemSelect}>{nameValue}</span>
+        <div className='name-and-contact'>
+          <span className='name-value'>{nameValue}</span>
           <span className='contact-value'>{contactValue}</span>
         </div>
 

@@ -1,14 +1,16 @@
+$active-bg: rgb(255, 186, 239, 0.35);
+
 .admin-contact-line-container {
   position: relative;
-  padding: 1.2rem 0;
+  padding: 1.2rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.075);
 
-  &:first-child {
-    padding-top: 0;
+  &:hover,
+  &:focus {
+    background-color: $active-bg;
   }
 
   &:last-child {
-    padding-bottom: 0;
     border-bottom: none;
   }
 
@@ -75,6 +77,7 @@
       .contact-value {
         display: block;
         color: $text_grey;
+        cursor: pointer;
       }
     }
 
@@ -101,6 +104,8 @@
   }
 
   &.is-selected {
+    background-color: $active-bg;
+
     .icon-container {
       color: $success;
       background-color: $success-bg;

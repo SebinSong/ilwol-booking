@@ -6,7 +6,7 @@ function ContactActions ({
   classes,
   selectCount = 0,
   onSend = () => {},
-  onCancel = () => {}
+  onClear = () => {}
 }) {
   if (selectCount === 0) { return null }
 
@@ -16,7 +16,7 @@ function ContactActions ({
 
     switch (action) {
       case 'cancel': {
-        onCancel && onCancel()
+        onClear && onClear()
         break
       }
       case 'send': {

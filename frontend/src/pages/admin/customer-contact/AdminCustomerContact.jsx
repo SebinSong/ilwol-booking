@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -22,6 +23,7 @@ import './AdminCustomerContact.scss'
 
 export default function AdminCustomerContact () {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // local-state
   const {
@@ -81,9 +83,33 @@ export default function AdminCustomerContact () {
 
   const onClearList = useCallback(
     () => {
+      setSelectedItems([])
       dispatch(clearSelectedContacts())
     }, []
   )
+
+  const sendGroupMessages = () => {
+    if (!selectedItems?.length) { return }
+
+    const allContacts = contactData
+    const adjustedContacts = []
+    for (const selectedId of selectedItems) {
+      const found = allContacts.find(x => x._id === selectedId)
+
+      if (found) {
+        adjustedContacts.push(found.contact.replace(/\s+/g, ''))
+      }
+    }
+
+    navigate(
+      '/admin/send-message',
+      {
+        state: {
+          to: adjustedContacts
+        }
+      }
+    )
+  }
 
   // effects
   useEffect(() => {
@@ -157,7 +183,9 @@ export default function AdminCustomerContact () {
 
         {
           !isContactsLoading && !isContactsError &&
-          <ContactActions selectCount={selectedItems?.length || 0} />
+          <ContactActions selectCount={selectedItems?.length || 0}
+            onClear={onClearList}
+            onSend={sendGroupMessages} />
         }
       </div>
     </AdminPageTemplate>

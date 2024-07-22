@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import { MOBILE_PREFIXES } from '@view-data/constants.js'
 import { isStringNumberOnly } from '@utils'
@@ -17,10 +17,12 @@ import { useSendWebMessage } from '@store/features/adminApiSlice.js'
 import './AdminSendMessage.scss'
 
 export default function AdminSendMessage () {
+  const navigate = useNavigate()
   const { addToastItem } = useContext(ToastContext)
-  const { state = {} } = useLocation()
+  const { state = {} } = useLocation() 
+  const isFromCustomerContact = state?.isFromCustomerContact || false
 
-  console.log('!@# state.to: ', state?.to)
+  console.log('!@# isFromCustomerContact: ', isFromCustomerContact)
   // local state
   const [details, setDetails] = useImmer({
     prefix: '010',
@@ -125,6 +127,17 @@ export default function AdminSendMessage () {
         <p className='admin-page-description'>[일월선녀 해달별] 태그가 달린 Web발신 문자를 전송합니다. 여러개의 번호를 추가하여 단체문자를 보낼수도 있습니다.</p>
 
         <div className='page-form-constraint'>
+          {
+            isFromCustomerContact &&
+            <div className='top-cta-container mb-20'>
+              <button className='is-secondary is-small'
+                onClick={() => navigate('/admin/customer-contact')}>
+                <i className='icon-chevron-left-circle is-prefix'></i>
+                <span className='text'>연락처 페이지로</span>
+              </button>
+            </div>
+          }
+
           <div className='form-field'>
             <span className='label'>발신번호 추가:</span>
 

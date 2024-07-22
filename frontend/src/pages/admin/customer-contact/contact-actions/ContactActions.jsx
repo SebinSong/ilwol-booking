@@ -6,25 +6,10 @@ function ContactActions ({
   classes,
   selectCount = 0,
   onSend = () => {},
-  onClear = () => {}
 }) {
   if (selectCount === 0) { return null }
 
   // methods
-  const onCtaClick = (e, action) => {
-    e.stopPropagation()
-
-    switch (action) {
-      case 'cancel': {
-        onClear && onClear()
-        break
-      }
-      case 'send': {
-        onSend && onSend()
-        break
-      }
-    }
-  }
   const onSendClick = (e) => {
     e.stopPropagation()
 
@@ -39,16 +24,10 @@ function ContactActions ({
       </div>
 
       <div className='btns-container'>
-        <button className='is-secondary is-extra-small'
-          onClick={e => onCtaClick(e, 'cancel')}>
-          <i className='icon-trash is-prefix'></i>
-          <span>전체 취소</span>
-        </button>
-
         <button className='is-primary is-extra-small'
-         onClick={e => onCtaClick(e, 'send')}>
+         onClick={onSendClick}>
           <i className='icon-mail is-prefix'></i>
-          <span>단체 문자</span>
+          <span>단체 문자 보내기</span>
         </button>
       </div>
     </div>

@@ -154,6 +154,10 @@ export function compareArrays (arr1, arr2) {
   else { return arr1.every(x => arr2.includes(x)) }
 }
 
+export function uniq (array) {
+  return Array.from(new Set(array))
+}
+
 export function genArrayFromNumber(num, nonZero = false) {
   if (!num) return []
   

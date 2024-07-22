@@ -23,6 +23,13 @@
       }
     }
 
+    .top-cta-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
     .mobile-num-list {
       display: flex;
       flex-direction: row;

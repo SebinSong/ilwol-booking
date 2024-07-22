@@ -2,6 +2,9 @@ import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+// utils
+import { uniq } from '@utils'
+
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
 import TextLoader from '@components/text-loader/TextLoader'
@@ -105,7 +108,8 @@ export default function AdminCustomerContact () {
       '/admin/send-message',
       {
         state: {
-          to: adjustedContacts
+          to: uniq(adjustedContacts),
+          isFromCustomerContact: true
         }
       }
     )

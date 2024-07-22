@@ -9,6 +9,19 @@
     margin-bottom: 1.2rem;
   }
 
+  .contact-load-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.3rem;
+
+    .selection-ctas {
+      display: flex;
+      column-gap: 0.8rem;
+    }
+  }
+
   .admin-contact-list {
     position: relative;
     width: 100%;
@@ -27,7 +40,7 @@
 
   .load-info-box {
     padding-left: 0.4rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
     font-size: 1.2rem;
   }
 

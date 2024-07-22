@@ -91,6 +91,12 @@ export default function AdminCustomerContact () {
     }, []
   )
 
+  const onSelectAll = () => {
+    const allSelections = dataToShow.map(entry => entry._id)
+    setSelectedItems(allSelections)
+    dispatch(storeSelectedContacts(allSelections))
+  }
+
   const sendGroupMessages = () => {
     if (!selectedItems?.length) { return }
 
@@ -139,12 +145,6 @@ export default function AdminCustomerContact () {
               {
                 contactData?.length > 0
                   ? <>
-                      <div className='load-info-box'>
-                        <p className='contact-load-info'>
-                          <span className='has-text-bold text-color-magenta mr-2'>{contactData.length}</span>개의 연락처가 로드됨.
-                        </p>
-                      </div>
-
                       <div className='search-bar-container'>
                         <div className='input-with-pre-icon'>
                           <i className='icon-search pre-icon'></i>
@@ -169,6 +169,27 @@ export default function AdminCustomerContact () {
                             }
                           </select>
                         </span>
+                      </div>
+
+                      <div className='load-info-box'>
+                        <p className='contact-load-info'>
+                          <span><span className='has-text-bold text-color-magenta mr-2'>{contactData.length}</span>개의 연락처</span>
+                          
+                          <div className='selection-ctas'>
+                            <button className='is-secondary is-extra-small' onClick={onSelectAll}>
+                              <i className='icon-plus-circle is-prefix'></i>
+                              전체 선택
+                            </button>
+
+                            {
+                              Boolean(selectedItems?.length) &&
+                              <button className='is-warning is-extra-small' onClick={onClearList}>
+                                <i className='icon-trash is-prefix'></i>
+                                전체 취소
+                              </button>
+                            }
+                          </div>
+                        </p>
                       </div>
 
                       <div className='admin-contact-list'>

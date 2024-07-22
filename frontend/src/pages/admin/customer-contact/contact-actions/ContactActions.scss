@@ -9,7 +9,7 @@
   background-color: $background_0;
   box-shadow: $box-shadow_medium;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   flex-direction: column;
   row-gap: 0.4rem;
   opacity: 0;
@@ -32,7 +32,7 @@
   .select-count {
     display: inline-flex;
     align-items: flex-end;
-    column-gap: 0.4rem;
+    column-gap: 0.2rem;
     font-weight: bold;
     font-size: $size_7;
     user-select: none;

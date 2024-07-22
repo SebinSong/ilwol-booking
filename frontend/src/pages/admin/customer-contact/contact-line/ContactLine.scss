@@ -5,8 +5,7 @@ $active-bg: rgb(255, 186, 239, 0.35);
   padding: 1.2rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.075);
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: $active-bg;
   }
 

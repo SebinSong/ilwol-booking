@@ -8,8 +8,40 @@ import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 // utils
 import {
   classNames as cn,
-  cloneDeep
+  cloneDeep,
+  numericDateToString,
+  humanDate
 } from '@utils'
+
+// helpers
+const displayDate = date => {
+  const dateStr = numericDateToString(date)
+  return humanDate(dateStr, { month: 'short', day: 'numeric', year: 'numeric' })
+}
+const combineDateAndTime = data => (
+  <>
+    <span>{displayDate(data.counselDate)}</span>
+    <span className='text-color-magenta ml-4'>{data.timeSlot}</span>
+  </>
+)
+const getStatus = (entry) => {
+  const status = entry.status
+  if (!status) { return null }
+
+  const nameMap = {
+    'confirmed': '확정',
+    'cancelled': '취소',
+    'pending': '대기'
+  }
+
+  const classMap = {
+    'pending': 'text-bg-validation',
+    'confirmed': 'text-bg-success',
+    'cancelled': 'text-bg-warning'
+  }
+
+  return <span className={cn('status-pill', classMap[status])}>{nameMap[status]}</span>
+}
 
 function ReservationHistoryTable ({
   data = [],
@@ -47,7 +79,7 @@ function ReservationHistoryTable ({
                 ? data.map((entry) => {
                     return (
                       <tr key={entry.id}>
-                        <td className='td-counsel-time'>{entry.dateAndTime}</td>
+                        <td className='td-counsel-time'>{combineDateAndTime(entry.data)}</td>
                         <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
                         <td className='td-contact'>
                           {
@@ -60,7 +92,7 @@ function ReservationHistoryTable ({
                           }
                         </td>
                         <td className='td-created-date'>{entry.createdDate}</td>
-                        <td className='td-status'>{entry.status}</td>
+                        <td className='td-status'>{getStatus(entry.data)}</td>
                         <td className='td-counsel-type'>{entry.counselType}</td>
                         <td className='td-action'>
                           <button className='is-secondary is-table-btn'

@@ -27,16 +27,11 @@ import {
 import './AdminReservationHistory.scss'
 
 // helpers
+const filterTypesList = () => ['pending', 'confirmed', 'cancelled']
 const displayDate = date => {
   const dateStr = numericDateToString(date)
   return humanDate(dateStr, { month: 'short', day: 'numeric', year: 'numeric' })
 }
-const combineDateAndTime = entry => (
-  <>
-    <span>{displayDate(entry.counselDate)}</span>
-    <span className='text-color-magenta ml-4'>{entry.timeSlot}</span>
-  </>
-)
 const getName = entry => {
   const { name, numAttendee } = entry.personalDetails
 
@@ -54,41 +49,14 @@ const getCounselTypeName = entry => {
     ? '관리자생성 아이템'
     : bookingOptions.find(x => x.id === entry.optionId)?.name || ''
 }
-const getStatusName = (entry) => {
-  return ({
-    'confirmed': '확정',
-    'cancelled': '취소',
-    'pending': '대기'
-  })[entry.status] || ''
-}
-const getStatus = (entry) => {
-  const status = entry.status
-  if (!status) { return null }
-
-  const nameMap = {
-    'confirmed': '확정',
-    'cancelled': '취소',
-    'pending': '대기'
-  }
-
-  const classMap = {
-    'pending': 'text-bg-validation',
-    'confirmed': 'text-bg-success',
-    'cancelled': 'text-bg-warning'
-  }
-
-  return <span className={cn('status-pill', classMap[status])}>{nameMap[status]}</span>
-}
 const getCounselMethodName = entry => COUNSEL_METHOD.find(x => x.value === entry.personalDetails.method).name || ''
 const combineDateAndTimeSearchable = entry => {
   return `${displayDate(entry.counselDate)}__${entry.timeSlot}`
 }
 const transformListEntry = entry => {
   const r = {
-    dateAndTime: combineDateAndTime(entry),
     name: getName(entry),
     contact: getContact(entry),
-    status: getStatus(entry),
     counselType: getCounselTypeName(entry),
     methodName: getCounselMethodName(entry),
     createdDate: entry.originalCreatedAt
@@ -128,9 +96,11 @@ export default function AdminReservationHistory () {
   const {
     data, isLoading, isError
   } = useGetArchivedReservations()
+  const [preSortedData, setPreSortedData] = useState(null)
   const [sortType, setSortType] = useState('created-date')
   const [search, setSearch] = useState('')
-  const [statusFilter, setStatusFilter] = useState(['pending', 'confirmed', 'cancelled'])
+  const [statusFilter, setStatusFilter] = useState(filterTypesList())
+
   // table-navigation related
   const [tableIndex, setTableIndex] = useState(0)
   const [tableUnit, setTableUnit] = useState(30)
@@ -138,18 +108,14 @@ export default function AdminReservationHistory () {
   // computed state
   const filteredAndSortedData = useMemo(
     () => {
-      if (!data?.length) { return [] }
+      if (!preSortedData) { return [] }
 
-      const list = data.map(transformListEntry)
+      const list = preSortedData[sortType]
+      return list
         .filter(entry => entry.searchable.includes(search.trim()))
         .filter(entry => statusFilter.includes(entry.data.status))
-
-      const sortFunc = getSortFunc(sortType)
-      list.sort(sortFunc)
-
-      return list
     },
-    [data, search, statusFilter, sortType]
+    [preSortedData, search, statusFilter, sortType]
   )
 
   const dataToDisplay = useMemo(
@@ -195,7 +161,7 @@ export default function AdminReservationHistory () {
     toggleStatusFilter('cancelled')
   }, [])
   const setAllStatus = () => {
-    setStatusFilter(['pending', 'confirmed', 'cancelled'])
+    setStatusFilter(filterTypesList())
   }
   const OnSearchInputDebounced = useCallback(
     debounce((e) => {
@@ -203,6 +169,18 @@ export default function AdminReservationHistory () {
     }, 300),
     []
   )
+
+  // effects
+  useEffect(() => {
+    if (data?.length) {
+      const allTransformed = data.map(transformListEntry)
+
+      setPreSortedData({
+        'created-date': cloneDeep(allTransformed).sort(getSortFunc('created-date')),
+        'booking-date': cloneDeep(allTransformed).sort(getSortFunc('booking-date'))
+      })
+    }
+  }, [data])
 
   return (
     <AdminPageTemplate classes='page-admin-reservation-history'>

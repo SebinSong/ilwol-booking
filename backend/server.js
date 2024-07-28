@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser')
 const { connectDB } = require('./db.js')
 const APP_CLIENT_PATH = path.resolve(__dirname, '../dist')
 
-
 // importing .env file
 dotenv.config({ path: path.resolve(__dirname, '.env') })
 

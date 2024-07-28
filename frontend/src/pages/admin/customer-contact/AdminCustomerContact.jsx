@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 // utils
-import { uniq } from '@utils'
+import { uniq, debounce } from '@utils'
 
 // components
 import AdminPageTemplate from '@pages/AdminPageTemplate'
@@ -84,6 +84,10 @@ export default function AdminCustomerContact () {
     dispatch(storeSelectedContacts(updatedList))
   }
 
+  const onSearchInputDebounced = useCallback(
+    debounce(e => setSearch(e.target.value), 300), []
+  )
+
   const onClearList = useCallback(
     () => {
       setSelectedItems([])
@@ -151,9 +155,8 @@ export default function AdminCustomerContact () {
 
                           <input className='input is-small search-input'
                             type='text'
-                            value={search}
                             placeholder='이름 또는 번호 입력'
-                            onInput={e => setSearch(e.target.value)} />
+                            onInput={onSearchInputDebounced} />
                         </div>
 
                         <span className='selectbox is-small sort-select-el'>
@@ -196,7 +199,7 @@ export default function AdminCustomerContact () {
                         {
                           dataToShow.length > 0
                             ? dataToShow.map(entry => <ContactLine data={entry} key={entry._id} searchValue={search} selected={selectedItems.includes(entry._id)} onSelect={onItemSelect} />)
-                            : <p className='helper info mt-0'>검색결과가 없습니다.</p>
+                            : <p className='helper info mt-0 no-result'>검색결과가 없습니다.</p>
                         }
                       </div>
                     </>

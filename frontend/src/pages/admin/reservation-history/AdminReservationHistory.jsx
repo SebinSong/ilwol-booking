@@ -19,7 +19,8 @@ import {
   numericDateToString,
   humanDate,
   humanDateWithTime,
-  cloneDeep
+  cloneDeep,
+  debounce
 } from '@utils'
 
 // css
@@ -161,7 +162,6 @@ export default function AdminReservationHistory () {
     }, [filteredAndSortedData, tableUnit, tableIndex]
   )
 
-  // computed state
   const feedbackEl = useMemo(
     () => {
       const content = isLoading
@@ -197,6 +197,12 @@ export default function AdminReservationHistory () {
   const setAllStatus = () => {
     setStatusFilter(['pending', 'confirmed', 'cancelled'])
   }
+  const OnSearchInputDebounced = useCallback(
+    debounce((e) => {
+      setSearch(e.target.value)
+    }, 300),
+    []
+  )
 
   return (
     <AdminPageTemplate classes='page-admin-reservation-history'>
@@ -263,9 +269,8 @@ export default function AdminReservationHistory () {
 
                         <input className='input'
                           type='text'
-                          value={search}
                           placeholder='이름/연락처/etc. 검색'
-                          onInput={e => setSearch(e.target.value)} />
+                          onInput={OnSearchInputDebounced} />
                       </div>
 
                       <TableNavigation classes='history-table-navigation'

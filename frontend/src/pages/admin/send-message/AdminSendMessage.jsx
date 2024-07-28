@@ -22,7 +22,6 @@ export default function AdminSendMessage () {
   const { state = {} } = useLocation() 
   const isFromCustomerContact = state?.isFromCustomerContact || false
 
-  console.log('!@# isFromCustomerContact: ', isFromCustomerContact)
   // local state
   const [details, setDetails] = useImmer({
     prefix: '010',

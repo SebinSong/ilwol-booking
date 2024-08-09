@@ -106,25 +106,21 @@ export const testimonials = [
 
 export const youtubeData = [
   {
-    id: genId(),
     title: "선녀님의 영화 '파묘' 감상평",
-    description: "무속을 주제로 한 2024년 국내 천만관객 영화 '파묘' 에 대해 얘기를 해보았습니다. " +
-      "현직 무당으로써 느낀 감상평 및, 무속 전문가에게서만 들을 수 있는 중요 포인트에 대한 해설을 해주시는 흥미로운 영상입니다. 채널의 가장 인기 컨텐츠 중 하나입니다!",
-    imgSrc: 'https://img.youtube.com/vi/C52vu9F-cuk/0.jpg',
-    url: 'https://youtu.be/C52vu9F-cuk'
+    videoId: 'C52vu9F-cuk',
+    id: 'C52vu9F-cuk',
+    date: '2024.03.15'
   },
   {
-    id: genId(),
-    title: "어도어 '민희진' 대표의 사주 분석",
-    description: "그룹 뉴진스의 제작자이자 어머니로 불리는 민희진 대표의 사주 풀이에 대한 영상입니다. 하이브 그룹과의 분쟁은 어떤식으로 진행될 지, 민대표의 향후 미래는 어떠한 모습일 지에 관한 선녀님의 흥미로운 분석입니다.",
-    imgSrc: 'https://img.youtube.com/vi/vdEfaLyxPEY/0.jpg',
-    url: 'https://youtu.be/vdEfaLyxPEY'
+    title: "민희진 사주 분석",
+    videoId: 'vdEfaLyxPEY',
+    id: 'vdEfaLyxPEY',
+    date: '2024.05.20'
   },
   {
-    id: genId(),
-    title: "죽음을 앞둔 사람은 무당한테 어떻게 보일까?",
-    description: "2023년 말 세상을 떠난 배우 '이선균'씨 사건을 맞아, 죽음을 주제로 선녀님과 대화를 해보았습니다. 생과 사를 스스로 결정하는 일에 대하여, 신을 모시는 일을 오래 해오신 무속 전문가의 심도깊은 견해를 주십니다.",
-    imgSrc: 'https://img.youtube.com/vi/Jb3BRj37mAo/0.jpg',
-    url: 'https://youtu.be/Jb3BRj37mAo'
+    title: "죽음을 앞둔 사람에게 보이는 징조",
+    videoId: 'Jb3BRj37mAo',
+    id: 'Jb3BRj37mAo',
+    date: '2024.01.30'
   }
 ]

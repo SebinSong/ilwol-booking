@@ -30,6 +30,10 @@
 
   .is-type-youtube & {
     padding: 1.2rem;
+
+    @include from ($large-phone) {
+      padding: 2rem;
+    }
   }
 }
 
@@ -211,123 +215,104 @@
 .carousel-youtube-card {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
+  justify-content: space-between;
   gap: 1rem;
   border-radius: 1.2rem;
   border: 1px solid $inactive-grey;
-  width: calc(100vw - 3rem);
+  width: calc(100vw - 2.4rem);
+  max-width: 43rem;
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: $box-shadow_deep-light;
   scroll-snap-align: center;
   padding: 1.2rem;
-  cursor: pointer;
 
-  @include from ($small-phone) {
-    width: 39rem;
-    gap: 1.2rem;
-    padding: 1.6rem;
-  }
-
-  @include from ($large-phone) {
-    width: 52rem;
-    gap: 1.6rem;
-    padding: 2rem;
-  }
-
-  .youtube-img-container {
+  .video-container {
     position: relative;
-    display: inline-flex;
-    flex-shrink: 0;
-    width: 38%;
-    max-width: 15rem;
+    width: 100%;
     height: auto;
-    border-radius: 0.8rem;
-    overflow: hidden;
-
-    @include from ($small-phone) {
-      border-radius: 1.2rem;
-      width: 30%;
-    }
-
-    .img-aspect-ratio-box {
-      position: relative;
-      display: block;
-      width: 100%;
-      padding-top: 76.08%;
-      height: auto;
-    }
+    background-color: #ccccd0;
 
     &::after {
       content: '';
       position: absolute;
-      z-index: 0;
+      top: 0;
+      left: 0;
       display: block;
       width: 100%;
       height: 100%;
-      background-color: $neautral-bg;
-      top: 0;
-      left: 0;
-      animation: img-loading-ani 1.2s linear infinite alternate;
+      background-color: #ccccd0;
+      animation: video-loading-ani 900ms linear infinite alternate;
+      z-index: 0;
     }
 
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
+    iframe {
+      position: relative;
+      display: block;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 2/1;
       z-index: 1;
-      opacity: 0;
-      transition: opacity 300ms;
-    }
-
-    &.is-loaded {
-      box-shadow: $box-shadow_light;
-
-      &::after {
-        animation: none;
-      }
-
-      img {
-        opacity: 1;
-      }
     }
   }
 
-  .youtube-details {
+  &.is-loaded {
+    .video-container::after {
+      animation: none;
+    }
+  }
+
+  .video-title {
+    position: relative;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    align-items: flex-start;
+    justify-content: space-between;
 
-    .details-title {
-      font-size: 1.6rem;
+    .title-block {
+      display: flex;
+      align-items: flex-start;
+      column-gap: 0.4rem;
+      margin-right: 1rem;
+      color: $text_0;
+      font-size: $size_6;
       font-weight: bold;
-      margin-bottom: 0.6rem;
+      padding-left: 0.4rem;
+
+      i {
+        font-size: 1.15em;
+      }
     }
 
-    .details-desc {
-      font-size: 1.3rem;
+    .video-date {
+      display: inline-block;
+      font-size: $size_7;
+      margin-left: 0.8rem;
       color: $text_dark_grey;
+      padding-right: 0.4rem;
+    }
+  }
+
+  @include from ($small-phone) {
+    width: 34rem;
+    max-width: unset;
+    padding: 1.6rem;
+  }
+
+  @include from ($large-phone) {
+    width: 38rem;
+    padding: 2rem;
+  }
+
+  @include from ($tablet) {
+    @include from_v (850px) {
+      width: 52rem;
     }
 
-    @include from ($small-phone) {
-      .details-title {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
-
-      .details-desc {
-        font-size: 1.4rem;
-      }
-    }
-
-    @include from ($large-phone) {
-      .details-title {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
+    @include from_v (1020px) {
+      width: 63rem;
     }
   }
 
@@ -342,8 +327,8 @@
     border-color: $text_dark_grey;
   }
 
-  @keyframes img-loading-ani {
-    0% { background-color: #e1e1e6; }
-    100% { background-color: #d5d5dc; }
+  @keyframes video-loading-ani {
+    0% { opacity: 0.875; }
+    100% { opacity: 0.425; }
   }
 }

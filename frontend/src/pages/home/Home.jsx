@@ -61,7 +61,7 @@ export default function Home () {
                   <div className='home-carousel-container mt-30'>
                     <span className='youtube-news-tag'>
                       <i className='icon-youtube is-prefix'></i>
-                      <span className='youtube-text'>유튜브 소식</span>
+                      <span className='youtube-text'>유튜브 영상보기</span>
                     </span>
                     <CarouselSlider classes='home-youtube-carousel' type='youtube' />
                   </div>

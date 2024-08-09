@@ -15,7 +15,6 @@ function CarouselReviewCard ({
   index = 1000
 }) {
   // local state
-  const rootEl = useRef(null)
   const contentEl = useRef(null)
 
   // effects

@@ -181,13 +181,14 @@ $home-small-width: 420px;
 
   .button-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 1.2rem;
 
     .booking-btn,
     .introduction-btn {
-      min-width: 20rem;
+      min-width: 16rem;
     }
 
     .introduction-btn {
@@ -196,24 +197,15 @@ $home-small-width: 420px;
     }
 
     @include until ($home-small-width) {
-      flex-direction: row;
-      justify-content: center;
       padding: 0 1.5rem;
 
       .booking-btn,
       .introduction-btn {
-        min-width: unset;
-        font-size: $size_7;
-      }
-
-      .booking-btn {
-        min-width: 14rem;
+        font-size: $size_6;
       }
     }
 
-    @include until (380px) {
-      justify-content: space-between;
-
+    @include until (390px) {
       .booking-btn,
       .introduction-btn {
         min-width: unset;
@@ -221,6 +213,7 @@ $home-small-width: 420px;
         padding-left: 1.2rem;
         padding-right: 1.2rem;
         border-radius: 0.8rem;
+        font-size: $size_7;
       }
 
       .booking-btn {
@@ -514,12 +507,22 @@ $home-small-width: 420px;
     }
 
     @include from ($small-phone) {
-      width: 42rem;
+      width: 38rem;
       border-radius: 1.2rem;
     }
 
-    @include from ($small-phone) {
-      width: 55rem;
+    @include from ($large-phone) {
+      width: 42rem;
+    }
+
+    @include from ($tablet) {
+      @include from_v (850px) {
+        width: 56rem;
+      }
+
+      @include from_v (1020px) {
+        width: 67rem;
+      }
     }
   }
 
@@ -536,7 +539,7 @@ $home-small-width: 420px;
     cursor: pointer;
     margin: 0 auto 4rem;
 
-    @include from ($home-small-width) {
+    @include from ($small-phone) {
       align-items: center;
       border-radius: 1.2rem;
       width: 38rem;
@@ -571,6 +574,24 @@ $home-small-width: 420px;
         width: 100%;
         padding-top: 76.08%;
         height: auto;
+
+        i.icon-video {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 3.6rem;
+          height: 3.6rem;
+          border-radius: 0.8rem;
+          background-color: rgba(0, 0, 0, 0.575);
+          color: $background_1;
+          font-size: 1.8rem;
+          line-height: 1;
+          z-index: 3;
+        }
       }
 
       &::after {
@@ -621,6 +642,15 @@ $home-small-width: 420px;
         font-weight: bold;
         margin-bottom: 0.6rem;
 
+        .title-link-icon {
+          display: inline-block;
+          width: 1.6rem;
+          height: 1.6rem;
+          margin-left: 0.2rem;
+          transform: translateY(2px);
+          color: inherit;
+        }
+
         @include from ($home-small-width) {
           margin-bottom: 0.4rem;
         }
@@ -636,6 +666,11 @@ $home-small-width: 420px;
     &:focus {
       .details-title {
         text-decoration: underline;
+      }
+
+      .img-aspect-ratio-box i.icon-video {
+        transition: background-color 200ms linear;
+        background-color: #000;
       }
     }
   }

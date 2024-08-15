@@ -102,6 +102,9 @@
 
     @include from ($large-phone) {
       width: calc(100vw - #{$navigation-width-desktop});
+      margin-left: unset;
+      margin-right: unset;
+      max-width: unset;
     }
   }
 }

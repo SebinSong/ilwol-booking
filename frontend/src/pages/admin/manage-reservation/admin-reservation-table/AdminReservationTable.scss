@@ -12,8 +12,7 @@
 
   &__content {
     position: relative;
-    width: max-content;
-    max-width: 100%;
+    width: 100%;
 
     &.is-hidden {
       overflow: hidden;
@@ -45,8 +44,11 @@
 
   &__table {
     position: relative;
-    width: max-content;
-    max-width: 100%;
+    width: 100%;
+
+    table {
+      min-width: 100%;
+    }
   
     .td-counsel-time {
       font-weight: 800;

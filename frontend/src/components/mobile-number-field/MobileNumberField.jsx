@@ -24,9 +24,9 @@ function MobileNumberField ({
 
   // method
   const updateNumber = (val) => {
-    if (!isStringNumberOnly(val)) { return }
+    const sanitized = val.replace(/\D/g, '') // strip out non-number characters.
 
-    setMobNum(val)
+    setMobNum(sanitized)
   }
 
   // effects
@@ -70,7 +70,6 @@ function MobileNumberField ({
         <input type='text' className={cn('input', isSmall && 'is-small', isError && 'is-error')}
           value={mobNum}
           onInput={e => updateNumber(e.target.value)}
-          maxLength={8}
           inputMode='numeric'
           placeholder='예) 12341234' />
       </div>

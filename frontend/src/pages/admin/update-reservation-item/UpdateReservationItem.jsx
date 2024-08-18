@@ -104,9 +104,14 @@ export default function AdminUpdateReservationItem () {
 
   // memoized computed props
   const enableUpdateBtn = useMemo(() => {
+    const requiredKeys = [
+      'counselDate', 'timeSlot', 'optionId', 'method',
+      'numAttendee', 'name', 'mobile'
+    ]
     return Boolean(details.timeSlot) &&
-      Object.entries(details).some(
-        ([key, value]) => Boolean(value) &&  originalData[key] !== value
+      ( 
+        details.calendarMemo !== originalData.calendarMemo ||
+        requiredKeys.some((key) => Boolean(details[key]) && originalData[key] !== details[key])
       )
   }, [details])
   const occupiedTimeSlots = useMemo(() => {
@@ -231,6 +236,7 @@ export default function AdminUpdateReservationItem () {
       }
     }
 
+    // compose updates for personalDetails field
     for (const keyName of ['method', 'numAttendee', 'name', 'mobile']) {
       const value = details[keyName]
       if (value === originalData[keyName]) { continue }

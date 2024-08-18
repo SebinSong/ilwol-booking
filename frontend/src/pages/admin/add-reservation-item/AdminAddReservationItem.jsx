@@ -92,25 +92,12 @@ export default function AdminAddReservationItem () {
     return e => {
       const val = e.target.value
 
-      if (isNumberOnly && !isStringNumberOnly(val)) { return }
       setDetails(draft => {
-        draft[key] = val
+        draft[key] = isNumberOnly
+          ? val.replace(/\D/g, '') // strip out non-number characters.
+          : val
       })
     }
-  }
-
-  const updateMobile = (e, numberOnly = false) => {
-    const val = e.target.value
-    
-    if (!isStringNumberOnly(val)) { return }
-
-    const prefix = val.slice(0, 3)
-    const number = va.length > 3 ? val.slice(3) : ''
-
-    setDetails(draft => {
-      draft.mobile.prefix = prefix
-      draft.mobile.number = number
-    })
   }
 
   const onCalendarSelect = value => {

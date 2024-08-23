@@ -132,8 +132,9 @@ export default function CustomerReservationDetails () {
     const isAdminGenerated = data.optionId === 'admin-generated'
     const isOverseasOption = data.optionId === 'overseas-counsel'
     const counselDate = data.counselDate
-    const isStatusPending = data?.status == 'pending'
-    const isStatusConfirmed = data?.status == 'confirmed'
+    const isStatusPending = data?.status === 'pending'
+    const isStatusConfirmed = data?.status === 'confirmed'
+    const isStatusCancelled = data?.status === 'cancelled'
     const customerMemo = pDetails.memo || ''
 
     return (
@@ -186,16 +187,19 @@ export default function CustomerReservationDetails () {
               {
                 Boolean(!isAdminGenerated && pDetails.method) &&
                 <CounselMethodRow method={pDetails.method}
-                  disableUpdate={isOverseasOption}
+                  disableUpdate={isOverseasOption || isStatusCancelled}
                   onUpdateSuccess={refetch} />
               }
   
               <div className='summary-list__item align-center'>
                 <span className='summary-list__label'>
                   <span>날짜/시간</span>
-                  <button className='is-small is-secondary modify-btn'
-                    type='button'
-                    onClick={updateModeOn}>변경</button>
+                  {
+                    !isStatusCancelled &&
+                    <button className='is-small is-secondary modify-btn'
+                      type='button'
+                      onClick={updateModeOn}>변경</button>
+                  }
                 </span>
                 <span className='summary-list__value'>
                   <span>{ humanDate(numericDateToString(data.counselDate), { month: 'short', day: 'numeric', year: 'numeric' }) }</span>

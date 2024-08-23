@@ -6,6 +6,21 @@ export const testimonials = [
   {
     id: genId(),
     type: 'visit-review',
+    name: "이희* 님",
+    date: '2024년 8월',
+    content: '주변에 엄청 홍보중입니다.<br/>지인들이 선녀님 뵙고 오면, 다들 다른 곳과 다르게 희망을 준다고 그러네요!'
+  },
+  {
+    id: genId(),
+    type: 'youtube-feedback',
+    name: "김나인 님(유튜브 출연)",
+    date: '2024년 8월',
+    content: '저는 이번에 선녀님 만나고 소름 돋으며 제 인생이 확 바꼈습니다. 신기한 삶을 살고 있어요^^.<br/>월별로 얘기해주신거 진짜 소름돋아요~ 현재 7~8월 얘기하신 다른곳에서의 합작, 영역확대 진행중이예요. ' +
+      '이게 말이 되나용? 얘기하신 내년꺼.. 기대하고 있습니당'
+  },
+  {
+    id: genId(),
+    type: 'visit-review',
     name: "김지* 님",
     date: '2024년 7월',
     content: '안녕하세요 선생님. 오늘 상담해주셔서 많은 위안이 되었습니다. 힘든 시간이었는데, 앞으로 잘 극복해보도록 하겠습니다. 진심으로 감사합니다.'
@@ -52,13 +67,6 @@ export const testimonials = [
     type: 'youtube-feedback',
     date: displayDate('2024-04-04'),
     content: '해달별쌤은~ 예쁘시고 말도 우아~하게 잘하시고 점도 디테일하게 봐주시는데, 시간이 흐르고 되돌아보믄.. 너무 잘맞아 소오름! 항상 감사드리며 응원합니데 :)'
-  },
-  {
-    id: genId(),
-    name: '위연* 님',
-    type: 'visit-review',
-    date: displayDate('2024-04-02'),
-    content: '선생님~ 지난번에 보내주신 노트보면서 감사하고~ 항상 충전하고 있어요!!<br/>재수 금전 영업이 굳입니다요!!'
   },
   {
     id: genId(),

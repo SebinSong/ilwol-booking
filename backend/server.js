@@ -15,7 +15,8 @@ const { API_PORT, NODE_ENV, NUM_WORKERS = 2 } = process.env
 
 if (cluster.isMaster) {
   console.log(`[Master] Spawning ${NUM_WORKERS} child-processes...`.bold.brightGreen)
-  for (let i=0; i<NUM_WORKERS; i++) {
+  const num = parseInt(NUM_WORKERS)
+  for (let i=0; i<num; i++) {
     cluster.fork()
   }
 } else {

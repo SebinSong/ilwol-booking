@@ -22,7 +22,8 @@ export default function AdminReservationList () {
     isLoading: isLoadingReservations,
     isError: isReservationError
   }] = useGetAdminReservations()
-  const [msgIdList, setMsgIdList] = useState([])
+  const [pendingMsgIdList, setPendingMsgIdList] = useState([])
+  const [confirmedMsgIdList, setConfirmedMsgIdList] = useState([])
 
   // computed state
   const cancelledData = useMemo(
@@ -52,8 +53,10 @@ export default function AdminReservationList () {
     }
   }
 
-  const onSendMsgClick = () => {
-    const mobileNumArr = pendingData
+  const onSendMsgClick = (type = 'pending') => {
+    const dataToUse = type === 'pending' ? pendingData : confirmedData
+    const msgIdList = type === 'pending' ? pendingMsgIdList : confirmedMsgIdList
+    const mobileNumArr = dataToUse
       .filter(x => msgIdList.includes(x._id) && x.personalDetails?.mobile?.number)
       .map(x => combineMoblie(x.personalDetails.mobile))
 
@@ -62,14 +65,19 @@ export default function AdminReservationList () {
       { 
         state: { 
           to: mobileNumArr,
-          autoMsg: `안녕하세요.\r\n예약확정, 관리, 노쇼방지를 위해 선입금주시도록 운영하고 있어요. 양해를 부탁드립니다. ^^ [우리은행 심순애 1002 358 833662] 현장지불이시면 답신 부탁드립니다.\r\n\r\n감사합니다!\r\n즐거운 하루 되세요~! ^^♡`
+          autoMsg: type === 'pending'
+            ? `안녕하세요.\r\n예약확정, 관리, 노쇼방지를 위해 선입금주시도록 운영하고 있어요. 양해를 부탁드립니다. ^^ [우리은행 심순애 1002 358 833662] 현장지불이시면 답신 부탁드립니다.\r\n\r\n감사합니다!\r\n즐거운 하루 되세요~! ^^♡`
+            : ''
         }
       }
     )
   }
 
-  const onTableSelectionChange = useCallback((list) => {
-    setMsgIdList(list)
+  const onPendingTableSelectionChange = useCallback((list) => {
+    setPendingMsgIdList(list)
+  }, [])
+  const onConfirmedTableSelectionChange = useCallback((list) => {
+    setConfirmedMsgIdList(list)
   }, [])
 
   const feedbackEl = isLoadingReservations
@@ -92,13 +100,13 @@ export default function AdminReservationList () {
           <AdminReservationTable
             list={pendingData}
             usetableSelection={true}
-            onSelectionChange={onTableSelectionChange}
+            onSelectionChange={onPendingTableSelectionChange}
             emptyMessage='해당 데이터가 없습니다.'
             toggleBtnText='확정 대기중인 예약'
             toggleBtnType='validation'>
             <button className='is-secondary is-small' type='button'
-              onClick={onSendMsgClick}
-              disabled={!msgIdList.length}>
+              onClick={() => onSendMsgClick('pending')}
+              disabled={!pendingMsgIdList.length}>
               <span className='icon-mail is-prefix'></span>
               전체문자 전송
             </button>
@@ -108,9 +116,18 @@ export default function AdminReservationList () {
         <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={confirmedData}
+            usetableSelection={true}
+            onSelectionChange={onConfirmedTableSelectionChange}
             emptyMessage='해당 데이터가 없습니다.'
             toggleBtnText='확정된 예약'
-            toggleBtnType='success' />
+            toggleBtnType='success'>
+            <button className='is-secondary is-small' type='button'
+              onClick={() => onSendMsgClick('confirmed')}
+              disabled={!confirmedMsgIdList.length}>
+              <span className='icon-mail is-prefix'></span>
+              전체문자 전송
+            </button>
+          </AdminReservationTable>
         </section>
 
         <section className='admin-page-section mb-30 pb-0'>

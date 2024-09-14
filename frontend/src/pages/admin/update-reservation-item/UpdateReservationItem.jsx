@@ -108,12 +108,23 @@ export default function AdminUpdateReservationItem () {
       'counselDate', 'timeSlot', 'optionId', 'method',
       'numAttendee', 'name', 'mobile'
     ]
+
+    const checked = Boolean(details.timeSlot) &&
+    ( 
+      details.calendarMemo !== originalData.calendarMemo ||
+      requiredKeys.some((key) => {
+        const keycheck = Boolean(details[key]) && originalData[key] !== details[key]
+        if (keycheck) { console.log('true key: ', key) }
+        return keycheck
+      })
+    )
     return Boolean(details.timeSlot) &&
       ( 
         details.calendarMemo !== originalData.calendarMemo ||
         requiredKeys.some((key) => Boolean(details[key]) && originalData[key] !== details[key])
       )
   }, [details])
+
   const occupiedTimeSlots = useMemo(() => {
     return details?.counselDate && bookingData && bookingData[details.counselDate]
       ? Object.keys(bookingData[details.counselDate])
@@ -163,8 +174,10 @@ export default function AdminUpdateReservationItem () {
         numAttendee:pDetails.numAttendee,
         name: pDetails.name,
         mobile: `${pDetails.mobile?.prefix || ''} ${pDetails.mobile?.number || ''}`,
-        calendarMemo: data?.calendarMemo || ''
+        calendarMemo: data?.calendarMemo || '',
+        status: data.status
       })
+
       setDetails(draft => {
         draft.counselDate = dateStr
         draft.timeSlot = data.timeSlot

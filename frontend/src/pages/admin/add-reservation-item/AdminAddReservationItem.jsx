@@ -141,8 +141,8 @@ export default function AdminAddReservationItem () {
         personalDetails: {
           name: details.name,
           mobile: {
-            prefix: mobile.slice(0, 3),
-            number: mobile.slice(3)
+            prefix: hasMobileField ? mobile.slice(0, 3) : '010',
+            number: hasMobileField ? mobile.slice(3) : ''
           },
           method: details.method
         }

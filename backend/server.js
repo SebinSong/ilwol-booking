@@ -1,5 +1,4 @@
 const path = require('path')
-const os = require('os')
 const cluster = require('cluster')
 
 const dotenv = require('dotenv')
@@ -12,11 +11,9 @@ const { connectDB } = require('./db.js')
 dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 // local variables
-const { API_PORT, NODE_ENV } = process.env
+const { API_PORT, NODE_ENV, NUM_WORKERS = 2 } = process.env
 
 if (cluster.isMaster) {
-  const NUM_WORKERS = 4
-
   console.log(`[Master] Spawning ${NUM_WORKERS} child-processes...`.bold.brightGreen)
   for (let i=0; i<NUM_WORKERS; i++) {
     cluster.fork()

@@ -7,7 +7,7 @@
     "dev-client": "vite --open",
     "dev-server": "nodemon backend/server",
     "seed-data": "node backend/seeder",
-    "start": "pm2 start pm2.config.js",
+    "start": "pm2 start pm2.config.js --env production",
     "build": "npm install && vite build --mode production --emptyOutDir",
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

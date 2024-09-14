@@ -7,7 +7,7 @@
     "dev-client": "vite --open",
     "dev-server": "nodemon backend/server",
     "seed-data": "node backend/seeder",
-    "start": "node backend/server",
+    "start": "pm2 start ./backend/server.js -i max",
     "build": "npm install && vite build --mode production --emptyOutDir",
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -26,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.2",
     "morgan": "^1.10.0",
+    "pm2": "^5.4.2",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
     "react-dom": "^18.2.0",
@@ -50,6 +51,6 @@
     "gh-pages": "^6.0.0",
     "nodemon": "^3.0.1",
     "sass": "^1.66.1",
-    "vite": "^4.4.11"
+    "vite": "^5.4.5"
   }
 }

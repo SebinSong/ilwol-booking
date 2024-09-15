@@ -1,3 +1,5 @@
+// Reference: MongoDB query document: https://www.mongodb.com/docs/manual/tutorial/query-documents/
+
 const mongoose = require('mongoose')
 const colors = require('colors')
 const path = require('path')

@@ -1,4 +1,5 @@
-// Reference: MongoDB query document: https://www.mongodb.com/docs/manual/tutorial/query-documents/
+// Reference-1: MongoDB query document: https://www.mongodb.com/docs/manual/tutorial/query-documents/
+// Reference-2: MongoDB query operator: https://www.mongodb.com/docs/manual/reference/operator/
 
 const mongoose = require('mongoose')
 const colors = require('colors')

@@ -25,8 +25,7 @@ import { ToastContext } from '@hooks/useToast.js'
 import {
   useGetDetailedReservationStatus,
   useGetDayoffs,
-  useUpdateDayoffs,
-  useArchiveOldReservations
+  useUpdateDayoffs
 } from '@store/features/adminApiSlice.js'
 
 import './AdminDayoffsAndCalendar.scss'
@@ -87,10 +86,6 @@ export default function AdminDashboard ({
     isLoading: isUpdatingDayoffs,
     isError: isDayoffUpdateError,
   }] = useUpdateDayoffs()
-  const [_archiveOldReservations, {
-    isLoading: isArchiving,
-    isError: isArchivingError
-  }] = useArchiveOldReservations()
 
   // computed-state
   const isUpdateEnabled = useMemo(
@@ -119,13 +114,7 @@ export default function AdminDashboard ({
 
   // effects
   useEffect(() => {
-    fetchStatusData().then((succeeded) => {
-      // run this request behind the scene.
-
-      if (succeeded === true) {
-        archiveOldReservations()
-      }
-    })
+    fetchStatusData()
   }, [])
   useEffect(() => {
     if (Array.isArray(dayOffsData)) {
@@ -179,14 +168,6 @@ export default function AdminDashboard ({
         heading: '업데이트 오류!',
         content: '쉬는 날 업데이트 중 에러가 발생하였습니다. 다시 시도해 주세요.'
       })
-    }
-  }
-
-  const archiveOldReservations = async () => {
-    try {
-      await _archiveOldReservations()
-    } catch (err) {
-      console.error('Failed to archive the old reservations data: ', err)
     }
   }
 

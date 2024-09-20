@@ -62,6 +62,11 @@ const numericDateToString = (dateNum) => {
   return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
 }
 
+const getDateInSeoul = () => {
+  const date_str_seoul = new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })
+  return new Date(date_str_seoul)
+}
+
 const addTimeToDate = (date, timeMillis) => {
   const d = new Date(date)
   d.setTime(d.getTime() + timeMillis)
@@ -185,6 +190,7 @@ module.exports = {
   sendResourceNotFound,
   checkRequiredFieldsAndThrow,
   stringifyDate,
+  getDateInSeoul,
   dateToNumeric,
   dateObjToNum,
   numericDateToString,

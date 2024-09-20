@@ -8,7 +8,10 @@ import AdminReservationTable from '../admin-reservation-table/AdminReservationTa
 import AccordionButton from '@components/accordion/accordion-button/AccordionButton'
 
 // hooks
-import { useGetAdminReservations } from '@store/features/adminApiSlice.js'
+import {
+  useGetAdminReservations,
+  useArchiveOldReservations
+} from '@store/features/adminApiSlice.js'
 
 // utils
 import { dateObjToNumeric } from '@utils'
@@ -22,6 +25,10 @@ export default function AdminReservationList () {
     isLoading: isLoadingReservations,
     isError: isReservationError
   }] = useGetAdminReservations()
+  const [_archiveOldReservations, {
+    isLoading: isArchiving,
+    isError: isArchivingError
+  }] = useArchiveOldReservations()
   const [pendingMsgIdList, setPendingMsgIdList] = useState([])
   const [confirmedMsgIdList, setConfirmedMsgIdList] = useState([])
 
@@ -45,9 +52,18 @@ export default function AdminReservationList () {
   }, [])
 
   // methods
+  const archiveOldReservations = async () => {
+    try {
+      await _archiveOldReservations()
+    } catch (err) {
+      console.error('Failed to archive the old reservations data: ', err)
+    }
+  }
+
   const loadReservationData = async () => {
     try {
       await getReservations({ from: dateObjToNumeric(new Date()) })
+      archiveOldReservations()
     } catch (err) {
       console.error('AdminManageReservation.jsx caught: ', err)
     }

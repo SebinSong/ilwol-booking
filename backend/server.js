@@ -30,5 +30,5 @@ if (cluster.isMaster) {
     app.listen(API_PORT, () => {
       console.log(`[${process.pid}] Server running in ${NODE_ENV} mode on port ${API_PORT}.`.bold.yellow.underline)
     })
-  })
+  }, true)
 }

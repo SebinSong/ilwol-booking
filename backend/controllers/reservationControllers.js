@@ -13,6 +13,7 @@ const asyncHandler = require('../middlewares/asyncHandler.js')
 const {
   dateToNumeric,
   dateObjToNum,
+  getDateInSeoul,
   numericDateToString,
   sendBadRequestErr,
   checkRequiredFieldsAndThrow,
@@ -27,7 +28,7 @@ const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = req
 
 // helper
 const archiveOldReservation = asyncHandler(async (req, res, next) => {
-  const dateNumToday = dateObjToNum(new Date())
+  const dateNumToday = dateObjToNum(getDateInSeoul())
   const counselDateFilter = { '$lt': dateNumToday }
 
   try {

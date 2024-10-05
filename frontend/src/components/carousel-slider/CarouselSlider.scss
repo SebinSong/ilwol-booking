@@ -16,7 +16,7 @@
   margin-bottom: 1.6rem;
   width: 100%;
   border-radius: 0.8rem;
-  border: 1px solid $inactive-grey;
+  border: 1px solid $primary-purple-bg-1;
   // scroll related properties
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
@@ -63,12 +63,16 @@
     width: var(--dot-side);
     height: var(--dot-side);
     border-radius: var(--dot-side);
-    color: $text_0;
-    border: 1px solid currentColor;
-    transition: background-color 120ms linear;
+    color: $primary-purple;
+    background-color: $primary-purple-bg-1;
+    border: 1px solid $primary-purple-bg-1;
+    transition:
+      background-color 120ms ease-in,
+      border-color 120ms ease-in;
 
     &.is-active {
       background-color: currentColor;
+      border-color: currentColor;
     }
   }
 
@@ -164,8 +168,8 @@
       border-radius: 4rem;
       font-size: 2.4rem;
       flex-shrink: 0;
-      background-color: $ilwol-purple-bg;
-      color: $ilwol-purple;
+      background-color: $primary-purple-bg;
+      color: $primary-purple;
     }
 
     .reviewer-details {
@@ -197,8 +201,8 @@
           font-weight: bold;
 
           &.is-visit-review {
-            background-color: $ilwol-purple-bg;
-            color: $ilwol-purple;
+            background-color: $primary-purple-bg;
+            color: $primary-purple;
           }
 
           &.is-youtube-feedback {
@@ -289,6 +293,7 @@
     .video-date {
       display: inline-block;
       font-size: $size_7;
+      font-weight: 700;
       margin-left: 0.8rem;
       color: $text_dark_grey;
       padding-right: 0.4rem;

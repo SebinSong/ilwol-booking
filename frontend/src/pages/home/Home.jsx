@@ -44,7 +44,7 @@ export default function Home () {
             ? <>
                 <HomeIntroduction onBackClick={() => { setShowIntroduction(false) }} />
 
-                <button type='button' className='is-purple reserve-btn-fixed'
+                <button type='button' className='is-primary reserve-btn-fixed'
                   onClick={onReserveBtnClick}>
                   <span className='icon-chevron-right-circle is-prefix'></span>
                   <span>예약하기</span>

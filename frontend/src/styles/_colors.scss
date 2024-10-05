@@ -1,23 +1,26 @@
 :root {
   // buttons
-  --button-bg-primary: #C4237C;
-  --button-bg-on-hover-primary: #A81E6A;
+  --button-bg-primary: #6F1CA6;
+  --button-bg-on-hover-primary: #9C52C7;
   --button-bg-disabled-primary: #AAADB7;
   --button-text-primary: #FFFFFF;
   --button-text-on-hover-primary: #FFFFFF;
-  --button-border-primary: #C4237C;
+  --button-border-primary: #6F1CA6;
   --button-border-disabled-primary: #AAADB7;
-  --button-border-on-hover-primary: #A81E6A;
-  --button-shadow-on-active-primary: rgba(153, 37, 101, 0.275);
+  --button-border-on-hover-primary: #9C52C7;
+  --button-shadow-on-active-primary:
+    0 2px 4px -1px rgba(111, 28, 166, 0.2),
+    0 4px 5px rgba(111, 28, 166, 0.14),
+    0 1px 10px rgba(111, 28, 166, 0.12);
   --button-bg-secondary: rgba(0, 0, 0, 0);
   --button-bg-disabled-secondary: rgba(0, 0, 0, 0);
   --button-bg-on-hover-secondary: rgba(0, 0, 0, 0);
-  --button-text-secondary: #450A37;
-  --button-text-on-hover-secondary: #800062;
-  --button-border-secondary: #94A3B8;
+  --button-text-secondary: #6F1CA6;
+  --button-text-on-hover-secondary: #9C52C7;
+  --button-border-secondary: #6F1CA6;
   --button-border-disabled-secondary: #AAADB7;
-  --button-border-on-hover-secondary: #800062;
-  --button-shadow-on-active-secondary: rgba(69, 10, 55, 0.2);
+  --button-border-on-hover-secondary: #AC79F2;
+  --button-shadow-on-active-secondary: none;
   --button-bg-warning: #FF4545;
   --button-bg-on-hover-warning: #e35757;
   --button-bg-disabled-warning: #AAADB7;
@@ -27,16 +30,6 @@
   --button-border-disabled-warning: #AAADB7;
   --button-border-on-hover-warning: #e35757;
   --button-shadow-on-active-warning: rgba(255, 69, 69, 0.275);
-
-  --button-bg-purple: #662d91;
-  --button-bg-on-hover-purple: #5b2c7e;
-  --button-bg-disabled-purple: #AAADB7;
-  --button-text-purple: #FFFFFF;
-  --button-text-on-hover-purple: #FFFFFF;
-  --button-border-purple: #662D91;
-  --button-border-disabled-purple: #AAADB7;
-  --button-border-on-hover-purple: #5b2c7e;
-  --button-shadow-on-active-purple: rgba(102, 45, 145, 0.275);
 
   // calendar
   --calender-bg-color: #F6F5FF;

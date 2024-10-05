@@ -33,7 +33,7 @@ function CarouselSliderNav ({
 
   return (
     <div className={`carousel-slider__nav ${classes}`}>
-      <button className='is-secondary is-extra-small icon-only carousel-slider__nav-btn is-prev-btn'
+      <button className='is-primary is-extra-small icon-only carousel-slider__nav-btn is-prev-btn'
         onClick={onPrevClick}>
         <i className='icon-chevron-left'></i>
       </button>
@@ -48,7 +48,7 @@ function CarouselSliderNav ({
         }
       </div>
 
-      <button className='is-secondary is-extra-small icon-only carousel-slider__nav-btn is-next-btn'
+      <button className='is-primary is-extra-small icon-only carousel-slider__nav-btn is-next-btn'
         onClick={onNextClick}>
         <i className='icon-chevron-right'></i>
       </button>

@@ -1,5 +1,5 @@
-$radio-color: #322940;
-$radio-border-color: #64748B;
+$radio-color: $primary-purple;
+$radio-border-color: $primary-purple-bg;
 $form-border: 1rem;
 
 .form-field {
@@ -142,7 +142,7 @@ $form-border: 1rem;
       height: var(--radio-diameter);
       left: 0;
       top: 0;
-      border: 1px solid $text_grey;
+      border: 1px solid $inactive-grey;
       box-shadow: none;
       transition:
         border-color 200ms ease-out,

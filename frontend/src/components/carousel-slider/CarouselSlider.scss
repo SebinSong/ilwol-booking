@@ -122,7 +122,7 @@
   &__review-content {
     position: relative;
     padding: 6.8rem 1.6rem 2.4rem;
-    background-color: $background_1;
+    background-color: $background_0;
     font-size: $size_6;
 
     .review-content-wrapper {
@@ -144,7 +144,7 @@
       align-items: center;
       justify-content: center;
       font-size: 3.6rem;
-      color: #b684dc;
+      color: $primary-purple-bg;
       opacity: 0.45;
     }
   }
@@ -156,7 +156,7 @@
     flex-direction: row;
     align-items: center;
     column-gap: 1rem;
-    background-color: #f7f1fc;
+    background-color: $primary-purple-bg-2;
     border-top: 1px solid $neautral-bg;
 
     .user-icon-container {
@@ -168,8 +168,8 @@
       border-radius: 4rem;
       font-size: 2.4rem;
       flex-shrink: 0;
-      background-color: $primary-purple-bg;
-      color: $primary-purple;
+      background-color: $primary-purple;
+      color: $primary-purple-bg-2;
     }
 
     .reviewer-details {

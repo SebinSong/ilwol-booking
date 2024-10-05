@@ -22,7 +22,7 @@
       align-items: center;
       user-select: none;
       cursor: pointer;
-      color: $primary-purple-dark;
+      color: $text_0;
 
       @include smallphone {
         font-size: $size_5;
@@ -55,7 +55,7 @@
         border: 1px solid rgba(0, 0, 0, 0);
         min-height: 3.2rem;
         min-width: 4.6rem;
-        color: $primary-purple-dark;
+        color: $text_0;
         transition:
           border-color 150ms ease-in,
           background-color 150ms ease-in;

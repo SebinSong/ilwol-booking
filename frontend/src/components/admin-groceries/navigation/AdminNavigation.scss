@@ -55,7 +55,7 @@
   height: 100%;
   background-color: $background_0;
   max-width: $navigation-max-width;
-  border: 1px solid $text_grey;
+  border: 1px solid $inactive-grey;
   padding: 1.2rem;
   margin-top: -1px;
 
@@ -85,20 +85,21 @@ button.is-unstyled.admin-navigation__close-btn {
   height: 2.6rem;
   padding: 0.6rem;
   border-radius: 0.6rem;
-  border: 1px solid $text-grey;
+  border: 1px solid $inactive-grey;
   font-size: $size_4;
   line-height: 1;
   transition: color 150ms linear, border-color 150ms linear;
 
   &:hover,
   &:focus {
-    color: $magenta;
-    border-color: currentColor;
+    color: $primary-purple;
+    border-color: $primary-purple-bg-1;
     outline: none;
   }
 
   &:active {
-    background-color: $magenta-dim;
+    border-color: $primary-purple-1;
+    background-color: $primary-purple-bg-2;
   }
 
   @include from ($large-phone) {
@@ -116,7 +117,7 @@ button.is-unstyled.admin-navigation__close-btn {
   font-weight: bold;
   line-height: 1;
   cursor: pointer;
-  border: 1px solid $text_grey;
+  border: 1px solid $primary-purple-bg-1;
   border-radius: 0.6rem;
   margin-bottom: 1rem;
   transition:
@@ -125,15 +126,15 @@ button.is-unstyled.admin-navigation__close-btn {
 
   &:hover,
   &:focus {
-    border-color: $magenta;
-    color: $magenta;
-    background-color: $magenta-dim;
+    border-color: $primary-purple-1;
+    color: $primary-purple-1;
+    background-color: $primary-purple-bg-2;
     outline: none;
   }
 
   &.is-active {
-    border-color: $magenta;
-    background-color: $magenta;
+    border-color: $primary-purple;
+    background-color: $primary-purple;
     color: $background_0;
   }
 

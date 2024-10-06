@@ -16,7 +16,7 @@
 
       .ctc-content {
         text-decoration: underline;
-        color: $text_0;
+        color: $primary-purple;
       }
     }
   }
@@ -46,19 +46,20 @@
 
     &:active,
     &:hover {
-      background-color: $magenta-bg;
-      color: $magenta;
+      background-color: $primary-purple-bg-2;
+      color: $primary-purple;
       border-color: rgba(0, 0, 0, 0);
     }
 
     &:focus {
-      border-color: var(--timeslot-border-color_active);
+      border-color: $primary-purple;
     }
 
     &.is-active {
-      color: var(--timeslot-text-color_active);
-      background-color: var(--timeslot-bg-color_active);
-      border-color: var(--timeslot-border-color_active);
+      font-weight: 700;
+      color: $text_1;
+      background-color: $primary-purple;
+      border-color: $primary-purple;
     }
 
     &.is-occupied {

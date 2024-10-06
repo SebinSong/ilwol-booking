@@ -21,7 +21,7 @@ const displayDate = date => {
 const combineDateAndTime = data => (
   <>
     <span>{displayDate(data.counselDate)}</span>
-    <span className='text-color-magenta ml-4'>{data.timeSlot}</span>
+    <span className='text-color-purple ml-4'>{data.timeSlot}</span>
   </>
 )
 const getStatus = (entry) => {

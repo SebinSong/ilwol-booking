@@ -17,6 +17,7 @@
     color: var(--calendar-btn-text-color);
     background-color: var(--calendar-btn-bg-color);
     border-radius: 0.8rem;
+    box-shadow: none;
     min-height: unset;
     min-width: unset;
     border: none;
@@ -72,13 +73,13 @@
     border: none;
     padding-left: 1.6rem;
     padding-right: 1.6rem;
-    color: $magenta;
+    color: $primary-purple;
     font-weight: bold;
 
     &:enabled:hover,
     &:enabled:focus {
-      background-color: $magenta-bg;
-      color: $magenta;
+      background-color: $primary-purple-bg-2;
+      color: $primary-purple;
       box-shadow: none;
     }
 
@@ -107,7 +108,7 @@
       font-size: 1.15rem;
       font-weight: bold;
       user-select: none;
-      color: $text-0;
+      color: var(--calendar-btn-text-color);
       text-decoration: none;
 
       &[title="토요일"] {
@@ -151,7 +152,7 @@ button.react-calendar__month-view__days__day:nth-child(7n - 1) {
 
 
 button.react-calendar__month-view__days__day--neighboringMonth {
-  color: $text_grey;
+  color: $text_dark_grey;
 }
 
 .react-calendar__year-view .react-calendar__tile,
@@ -167,22 +168,19 @@ button.react-calendar__month-view__days__day--neighboringMonth {
   text-align: center;
   line-height: 16px;
   transition: background-color 110ms linear;
+  box-shadow: none;
 
   &:enabled:hover {
-    background-color: $magenta-bg;
-    color: $magenta;
-  }
-
-  &:enabled:focus {
-    color: var(--calendar-btn-text-color);
-    background-color: rgba(0, 0, 0, 0);
-    box-shadow: inset 0 0 1px 0 $text_grey;
-  }
-
-  &:enabled:active {
-    background-color: $magenta;
-    color: $text_1;
+    background-color: $primary-purple-bg-2;
+    color: $primary-purple;
     box-shadow: none;
+  }
+
+  &:enabled:focus,
+  &:enabled:active {
+    color: $primary-purple;
+    background-color: $primary-purple-bg-2;
+    box-shadow: inset 0 0 1px 0 $primary-purple;
   }
 }
 
@@ -204,7 +202,7 @@ button.react-calendar__tile.is-multiple-selected {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0.975);
-    background-color: $magenta;
+    background-color: $primary-purple;
     z-index: 0;
   }
 
@@ -212,11 +210,15 @@ button.react-calendar__tile.is-multiple-selected {
   &:focus {
     background-color: rgba(0, 0, 0, 0);
     color: $text_1;
+
+    &::after {
+      background-color: rgba(0, 0, 0, 0);
+    }
   }
 }
 
 button.react-calendar__tile--hasActive.react-calendar__decade-view__years__year {
-  background-color: $magenta;
+  background-color: $primary-purple;
   color: $text_1;
 
   &::after {
@@ -225,7 +227,7 @@ button.react-calendar__tile--hasActive.react-calendar__decade-view__years__year 
 
   &:hover,
   &:focus {
-    background-color: $magenta;
+    background-color: $primary-purple;
     color: $text_1;
   }
 }
@@ -273,20 +275,24 @@ button:enabled.react-calendar__month-view__days__day.has-booking:not(.react-cale
 }
 
 button.react-calendar__tile--active {
-  background-color: $magenta;
+  background-color: $primary-purple;
   color: $text_1;
   font-weight: bold;
 
   &:enabled:focus,
   &:enabled:active {
-    background-color: $magenta;
+    background-color: $primary-purple;
     color: $text_1;
     font-weight: bold;
     box-shadow: none;
   }
 
   &:enabled:hover {
-    background-color: $magenta;
+    background-color: $primary-purple;
+    color: $text_1;
+  }
+
+  abbr {
     color: $text_1;
   }
 }
@@ -295,22 +301,15 @@ button.react-calendar__tile.react-calendar__tile--now {
   color: $success;
   font-weight: bold;
   background-color: $success-bg;
+  box-shadow: inset 0 0 1px 0 $success;
 
-  &[disabled] {
-    color: $success;
-    background-color: $success-bg;
-  }
-
-  &:hover {
-    color: $text_0;
-    background-color: $success-bg;
-  }
-
+  &[disabled],
+  &:hover,
   &:focus,
   &:enabled:active {
-    color: $text_0;
-    border: 1px solid $inactive-grey;
+    color: $success;
     background-color: $success-bg;
+    box-shadow: inset 0 0 1px 0 $success;
   }
 
   &.react-calendar__tile--active,

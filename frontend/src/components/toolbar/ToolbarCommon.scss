@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: 0 1.6rem;
   background-color: $background_0;
-  border-bottom: 1px solid $text_grey;
+  border-bottom: 1px solid $primary-purple-bg-1;
 
   .left-group,
   .right-group {
@@ -22,6 +22,7 @@
       align-items: center;
       user-select: none;
       cursor: pointer;
+      color: $text_0;
 
       @include smallphone {
         font-size: $size_5;
@@ -55,18 +56,21 @@
         min-height: 3.2rem;
         min-width: 4.6rem;
         color: $text_0;
-        transition: border-color 120ms linear;
+        transition:
+          border-color 150ms ease-in,
+          background-color 150ms ease-in;
 
         &:hover,
         &:active,
         &:focus {
-          border-color: $text-grey;
+          border-color: $primary-purple-bg-1;
+          background-color: $primary-purple-bg-2;
         }
 
         &:active,
         &:focus {
-          border-color: $text_0;
-          background-color: rgba(0, 0, 0, 0);
+          border-color: $primary-purple-bg;
+          background-color: $primary-purple-bg-2;
         }
       }
     }
@@ -86,7 +90,7 @@
     color: $background_0;
     padding: 0.4rem 0.6rem;
     border-radius: 0.6rem;
-    background-color: $magenta;
+    background-color: $primary-purple;
 
     .badge-icon {
       display: inline-flex;

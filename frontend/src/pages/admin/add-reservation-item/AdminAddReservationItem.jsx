@@ -35,7 +35,7 @@ import './AdminAddReservationItem.scss'
 // helpers
 const todayDateStr = stringifyDate(new Date())
 const legendList = [
-  { color: 'magenta', text: '선택됨' },
+  { color: 'purple', text: '선택됨' },
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '쉬는날 / 예약 있음' }
 ]

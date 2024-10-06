@@ -6,14 +6,10 @@
   &:focus,
   &:hover,
   &:active {
+    box-shadow: var(--button-shadow-on-active-#{$type});
     background-color: var(--button-bg-on-hover-#{$type});
     border-color: var(--button-border-on-hover-#{$type});
     color: var(--button-text-on-hover-#{$type});
-  }
-
-  &:focus,
-  &:active {
-    box-shadow: 0px 0px 1px 2px var(--button-shadow-on-active-#{$type});
   }
 
   &[disabled] {
@@ -46,10 +42,12 @@ button,
   transition:
     box-shadow 150ms ease-in,
     border-color 150ms ease-in,
+    color 150ms ease-in,
     background-color 150ms ease-in;
   white-space: nowrap;
   font-family: "Noto Sans KR", "Lato", "Helvetica Neue", "sans-serif";
   font-size: $size_6;
+  font-weight: 700;
   outline: none;
 
   @include from ($tablet) {
@@ -147,10 +145,6 @@ button,
 
   &.is-warning {
     @include addButtonColorStyles('warning');
-  }
-
-  &.is-purple {
-    @include addButtonColorStyles('purple');
   }
 }
 

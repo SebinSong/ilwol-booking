@@ -16,7 +16,7 @@
   margin-bottom: 1.6rem;
   width: 100%;
   border-radius: 0.8rem;
-  border: 1px solid $inactive-grey;
+  border: 1px solid $primary-purple-bg-1;
   // scroll related properties
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
@@ -63,12 +63,16 @@
     width: var(--dot-side);
     height: var(--dot-side);
     border-radius: var(--dot-side);
-    color: $text_0;
-    border: 1px solid currentColor;
-    transition: background-color 120ms linear;
+    color: $primary-purple;
+    background-color: $primary-purple-bg-1;
+    border: 1px solid $primary-purple-bg-1;
+    transition:
+      background-color 120ms ease-in,
+      border-color 120ms ease-in;
 
     &.is-active {
       background-color: currentColor;
+      border-color: currentColor;
     }
   }
 
@@ -118,7 +122,7 @@
   &__review-content {
     position: relative;
     padding: 6.8rem 1.6rem 2.4rem;
-    background-color: $background_1;
+    background-color: $background_0;
     font-size: $size_6;
 
     .review-content-wrapper {
@@ -140,7 +144,7 @@
       align-items: center;
       justify-content: center;
       font-size: 3.6rem;
-      color: #b684dc;
+      color: $primary-purple-bg;
       opacity: 0.45;
     }
   }
@@ -152,7 +156,7 @@
     flex-direction: row;
     align-items: center;
     column-gap: 1rem;
-    background-color: #f7f1fc;
+    background-color: $primary-purple-bg-2;
     border-top: 1px solid $neautral-bg;
 
     .user-icon-container {
@@ -164,8 +168,8 @@
       border-radius: 4rem;
       font-size: 2.4rem;
       flex-shrink: 0;
-      background-color: $ilwol-purple-bg;
-      color: $ilwol-purple;
+      background-color: $primary-purple;
+      color: $primary-purple-bg-2;
     }
 
     .reviewer-details {
@@ -197,13 +201,13 @@
           font-weight: bold;
 
           &.is-visit-review {
-            background-color: $ilwol-purple-bg;
-            color: $ilwol-purple;
+            background-color: $primary-purple-bg;
+            color: $primary-purple;
           }
 
           &.is-youtube-feedback {
-            background-color: $magenta-dim;
-            color: $magenta-light;
+            background-color: $magenta-bg;
+            color: $magenta;
           }
         }
       }
@@ -289,6 +293,7 @@
     .video-date {
       display: inline-block;
       font-size: $size_7;
+      font-weight: 700;
       margin-left: 0.8rem;
       color: $text_dark_grey;
       padding-right: 0.4rem;
@@ -324,7 +329,7 @@
   }
 
   &:active {
-    border-color: $text_dark_grey;
+    border-color: $primary-purple-1;
   }
 
   @keyframes video-loading-ani {

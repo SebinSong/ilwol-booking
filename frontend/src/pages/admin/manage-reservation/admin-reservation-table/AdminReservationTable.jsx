@@ -23,7 +23,7 @@ const displayDate = date => {
 const combineDateAndTime = entry => (
   <>
     <span>{displayDate(entry.counselDate)}</span>
-    <span className='text-color-magenta ml-4'>{entry.timeSlot}</span>
+    <span className='text-color-purple ml-4'>{entry.timeSlot}</span>
   </>
 )
 const combineDateAndTimeSearchable = entry => {

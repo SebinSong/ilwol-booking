@@ -119,7 +119,7 @@ export default function ConfirmAndPayment () {
 
         <div className='confirm-page__details-item date-and-time'>
           <span className='label'>날짜/시간:</span>
-          <span className='details-value has-text-bold text-color-magenta'>
+          <span className='details-value has-text-bold text-color-purple'>
             <span className='date-value'>{humanDate(counselDate, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             <span className='time-slot-value'>{counselTimeSlot}</span>
 
@@ -131,7 +131,7 @@ export default function ConfirmAndPayment () {
         <div className='confirm-page__details-item'>
           <span className='label'>총 상담 인원:</span>
           <span className='details-value has-text-bold'>
-            <span className='text-color-magenta'>{personalDetails.numAttendee}</span>
+            <span className='text-color-purple'>{personalDetails.numAttendee}</span>
             <span className='unit-append'>명</span>
 
             {
@@ -144,7 +144,7 @@ export default function ConfirmAndPayment () {
 
         <div className='confirm-page__details-item'>
           <span className='label'>총 가격:</span>
-          <span className='details-value is-for-total-price has-text-bold text-color-magenta'>
+          <span className='details-value is-for-total-price has-text-bold text-color-purple'>
             <span className='total-price-value'>
               {displayMoney(totalPrice)}
               <span className='unit-append'>원</span>

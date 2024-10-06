@@ -176,7 +176,7 @@ export default function AdminCustomerContact () {
 
                       <div className='load-info-box'>
                         <p className='contact-load-info'>
-                          <span><span className='has-text-bold text-color-magenta mr-2'>{contactData.length}</span>개의 연락처</span>
+                          <span><span className='has-text-bold text-color-purple mr-2'>{contactData.length}</span>개의 연락처</span>
                           
                           <div className='selection-ctas'>
                             <button className='is-secondary is-extra-small' onClick={onSelectAll}>

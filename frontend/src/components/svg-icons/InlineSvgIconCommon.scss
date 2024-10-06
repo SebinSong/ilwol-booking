@@ -1,10 +1,10 @@
 .inline-svg-common {
-  --svg-feature-color: #F8C256;
+  --svg-feature-color: #{$validation};
 
   position: relative;
   display: inline-block;
   height: auto;
-  color: $text_0;
+  color: $primary-purple-dark;
 
   &.rocket-icon {
     svg {

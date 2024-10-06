@@ -1,50 +1,42 @@
 :root {
   // buttons
-  --button-bg-primary: #C4237C;
-  --button-bg-on-hover-primary: #A81E6A;
+  --button-bg-primary: #6F1CA6;
+  --button-bg-on-hover-primary: #9C52C7;
   --button-bg-disabled-primary: #AAADB7;
   --button-text-primary: #FFFFFF;
   --button-text-on-hover-primary: #FFFFFF;
-  --button-border-primary: #C4237C;
+  --button-border-primary: #6F1CA6;
   --button-border-disabled-primary: #AAADB7;
-  --button-border-on-hover-primary: #A81E6A;
-  --button-shadow-on-active-primary: rgba(153, 37, 101, 0.275);
+  --button-border-on-hover-primary: #9C52C7;
+  --button-shadow-on-active-primary:
+    0 2px 4px -1px rgba(111, 28, 166, 0.2),
+    0 4px 5px rgba(111, 28, 166, 0.14),
+    0 1px 10px rgba(111, 28, 166, 0.12);
   --button-bg-secondary: rgba(0, 0, 0, 0);
   --button-bg-disabled-secondary: rgba(0, 0, 0, 0);
   --button-bg-on-hover-secondary: rgba(0, 0, 0, 0);
-  --button-text-secondary: #450A37;
-  --button-text-on-hover-secondary: #800062;
-  --button-border-secondary: #94A3B8;
+  --button-text-secondary: #6F1CA6;
+  --button-text-on-hover-secondary: #9C52C7;
+  --button-border-secondary: #6F1CA6;
   --button-border-disabled-secondary: #AAADB7;
-  --button-border-on-hover-secondary: #800062;
-  --button-shadow-on-active-secondary: rgba(69, 10, 55, 0.2);
-  --button-bg-warning: #FF4545;
-  --button-bg-on-hover-warning: #e35757;
+  --button-border-on-hover-secondary: #AC79F2;
+  --button-shadow-on-active-secondary: none;
+  --button-bg-warning: #FF0E00;
+  --button-bg-on-hover-warning: #db0e03;
   --button-bg-disabled-warning: #AAADB7;
   --button-text-warning: #FFFFFF;
   --button-text-on-hover-warning: #FFFFFF;
-  --button-border-warning: #FF4545;
+  --button-border-warning: #FF0E00;
   --button-border-disabled-warning: #AAADB7;
-  --button-border-on-hover-warning: #e35757;
+  --button-border-on-hover-warning: #db0e03;
   --button-shadow-on-active-warning: rgba(255, 69, 69, 0.275);
 
-  --button-bg-purple: #662d91;
-  --button-bg-on-hover-purple: #5b2c7e;
-  --button-bg-disabled-purple: #AAADB7;
-  --button-text-purple: #FFFFFF;
-  --button-text-on-hover-purple: #FFFFFF;
-  --button-border-purple: #662D91;
-  --button-border-disabled-purple: #AAADB7;
-  --button-border-on-hover-purple: #5b2c7e;
-  --button-shadow-on-active-purple: rgba(102, 45, 145, 0.275);
-
   // calendar
-  --calender-bg-color: #F6F5FF;
-  --calendar-border-color: #F6F5FF;
-  --calendar-btn-bg-color: #F6F5FF;
-  --calendar-btn-text-color: #450A37;
+  --calender-bg-color: #f9f5fc;
+  --calendar-border-color: #f9f5fc;
+  --calendar-btn-bg-color: #f9f5fc;
+  --calendar-btn-text-color: #322940;
   --calendar-btn-text-color_disabled: #988D99;
-  --calendar-btn-text-color_fully-booked: #988D99;
 
   // time-slot
   --timeslot-bg-color: #F6F5FF;
@@ -56,10 +48,10 @@
   --timeslot-border-color_active: #C4237C;
 
   // custom input
-  --custom-input-bg-color: #F6F5FF;
-  --custom-input-border-color: #CBD5E1;
-  --custom-input-border-color_focus: #64748B;
-  --custom-input-border-color_hover: #94A3B8;
+  --custom-input-bg-color: #f6ecfa;
+  --custom-input-border-color: #e0ceea;
+  --custom-input-border-color_focus: #6F1CA6;
+  --custom-input-border-color_hover: #6F1CA6;
   --custom-input-text-color: #322940;
   --custom-input-placeholder-color: #94A3B8; 
 

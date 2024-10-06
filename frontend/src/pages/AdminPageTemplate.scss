@@ -11,8 +11,8 @@
     width: max-content;
     font-size: 2.2rem;
     font-weight: bold;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid $text_0;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid $inactive-grey;
     border-radius: 0.6rem;
 
     i {
@@ -27,7 +27,7 @@
     margin-top: 1rem;
     margin-bottom: 4rem;
     font-size: 1.4rem;
-    color: $text_grey;
+    color: $primary-purple-dark;
 
     &::before {
       @include has-icon;

@@ -21,23 +21,22 @@
   --button-border-disabled-secondary: #AAADB7;
   --button-border-on-hover-secondary: #AC79F2;
   --button-shadow-on-active-secondary: none;
-  --button-bg-warning: #FF4545;
-  --button-bg-on-hover-warning: #e35757;
+  --button-bg-warning: #FF0E00;
+  --button-bg-on-hover-warning: #db0e03;
   --button-bg-disabled-warning: #AAADB7;
   --button-text-warning: #FFFFFF;
   --button-text-on-hover-warning: #FFFFFF;
-  --button-border-warning: #FF4545;
+  --button-border-warning: #FF0E00;
   --button-border-disabled-warning: #AAADB7;
-  --button-border-on-hover-warning: #e35757;
+  --button-border-on-hover-warning: #db0e03;
   --button-shadow-on-active-warning: rgba(255, 69, 69, 0.275);
 
   // calendar
-  --calender-bg-color: #F6F5FF;
-  --calendar-border-color: #F6F5FF;
-  --calendar-btn-bg-color: #F6F5FF;
-  --calendar-btn-text-color: #450A37;
+  --calender-bg-color: #f9f5fc;
+  --calendar-border-color: #f9f5fc;
+  --calendar-btn-bg-color: #f9f5fc;
+  --calendar-btn-text-color: #322940;
   --calendar-btn-text-color_disabled: #988D99;
-  --calendar-btn-text-color_fully-booked: #988D99;
 
   // time-slot
   --timeslot-bg-color: #F6F5FF;
@@ -49,8 +48,8 @@
   --timeslot-border-color_active: #C4237C;
 
   // custom input
-  --custom-input-bg-color: #f7f3fa;
-  --custom-input-border-color: #d7c8e0;
+  --custom-input-bg-color: #f6ecfa;
+  --custom-input-border-color: #e0ceea;
   --custom-input-border-color_focus: #6F1CA6;
   --custom-input-border-color_hover: #6F1CA6;
   --custom-input-text-color: #322940;

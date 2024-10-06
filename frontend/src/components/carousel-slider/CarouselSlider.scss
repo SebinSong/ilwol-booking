@@ -206,8 +206,8 @@
           }
 
           &.is-youtube-feedback {
-            background-color: $magenta-dim;
-            color: $magenta-light;
+            background-color: $magenta-bg;
+            color: $magenta;
           }
         }
       }
@@ -329,7 +329,7 @@
   }
 
   &:active {
-    border-color: $text_dark_grey;
+    border-color: $primary-purple-1;
   }
 
   @keyframes video-loading-ani {

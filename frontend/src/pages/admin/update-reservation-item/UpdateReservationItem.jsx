@@ -48,7 +48,7 @@ const computeTotalPrice = (optionId, numAttendee) => {
   return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
 }
 const legendList = [
-  { color: 'magenta', text: '선택됨' },
+  { color: 'purple', text: '선택됨' },
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '쉬는날 / 예약 있음' }
 ]
@@ -484,7 +484,7 @@ export default function AdminUpdateReservationItem () {
                   !isAdminGenerated &&
                   <div className='summary-list__item align-center'>
                     <span className='summary-list__label'>
-                      총 상담 인원 <span className='text-color-magenta'>(본인 포함)</span>
+                      총 상담 인원 <span className='text-color-purple'>(본인 포함)</span>
                     </span>
                     <span className='summary-list__value'>
                       <span className='selectbox is-small form-el-value'>
@@ -508,7 +508,7 @@ export default function AdminUpdateReservationItem () {
                   !isAdminGenerated &&
                   <div className='summary-list__item align-center'>
                     <span className='summary-list__label'>
-                      총 가격 <span className='text-color-magenta'>(자동계산)</span>
+                      총 가격 <span className='text-color-purple'>(자동계산)</span>
                     </span>
                     <span className='summary-list__value is-little-big'>
                       <span className='total-price-value'>

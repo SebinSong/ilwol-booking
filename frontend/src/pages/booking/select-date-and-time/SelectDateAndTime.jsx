@@ -19,7 +19,7 @@ import { useGetFutureDayoffs } from '@store/features/adminApiSlice.js'
 import './SelectDateAndTime.scss'
 
 const legendList = [
-  { color: 'magenta', text: '선택됨' },
+  { color: 'purple', text: '선택됨' },
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '예약내역 있음' }
 ]

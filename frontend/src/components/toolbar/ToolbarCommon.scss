@@ -64,13 +64,13 @@
         &:active,
         &:focus {
           border-color: $primary-purple-bg-1;
-          background-color: $primary-purple-bg-1;
+          background-color: $primary-purple-bg-2;
         }
 
         &:active,
         &:focus {
-          border-color: $text_0;
-          background-color: rgba(0, 0, 0, 0);
+          border-color: $primary-purple-bg;
+          background-color: $primary-purple-bg-2;
         }
       }
     }
@@ -90,7 +90,7 @@
     color: $background_0;
     padding: 0.4rem 0.6rem;
     border-radius: 0.6rem;
-    background-color: $magenta;
+    background-color: $primary-purple;
 
     .badge-icon {
       display: inline-flex;

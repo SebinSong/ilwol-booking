@@ -32,7 +32,7 @@ import './AdminDayoffsAndCalendar.scss'
 
 // helpers
 const legendList = [
-  { color: 'magenta', text: '쉬는날 선택' },
+  { color: 'purple', text: '쉬는날 선택' },
   { color: 'success', text: '오늘' },
   { color: 'validation', text: '예약내역 있음' }
 ]

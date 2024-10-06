@@ -15,7 +15,7 @@
 
     .ctc-value {
       font-size: $size_6;
-      color: $text_dark_grey;
+      color: $primary-purple;
     }
   }
 
@@ -28,13 +28,13 @@
     height: 2.4rem;
     border-radius: 0.8rem;
     border: 1px solid var(--button-border-secondary);
-    color: $text_0;
+    color: var(--button-text-secondary);
     background-color: $background_0;
     cursor: pointer;
 
     &:hover,
     &:focus {
-      border-color: $text_0;
+      border-color:var(--button-border-on-hover-secondary);
     }
   }
 

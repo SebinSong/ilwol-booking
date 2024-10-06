@@ -62,8 +62,7 @@ $form-border: 1rem;
   }
 
   .mandatory {
-    color: $magenta;
-    opacity: 0.7;
+    color: $primary-purple-1;
   }
   .optional {
     color: $text_grey;
@@ -213,7 +212,7 @@ $form-border: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: $magenta-light;
+      background-color: $primary-purple;
       opacity: 0;
       transition:
         opacity 150ms ease-out;
@@ -251,7 +250,7 @@ $form-border: 1rem;
   &:focus,
   &.is-active {
     .checkbox-custom-wrapper {
-      border-color: $magenta-light;
+      border-color: $primary-purple;
     }
   }
 }
@@ -291,7 +290,7 @@ $form-border: 1rem;
 
   &:focus {
     border-color: var(--custom-input-border-color_focus);
-    box-shadow: $box-shadow_deep-light;
+    background-color: $background_0;
   }
 
   &:hover {

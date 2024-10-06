@@ -1,13 +1,13 @@
 button.accordion-button {
   @include button-spacing-reset;
 
-  --l-btn-color: #{$magenta};
-  --l-btn-bg-color: #{$magenta-dim};
+  --l-btn-color: #{$primary-purple};
+  --l-btn-bg-color: #{$primary-purple-bg-2};
 
   display: flex;
   align-items: center;
   border-radius: 0.8rem;
-  border: 1px solid var(--button-border-secondary);
+  border: 1px solid $inactive-grey;
   font-size: $size_5;
   padding: 1rem 1.2rem;
   color: $text_0;
@@ -22,11 +22,12 @@ button.accordion-button {
   &.is-open {
     color: $text_0;
     background-color: var(--l-btn-bg-color);
-    border: 1px solid var(--button-border-secondary);
+    border: 1px solid currentColor;
+    box-shadow: none;
   }
 
   &:focus {
-    box-shadow: 0 0 2px 0 currentColor;
+    box-shadow: $box-shadow_light;
   }
 
   &.is-type-validation {

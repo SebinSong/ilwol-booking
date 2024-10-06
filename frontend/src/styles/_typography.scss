@@ -120,6 +120,7 @@ $text-color-name-map: (
 
 $text-color-bg-map: (
   'magenta': $magenta-bg,
+  'purple': $primary-purple-bg-2,
   'validation': $validation-bg,
   'success': $success-bg,
   'warning': $warning-bg
@@ -143,7 +144,7 @@ $text-color-bg-map: (
 .link {
   display: inline-block;
   cursor: pointer;
-  color: $primary-purple;
+  color: $primary-purple-1;
   height: auto;
   width: max-content;
   padding-bottom: 0.1rem;
@@ -153,7 +154,7 @@ $text-color-bg-map: (
 
   &:hover,
   &:focus {
-    color: $primary-purple-1;
+    color: $primary-purple;
   }
 
   &:focus {

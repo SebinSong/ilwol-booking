@@ -134,7 +134,7 @@
     display: inline-block;
     flex-grow: 1;
     text-align: right;
-    color: $magenta;
+    color: $primary-purple;
 
     &.is-inline-flex {
       display: inline-flex;
@@ -205,7 +205,7 @@
     background-color: $background_1;
     box-shadow: $box-shadow_medium;
 
-    &.is-magenta { color: $magenta; }
+    &.is-purple { color: $primary-purple; }
     &.is-success { color: $success; }
     &.is-validation { color: $validation; }
 

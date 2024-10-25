@@ -20,7 +20,8 @@ import {
   humanDate,
   humanDateWithTime,
   cloneDeep,
-  debounce
+  debounce,
+  getStatusName
 } from '@utils'
 
 // css
@@ -50,6 +51,7 @@ const getCounselTypeName = entry => {
     : bookingOptions.find(x => x.id === entry.optionId)?.name || ''
 }
 const getCounselMethodName = entry => COUNSEL_METHOD.find(x => x.value === entry.personalDetails.method).name || ''
+const getDateAndTime = entry => `${entry.counselDate ? numericDateToString(entry.counselDate): ''} ${entry.timeSlot || ''}`
 const combineDateAndTimeSearchable = entry => {
   return `${displayDate(entry.counselDate)}__${entry.timeSlot}`
 }
@@ -58,7 +60,10 @@ const transformListEntry = entry => {
     name: getName(entry),
     contact: getContact(entry),
     counselType: getCounselTypeName(entry),
+    dateAndTime: getDateAndTime(entry),
     methodName: getCounselMethodName(entry),
+    status: getStatusName(entry.status, true),
+    statusRaw: entry.status || '',
     createdDate: entry.originalCreatedAt
       ? humanDateWithTime(entry.originalCreatedAt)
       : 'N/A',

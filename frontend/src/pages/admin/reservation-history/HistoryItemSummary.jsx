@@ -2,7 +2,7 @@ import React from 'react'
 
 // components
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
-import { formatMoney } from '@utils'
+import { formatMoney, classNames } from '@utils'
 
 // helpers
 const getGender = val => {
@@ -20,6 +20,13 @@ const getDOB = dob => {
 }
 
 const getMobile = mobile => `${mobile.prefix} ${mobile.number}`
+const getStatusClass = (status) => {
+  return ({
+    'pending': 'text-bg-validation',
+    'confirmed': 'text-bg-success',
+    'cancelled': 'text-bg-warning'
+  })[status]
+}
 
 function HistoryItemSummary ({ classes = '', data = null }) {
   if (!data) { return null }
@@ -28,6 +35,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
     dateAndTime,
     name,
     status,
+    statusRaw,
     counselType,
     methodName,
     createdDate,
@@ -128,7 +136,7 @@ function HistoryItemSummary ({ classes = '', data = null }) {
 
       <li className='history-item-summary__line'>
         <label className='item-summary__label'>예약 상태</label>
-        <div className='item-summary__values'>{status}</div>
+        <div className={classNames('item-summary__values has-text-bold inline-small-padding', getStatusClass(statusRaw))}>{status}</div>
       </li>
 
       <li className='history-item-summary__line'>

@@ -253,7 +253,6 @@ export default function AdminAddReservationItem () {
                   <input type='text' className='input common-input-width'
                     value={details.mobile}
                     onInput={updateFactory('mobile', true)}
-                    maxLength={11}
                     inputMode='numeric'
                     placeholder='숫자 11자리 입력' />
                 </label>

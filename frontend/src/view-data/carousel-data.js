@@ -5,6 +5,14 @@ const displayDate = str => humanDate(str, { month: 'short', day: 'numeric', year
 export const testimonials = [
   {
     id: genId(),
+    type: 'youtube-feedback',
+    name: '성함 비공개',
+    date: '2024년 11월',
+    content: '경신생입니다. 신굿을 세번이나 하였고, 지난 이십년 세월 전국팔도 점집을 찾아다니다 무속세계 발길을 끊었었지만, 올바르신 선생님 같으셔서 나중에 신령님께 절이나 드리려고 연락 드려요.<br/>' +
+      '이 시대 최고의 찐무당 곱디고우신 선생님 다음에 상황봐서 꼭 인사 드릴게요. 어려운 시국 선생님 만큼은 꼭 일등하세요!'
+  },
+  {
+    id: genId(),
     type: 'visit-review',
     name: "이희* 님",
     date: '2024년 8월',
@@ -56,7 +64,7 @@ export const testimonials = [
   },
   {
     id: genId(),
-    name: '성함 비공개 님',
+    name: '성함 비공개',
     type: 'visit-review',
     date: displayDate('2024-04-09'),
     content: '안녕하세요~ <br/>소개받고 문의 드리는데, 시기를 그렇게 잘 맞추신다고.. 지인의 지인분의 또 다른 지인분까지 보살님께 상담받고 시기가 너무 정확하다고 추천해 주셨거든요 ㅎㅎ<br/>저의 취업/재회/결혼 관련해서 상담받고 싶습니다.<br/>(중략...)'
@@ -88,13 +96,6 @@ export const testimonials = [
     name: '가수 고규* 님',
     date: '2023년 상반기',
     content: '선생님 기운받구 자심감 뿜뿜 얻구 갑니다! 잘되서 올해안에 꼭 다시갈게요!<br/>진심으로 감사드립니다. 속이 뻥뚫렸어요 최고!'
-  },
-  {
-    id: genId(),
-    type: 'youtube-feedback',
-    name: "아이디 'yess**' 님",
-    date: '2022년 하반기',
-    content: '유튜브보고 끌려서 봤는데, 영상보고 느꼈던 것처럼, 제가 말하지 않아도 가족부터 성격까지 정확하게 맞추셔서 진짜 소름돋았어요.<br/>인생 처음 본 신점이었는데, 궁금하고 답답했던 것 시원시원하게 콕콕 답 내려주셔서 걱정 다 풀리고 왔습니다.<br/>이제 구독자로서 응원하겠습니당 ㅎㅎㅎ'
   },
   {
     id: genId(),

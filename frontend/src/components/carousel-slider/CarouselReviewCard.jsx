@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react"
 
 // helpers
 const typeMap = {
-  'youtube-feedback': '유튜브 댓글',
+  'youtube-feedback': '유튜브 반응',
   'visit-review': '방문 후기'
 }
 

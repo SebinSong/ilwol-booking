@@ -115,6 +115,12 @@ export const testimonials = [
 
 export const youtubeData = [
   {
+    title: "2025년에 대통령이 탄핵될까?",
+    videoId: 'pBpv2dJ2Lsk',
+    id: 'pBpv2dJ2Lsk',
+    date: '2024.11.25'
+  },
+  {
     title: "선녀님의 영화 '파묘' 감상평",
     videoId: 'C52vu9F-cuk',
     id: 'C52vu9F-cuk',
@@ -125,11 +131,5 @@ export const youtubeData = [
     videoId: 'vdEfaLyxPEY',
     id: 'vdEfaLyxPEY',
     date: '2024.05.20'
-  },
-  {
-    title: "죽음을 앞둔 사람에게 보이는 징조",
-    videoId: 'Jb3BRj37mAo',
-    id: 'Jb3BRj37mAo',
-    date: '2024.01.30'
   }
 ]

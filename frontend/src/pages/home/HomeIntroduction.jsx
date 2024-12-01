@@ -81,7 +81,7 @@ function HomeIntroduction ({
                   고객 리뷰
                 </h3>
 
-                <CarouselSlider classes='intro-carousel-slider mb-50' type='testimonial' />
+                <CarouselSlider classes='intro-carousel-slider mb-50' type='testimonial' navType='numbers' />
 
                 <h3 className='home-intro-title mb-20'>
                   <i className='icon-info-circle is-prefix'></i>
@@ -107,7 +107,7 @@ function HomeIntroduction ({
 
                 <p className='intro-paragraph mb-30'><span className='has-text-bold'>오리역 3번출구</span>에서 직진하여 도보로 <span className='has-text-bold'>5분거리</span>에 있습니다. (주차 가능)</p>
 
-                <p className='address mb-10'>
+                <div className='address mb-10'>
                   <span className='address-label'>주소 :</span>
                   <span className='address-content'>
                     <span className='address-str'>{addressString}</span>
@@ -119,7 +119,7 @@ function HomeIntroduction ({
                         content: '클립보드에 저장 되었습니다.'
                       }}></CopyToClipboard>
                   </span>
-                </p>
+                </div>
 
                 <div className='map-wrapper'>
                   <HomeNaverMap />

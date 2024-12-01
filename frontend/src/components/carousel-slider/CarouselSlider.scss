@@ -76,6 +76,15 @@
     }
   }
 
+  .carousel-slider__nav-numbers {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.4rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-family: "Noto Sans KR";
+  }
+
   button.carousel-slider__nav-btn {
     --carousel-nav-side: 2.6rem;
 

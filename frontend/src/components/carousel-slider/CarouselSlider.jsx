@@ -23,7 +23,8 @@ const cardComponentMap = {
 
 function CarouselSlider ({
   classes = '',
-  type = 'testimonial' // enum of ['testimonial', 'youtube'] etc.
+  type = 'testimonial', // enum of ['testimonial', 'youtube'] etc.
+  navType = 'dots' // enum of ['dots', 'numbers']
 }) {
   // local-state
   const [currentIndex, setCurrentIndex] = useState(1)
@@ -81,6 +82,7 @@ function CarouselSlider ({
       </div>
 
       <CarouselSliderNav current={currentIndex}
+        type={navType}
         onChange={navButtonClickHandler}
         total={totalDataLen} />
     </div>

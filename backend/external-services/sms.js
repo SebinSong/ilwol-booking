@@ -15,11 +15,14 @@ const smsController = new SolapiMessageService(
   SOLPAI_API_SECRET
 )
 
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 async function sendSMS ({
   to = '',
   title = '',
   message = '',
-  toAdmin = false
+  toAdmin = false,
+  delay = 0
 }) {
   if ((!toAdmin && !to) || !message) { throw new Error('required params are missing for sendSMS function.') }
 
@@ -31,6 +34,7 @@ async function sendSMS ({
   if (title) { payload.subject = `${title}` }
   
   try {
+    if (delay > 0) { await wait(delay) }
     const res = await smsController.sendOne(payload)
     return res
   } catch (err) {

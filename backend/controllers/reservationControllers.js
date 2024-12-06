@@ -206,9 +206,14 @@ const postReservation = asyncHandler(async (req, res, next) => {
       await sendSMS({
         to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
         title: '예약 안내',
-        message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약 신청 완료. ` + 
-          '상담료이체 계좌 <우리은행 심순애 1002-358-833662>, 이체 확인 후 예약확정 문자발송. ' +
-          `@예약확인@변경@취소 -> ${process.env.SITE_URL}/reservation-details/${newReservation._id}`
+        message: `${pDetails.name}님, ${getReservationTime()}${isAdminGenerated ? '' :  ' ' + getCounselTypeNameById(optionId)} 예약이 신청되었습니다. ` + 
+          '<우리은행 심순애 1002-358-833662>로 상담료 이체하시면, 확인 후 예약확정 문자가 발송됩니다.'
+      })
+
+      await sendSMS({
+        to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
+        message: `예약내역 확인/변경/취소는 이 링크를 통해 가능합니다. -> ${process.env.SITE_URL}/reservation-details/${newReservation._id}`,
+        delay: 2000
       })
 
       // send another notification SMS to the admin contact

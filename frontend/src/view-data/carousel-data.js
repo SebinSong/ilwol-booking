@@ -5,6 +5,13 @@ const displayDate = str => humanDate(str, { month: 'short', day: 'numeric', year
 export const testimonials = [
   {
     id: genId(),
+    type: 'youtube-feedback',
+    name: '백남* 님',
+    date: '2024년 12월',
+    content: '이분 유튜브에서 하시는 말씀은 올바른 방향을 얘기해주셔서 좋은 듯.'
+  },
+  {
+    id: genId(),
     type: 'visit-review',
     name: '백남* 님',
     date: '2024년 12월',

@@ -140,12 +140,12 @@
   row-gap: 0.4rem;
 }
 
-button.react-calendar__month-view__days__day:nth-child(7n) {
+button.react-calendar__month-view__days__day:nth-child(7n + 1) {
   color: $warning;
   font-weight: bold;
 }
 
-button.react-calendar__month-view__days__day:nth-child(7n - 1) {
+button.react-calendar__month-view__days__day:nth-child(7n) {
   color: $skyblue;
   font-weight: bold;
 }

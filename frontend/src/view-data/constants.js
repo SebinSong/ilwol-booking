@@ -58,7 +58,8 @@ export const CONTACTS_PATH = '/contacts'
 export const RESERVATION_STATUSES = [
   { value: 'confirmed', name: '확정' },
   { value: 'cancelled', name: '취소' },
-  { value: 'pending', name: '대기' }
+  { value: 'pending', name: '대기' },
+  { value: 'on-site-payment', name: '현장지불' }
 ]
 
 // client error types - NOTE: should be in sync with the constants in back-end

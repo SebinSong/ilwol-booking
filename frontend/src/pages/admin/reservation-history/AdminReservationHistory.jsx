@@ -28,7 +28,7 @@ import {
 import './AdminReservationHistory.scss'
 
 // helpers
-const filterTypesList = () => ['pending', 'confirmed', 'cancelled']
+const filterTypesList = () => ['pending', 'confirmed', 'cancelled', 'on-site-payment']
 const displayDate = date => {
   const dateStr = numericDateToString(date)
   return humanDate(dateStr, { month: 'short', day: 'numeric', year: 'numeric' })
@@ -62,7 +62,7 @@ const transformListEntry = entry => {
     counselType: getCounselTypeName(entry),
     dateAndTime: getDateAndTime(entry),
     methodName: getCounselMethodName(entry),
-    status: getStatusName(entry.status, true),
+    status: entry.status === 'on-site-payment' ? '현지' : getStatusName(entry.status, true),
     statusRaw: entry.status || '',
     createdDate: entry.originalCreatedAt
       ? humanDateWithTime(entry.originalCreatedAt)
@@ -159,6 +159,9 @@ export default function AdminReservationHistory () {
   const toggleConfirmed = useCallback(() => {
     toggleStatusFilter('confirmed')
   }, [])
+  const toggleOnSitePayment = useCallback(() => {
+    toggleStatusFilter('on-site-payment')
+  }, [])
   const togglePending = useCallback(() => {
     toggleStatusFilter('pending')
   }, [])
@@ -232,6 +235,10 @@ export default function AdminReservationHistory () {
                             value={statusFilter.includes('confirmed')}
                             onChange={toggleConfirmed} 
                             text='확정' />
+                          <Checkbox classes='status-filter-checkbox'
+                            value={statusFilter.includes('on-site-payment')}
+                            onChange={toggleOnSitePayment} 
+                            text='현지' />
                           <Checkbox classes='status-filter-checkbox'
                             value={statusFilter.includes('pending')}
                             onChange={togglePending} 

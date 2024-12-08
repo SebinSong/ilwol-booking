@@ -393,13 +393,15 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
           const reservationTime = `${numericDateToString(counselDate)} ${timeSlot}`
           const typeName = getCounselTypeNameById(optionId)
           const isMethodVisit = pDetails?.method === 'visit'
+          const addressInfo = isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : ''
 
           const message = updates.status === 'confirmed'
-            ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` +
-              (isMethodVisit ? `(오시는 길: 경기 성남시 분당구 성남대로2번길 6 LG트윈하우스 516호 https://naver.me/xZDqba8p)` : '')
-            : isCancellingReservation
-              ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
-              : ''
+            ? `${pDetails.name}님, ${reservationTime} 상담료 입금이 확인되어 예약확정되셨습니다. 감사합니다.` + addressInfo
+            : updates.status === 'on-site-payment'
+              ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 현장지불 예약으로 변경되었습니다.` + addressInfo
+              : isCancellingReservation
+                ? `${pDetails.name}님, ${reservationTime}에 신청하신 ${typeName} 건이 관리자에 의해 취소되었습니다.`
+                : ''
 
           if (message) {
             await sendSMS({

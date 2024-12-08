@@ -31,13 +31,15 @@ const getStatus = (entry) => {
   const nameMap = {
     'confirmed': '확정',
     'cancelled': '취소',
-    'pending': '대기'
+    'pending': '대기',
+    'on-site-payment': '현지'
   }
 
   const classMap = {
     'pending': 'text-bg-validation',
     'confirmed': 'text-bg-success',
-    'cancelled': 'text-bg-warning'
+    'cancelled': 'text-bg-warning',
+    'on-site-payment': 'text-bg-purple'
   }
 
   return <span className={cn('status-pill', classMap[status])}>{nameMap[status]}</span>

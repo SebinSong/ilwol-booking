@@ -179,7 +179,8 @@ export function getStatusName (status, short = false) {
   return ({
     'confirmed': short ? '확정' : '확정됨',
     'cancelled': short ? '취소' : '취소됨',
-    'pending': short ? '대기' : '확정 대기중'
+    'pending': short ? '대기' : '확정 대기중',
+    'on-site-payment': '현장지불'
   })[status] || ''
 }
 

@@ -56,6 +56,7 @@ function ContactLine ({
   const confirmed = records.filter(record => record.status === 'confirmed')
   const pending = records.filter(record => record.status === 'pending')
   const cancelled = records.filter(record => record.status === 'cancelled')
+  const onSitePayments = records.filter(record => record.status === 'on-site-payment')
 
   // methods
   const toggleContent = (e) => {
@@ -160,6 +161,25 @@ function ContactLine ({
             <div className='history-content'>
               {
                 confirmed.map((entry, index) => (
+                  <div className='history-item' key={index}>
+                    <span>{`${dateReadable(entry.counselDate)} ${entry.timeSlot}`}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        }
+
+        {
+          onSitePayments.length > 0 &&
+          <div className='contact-reservation-history'>
+            <div className='history-type'>
+              <span className='inline-small-padding status-pill text-bg-purple mr-4'>현지</span>
+              내역 -
+            </div>
+            <div className='history-content'>
+              {
+                onSitePayments.map((entry, index) => (
                   <div className='history-item' key={index}>
                     <span>{`${dateReadable(entry.counselDate)} ${entry.timeSlot}`}</span>
                   </div>

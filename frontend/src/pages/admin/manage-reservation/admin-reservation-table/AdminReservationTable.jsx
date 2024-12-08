@@ -80,6 +80,7 @@ function AdminReservationTable ({
   usetableSelection = false,
   onSelectionChange = () => {}
 }) {
+  console.log('!@# type, usetableSelection', toggleBtnType, usetableSelection)
   const navigate = useNavigate()
 
   // local-state

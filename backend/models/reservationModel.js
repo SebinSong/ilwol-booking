@@ -47,7 +47,7 @@ const ReservationSchema = new mongoose.Schema({
     type: String,
     default: 'pending',
     enum: {
-      values: ['pending', 'confirmed', 'cancelled'],
+      values: ['pending', 'confirmed', 'cancelled', 'on-site-payment'],
       message: '{VALUE} is not supported'
     }
   },

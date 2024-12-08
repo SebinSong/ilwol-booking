@@ -33,6 +33,7 @@ const getStatusClass = status => {
   return ({
     'pending': 'text-bg-validation',
     'confirmed': 'text-bg-success',
+    'on-site-payment': 'text-bg-purple',
     'cancelled': 'text-bg-warning'
   })[status]
 }
@@ -134,6 +135,7 @@ export default function CustomerReservationDetails () {
     const counselDate = data.counselDate
     const isStatusPending = data?.status === 'pending'
     const isStatusConfirmed = data?.status === 'confirmed'
+    const isStatusOnSitePayment = data?.status === 'on-site-payment'
     const isStatusCancelled = data?.status === 'cancelled'
     const customerMemo = pDetails.memo || ''
 
@@ -278,7 +280,7 @@ export default function CustomerReservationDetails () {
                       </button>
                     </div>
                   </>
-                : isStatusConfirmed
+                : isStatusConfirmed || isStatusOnSitePayment
                   ? <div className='inquiry-instruction mt-30'>
                       <p>예약 날 뵙겠습니다. 문의사항이 있으시면, 선녀님께 
                         <span className='ml-4 has-text-bold'>카톡</span>

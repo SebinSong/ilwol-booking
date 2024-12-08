@@ -35,6 +35,11 @@ button.accordion-button {
     --l-btn-bg-color: #{$validation-bg};
   }
 
+  &.is-type-purple {
+    --l-btn-color: #{$primary-purple};
+    --l-btn-bg-color: #{$primary-purple-bg-2};
+  }
+
   &.is-type-success {
     --l-btn-color: #{$success};
     --l-btn-bg-color: #{$success-bg};

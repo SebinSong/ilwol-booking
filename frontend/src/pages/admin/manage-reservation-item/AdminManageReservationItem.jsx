@@ -35,6 +35,7 @@ const getStatusClass = status => {
   return ({
     'pending': 'text-bg-validation',
     'confirmed': 'text-bg-success',
+    'on-site-payment': 'text-bg-purple',
     'cancelled': 'text-bg-warning'
   })[status]
 }
@@ -42,6 +43,7 @@ const getStatusIcon = status => {
   return ({
     'pending': 'icon-clock',
     'confirmed': 'icon-check-circle',
+    'on-site-payment': 'icon-tag',
     'cancelled': 'icon-close-circle'
   })[status]
 }

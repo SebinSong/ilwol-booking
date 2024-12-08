@@ -24,6 +24,7 @@ const getStatusClass = (status) => {
   return ({
     'pending': 'text-bg-validation',
     'confirmed': 'text-bg-success',
+    'on-site-payment': 'text-bg-purple',
     'cancelled': 'text-bg-warning'
   })[status]
 }

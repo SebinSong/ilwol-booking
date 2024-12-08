@@ -48,7 +48,8 @@ const getStatusClass = status => {
   return ({
     'pending': 'text-bg-validation',
     'confirmed': 'text-bg-success',
-    'cancelled': 'text-bg-warning'
+    'cancelled': 'text-bg-warning',
+    'on-site-payment': 'text-bg-purple'
   })[status]
 }
 
@@ -56,7 +57,8 @@ const getStatusName = (status) => {
   return ({
     'confirmed': '확정',
     'cancelled': '취소',
-    'pending': '대기'
+    'pending': '대기',
+    'on-site-payment': '현지'
   })[status] || ''
 }
 

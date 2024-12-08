@@ -5,7 +5,7 @@ import './AccordionButton.scss'
 
 function AccordionButton ({
   classes = '',
-  type = 'default', // enum of [ 'default', 'success', 'warning' ]
+  type = 'default', // enum of [ 'default', 'validation', 'purple 'success', 'warning' ]
   children = '',
   onToggle = null,
   initValue = false

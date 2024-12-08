@@ -15,7 +15,31 @@ import {
 
 // utils
 import { dateObjToNumeric } from '@utils'
+
+// helpers
 const combineMoblie = mobile => `${mobile.prefix}${mobile.number}`
+const tableProps = {
+  'pending': {
+    emptyMessage: '해당 데이터가 없습니다.',
+    toggleBtnText: '확정 대기중인 예약',
+    toggleBtnType: 'validation'
+  },
+  'confirmed': {
+    emptyMessage: '해당 데이터가 없습니다.',
+    toggleBtnText: '확정된 예약',
+    toggleBtnType: 'success'
+  },
+  'on-site-payment': {
+    emptyMessage: '해당 데이터가 없습니다.',
+    toggleBtnText: '현장지불 예약',
+    toggleBtnType: 'purple'
+  },
+  'cancelled': {
+    emptyMessage: '해당 데이터가 없습니다.',
+    toggleBtnText: '취소된 예약',
+    toggleBtnType: 'warning'
+  }
+}
 
 export default function AdminReservationList () {
   const navigate = useNavigate()
@@ -30,19 +54,24 @@ export default function AdminReservationList () {
     isError: isArchivingError
   }] = useArchiveOldReservations()
   const [pendingMsgIdList, setPendingMsgIdList] = useState([])
+  const [onSitePaymentMsgIdList, setOnSitePaymentMsgIdList] = useState([])
   const [confirmedMsgIdList, setConfirmedMsgIdList] = useState([])
 
   // computed state
-  const cancelledData = useMemo(
-    () => Array.isArray(data) ? data.filter(entry => entry.status === 'cancelled') : [],
-    [data]
-  )
   const pendingData = useMemo(
     () => Array.isArray(data) ? data.filter(entry => entry.status === 'pending') : [],
     [data]
   )
+  const onSitePaymentData = useMemo(
+    () => Array.isArray(data) ? data.filter(entry => entry.status === 'on-site-payment') : [],
+    [data]
+  )
   const confirmedData = useMemo(
     () => Array.isArray(data) ? data.filter(entry => entry.status === 'confirmed') : [],
+    [data]
+  )
+  const cancelledData = useMemo(
+    () => Array.isArray(data) ? data.filter(entry => entry.status === 'cancelled') : [],
     [data]
   )
 
@@ -69,9 +98,20 @@ export default function AdminReservationList () {
     }
   }
 
-  const onSendMsgClick = (type = 'pending') => {
-    const dataToUse = type === 'pending' ? pendingData : confirmedData
-    const msgIdList = type === 'pending' ? pendingMsgIdList : confirmedMsgIdList
+  const onSendMsgClick = (type = '') => {
+    const dataToUse = ({
+      pending: pendingData,
+      confirmed: confirmedData,
+      onSitePayment: onSitePaymentData
+    })[type]
+    const msgIdList = ({
+      pending: pendingMsgIdList,
+      confirmed: confirmedMsgIdList,
+      onSitePayment: onSitePaymentMsgIdList
+    })[type]
+
+    if (!dataToUse || !msgIdList) { return }
+
     const mobileNumArr = dataToUse
       .filter(x => msgIdList.includes(x._id) && x.personalDetails?.mobile?.number)
       .map(x => combineMoblie(x.personalDetails.mobile))
@@ -91,6 +131,9 @@ export default function AdminReservationList () {
 
   const onPendingTableSelectionChange = useCallback((list) => {
     setPendingMsgIdList(list)
+  }, [])
+  const onOnSitePaymentTableSelectionChange = useCallback((list) => {
+    setOnSitePaymentMsgIdList(list)
   }, [])
   const onConfirmedTableSelectionChange = useCallback((list) => {
     setConfirmedMsgIdList(list)
@@ -117,9 +160,8 @@ export default function AdminReservationList () {
             list={pendingData}
             usetableSelection={true}
             onSelectionChange={onPendingTableSelectionChange}
-            emptyMessage='해당 데이터가 없습니다.'
-            toggleBtnText='확정 대기중인 예약'
-            toggleBtnType='validation'>
+            { ...tableProps.pending }
+          >
             <button className='is-secondary is-small' type='button'
               onClick={() => onSendMsgClick('pending')}
               disabled={!pendingMsgIdList.length}>
@@ -131,12 +173,27 @@ export default function AdminReservationList () {
 
         <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
+            list={onSitePaymentData}
+            usetableSelection={true}
+            onSelectionChange={onOnSitePaymentTableSelectionChange}
+            { ...tableProps['on-site-payment'] }
+          >
+            <button className='is-secondary is-small' type='button'
+              onClick={() => onSendMsgClick('onSitePayment')}
+              disabled={!onSitePaymentMsgIdList.length}>
+              <span className='icon-mail is-prefix'></span>
+              전체문자 전송
+            </button>
+          </AdminReservationTable>
+        </section>
+
+        <section className='admin-page-section mb-30 pb-0'>
+          <AdminReservationTable
             list={confirmedData}
             usetableSelection={true}
             onSelectionChange={onConfirmedTableSelectionChange}
-            emptyMessage='해당 데이터가 없습니다.'
-            toggleBtnText='확정된 예약'
-            toggleBtnType='success'>
+            { ...tableProps.confirmed }
+          >
             <button className='is-secondary is-small' type='button'
               onClick={() => onSendMsgClick('confirmed')}
               disabled={!confirmedMsgIdList.length}>
@@ -149,9 +206,7 @@ export default function AdminReservationList () {
         <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={cancelledData}
-            emptyMessage='해당 데이터가 없습니다.'
-            toggleBtnText='취소된 예약'
-            toggleBtnType='warning' />
+            { ...tableProps.cancelled } />
         </section>
       </>
     )

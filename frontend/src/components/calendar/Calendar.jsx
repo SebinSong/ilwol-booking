@@ -78,6 +78,7 @@ export default function Calendar ({
       minDate={minDate || tomorrow}
       formatDay={dayFormatter}
       tileClassName={defineTileClassName}
+      calendarType='gregory'
       minDetail='decade' />
   )
 }

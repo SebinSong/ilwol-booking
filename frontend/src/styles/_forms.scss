@@ -107,6 +107,7 @@ $form-border: 1rem;
   min-height: var(--radio-diameter);
   padding-left: var(--radio-diameter);
   font-size: $size_6;
+  cursor: pointer;
 
   &.is-large {
     --radio-diameter: 2.6rem;
@@ -116,8 +117,6 @@ $form-border: 1rem;
   &:not(:empty) {
     padding-left: calc(var(--radio-diameter) * 1.25);
   }
-
-  cursor: pointer;
 
   input {
     position: absolute;

@@ -50,6 +50,16 @@ button,
   font-weight: 700;
   outline: none;
 
+  @include addButtonColorStyles('primary');
+
+  &.is-secondary {
+    @include addButtonColorStyles('secondary');
+  }
+
+  &.is-warning {
+    @include addButtonColorStyles('warning');
+  } 
+
   @include from ($tablet) {
     min-width: 12rem;
   }
@@ -135,16 +145,6 @@ button,
   [class^="icon-"].is-prefix {
     transform: translateY(1px);
     font-size: 1.15em;
-  }
-
-  @include addButtonColorStyles('primary');
-
-  &.is-secondary {
-    @include addButtonColorStyles('secondary');
-  }
-
-  &.is-warning {
-    @include addButtonColorStyles('warning');
   }
 }
 

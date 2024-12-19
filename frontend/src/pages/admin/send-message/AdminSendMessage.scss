@@ -3,10 +3,10 @@
 
   .admin-send-message-wrapper {
     position: relative;
-    @include width-limited;
     width: 100%;
     margin-left: 0;
     margin-right: unset;
+    max-width: 38rem;
 
     @include from ($small-phone) {
       max-width: 48rem;

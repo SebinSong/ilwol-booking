@@ -1,14 +1,13 @@
-@import "reset";
-@import "colors";
-@import "variables";
-@import "base";
-@import "typography";
-@import "transitions";
-@import "icons";
-@import "layout";
-@import "forms";
-@import "tables";
-@import "utils";
-@import "modals";
+@use "reset";
+@use "colors";
+@use "base";
+@use "typography";
+@use "transitions";
+@use "icons";
+@use "layout";
+@use "forms";
+@use "tables";
+@use "utils";
+@use "modals";
 
-@import "./building-blocks/buttons";
+@use "./building-blocks/buttons";

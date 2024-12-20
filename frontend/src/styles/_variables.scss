@@ -1,5 +1,3 @@
-@use "sass:math";
-
 // z-index constraints
 $zindex-toolbar: 10;
 $zindex-tooltip: 20;
@@ -39,6 +37,3 @@ $page-common-side-padding: 2rem;
 $admin-content-max-width: 58rem;
 $page-common-side-padding-mobile: 1.5rem;
 $calendar-max-width: 42rem;
-
-@import "mixins";
-@import "color_utils";

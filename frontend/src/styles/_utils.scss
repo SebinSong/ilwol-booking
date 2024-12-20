@@ -1,3 +1,5 @@
+@use "global_scss_utils" as *;
+
 // various global utility classes
 
 @for $n from 1 through 8 {

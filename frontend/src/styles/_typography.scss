@@ -1,3 +1,7 @@
+@use "global_scss_utils" as *;
+@use "sass:list";
+@use "sass:map";
+
 // Noto Sans KR
 @font-face {
   src: url(/fonts/NotoSansKR/NotoSansKR-Light.woff2) format('woff2');
@@ -69,7 +73,7 @@ body {
 
 $titles: $size_1, $size_2, $size_3, $size_4, $size_5;
 @each $size in $titles {
-  $i: index($titles, $size);
+  $i: list.index($titles, $size);
 
   .is-title-#{$i} {
     font-weight: bold;
@@ -131,7 +135,7 @@ $text-color-bg-map: (
     color: $color_val !important;
 
     &.with-bg {
-      background-color: map-get($text-color-bg-map, $name);
+      background-color: map.get($text-color-bg-map, $name);
     }
   }
 

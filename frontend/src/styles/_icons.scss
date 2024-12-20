@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $icon-map: (
   upload: "\e9bb",
   archive: "\e908",
@@ -117,7 +119,7 @@ $icon-map: (
 }
 
 @mixin icon($name) {
-  content: map-get($icon-map, $name);
+  content: map.get($icon-map, $name);
   display: inline-block;
   line-height: 1;
   font-family: "Ilwol Icons";

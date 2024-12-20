@@ -1,3 +1,5 @@
+@use "../global_scss_utils" as *;
+
 @mixin addButtonColorStyles ($type: 'primary') {
   background-color: var(--button-bg-#{$type});
   color: var(--button-text-#{$type});

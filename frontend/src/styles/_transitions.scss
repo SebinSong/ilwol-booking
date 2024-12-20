@@ -1,3 +1,5 @@
+@use "global_scss_utils" as *;
+
 @keyframes warning-reveal {
   0% {
     opacity: 0;

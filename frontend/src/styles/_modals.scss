@@ -1,3 +1,5 @@
+@use "global_scss_utils" as *;
+
 #modal-container {
   position: fixed;
   z-index: $zindex-modal;

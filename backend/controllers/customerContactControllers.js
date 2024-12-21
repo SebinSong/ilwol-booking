@@ -1,5 +1,6 @@
 const CustomerContact = require('../models/customerContactModel')
 const asyncHandler = require('../middlewares/asyncHandler.js')
+const { sendResourceNotFound } = require('../utils/helpers')
 
 const getAllContacts = asyncHandler(async (req, res, next) => {
   const data = (await CustomerContact.find({ contactType: 'mobile' })) || []
@@ -94,8 +95,23 @@ const saveContactFromReservation = async (reservation) => {
   }
 }
 
+const deleteContactById = asyncHandler(async (req, res, next) => {
+  const { id: contactId } = req.params
+  const deletedContact = await CustomerContact.findByIdAndDelete(contactId)
+
+  if (!deletedContact) {
+    sendResourceNotFound(res, `Cannot find the contact by id - [${contactId}]`)
+  } else {
+    res.status(200).json({
+      message: 'Successfully deleted the contact',
+      contactId
+    })
+  }
+})
+
 module.exports = {
   getAllContacts,
   saveContactFromReservation,
-  saveContactsFromReservations
+  saveContactsFromReservations,
+  deleteContactById
 }

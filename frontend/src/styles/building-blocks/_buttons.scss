@@ -60,7 +60,11 @@ button,
 
   &.is-warning {
     @include addButtonColorStyles('warning');
-  } 
+  }
+  
+  &.is-warning-outline {
+    @include addButtonColorStyles('warning-outline');
+  }
 
   @include from ($tablet) {
     min-width: 12rem;

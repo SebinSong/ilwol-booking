@@ -32,7 +32,8 @@ export default function AdminCustomerContact () {
   const {
     data: contactData,
     isLoading: isContactsLoading,
-    isError: isContactsError
+    isError: isContactsError,
+    refetch
   } = useGetAllContacts()
   const storedCustomerContacts = useSelector(selectStoredSelectedContacts)
   const [sortType, setSortType] = useState('created-date')
@@ -71,18 +72,22 @@ export default function AdminCustomerContact () {
   )
 
   // methods
-  const onItemSelect = (data) => {
-    let updatedList
+  const onItemSelect = useCallback(
+    (data) => {
+      let updatedList
+  
+      if (selectedItems.includes(data._id)) {
+        updatedList = selectedItems.filter(x => x !== data._id)
+      } else {
+        updatedList = [ ...selectedItems, data._id ]
+      }
+  
+      setSelectedItems(updatedList)
+      dispatch(storeSelectedContacts(updatedList))
+    }, []
+  )
 
-    if (selectedItems.includes(data._id)) {
-      updatedList = selectedItems.filter(x => x !== data._id)
-    } else {
-      updatedList = [ ...selectedItems, data._id ]
-    }
-
-    setSelectedItems(updatedList)
-    dispatch(storeSelectedContacts(updatedList))
-  }
+  const onContactDeletion = useCallback(() => refetch(), [])
 
   const onSearchInputDebounced = useCallback(
     debounce(e => setSearch(e.target.value), 300), []
@@ -95,11 +100,13 @@ export default function AdminCustomerContact () {
     }, []
   )
 
-  const onSelectAll = () => {
-    const allSelections = dataToShow.map(entry => entry._id)
-    setSelectedItems(allSelections)
-    dispatch(storeSelectedContacts(allSelections))
-  }
+  const onSelectAll = useCallback(
+    () => {
+      const allSelections = dataToShow.map(entry => entry._id)
+      setSelectedItems(allSelections)
+      dispatch(storeSelectedContacts(allSelections))
+    }, []
+  )
 
   const sendGroupMessages = () => {
     if (!selectedItems?.length) { return }
@@ -187,7 +194,7 @@ export default function AdminCustomerContact () {
                             {
                               Boolean(selectedItems?.length) &&
                               <button className='is-warning is-extra-small' onClick={onClearList}>
-                                <i className='icon-trash is-prefix'></i>
+                                <i className='icon-close-circle is-prefix'></i>
                                 전체 취소
                               </button>
                             }
@@ -198,7 +205,12 @@ export default function AdminCustomerContact () {
                       <div className='admin-contact-list'>
                         {
                           dataToShow.length > 0
-                            ? dataToShow.map(entry => <ContactLine data={entry} key={entry._id} searchValue={search} selected={selectedItems.includes(entry._id)} onSelect={onItemSelect} />)
+                            ? dataToShow.map(entry => <ContactLine data={entry} key={entry._id}
+                                searchValue={search}
+                                selected={selectedItems.includes(entry._id)}
+                                onSelect={onItemSelect}
+                                onDelete={onContactDeletion}
+                              />)
                             : <p className='helper info mt-0 no-result'>검색결과가 없습니다.</p>
                         }
                       </div>

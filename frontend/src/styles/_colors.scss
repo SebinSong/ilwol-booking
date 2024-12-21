@@ -12,6 +12,7 @@
     0 2px 4px -1px rgba(111, 28, 166, 0.2),
     0 4px 5px rgba(111, 28, 166, 0.14),
     0 1px 10px rgba(111, 28, 166, 0.12);
+
   --button-bg-secondary: rgba(0, 0, 0, 0);
   --button-bg-disabled-secondary: rgba(0, 0, 0, 0);
   --button-bg-on-hover-secondary: rgba(0, 0, 0, 0);
@@ -21,6 +22,7 @@
   --button-border-disabled-secondary: #AAADB7;
   --button-border-on-hover-secondary: #AC79F2;
   --button-shadow-on-active-secondary: none;
+
   --button-bg-warning: #FF0E00;
   --button-bg-on-hover-warning: #db0e03;
   --button-bg-disabled-warning: #AAADB7;
@@ -30,6 +32,16 @@
   --button-border-disabled-warning: #AAADB7;
   --button-border-on-hover-warning: #db0e03;
   --button-shadow-on-active-warning: rgba(255, 69, 69, 0.275);
+
+  --button-bg-warning-outline: rgba(0, 0, 0, 0);
+  --button-bg-on-hover-warning-outline: rgba(0, 0, 0, 0);
+  --button-bg-disabled-warning-outline: rgba(0, 0, 0, 0);
+  --button-text-warning-outline: #FF0E00;
+  --button-text-on-hover-warning-outline: #9C52C7;
+  --button-border-warning-outline: #FF0E00;
+  --button-border-disabled-warning-outline: #AAADB7;
+  --button-border-on-hover-warning-outline: #9C52C7;
+  --button-shadow-on-active-warning-outline: none;
 
   // calendar
   --calender-bg-color: #f9f5fc;

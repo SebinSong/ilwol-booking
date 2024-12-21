@@ -67,6 +67,7 @@ $active-bg: $primary-purple-bg-2;
         font-size: 1.05em;
         cursor: pointer;
         user-select: none;
+        @include truncate-text-overflow;
 
         &:hover {
           text-decoration: underline;
@@ -98,6 +99,10 @@ $active-bg: $primary-purple-bg-2;
 
       button.details-btn {
         min-width: 6.8rem;
+      }
+
+      button.is-extra-small.icon-only {
+        padding: 0.2rem 0.4rem;
       }
     }
   }

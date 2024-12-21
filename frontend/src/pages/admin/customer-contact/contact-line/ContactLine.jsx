@@ -11,6 +11,9 @@ import {
 
 import './ContactLine.scss'
 
+// hooks
+import { useDeleteContact } from '@store/features/adminApiSlice.js'
+
 // helpers
 const dateReadable = date => {
   const d = new Date(numericDateToString(date))
@@ -38,12 +41,14 @@ function ContactLine ({
   classes = '',
   searchValue = '',
   onSelect = null,
+  onDelete = null,
   selected = false
 }) {
   const navigate = useNavigate()
   const { addToastItem } = useContext(ToastContext)
 
   // local-state
+  const [deleteContactById, { isLoading: isDeletingContact }] = useDeleteContact()
   const [isContentOpen, setIsContentOpen] = useState(false)
   const {
     name,
@@ -83,14 +88,10 @@ function ContactLine ({
   }
 
   const onItemSelect = (e) => {
-    e.preventDefault()
-
     onSelect && onSelect(data)
   }
 
   const onMessageBtnClick = (e) => {
-    e.stopPropagation()
-
     if (contactType !== 'mobile') { return }
 
     const [prefix, number] = contact.split(' ')
@@ -99,9 +100,36 @@ function ContactLine ({
       {
         state: {
           to: [`${prefix}${number}`] 
-        } 
+        }
       }
     )
+  }
+
+  const onDeleteBtnClick = async (e) => {
+    if (!data._id) { return }
+
+    try {
+      const result = await deleteContactById(data._id).unwrap()
+
+      addToastItem({
+        type: 'success',
+        heading: '연락처 삭제',
+        content: '연락처가 성공적으로 삭제되었습니다.'
+      })
+
+      onDelete && onDelete()
+    } catch (err) {
+      console.error('ContactLine.jsx caught: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '삭제 오류!',
+        content: '연락처 삭제중 오류가 발생하였습니다. 다시 시도해 주세요.'
+      })
+    }
+  }
+
+  const stopClickPropagation = (e) => {
+    e.stopPropagation()
   }
 
   // views
@@ -136,7 +164,7 @@ function ContactLine ({
               <span>{isContentOpen ? '접기' : '보기'}</span>
           </button>
 
-          <div className='small-btns'>
+          <div className='small-btns' onClick={stopClickPropagation}>
             <button className='is-extra-small icon-only is-secondary'
               onClick={copyContact}>
               <i className='icon-copy'></i>
@@ -145,6 +173,12 @@ function ContactLine ({
             <button className='is-extra-small icon-only is-secondary'
               onClick={onMessageBtnClick}>
               <i className='icon-mail'></i>
+            </button>
+
+            <button className='is-extra-small icon-only is-warning-outline'
+              onClick={onDeleteBtnClick}
+              disabled={isDeletingContact}>
+              <i className='icon-trash'></i>
             </button>
           </div>
         </div>

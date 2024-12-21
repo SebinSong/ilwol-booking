@@ -158,7 +158,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
 
       getAllContacts: builder.query({
         query: () => ({
-          url: `${CONTACTS_PATH}`,
+          url: CONTACTS_PATH,
           method: 'GET'
         }),
         transformResponse: response => {
@@ -176,6 +176,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         },
         providesTags: ['Contacts'],
         keepUnusedDataFor: 60 // seconds
+      }),
+
+      deleteContact: builder.mutation({
+        query: contactId => ({
+          url: `${CONTACTS_PATH}/${contactId}`,
+          method: 'DELETE' 
+        }),
+        invalidatesTags: ['Contacts']
       })
     }
   }
@@ -253,5 +261,6 @@ export const {
   useRegenerateCalendarMutation: useRegenerateCalendar,
   useSendWebMessageMutation: useSendWebMessage,
   useGetAllContactsQuery: useGetAllContacts,
+  useDeleteContactMutation: useDeleteContact,
   useGetArchivedReservationsQuery: useGetArchivedReservations
 } = adminApiSlice

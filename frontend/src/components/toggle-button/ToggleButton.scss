@@ -1,4 +1,79 @@
+$thumb-side: 1.4rem;
+$track-width: $thumb-side * 2 + 0.2rem;
+
 .toggle-button-container {
   position: relative;
   display: inline-block;
+  display: flex;
+  height: auto;
+  width: max-content;
+  padding: 0.3rem;
+  border-radius: 2.4rem;
+  border: 1px solid var(--toggle-button-border-color);
+  background-color: var(--toggle-button-bg-color);
+  transition: all 200ms ease-out;
+
+  &:hover,
+  &:focus {
+    border-color: var(--toggle-button-border-color_focused);
+    background-color: var(--toggle-button-bg-color_focused);
+  }
+  
+  &.is-on {
+    background-color: var(--toggle-button-bg-color_active);
+    border-color: var(--toggle-button-border-color_active);
+  }
+
+  &.is-disabled {
+    border-color: var(--toggle-button-border-color_disabled);
+    background-color: var(--toggle-button-bg-color_disabled);
+    pointer-events: none;
+    opacity: 0.785;
+  }
+
+  input.toggle-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .toggle-track {
+    position: relative;
+    width: $track-width;
+    height: $thumb-side;
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    width: $thumb-side;
+    height: $thumb-side;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: var(--toggle-button-thumb-color);
+    transition: all 200ms ease-out;
+    transform: translateX(0);
+  }
+
+  &.is-on {
+    .toggle-thumb {
+      transform: translateX(calc(100% + 0.2rem));
+    }
+  }
+
+  &:hover,
+  &:focus {
+    .toggle-thumb {
+      background-color: var(--toggle-button-thumb-color_focused);
+    }
+  }
+
+  &.is-disabled {
+    .toggle-thumb {
+      background-color: var(--toggle-button-thumb-color_disabled);
+    }
+  }
 }

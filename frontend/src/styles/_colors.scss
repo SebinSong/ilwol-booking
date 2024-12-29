@@ -65,7 +65,20 @@
   --custom-input-border-color_focus: #6F1CA6;
   --custom-input-border-color_hover: #6F1CA6;
   --custom-input-text-color: #322940;
-  --custom-input-placeholder-color: #94A3B8; 
+  --custom-input-placeholder-color: #94A3B8;
+
+  // toggle-button
+  --toggle-button-bg-color: #AC79F2;
+  --toggle-button-border-color: #AC79F2;
+  --toggle-button-thumb-color: #f7f4fb;
+  --toggle-button-bg-color_focused: #9C52C7;
+  --toggle-button-border-color_focused: #9C52C7;
+  --toggle-button-thumb-color_focused: #f7f4fb;
+  --toggle-button-bg-color_active: #6F1CA6;
+  --toggle-button-border-color_active: #6F1CA6;
+  --toggle-button-bg-color_disabled: #f7f4fb;
+  --toggle-button-border-color_disabled: #AAADB7;
+  --toggle-button-thumb-color_disabled: #AAADB7;
 
   // toast
   --toast-bg-color: #36082b;

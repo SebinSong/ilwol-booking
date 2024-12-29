@@ -5,6 +5,7 @@ import bookingOptions from '@view-data/booking-options.js'
 import { selectCounselOption, addCounselOption } from '@store/features/counselDetailsSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 
+// components
 import OptionCard from '@components/option-card/OptionCard'
 
 import './SelectBookingOption.scss'

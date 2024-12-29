@@ -103,7 +103,7 @@ export default function AdminCustomerContact () {
     () => {
       const allSelections = dataToShow.map(entry => entry._id)
       setSelectedItems(allSelections)
-    }, []
+    }, [dataToShow]
   )
 
   const sendGroupMessages = () => {

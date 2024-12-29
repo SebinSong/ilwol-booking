@@ -14,7 +14,7 @@ import ContactActions from './contact-actions/ContactActions'
 
 // hooks
 import { useGetAllContacts } from '@store/features/adminApiSlice.js'
-import { storeSelectedContacts, clearSelectedContacts, selectStoredSelectedContacts } from '@store/features/customerContactsSlice.js'
+import { storeSelectedContacts, selectStoredSelectedContacts } from '@store/features/customerContactsSlice.js'
 
 // helpers
 const sortTypeList = [
@@ -74,17 +74,19 @@ export default function AdminCustomerContact () {
   // methods
   const onItemSelect = useCallback(
     (data) => {
-      let updatedList
-  
-      if (selectedItems.includes(data._id)) {
-        updatedList = selectedItems.filter(x => x !== data._id)
-      } else {
-        updatedList = [ ...selectedItems, data._id ]
-      }
-  
-      setSelectedItems(updatedList)
-      dispatch(storeSelectedContacts(updatedList))
-    }, []
+      setSelectedItems(si => {
+        let updatedList
+
+        if (si.includes(data._id)) {
+          updatedList = si.filter(x => x !== data._id)
+        } else {
+          updatedList = [ ...si, data._id ]
+        }
+
+        return updatedList
+      })
+    },
+    []
   )
 
   const onContactDeletion = useCallback(() => refetch(), [])
@@ -94,17 +96,13 @@ export default function AdminCustomerContact () {
   )
 
   const onClearList = useCallback(
-    () => {
-      setSelectedItems([])
-      dispatch(clearSelectedContacts())
-    }, []
+    () => setSelectedItems([]), []
   )
 
   const onSelectAll = useCallback(
     () => {
       const allSelections = dataToShow.map(entry => entry._id)
       setSelectedItems(allSelections)
-      dispatch(storeSelectedContacts(allSelections))
     }, []
   )
 
@@ -120,6 +118,8 @@ export default function AdminCustomerContact () {
         adjustedContacts.push(found.contact.replace(/\s+/g, ''))
       }
     }
+
+    dispatch(storeSelectedContacts(selectedItems))
 
     navigate(
       '/admin/send-message',

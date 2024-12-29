@@ -109,6 +109,7 @@ function ContactLine ({
     if (!data._id) { return }
 
     try {
+      if (!window.confirm(`${name}님의 연락처를 삭제하시겠습니까?`)) { return }
       const result = await deleteContactById(data._id).unwrap()
 
       addToastItem({

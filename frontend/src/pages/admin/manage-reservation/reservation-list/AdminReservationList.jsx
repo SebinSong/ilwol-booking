@@ -19,6 +19,11 @@ import { dateObjToNumeric } from '@utils'
 // helpers
 const combineMoblie = mobile => `${mobile.prefix}${mobile.number}`
 const tableProps = {
+  'notify-me': {
+    emptyMessage: '해당 데이터가 없습니다.',
+    toggleBtnText: '조기상담 요망자',
+    toggleBtnType: 'default'
+  },
   'pending': {
     emptyMessage: '해당 데이터가 없습니다.',
     toggleBtnText: '확정 대기중인 예약',
@@ -58,6 +63,10 @@ export default function AdminReservationList () {
   const [confirmedMsgIdList, setConfirmedMsgIdList] = useState([])
 
   // computed state
+  const notifyMeData =useMemo(
+    () => Array.isArray(data) ? data.filter(entry => !!entry.notifyEarlierDate) : [],
+    [data]
+  )
   const pendingData = useMemo(
     () => Array.isArray(data) ? data.filter(entry => entry.status === 'pending') : [],
     [data]
@@ -155,6 +164,18 @@ export default function AdminReservationList () {
   else {
     return (
       <>
+        {
+          notifyMeData?.length > 0 && (
+            <section className='admin-page-section mb-30 pb-0'>
+              <AdminReservationTable
+                showStatus={true}
+                list={notifyMeData}
+                { ...tableProps['notify-me'] }>
+              </AdminReservationTable>
+            </section>
+          )
+        }
+
         <section className='admin-page-section mb-30 pb-0'>
           <AdminReservationTable
             list={pendingData}

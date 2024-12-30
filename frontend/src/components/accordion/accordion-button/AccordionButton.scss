@@ -1,8 +1,7 @@
 button.accordion-button {
   @include button-spacing-reset;
 
-  --l-btn-color: #{$primary-purple};
-  --l-btn-bg-color: #{$primary-purple-bg-2};
+  --l-btn-bg-color: #eff5fc; // default - neutral-grey bg color
 
   display: flex;
   align-items: center;
@@ -31,22 +30,18 @@ button.accordion-button {
   }
 
   &.is-type-validation {
-    --l-btn-color: #{$validation};
     --l-btn-bg-color: #{$validation-bg};
   }
 
   &.is-type-purple {
-    --l-btn-color: #{$primary-purple};
     --l-btn-bg-color: #{$primary-purple-bg-2};
   }
 
   &.is-type-success {
-    --l-btn-color: #{$success};
     --l-btn-bg-color: #{$success-bg};
   }
 
   &.is-type-warning {
-    --l-btn-color: #{$warning};
     --l-btn-bg-color: #{$warning-bg};
   }
 

@@ -53,6 +53,10 @@ const ReservationSchema = new mongoose.Schema({
   },
   calendarMemo: {
     type: String
+  },
+  notifyEarlierDate: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true

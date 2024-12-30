@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import {
   classNames as cn,
   numericDateToString,
-  humanDate
+  humanDate,
+  getStatusName,
+  getStatusClass
 } from '@utils'
 import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
@@ -57,6 +59,7 @@ const transformListEntry = entry => {
     methodName: getCounselMethodName(entry),
     createdDate: entry.createdAt ? humanDate(entry.createdAt, { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
     createdDateOriginal: entry.createdAt,
+    status: entry.status,
     id: entry._id
   }
 
@@ -70,6 +73,15 @@ const sortTypeList = [
   { id: 'booking-date', name: '최근예약순', value: 'booking-date' },
 ]
 
+// child component
+function StatusTag ({ status }) {
+  return (
+    <span className={cn('status-tag inline-small-padding',getStatusClass(status))}>
+      {getStatusName(status, true)}
+    </span>
+  )
+}
+
 function AdminReservationTable ({
   list,
   classes = '',
@@ -77,6 +89,7 @@ function AdminReservationTable ({
   toggleBtnType = 'default',
   toggleBtnText = '',
   children = null,
+  showStatus = false,
   usetableSelection = false,
   onSelectionChange = () => {}
 }) {
@@ -226,7 +239,12 @@ function AdminReservationTable ({
                                       }
                                       <td className='td-created-at'>{entry.createdDate}</td>
                                       <td className='td-counsel-time'>{entry.dateAndTime}</td>
-                                      <td className='td-name' onClick={() => onItemClick(entry)}>{entry.name}</td>
+                                      <td className='td-name' onClick={() => onItemClick(entry)}>
+                                        {
+                                          showStatus && <StatusTag status={entry.status} />
+                                        }
+                                        <span>{entry.name}</span>
+                                      </td>
                                       <td className='td-mobile'>
                                         {
                                           entry.mobileDisplay !== 'N/A'

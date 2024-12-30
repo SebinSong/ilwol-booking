@@ -180,9 +180,19 @@ export function getStatusName (status, short = false) {
     'confirmed': short ? '확정' : '확정됨',
     'cancelled': short ? '취소' : '취소됨',
     'pending': short ? '대기' : '확정 대기중',
-    'on-site-payment': '현장지불'
+    'on-site-payment': short ? '현지' : '현장지불'
   })[status] || ''
 }
+
+export const getStatusClass = status => {
+  return ({
+    'pending': 'text-bg-validation',
+    'confirmed': 'text-bg-success',
+    'on-site-payment': 'text-bg-purple',
+    'cancelled': 'text-bg-warning'
+  })[status]
+}
+
 
 export function dobToString (dob) {
   const zeroPad = v => v.length === 1 ? `0${v}` : v

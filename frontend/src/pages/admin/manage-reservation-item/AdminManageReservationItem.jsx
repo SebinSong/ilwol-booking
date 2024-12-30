@@ -7,6 +7,7 @@ import TextLoader from '@components/text-loader/TextLoader'
 import Feedback from '@components/feedback/Feedback'
 import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
+import ToggleButton from '@components/toggle-button/ToggleButton'
 
 // hooks
 import { useGetReservationDetails } from '@store/features/reservationApiSlice.js'
@@ -57,6 +58,7 @@ export default function AdminManageReservationItem () {
 
   // local-state
   const [currentStatus, setCurrentStatus] = useState('')
+  const [updatingNotifyMe, setUpdatingNotifyMe] = useState(false)
   const {
     data = {},
     isLoading: isLoadingDetails,
@@ -85,6 +87,7 @@ export default function AdminManageReservationItem () {
   const pDetails = data?.personalDetails || {}
   const hasContactDetails = Boolean(pDetails?.mobile?.number || pDetails?.email || pDetails?.kakaoId)
   const hasMobileNumber = Boolean(pDetails?.mobile?.number)
+  const isNotifyMeOn = Boolean(data?.notifyEarlierDate)
 
   // effects
   useEffect(() => {
@@ -109,7 +112,7 @@ export default function AdminManageReservationItem () {
 
       addToastItem({
         type: 'success',
-        heading: '업데이트됨!',
+        heading: '업데이트 완료!',
         content: '예약 상태가 성공적으로 업데이트되었습니다.'
       })
       refetch()
@@ -118,9 +121,30 @@ export default function AdminManageReservationItem () {
 
       addToastItem({
         type: 'warning',
-        heading: '업데이트 실패!',
+        heading: '업데이트 오류!',
         content: '예약 상태 업데이트중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
       })
+    }
+  }
+
+  const toggleNotifyEarlierDate = async () => {
+    try {
+      setUpdatingNotifyMe(true)
+      const res = await updateReservationDetails({
+        id: reservationId,
+        updates: { notifyEarlierDate: !data?.notifyEarlierDate }
+      }).unwrap()
+      refetch()
+    } catch (err) {
+      console.error('AdminManageReservationItem.jsx caught: ', err)
+
+      addToastItem({
+        type: 'warning',
+        heading: '업데이트 오류!',
+        content: '해당 필드 업데이트중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+      })
+    } finally {
+      setUpdatingNotifyMe(false)
     }
   }
 
@@ -242,6 +266,19 @@ export default function AdminManageReservationItem () {
                 </div>
 
                 <div className='summary-list__item'>
+                  <span className='summary-list__label'>이름</span>
+                  <span className='summary-list__value is-normal-color'>
+                    {pDetails.name}
+                    {
+                      !isAdminGenerated &&
+                      <span className='ml-4'>
+                        {pDetails?.gender === 'male' ? '(남)' : '(여)'}
+                      </span>
+                    }
+                  </span>
+                </div>
+
+                <div className='summary-list__item'>
                   <span className='summary-list__label'>상태</span>
                   <span className='summary-list__value'>
                     <span className={cn('status-tag', getStatusClass(data?.status))}>
@@ -252,15 +289,12 @@ export default function AdminManageReservationItem () {
                 </div>
 
                 <div className='summary-list__item'>
-                  <span className='summary-list__label'>이름</span>
-                  <span className='summary-list__value is-normal-color'>
-                    {pDetails.name}
-                    {
-                      !isAdminGenerated &&
-                      <span className='ml-4'>
-                        {pDetails?.gender === 'male' ? '(남)' : '(여)'}
-                      </span>
-                    }
+                  <span className='summary-list__label'>조기상담요망</span>
+                  <span className='summary-list__value'>
+                    <ToggleButton classes='early-reservation-toggle'
+                      disabled={updatingNotifyMe}
+                      value={isNotifyMeOn}
+                      onChange={toggleNotifyEarlierDate} />
                   </span>
                 </div>
 

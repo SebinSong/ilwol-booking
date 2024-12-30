@@ -3,15 +3,14 @@ $track-width: $thumb-side * 2 + 0.2rem;
 
 .toggle-button-container {
   position: relative;
-  display: inline-block;
-  display: flex;
+  display: inline-flex;
   height: auto;
   width: max-content;
   padding: 0.3rem;
   border-radius: 2.4rem;
   border: 1px solid var(--toggle-button-border-color);
   background-color: var(--toggle-button-bg-color);
-  transition: all 200ms ease-out;
+  transition: all 120ms ease-out;
 
   &:hover,
   &:focus {
@@ -54,7 +53,7 @@ $track-width: $thumb-side * 2 + 0.2rem;
     left: 0;
     border-radius: 50%;
     background-color: var(--toggle-button-thumb-color);
-    transition: all 200ms ease-out;
+    transition: all 120ms ease-out;
     transform: translateX(0);
   }
 

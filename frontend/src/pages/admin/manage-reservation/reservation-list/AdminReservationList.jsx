@@ -64,7 +64,7 @@ export default function AdminReservationList () {
 
   // computed state
   const notifyMeData =useMemo(
-    () => Array.isArray(data) ? data.filter(entry => !!entry.notifyEarlierDate) : [],
+    () => Array.isArray(data) ? data.filter(entry => entry.status !== 'cancelled' && !!entry.notifyEarlierDate) : [],
     [data]
   )
   const pendingData = useMemo(

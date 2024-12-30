@@ -288,15 +288,19 @@ export default function AdminManageReservationItem () {
                   </span>
                 </div>
 
-                <div className='summary-list__item'>
-                  <span className='summary-list__label'>조기상담요망</span>
-                  <span className='summary-list__value'>
-                    <ToggleButton classes='early-reservation-toggle'
-                      disabled={updatingNotifyMe}
-                      value={isNotifyMeOn}
-                      onChange={toggleNotifyEarlierDate} />
-                  </span>
-                </div>
+                {
+                  data?.status !== 'cancelled' && (
+                    <div className='summary-list__item'>
+                      <span className='summary-list__label'>조기상담요망</span>
+                      <span className='summary-list__value'>
+                        <ToggleButton classes='early-reservation-toggle'
+                          disabled={updatingNotifyMe}
+                          value={isNotifyMeOn}
+                          onChange={toggleNotifyEarlierDate} />
+                      </span>
+                    </div>
+                  )
+                }
 
                 <div className='summary-list__item'>
                   <span className='summary-list__label'>캘린더 메모</span>

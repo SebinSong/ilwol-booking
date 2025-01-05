@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 // components
@@ -8,16 +8,26 @@ import StateButton from '@components/state-button/StateButton'
 import { useUpdateReservationDetailsByCustomer } from '@store/features/reservationApiSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 
+// utils
+import {
+  formatMoney,
+  computeReservationTotalPrice
+} from '@utils'
+
 // helpers
 const selectOptionMap = {
   'family-counsel': [2, 3, 4, 5],
   'overseas-counsel': [1, 2, 3, 4, 5]
 }
 
+const priceDisplay = price => formatMoney(price, { minimumFractionDigits: 0 })
+
 function AttendeeNumberRow ({
   optionId = '',
   numAttendee = 1,
   disableUpdate = false,
+  currentTotalPrice = 0,
+  onUpdateModeChange = null,
   onUpdateSuccess = () => {}
 }) {
   const { id: reservationId } = useParams()
@@ -31,6 +41,11 @@ function AttendeeNumberRow ({
   }] = useUpdateReservationDetailsByCustomer()
   const optionsList = selectOptionMap[optionId]
 
+  // computed-state
+  const showPriceDifference = useMemo(
+    () => isUpdateMode && numAttendee !== updatedValue, [isUpdateMode, updatedValue]
+  )
+
   // methods
   const toggleUpdateMode = (e) => {
     e.stopPropagation()
@@ -38,6 +53,11 @@ function AttendeeNumberRow ({
     setIsUpdateMode(v => !v)
     setUpdatedValue(numAttendee)
   }
+
+  // effects
+  useEffect(() => {
+    onUpdateModeChange && onUpdateModeChange(isUpdateMode)
+  }, [isUpdateMode])
 
   const updateHandler = async () => {
     if (!window.confirm('상담 인원을 수정하시겠습니까?')) { return }
@@ -71,45 +91,61 @@ function AttendeeNumberRow ({
 
   return (
     <div className='summary-list__item attendee-number-row'>
-      <span className='summary-list__label'>
-        <span>인원 (본인포함)</span>
+      <div className='sub-block'>
+        <span className='summary-list__label'>
+          <span>인원 (본인포함)</span>
+          {
+            !disableUpdate &&
+            <button className='is-small is-secondary modify-btn'
+              type='button'
+              disabled={isUpdating}
+              onClick={toggleUpdateMode}>
+              {isUpdateMode ? '뒤로' : '변경'}
+            </button>
+          }
+        </span>
+
         {
-          !disableUpdate &&
-          <button className='is-small is-secondary modify-btn'
-            type='button'
-            disabled={isUpdating}
-            onClick={toggleUpdateMode}>
-            {isUpdateMode ? '뒤로' : '변경'}
-          </button>
+          isUpdateMode ? (
+            <span className='summary-list__value is-inline-flex'>
+              <span className='selectbox is-small num-attendee-select'>
+                <select className='select'
+                  tabIndex='0'
+                  value={updatedValue}
+                  onChange={e => setUpdatedValue(parseInt(e.target.value))}>
+                  {
+                    optionsList.map(num => (
+                      <option value={num} key={num}>{num}</option>
+                    ))
+                  }
+                </select>
+              </span>
+
+              <StateButton classes='is-small update-btn'
+                type='button'
+                disabled={numAttendee === updatedValue}
+                onClick={updateHandler}
+                displayLoader={isUpdating}
+              >수정</StateButton>
+            </span>
+          ) : (
+            <span className='summary-list__value'>{numAttendee}명</span>
+          )
         }
-      </span>
+      </div>
 
       {
-        isUpdateMode ? (
-          <span className='summary-list__value is-inline-flex'>
-            <span className='selectbox is-small num-attendee-select'>
-              <select className='select'
-                tabIndex='0'
-                value={updatedValue}
-                onChange={e => setUpdatedValue(e.target.value)}>
-                {
-                  optionsList.map(num => (
-                    <option value={num} key={num}>{num}</option>
-                  ))
-                }
-              </select>
+        showPriceDifference &&
+        <div className='sub-block price-difference'>
+          <label>변경 상담료:</label>
+          <span className='price-change'>
+            <span className='current-price'>{priceDisplay(currentTotalPrice)}</span>
+            <i className='icon-arrow-right'></i>
+            <span className='new-price'>
+              {priceDisplay(computeReservationTotalPrice(optionId, updatedValue))}
             </span>
-
-            <StateButton classes='is-small update-btn'
-              type='button'
-              disabled={numAttendee === updatedValue}
-              onClick={updateHandler}
-              displayLoader={isUpdating}
-              dis>수정</StateButton>
           </span>
-        ) : (
-          <span className='summary-list__value'>{numAttendee}명</span>
-        )
+        </div>
       }
     </div>
   )

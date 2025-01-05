@@ -22,7 +22,10 @@ const {
   getCounselMethodNameById,
   mergeObjects,
   extractNameWithNum,
-  cloneDeep
+  cloneDeep,
+  formatMoney,
+  getCustomerLinkById,
+  computeReservationTotalPrice
 } = require('../utils/helpers')
 const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
 
@@ -535,32 +538,70 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
     }
   } else {
     const getUpdateObj = () => {
-      switch (type) {
-        case 'method': {
-          return { 'personalDetails.method': updates.method }
+      return ({
+        'method': { 'personalDetails.method': updates.method },
+        'num-attendee': {
+          'personalDetails.numAttendee': updates.numAttendee,
+          'totalPrice': computeReservationTotalPrice(doc.optionId, updates.numAttendee)
         }
-        default: return updates
-      }
+      })[type]
     }
     const getCustomerSMS = () => {
-      return type === 'method'
-        ? `${pDetails.name}님, 상담방식이 '${getCounselMethodNameById(updates.method)}'로 성공적으로 변경되었습니다.`
-        : `${pDetails.name}님, 상담내역이 성공적으로 변경되었습니다.`
+      switch (type) {
+        case 'method': {
+          return `${pDetails.name}님, 상담방식이 '${getCounselMethodNameById(updates.method)}'로 성공적으로 변경되었습니다.`
+        }
+        case 'num-attendee': {
+          const diff = updates.numAttendee - pDetails.numAttendee
+
+          if (diff > 0) {
+            return `${pDetails.name}님, 상담 인원 ${diff}명을 추가하셨습니다. ` +
+              `${diff * 50000}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
+          } else {
+            return doc.status === 'confirmed'
+              ? `${pDetails.name}님, 상담인원이 ${updates.numAttendee}명으로 변경되었습니다. 관리자가 확인 후, 상담료 초과분을 환불드리겠습니다. 환불 받으실 계좌를 보내주세요.`
+              : `${pDetails.name}님, 상담인원이 ${updates.numAttendee}명으로 변경되었습니다. 아래 링크에서 변경된 상담료 내역 확인 바랍니다. ${getCustomerLinkById(reservationId)}`
+          }
+        }
+        default:
+          return  `${pDetails.name}님, 상담내역이 성공적으로 변경되었습니다.`
+      }
     }
     const getAdminSMS = () => {
-      return type === 'method'
-        ? `${pDetails.name} 예약변경:\r\n'${getCounselMethodNameById(pDetails.method)}' -> '${getCounselMethodNameById(updates.method)}'`
-        : `${pDetails.name} 셀프 예약변경`
+      const isStatusConfirmed = doc.status === 'confirmed'
+      const dateAndTime = `${numericDateToString(doc.counselDate)} ${doc.timeSlot}`
+
+      switch (type) {
+        case 'method': {
+          return `${pDetails.name} [${dateAndTime}] 상담방식 변경:\r\n'${getCounselMethodNameById(pDetails.method)}' -> '${getCounselMethodNameById(updates.method)}'`
+        }
+        case 'num-attendee': {
+          const diff = updates.numAttendee - pDetails.numAttendee
+
+          if (diff > 0) {
+            return isStatusConfirmed
+              ? `${pDetails.name} [${dateAndTime}, 확정] 상담인원 추가:\r\n${pDetails.numAttendee}명 -> ${updates.numAttendee}명. 추가상담료 입금확인 필요`
+              : `${pDetails.name} [${dateAndTime}] 상담인원 추가:\r\n${pDetails.numAttendee}명 -> ${updates.numAttendee}명`
+          } else {
+            return isStatusConfirmed
+              ? `${pDetails.name} [${dateAndTime}, 확정] 상담인원 줄임:\r\n${pDetails.numAttendee}명 -> ${updates.numAttendee}명. 상담료 환불 필요`
+              : `${pDetails.name} [${dateAndTime}] 상담인원 줄임:\r\n${pDetails.numAttendee}명 -> ${updates.numAttendee}명`
+          }
+        }
+        default:
+          return `${pDetails.name} [${dateAndTime}] 셀프 예약내역 변경.`
+      }
     }
     const reorderUpdates = () => {
+      const updateObj = getUpdateObj()
       const transformed = {}
-      const inPD = ['method', 'name', 'mobile']
 
-      for (const key in updates) {
-        if (inPD.includes(key)) {
+      for (const key in updateObj) {
+        if (key.startsWith('personalDetails')) {
           if (!transformed.personalDetails) { transformed.personalDetails = {} }
 
-          transformed.personalDetails[key] = updates[key]
+          const subKey = key.split('.')[1]
+          transformed.personalDetails[subKey] = updates[key]
         } else {
           transformed[key] = updates[key]
         }

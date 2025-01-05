@@ -39,8 +39,34 @@ function AttendeeNumberRow ({
     setUpdatedValue(numAttendee)
   }
 
-  const updateHandler = () => {
-    if (!window.confirm('상담 방식을 수정하시겠습니까?')) { return }
+  const updateHandler = async () => {
+    if (!window.confirm('상담 인원을 수정하시겠습니까?')) { return }
+
+    try {
+      const result = await updateAttendeeNumber({
+        id: reservationId,
+        updates: { numAttendee: updatedValue },
+        type: 'num-attendee'
+      }).unwrap()
+
+      addToastItem({
+        type: 'success',
+        heading: '수정 완료!',
+        content: '상담인원이 성공적으로 수정되었습니다.'
+      })
+      onUpdateSuccess()
+    } catch (err) {
+      console.error('AttendeeNumberRow.jsx caught: ', err)
+      addToastItem({
+        type: 'warning',
+        heading: '수정 오류!',
+        content: '요청 처리중 오류가 발생하였습니다.'
+      })
+
+      setUpdatedValue(numAttendee)
+    } finally {
+      setIsUpdateMode(false)
+    }
   }
 
   return (

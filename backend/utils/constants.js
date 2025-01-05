@@ -51,22 +51,22 @@ const COUNSEL_OPTIONS_LIST = [
     duration: 0.5
   },
   {
-    name: '해외 상담',
-    id: 'overseas-counsel',
-    type: 'individual',
-    description: '해외 카카오 보이스톡 신점 상담입니다. 그룹 상담도 가능하며, 1인 추가당 5만원입니다.',
-    price: 150000,
-    additionalPrice: 50000,
-    duration: 1
-  },
-  {
     name: '가족/커플 상담',
     id: 'family-counsel',
     type: 'group',
     description: '가족/커플 상담입니다. 친구 지인은 제외되고 1인당 5만원 추가입니다.',
     price: 150000,
     additionalPrice: 50000,
-    duration: 1
+    duration: 0.75
+  },
+  {
+    name: '해외 상담',
+    id: 'overseas-counsel',
+    type: 'individual',
+    description: '해외 카카오 보이스톡 신점 상담입니다. 그룹 상담도 가능하며, 1인 추가당 5만원입니다.',
+    price: 150000,
+    additionalPrice: 50000,
+    duration: 0.75
   },
   {
     name: '관리자생성 아이템',

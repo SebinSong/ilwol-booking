@@ -18,6 +18,7 @@ import CopyToClipboard from '@components/copy-to-clipboard/CopyToClipboard'
 import StateButton from '@components/state-button/StateButton'
 import UpdateReservationSchedule from './UpdateReservationSchedule.jsx'
 import CounselMethodRow from './CounselMethodRow.jsx'
+import AttendeeNumberRow from './AttendeeNumberRow.jsx'
 
 // hooks
 import {
@@ -130,13 +131,15 @@ export default function CustomerReservationDetails () {
   } else {
     const pDetails = data.personalDetails || {}
     const bookingOption = bookingOptions.find(item => item.id === data.optionId)
+    const counselDate = data.counselDate
+
     const isAdminGenerated = data.optionId === 'admin-generated'
     const isOverseasOption = data.optionId === 'overseas-counsel'
-    const counselDate = data.counselDate
     const isStatusPending = data?.status === 'pending'
     const isStatusConfirmed = data?.status === 'confirmed'
     const isStatusOnSitePayment = data?.status === 'on-site-payment'
     const isStatusCancelled = data?.status === 'cancelled'
+    const showAttendeeNumber = ['family-counsel', 'overseas-counsel'].includes(data.optionId)
     const customerMemo = pDetails.memo || ''
 
     return (
@@ -184,6 +187,14 @@ export default function CustomerReservationDetails () {
                   <span className='summary-list__label'>상담 옵션</span>
                   <span className='summary-list__value'>{bookingOption.name}</span>
                 </div>
+              }
+
+              {
+                showAttendeeNumber &&
+                <AttendeeNumberRow optionId={data.optionId}
+                  disableUpdate={isStatusCancelled}
+                  numAttendee={pDetails.numAttendee}
+                  onUpdateSuccess={refetch} />
               }
 
               {

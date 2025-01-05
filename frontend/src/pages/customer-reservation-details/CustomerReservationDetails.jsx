@@ -63,6 +63,7 @@ export default function CustomerReservationDetails () {
   ] = useDeleteReservation()
   const [isDeleted, setIsDeleted] = useState(false)
   const [isUpdatingTime, setIsUpdatingTime] = useState(false)
+  const [isUpdatingAttendeeNumber, setIsUpdatingAttendeeNumber] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
 
   // methods
@@ -194,6 +195,8 @@ export default function CustomerReservationDetails () {
                 <AttendeeNumberRow optionId={data.optionId}
                   disableUpdate={isStatusCancelled}
                   numAttendee={pDetails.numAttendee}
+                  currentTotalPrice={data.totalPrice}
+                  onUpdateModeChange={setIsUpdatingAttendeeNumber}
                   onUpdateSuccess={refetch} />
               }
 
@@ -228,13 +231,16 @@ export default function CustomerReservationDetails () {
                 </div>
               }
               
-
-              <div className='summary-list__item'>
-                <span className='summary-list__label'>상담료</span>
-                <span className='summary-list__value is-big text-color-default'>
-                  { isAdminGenerated ? 'N/A' : formatMoney(data.totalPrice, { minimumFractionDigits: 0 }) }
-                </span>
-              </div>
+              {
+                !isUpdatingAttendeeNumber && (
+                  <div className='summary-list__item'>
+                    <span className='summary-list__label'>상담료</span>
+                    <span className='summary-list__value is-big text-color-default'>
+                      { isAdminGenerated ? 'N/A' : formatMoney(data.totalPrice, { minimumFractionDigits: 0 }) }
+                    </span>
+                  </div>
+                )
+              }
             </div>
           </div>
           {

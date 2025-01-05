@@ -3,6 +3,7 @@
 import { isMobilePhone } from 'validator'
 import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD, API_BASE_PATH, RESERVATION_PATH } from '@view-data/constants.js'
+import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
 
 export const MINS_MILLIS = 60000
 export const HOURS_MILLIS = 60 * MINS_MILLIS
@@ -310,4 +311,12 @@ export function debounce (func, wait, immediate) {
   }
 
   return debounced
+}
+
+export function computeReservationTotalPrice (optionId, numAttendee) {
+  const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
+  const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
+  const { price, additionalPrice } = option
+
+  return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
 }

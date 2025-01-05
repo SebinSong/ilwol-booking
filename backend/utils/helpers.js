@@ -185,6 +185,36 @@ const parseNodeArgFlags = () => {
   return flags
 }
 
+const formatMoney = (val, opts = {}) => {
+  let value = parseFloat(val)
+
+  if (isNaN(value)) {
+    value = 0.00
+  }
+
+  return new Intl.NumberFormat(
+    'ko-KR',
+    {
+      style: 'currency',
+      currency: 'KRW',
+      minimumFractionDigits: 2,
+      ...opts
+    }
+  ).format(value)
+}
+
+const getCustomerLinkById = (reservationid) => {
+  return `${process.env.SITE_URL}/reservation-details/${reservationid}`
+}
+
+const computeReservationTotalPrice = (optionId, numAttendee) => {
+  const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
+  const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
+  const { price, additionalPrice } = option
+
+  return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
+}
+
 module.exports = {
   sendBadRequestErr,
   sendResourceNotFound,
@@ -206,5 +236,8 @@ module.exports = {
   base64ToString,
   promiseAllWithLimit,
   extractNameWithNum,
-  parseNodeArgFlags
+  parseNodeArgFlags,
+  formatMoney,
+  getCustomerLinkById,
+  computeReservationTotalPrice
 }

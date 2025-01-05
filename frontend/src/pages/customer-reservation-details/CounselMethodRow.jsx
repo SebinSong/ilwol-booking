@@ -33,6 +33,7 @@ function CounselMethodRow ({
   // methods
   const toggleUpdateMode = () => {
     setIsUpdateMode(v => !v)
+    setUpdatedValue(method)
   }
   const updateHandler = async () => {
     if (!window.confirm('상담 방식을 수정하시겠습니까?')) { return }
@@ -78,8 +79,8 @@ function CounselMethodRow ({
             type='button'
             disabled={isUpdatingReservationMethod}
             onClick={toggleUpdateMode}>
-              {isUpdateMode ? '뒤로' : '변경'}
-            </button>
+            {isUpdateMode ? '뒤로' : '변경'}
+          </button>
         }
       </span>
 
@@ -105,7 +106,7 @@ function CounselMethodRow ({
                 disabled={method === updatedValue}
                 onClick={updateHandler}
                 displayLoader={isUpdatingReservationMethod}
-                dis>수정</StateButton>
+              >수정</StateButton>
             </span>
           : <span className='summary-list__value'>
               {getCounselMethodNameById(method)}

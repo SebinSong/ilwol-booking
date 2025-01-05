@@ -77,7 +77,7 @@ const sortTypeList = [
 function StatusTag ({ status }) {
   return (
     <span className={cn('status-tag inline-small-padding',getStatusClass(status))}>
-      {getStatusName(status, true)}
+      {getStatusName(status, true, true)}
     </span>
   )
 }

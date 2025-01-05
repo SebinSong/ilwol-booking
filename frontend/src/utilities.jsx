@@ -176,12 +176,14 @@ export function getCounselMethodNameById (targetId) {
   return COUNSEL_METHOD.find(x => x.value === targetId).name || ''
 }
 
-export function getStatusName (status, short = false) {
+export function getStatusName (status, short = false, forTable = false) {
   return ({
     'confirmed': short ? '확정' : '확정됨',
     'cancelled': short ? '취소' : '취소됨',
     'pending': short ? '대기' : '확정 대기중',
-    'on-site-payment': short ? '현지' : '현장지불'
+    'on-site-payment': short
+      ? (forTable ? '현지' : '현장지불')
+      : '현장지불'
   })[status] || ''
 }
 

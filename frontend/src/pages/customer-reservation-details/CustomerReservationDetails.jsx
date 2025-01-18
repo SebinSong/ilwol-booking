@@ -63,6 +63,7 @@ export default function CustomerReservationDetails () {
   ] = useDeleteReservation()
   const [isDeleted, setIsDeleted] = useState(false)
   const [isUpdatingTime, setIsUpdatingTime] = useState(false)
+  const [selfUpdateItem, setSelfUpdateItem] = useState(null)
   const [isUpdatingAttendeeNumber, setIsUpdatingAttendeeNumber] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
 
@@ -140,7 +141,9 @@ export default function CustomerReservationDetails () {
     const isStatusOnSitePayment = data?.status === 'on-site-payment'
     const isStatusCancelled = data?.status === 'cancelled'
     const showAttendeeNumber = ['family-counsel', 'overseas-counsel'].includes(data.optionId)
+    const hideTotalPrice = ['num-attendee', 'booking-option'].includes(selfUpdateItem)
     const customerMemo = pDetails.memo || ''
+    const isUpdatingButNot = (rowId) => selfUpdateItem !== null && selfUpdateItem !== rowId
 
     return (
       <PageTemplate classes='page-customer-reservation-details'>
@@ -181,22 +184,28 @@ export default function CustomerReservationDetails () {
                 </span>
               </div>
   
-              <BookingOptionRow optionId={data.optionId} />
+              <BookingOptionRow currentOptionId={data.optionId}
+                rowId='booking-option'
+                onUpdateModeChange={setSelfUpdateItem}
+                disableUpdate={isUpdatingButNot('booking-option')} />
 
               {
                 showAttendeeNumber &&
                 <AttendeeNumberRow optionId={data.optionId}
-                  disableUpdate={isStatusCancelled}
+                  rowId='num-attendee'
+                  disableUpdate={isStatusCancelled || isUpdatingButNot('num-attendee')}
                   numAttendee={pDetails.numAttendee}
                   currentTotalPrice={data.totalPrice}
-                  onUpdateModeChange={setIsUpdatingAttendeeNumber}
+                  onUpdateModeChange={setSelfUpdateItem}
                   onUpdateSuccess={refetch} />
               }
 
               {
                 Boolean(!isAdminGenerated && pDetails.method) &&
                 <CounselMethodRow method={pDetails.method}
-                  disableUpdate={isOverseasOption || isStatusCancelled}
+                  rowId='counsel-method'
+                  disableUpdate={isOverseasOption || isStatusCancelled || isUpdatingButNot('counsel-method')}
+                  onUpdateModeChange={setSelfUpdateItem}
                   onUpdateSuccess={refetch} />
               }
   
@@ -225,7 +234,7 @@ export default function CustomerReservationDetails () {
               }
               
               {
-                !isUpdatingAttendeeNumber && (
+                !hideTotalPrice && (
                   <div className='summary-list__item'>
                     <span className='summary-list__label'>상담료</span>
                     <span className='summary-list__value is-big text-color-default'>

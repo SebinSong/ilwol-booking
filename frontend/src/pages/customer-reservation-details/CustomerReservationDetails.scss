@@ -65,7 +65,7 @@
       align-items: center;
     }
 
-    .summary-list__item.attendee-number-row {
+    .summary-list__item.has-sub-block {
       flex-direction: column;
       align-items: flex-start;
       row-gap: 1.2rem;
@@ -74,6 +74,17 @@
         display: flex;
         width: 100%;
         align-items: center;
+
+        &.booking-option-update-item {
+          justify-content: flex-end;
+
+          label {
+            font-size: $size_7;
+            font-weight: 700;
+            color: $text_dark_grey;
+            margin-right: 1.2rem;
+          }
+        }
 
         &.price-difference {
           justify-content: flex-end;
@@ -109,6 +120,10 @@
 
       .summary-list__label {
         width: 55%;
+
+        &.fit-content {
+          width: max-content;
+        }
 
         .sub-label {
           font-size: 0.825em;
@@ -232,13 +247,24 @@
 
   button.update-btn {
     min-height: 2.8rem;
+
+    &.is-in-label {
+      min-height: 2.2rem;
+      min-width: 5.2rem;
+    }
   }
 
-  .selectbox.counsel-method-select {
-    width: 10rem;
-  }
-
-  .selectbox.num-attendee-select {
-    width: 8.2rem;
+  .selectbox {
+    &.counsel-method-select {
+      width: 10rem;
+    }
+  
+    &.num-attendee-select {
+      width: 8.2rem;
+    }
+  
+    &.booking-option-select {
+      width: 11.2rem;
+    }
   }
 }

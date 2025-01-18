@@ -23,6 +23,7 @@ const selectOptionMap = {
 const priceDisplay = price => formatMoney(price, { minimumFractionDigits: 0 })
 
 function AttendeeNumberRow ({
+  rowId = 'num-attendee',
   optionId = '',
   numAttendee = 1,
   disableUpdate = false,
@@ -56,7 +57,7 @@ function AttendeeNumberRow ({
 
   // effects
   useEffect(() => {
-    onUpdateModeChange && onUpdateModeChange(isUpdateMode)
+    onUpdateModeChange && onUpdateModeChange(isUpdateMode ? rowId : null)
   }, [isUpdateMode])
 
   const updateHandler = async () => {
@@ -90,7 +91,7 @@ function AttendeeNumberRow ({
   }
 
   return (
-    <div className='summary-list__item attendee-number-row'>
+    <div className='summary-list__item has-sub-block'>
       <div className='sub-block'>
         <span className='summary-list__label'>
           <span>인원 (본인포함)</span>

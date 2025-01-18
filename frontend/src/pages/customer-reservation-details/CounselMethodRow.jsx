@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 // components
@@ -16,8 +16,10 @@ import { ToastContext } from '@hooks/useToast.js'
 const optionsList = COUNSEL_METHOD.filter(entry => entry.id !== 'voice-talk')
 
 function CounselMethodRow ({
+  rowId = 'counsel-method',
   method = '',
   disableUpdate = false,
+  onUpdateModeChange = null,
   onUpdateSuccess = () => {}
 }) {
   const { id: reservationId } = useParams()
@@ -65,6 +67,11 @@ function CounselMethodRow ({
       setIsUpdateMode(false)
     }
   }
+
+  // effects
+  useEffect(() => {
+    onUpdateModeChange && onUpdateModeChange(isUpdateMode ? rowId : null)
+  }, [isUpdateMode])
 
   // view
   if (!method) { return null }

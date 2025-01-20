@@ -140,13 +140,13 @@ const postReservation = asyncHandler(async (req, res, next) => {
       ? {
           'personalDetails.mobile.prefix': pDetails.mobile.prefix,
           'personalDetails.mobile.number': pDetails.mobile.number,
-          status: { '$ne': 'cancelled' },
+          status: { '$in': ['pending', 'on-site-payment'] },
           counselDate: { '$gte': todayNumeric }
         }
       : optionId === 'overseas-counsel'
         ? {
             'personalDetails.kakaoId': pDetails.kakaoId,
-            status: { '$ne': 'cancelled' },
+            status: { '$in': ['pending', 'on-site-payment'] },
             counselDate: { '$gte': todayNumeric }
           }
         : null

@@ -343,7 +343,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       const existingEntry = await Reservation.findOne({
         'personalDetails.mobile.prefix': mobile.prefix,
         'personalDetails.mobile.number': mobile.number,
-        status: { '$ne': 'cancelled' },
+        status: { '$in': ['pending', 'on-site-payment'] },
         counselDate: { '$gte': todayNumeric }
       })
 

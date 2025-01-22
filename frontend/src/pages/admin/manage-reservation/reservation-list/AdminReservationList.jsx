@@ -170,6 +170,7 @@ export default function AdminReservationList () {
               <AdminReservationTable
                 showStatus={true}
                 list={notifyMeData}
+                initialSortType='created-date'
                 { ...tableProps['notify-me'] }>
               </AdminReservationTable>
             </section>

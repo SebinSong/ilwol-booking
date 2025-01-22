@@ -91,6 +91,7 @@ function AdminReservationTable ({
   children = null,
   showStatus = false,
   usetableSelection = false,
+  initialSortType = 'booking-date',
   onSelectionChange = () => {}
 }) {
   const navigate = useNavigate()
@@ -98,7 +99,7 @@ function AdminReservationTable ({
   // local-state
   const [isDisplaying ,setIsDisplaying] = useState(true)
   const [search, setSearch] = useState('')
-  const [sortType, setSortType] = useState('booking-date') // either 'created-date' or 'reservation-date'
+  const [sortType, setSortType] = useState(initialSortType) // either 'created-date' or 'reservation-date'
   const [allSelected, setAllSelected] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
 

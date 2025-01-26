@@ -99,8 +99,9 @@ export default function AdminUpdateReservationItem () {
   // computed state
   const pDetails = data?.personalDetails || {}
   const isAdminGenerated = details?.optionId === 'admin-generated'
+  const shouldShowNumAttendee = ['family-counsel', 'overseas-counsel'].includes(details.optionId)
   const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
-  const numAttendeeOptions = data?.optionId === 'family-counsel' ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
+  const numAttendeeOptions = details.optionId === 'family-counsel' ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
   // memoized computed props
   const enableUpdateBtn = useMemo(() => {
@@ -109,17 +110,8 @@ export default function AdminUpdateReservationItem () {
       'numAttendee', 'name', 'mobile'
     ]
 
-    const checked = Boolean(details.timeSlot) &&
-    ( 
-      details.calendarMemo !== originalData.calendarMemo ||
-      requiredKeys.some((key) => {
-        const keycheck = Boolean(details[key]) && originalData[key] !== details[key]
-        if (keycheck) { console.log('true key: ', key) }
-        return keycheck
-      })
-    )
     return Boolean(details.timeSlot) &&
-      ( 
+      (
         details.calendarMemo !== originalData.calendarMemo ||
         requiredKeys.some((key) => Boolean(details[key]) && originalData[key] !== details[key])
       )
@@ -214,6 +206,25 @@ export default function AdminUpdateReservationItem () {
 
       updateError && setUpdateError('')
     }
+  }
+
+  const onOptionIdUpdate = (e) => {
+    const val = e.target.value
+
+    setDetails(draft => {
+      draft.optionId = val
+      draft.numAttendee = val === data.optionId
+        ? pDetails.numAttendee
+        : ['individual-counsel', 'overseas-counsel'].includes(val)
+          ? 1
+          : 2
+
+      if (isErrorActive('optionId')) {
+        clearFormError()
+      }
+
+      updateError && setUpdateError('')
+    })
   }
 
   const onMobileUpdate = useCallback(
@@ -449,7 +460,7 @@ export default function AdminUpdateReservationItem () {
                           tabIndex='0'
                           value={details.optionId}
                           data-vkey='optionId'
-                          onChange={updateFactory('optionId')}>
+                          onChange={onOptionIdUpdate}>
                           {
                             COUNSEL_OPTIONS_LIST.map(entry => (
                               <option value={entry.id} key={entry.id}>{entry.name}</option>
@@ -481,7 +492,7 @@ export default function AdminUpdateReservationItem () {
                 </div>
 
                 {
-                  !isAdminGenerated &&
+                  shouldShowNumAttendee &&
                   <div className='summary-list__item align-center'>
                     <span className='summary-list__label'>
                       총 상담 인원 <span className='text-color-purple'>(본인 포함)</span>

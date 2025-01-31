@@ -316,5 +316,26 @@ button.react-calendar__tile.react-calendar__tile--now {
   &.is-multiple-selected {
     color: $success;
     background-color: rgba(0, 0, 0, 0);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.8rem;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.975);
+      background-color: $primary-purple;
+      z-index: 0;
+    }
+
+    abbr {
+      color: inherit;
+    }
+  }
+
+  abbr {
+    z-index: 1;
   }
 }

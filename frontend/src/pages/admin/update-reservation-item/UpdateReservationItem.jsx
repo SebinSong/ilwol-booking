@@ -97,6 +97,7 @@ export default function AdminUpdateReservationItem () {
   ] = useUpdateReservationDetails()
 
   // computed state
+  const today = new Date()
   const pDetails = data?.personalDetails || {}
   const isAdminGenerated = details?.optionId === 'admin-generated'
   const shouldShowNumAttendee = ['family-counsel', 'overseas-counsel'].includes(details.optionId)
@@ -380,6 +381,7 @@ export default function AdminUpdateReservationItem () {
                 <div className='calendar-container'>
                   <Calendar onChange={onCalendarSelect}
                     fullyBookedDates={dayOffsData}
+                    minDate={today}
                     value={details?.counselDate} />
                 </div>
 

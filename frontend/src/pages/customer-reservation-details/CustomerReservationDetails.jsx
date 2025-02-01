@@ -62,7 +62,6 @@ export default function CustomerReservationDetails () {
     }
   ] = useDeleteReservation()
   const [isDeleted, setIsDeleted] = useState(false)
-  const [isUpdatingTime, setIsUpdatingTime] = useState(false)
   const [selfUpdateItem, setSelfUpdateItem] = useState(null)
   const [isUpdatingAttendeeNumber, setIsUpdatingAttendeeNumber] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
@@ -87,17 +86,17 @@ export default function CustomerReservationDetails () {
     }
   }
 
-  const updateModeOn = () => {
-    setNoAnimation(true)
-    setTimeout(() => {
-      if (isUpdatingTime) { return }
-
-      setIsUpdatingTime(true)
-    }, 10)
+  const onUpdateTimeClick = () => {
+    if (!selfUpdateItem) {
+      setNoAnimation(true)
+      setTimeout(() => setSelfUpdateItem('time'), 10)
+    } else {
+      setSelfUpdateItem(null)
+    }
   }
-  const updateModeOff = useCallback(() => setIsUpdatingTime(false), [])
-  const onUpdateSuccess = useCallback(() => {
-    setIsUpdatingTime(false)
+  const onUpdateTimeCancel = useCallback(() => setSelfUpdateItem(null), [])
+  const onUpdateTimeSuccess = useCallback(() => {
+    setSelfUpdateItem(null)
     refetch()
   }, [])
 
@@ -215,9 +214,12 @@ export default function CustomerReservationDetails () {
                   <span>날짜/시간</span>
                   {
                     !isStatusCancelled &&
+                    (selfUpdateItem === null || selfUpdateItem === 'time') &&
                     <button className='is-small is-secondary modify-btn'
                       type='button'
-                      onClick={updateModeOn}>변경</button>
+                      onClick={onUpdateTimeClick}>
+                      { selfUpdateItem ? '뒤로' : '변경' }
+                    </button>
                   }
                 </span>
                 <span className='summary-list__value'>
@@ -247,13 +249,13 @@ export default function CustomerReservationDetails () {
             </div>
           </div>
           {
-            isUpdatingTime
+            selfUpdateItem === 'time'
               ? <UpdateReservationSchedule classes='mt-50'
                   initialDate={numericDateToString(data.counselDate)}
                   initialTimeSlot={data.timeSlot}
                   isOverseasOption={isOverseasOption}
-                  onBackClick={updateModeOff}
-                  onUpdateSuccess={onUpdateSuccess} />
+                  onBackClick={onUpdateTimeCancel}
+                  onUpdateSuccess={onUpdateTimeSuccess} />
               : isStatusPending
                 ? <>
                     <div className='bank-transfer-details mt-10'>

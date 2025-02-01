@@ -187,6 +187,7 @@ export default function CustomerReservationDetails () {
               <BookingOptionRow currentOptionId={data.optionId}
                 rowId='booking-option'
                 onUpdateModeChange={setSelfUpdateItem}
+                currentTotalPrice={data.totalPrice}
                 disableUpdate={isUpdatingButNot('booking-option')} />
 
               {

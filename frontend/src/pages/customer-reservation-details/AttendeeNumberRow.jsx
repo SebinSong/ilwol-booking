@@ -61,7 +61,7 @@ function AttendeeNumberRow ({
   }, [isUpdateMode])
 
   const updateHandler = async () => {
-    if (!window.confirm('상담 인원을 수정하시겠습니까?')) { return }
+    if (!window.confirm('상담 인원을 변경하시겠습니까?')) { return }
 
     try {
       const result = await updateAttendeeNumber({
@@ -72,15 +72,15 @@ function AttendeeNumberRow ({
 
       addToastItem({
         type: 'success',
-        heading: '수정 완료!',
-        content: '상담인원이 성공적으로 수정되었습니다.'
+        heading: '변경 완료!',
+        content: '상담 인원이 변경되었습니다.'
       })
       onUpdateSuccess()
     } catch (err) {
       console.error('AttendeeNumberRow.jsx caught: ', err)
       addToastItem({
         type: 'warning',
-        heading: '수정 오류!',
+        heading: '변경 에러',
         content: '요청 처리중 오류가 발생하였습니다.'
       })
 

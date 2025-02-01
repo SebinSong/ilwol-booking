@@ -140,13 +140,13 @@ const postReservation = asyncHandler(async (req, res, next) => {
       ? {
           'personalDetails.mobile.prefix': pDetails.mobile.prefix,
           'personalDetails.mobile.number': pDetails.mobile.number,
-          status: { '$ne': 'cancelled' },
+          status: { '$in': ['pending', 'on-site-payment'] },
           counselDate: { '$gte': todayNumeric }
         }
       : optionId === 'overseas-counsel'
         ? {
             'personalDetails.kakaoId': pDetails.kakaoId,
-            status: { '$ne': 'cancelled' },
+            status: { '$in': ['pending', 'on-site-payment'] },
             counselDate: { '$gte': todayNumeric }
           }
         : null
@@ -343,7 +343,7 @@ const updateReservationDetails = asyncHandler(async (req, res, next) => {
       const existingEntry = await Reservation.findOne({
         'personalDetails.mobile.prefix': mobile.prefix,
         'personalDetails.mobile.number': mobile.number,
-        status: { '$ne': 'cancelled' },
+        status: { '$in': ['pending', 'on-site-payment'] },
         counselDate: { '$gte': todayNumeric }
       })
 

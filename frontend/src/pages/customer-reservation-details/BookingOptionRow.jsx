@@ -51,6 +51,16 @@ function BookingOptionRow ({
     () => computeReservationTotalPrice(updatedOption, updatedNumAttendee),
     [updatedNumAttendee, updatedOption]
   )
+  const enableUpdateBtn = useMemo(
+    () => {
+      if (!isUpdateMode) { return false }
+
+      return updatedOption === currentOptionId
+        ? updatedNumAttendee !== currentNumAttendee
+        : true
+    },
+    [isUpdateMode, updatedOption, updatedNumAttendee, currentOptionId, currentNumAttendee]
+  )
 
   // methods
   const toggleUpdateMode = (e) => {
@@ -83,10 +93,10 @@ function BookingOptionRow ({
     try {
       const result = await updateBookingOption({
         id: reservationId,
-        updates: Object.assign(
-          { optionId: updatedOption },
-          updatedNumAttendee !== currentNumAttendee && { numAttendee: updatedNumAttendee }
-        ),
+        updates: {
+          optionId: updatedOption,
+          numAttendee: updatedNumAttendee
+        },
         type: 'counsel-option'
       }).unwrap()
 
@@ -142,7 +152,7 @@ function BookingOptionRow ({
 
               <StateButton classes='is-small update-btn is-in-label'
                 type='button'
-                disabled={currentOptionId === updatedOption}
+                disabled={!enableUpdateBtn}
                 onClick={submitHandler}
                 displayLoader={isUpdating}
               >수정하기</StateButton>

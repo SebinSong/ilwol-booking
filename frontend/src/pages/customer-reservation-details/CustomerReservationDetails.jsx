@@ -187,6 +187,8 @@ export default function CustomerReservationDetails () {
                 rowId='booking-option'
                 onUpdateModeChange={setSelfUpdateItem}
                 currentTotalPrice={data.totalPrice}
+                currentNumAttendee={pDetails.numAttendee}
+                onUpdateSuccess={refetch}
                 disableUpdate={isUpdatingButNot('booking-option')} />
 
               {

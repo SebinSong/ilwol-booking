@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import bookingOptions from '@view-data/booking-options.js'
 import {
   humanDate,
   numericDateToString,
@@ -19,6 +18,7 @@ import StateButton from '@components/state-button/StateButton'
 import UpdateReservationSchedule from './UpdateReservationSchedule.jsx'
 import CounselMethodRow from './CounselMethodRow.jsx'
 import AttendeeNumberRow from './AttendeeNumberRow.jsx'
+import BookingOptionRow from './BookingOptionRow.jsx'
 
 // hooks
 import {
@@ -62,7 +62,7 @@ export default function CustomerReservationDetails () {
     }
   ] = useDeleteReservation()
   const [isDeleted, setIsDeleted] = useState(false)
-  const [isUpdatingTime, setIsUpdatingTime] = useState(false)
+  const [selfUpdateItem, setSelfUpdateItem] = useState(null)
   const [isUpdatingAttendeeNumber, setIsUpdatingAttendeeNumber] = useState(false)
   const [noAmiation, setNoAnimation] = useState(false)
 
@@ -86,17 +86,17 @@ export default function CustomerReservationDetails () {
     }
   }
 
-  const updateModeOn = () => {
-    setNoAnimation(true)
-    setTimeout(() => {
-      if (isUpdatingTime) { return }
-
-      setIsUpdatingTime(true)
-    }, 10)
+  const onUpdateTimeClick = () => {
+    if (!selfUpdateItem) {
+      setNoAnimation(true)
+      setTimeout(() => setSelfUpdateItem('time'), 10)
+    } else {
+      setSelfUpdateItem(null)
+    }
   }
-  const updateModeOff = useCallback(() => setIsUpdatingTime(false), [])
-  const onUpdateSuccess = useCallback(() => {
-    setIsUpdatingTime(false)
+  const onUpdateTimeCancel = useCallback(() => setSelfUpdateItem(null), [])
+  const onUpdateTimeSuccess = useCallback(() => {
+    setSelfUpdateItem(null)
     refetch()
   }, [])
 
@@ -131,7 +131,6 @@ export default function CustomerReservationDetails () {
     )
   } else {
     const pDetails = data.personalDetails || {}
-    const bookingOption = bookingOptions.find(item => item.id === data.optionId)
     const counselDate = data.counselDate
 
     const isAdminGenerated = data.optionId === 'admin-generated'
@@ -141,7 +140,9 @@ export default function CustomerReservationDetails () {
     const isStatusOnSitePayment = data?.status === 'on-site-payment'
     const isStatusCancelled = data?.status === 'cancelled'
     const showAttendeeNumber = ['family-counsel', 'overseas-counsel'].includes(data.optionId)
+    const hideTotalPrice = ['num-attendee', 'booking-option'].includes(selfUpdateItem)
     const customerMemo = pDetails.memo || ''
+    const isUpdatingButNot = (rowId) => selfUpdateItem !== null && selfUpdateItem !== rowId
 
     return (
       <PageTemplate classes='page-customer-reservation-details'>
@@ -182,28 +183,31 @@ export default function CustomerReservationDetails () {
                 </span>
               </div>
   
-              {
-                bookingOption &&
-                <div className='summary-list__item'>
-                  <span className='summary-list__label'>상담 옵션</span>
-                  <span className='summary-list__value'>{bookingOption.name}</span>
-                </div>
-              }
+              <BookingOptionRow currentOptionId={data.optionId}
+                rowId='booking-option'
+                onUpdateModeChange={setSelfUpdateItem}
+                currentTotalPrice={data.totalPrice}
+                currentNumAttendee={pDetails.numAttendee}
+                onUpdateSuccess={refetch}
+                disableUpdate={isUpdatingButNot('booking-option')} />
 
               {
                 showAttendeeNumber &&
                 <AttendeeNumberRow optionId={data.optionId}
-                  disableUpdate={isStatusCancelled}
+                  rowId='num-attendee'
+                  disableUpdate={isStatusCancelled || isUpdatingButNot('num-attendee')}
                   numAttendee={pDetails.numAttendee}
                   currentTotalPrice={data.totalPrice}
-                  onUpdateModeChange={setIsUpdatingAttendeeNumber}
+                  onUpdateModeChange={setSelfUpdateItem}
                   onUpdateSuccess={refetch} />
               }
 
               {
                 Boolean(!isAdminGenerated && pDetails.method) &&
                 <CounselMethodRow method={pDetails.method}
-                  disableUpdate={isOverseasOption || isStatusCancelled}
+                  rowId='counsel-method'
+                  disableUpdate={isOverseasOption || isStatusCancelled || isUpdatingButNot('counsel-method')}
+                  onUpdateModeChange={setSelfUpdateItem}
                   onUpdateSuccess={refetch} />
               }
   
@@ -212,9 +216,12 @@ export default function CustomerReservationDetails () {
                   <span>날짜/시간</span>
                   {
                     !isStatusCancelled &&
+                    (selfUpdateItem === null || selfUpdateItem === 'time') &&
                     <button className='is-small is-secondary modify-btn'
                       type='button'
-                      onClick={updateModeOn}>변경</button>
+                      onClick={onUpdateTimeClick}>
+                      { selfUpdateItem ? '뒤로' : '변경' }
+                    </button>
                   }
                 </span>
                 <span className='summary-list__value'>
@@ -232,7 +239,7 @@ export default function CustomerReservationDetails () {
               }
               
               {
-                !isUpdatingAttendeeNumber && (
+                !hideTotalPrice && (
                   <div className='summary-list__item'>
                     <span className='summary-list__label'>상담료</span>
                     <span className='summary-list__value is-big text-color-default'>
@@ -244,13 +251,13 @@ export default function CustomerReservationDetails () {
             </div>
           </div>
           {
-            isUpdatingTime
+            selfUpdateItem === 'time'
               ? <UpdateReservationSchedule classes='mt-50'
                   initialDate={numericDateToString(data.counselDate)}
                   initialTimeSlot={data.timeSlot}
                   isOverseasOption={isOverseasOption}
-                  onBackClick={updateModeOff}
-                  onUpdateSuccess={onUpdateSuccess} />
+                  onBackClick={onUpdateTimeCancel}
+                  onUpdateSuccess={onUpdateTimeSuccess} />
               : isStatusPending
                 ? <>
                     <div className='bank-transfer-details mt-10'>

@@ -572,8 +572,9 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
           const newOptionName = getCounselTypeNameById(updates.optionId)
           const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee) - doc.totalPrice
           const defaultText = `${pDetails.name}님, 상담 옵션이 ${newOptionName}으로 변경되었습니다. `
+
           return totalPriceDiff > 0
-            ? defaultText + `총 ${totalPriceDiff}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
+            ? defaultText + `${totalPriceDiff}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
             : totalPriceDiff < 0
               ? defaultText + '관리자가 확인 후, 상담료 초과분을 환불드리겠습니다. 환불 받으실 계좌를 보내주세요.'
               : defaultText
@@ -605,18 +606,19 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
         }
         case 'counsel-option': {
           const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee) - doc.totalPrice
-          const currentOptionName = getCounselTypeNameById(doc.optionId)
-          const newOptionName = getCounselTypeNameById(updates.optionId)
+          const currentOptionName = `${getCounselTypeNameById(doc.optionId)}${pDetails.numAttendee > 1 ? `,${pDetails.numAttendee}명` : ''}`
+          const newOptionName = `${getCounselTypeNameById(updates.optionId)}${updates.numAttendee && updates.numAttendee > 1 ? `,${updates.numAttendee}명` : ''}`
+
           if (totalPriceDiff > 0) {
             return isStatusConfirmed
-              ? `${pDetails.name} [${dateAndTime}, 확정] 상담 옵션 변경:\r\n${currentOptionName} -> ${newOptionName}. 추가 상담료 입금확인 필요.`
-              : `${pDetails.name} [${dateAndTime}] 상담 옵션 변경:\r\n${currentOptionName} -> ${newOptionName}`
+              ? `${pDetails.name} [${dateAndTime}, 확정] 상담 내역 변경:\r\n${currentOptionName} -> ${newOptionName}.\r\n${totalPriceDiff}원 추가상담료 입금확인 필요.`
+              : `${pDetails.name} [${dateAndTime}] 상담 내역 변경:\r\n${currentOptionName} -> ${newOptionName}`
           } else if (totalPriceDiff < 0) {
             return isStatusConfirmed
-              ? `${pDetails.name} [${dateAndTime}, 확정] 상담 옵션 변경:\r\n${currentOptionName} -> ${newOptionName}. 상담료 환불 필요`
-              : `${pDetails.name} [${dateAndTime}] 상담 옵션 변경:\r\n${currentOptionName} -> ${newOptionName}`
+              ? `${pDetails.name} [${dateAndTime}, 확정] 상담 내역 변경:\r\n${currentOptionName} -> ${newOptionName}.\r\n${Math.abs(totalPriceDiff)}원 상담료 환불 필요.`
+              : `${pDetails.name} [${dateAndTime}] 상담 내역 변경:\r\n${currentOptionName} -> ${newOptionName}`
           } else {
-            return `${pDetails.name} [${dateAndTime}] 상담 옵션 변경:\r\n${currentOptionName} -> ${newOptionName}`
+            return `${pDetails.name} [${dateAndTime}] 상담 내역 변경:\r\n${currentOptionName} -> ${newOptionName}`
           }
         }
         default:

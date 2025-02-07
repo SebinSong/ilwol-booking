@@ -5,6 +5,13 @@ const displayDate = str => humanDate(str, { month: 'short', day: 'numeric', year
 export const testimonials = [
   {
     id: genId(),
+    type: 'visit-review',
+    name: '김찬* 님',
+    date: '2025년 2월',
+    content: '작년에 처음으로 여기서 사주 보고 돌이켜보니까 너무 잘 맞아서 이번년도도 보려구용. 더 유명해지셨는지 예약이 꽉꽉..'
+  },
+  {
+    id: genId(),
     type: 'youtube-feedback',
     name: '아이디 blos** 님',
     date: '2024년 12월',
@@ -153,15 +160,21 @@ export const youtubeData = [
     date: '2024.11.25'
   },
   {
-    title: "선녀님의 영화 '파묘' 감상평",
-    videoId: 'C52vu9F-cuk',
-    id: 'C52vu9F-cuk',
-    date: '2024.03.15'
+    title: "[탄핵시리즈2] 윤건희 부부 미래예측",
+    videoId: 'M-Vu2H9xtbw',
+    id: 'M-Vu2H9xtbw',
+    date: '2024.12.24'
   },
   {
-    title: "민희진 사주 분석",
-    videoId: 'vdEfaLyxPEY',
-    id: 'vdEfaLyxPEY',
-    date: '2024.05.20'
+    title: "수호신이 당신을 지켜주고 있다는 증거",
+    videoId: 'Oi933a2e8gE',
+    id: 'Oi933a2e8gE',
+    date: '2024.08.05'
+  },
+  {
+    title: "평생 돈 걱정 없는 사주의 특징",
+    videoId: 'Xhzp6LvXMiM',
+    id: 'Xhzp6LvXMiM',
+    date: ' 2025.01.20'
   }
 ]

@@ -51,6 +51,7 @@ export default function EnterPersonalDetails () {
   // computed state
   const { id: optionId = '', type: optionType = '' } = counselOptionInstore || {}
   const isOverseasCounsel = optionId === 'overseas-counsel'
+  const isFamilyCounsel = optionId === 'family-counsel'
   const isGroupOption = optionType === 'group'
   const numAttendeeOptions = isGroupOption ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
@@ -432,7 +433,8 @@ export default function EnterPersonalDetails () {
         { ['family-counsel', 'overseas-counsel'].includes(optionId) &&
           <div className='form-field'>
             <span className='label'>
-              총 인원 (본인 포함)
+              총 인원
+              { !isFamilyCounsel && <span>(본인 포함)</span> }
               <span className='mandatory'>{'(필수)'}</span>
             </span>
 

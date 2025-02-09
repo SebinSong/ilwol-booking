@@ -100,9 +100,10 @@ export default function AdminUpdateReservationItem () {
   const today = new Date()
   const pDetails = data?.personalDetails || {}
   const isAdminGenerated = details?.optionId === 'admin-generated'
+  const isFamilyCounsel = details?.optionId === 'family-counsel'
   const shouldShowNumAttendee = ['family-counsel', 'overseas-counsel'].includes(details.optionId)
   const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
-  const numAttendeeOptions = details.optionId === 'family-counsel' ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
+  const numAttendeeOptions = isFamilyCounsel ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
   // memoized computed props
   const enableUpdateBtn = useMemo(() => {
@@ -497,7 +498,8 @@ export default function AdminUpdateReservationItem () {
                   shouldShowNumAttendee &&
                   <div className='summary-list__item align-center'>
                     <span className='summary-list__label'>
-                      총 상담 인원 <span className='text-color-purple'>(본인 포함)</span>
+                      총 상담 인원
+                      { !isFamilyCounsel && <span className='text-color-purple'>(본인 포함)</span> }
                     </span>
                     <span className='summary-list__value'>
                       <span className='selectbox is-small form-el-value'>

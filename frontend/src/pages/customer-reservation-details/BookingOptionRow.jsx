@@ -186,7 +186,9 @@ function BookingOptionRow ({
             {
               Array.isArray(numAttendeeOptions) && (
                 <div className='sub-block booking-option-update-item'>
-                  <label>인원 선택 (본인포함) :</label>
+                  <label>총 인원 선택
+                    { updatedOption === 'family-counsel' ? ' :' : <span> (본인포함):</span> }
+                  </label>
 
                   <span className='selectbox is-small booking-option-select'>
                     <select className='select'

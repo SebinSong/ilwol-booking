@@ -41,6 +41,7 @@ function AttendeeNumberRow ({
     isLoading: isUpdating
   }] = useUpdateReservationDetailsByCustomer()
   const optionsList = selectOptionMap[optionId]
+  const isFamilyCounsel = optionId === 'family-counsel'
 
   // computed-state
   const showPriceDifference = useMemo(
@@ -94,7 +95,9 @@ function AttendeeNumberRow ({
     <div className='summary-list__item has-sub-block'>
       <div className='sub-block'>
         <span className='summary-list__label'>
-          <span>인원 (본인포함)</span>
+          <span>총 인원
+            { !isFamilyCounsel && <span>(본인포함)</span> }
+          </span>
           {
             !disableUpdate &&
             <button className='is-small is-secondary modify-btn'

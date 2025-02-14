@@ -6,6 +6,14 @@ export const testimonials = [
   {
     id: genId(),
     type: 'visit-review',
+    name: '김서* 님',
+    date: '2025년 2월',
+    content: '세번째 찾아뵙네요.ㅎㅎ 23년도에 말씀해 주셨던 것처럼 절대 바뀌지 않을것 같던 소속도 바뀌었네요.<br/>' + 
+    '새로운 시도를 해보려고 하는데, 방향을 어떻게 잡아야 할지 조언 듣고싶어서 다시 찾아뵙니다ㅎㅎ<br/>'
+  },
+  {
+    id: genId(),
+    type: 'visit-review',
     name: '김찬* 님',
     date: '2025년 2월',
     content: '작년에 처음으로 여기서 사주 보고 돌이켜보니까 너무 잘 맞아서 이번년도도 보려구용. 더 유명해지셨는지 예약이 꽉꽉..'

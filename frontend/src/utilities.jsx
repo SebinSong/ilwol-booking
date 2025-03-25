@@ -316,6 +316,8 @@ export function debounce (func, wait, immediate) {
 }
 
 export function computeReservationTotalPrice (optionId, numAttendee) {
+  if (optionId === 'admin-generated') return 'N/A'
+
   const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
   const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
   const { price, additionalPrice } = option

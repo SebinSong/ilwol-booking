@@ -48,8 +48,11 @@ function BookingOptionRow ({
     [updatedOption]
   )
   const newTotalPrice = useMemo(
-    () => computeReservationTotalPrice(updatedOption, updatedNumAttendee),
-    [updatedNumAttendee, updatedOption]
+    () => {
+      return updatedOption === 'admin-generated'
+        ? 'N/A'
+        : computeReservationTotalPrice(updatedOption, updatedNumAttendee)
+    }, [updatedNumAttendee, updatedOption]
   )
   const enableUpdateBtn = useMemo(
     () => {

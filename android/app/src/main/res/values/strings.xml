@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ilwol Booking</string>
+    <string name="title_activity_main">Ilwol Booking</string>
+    <string name="package_name">com.ilwolbooking.mobileapp</string>
+    <string name="custom_url_scheme">com.ilwolbooking.mobileapp</string>
+</resources>

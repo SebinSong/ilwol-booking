@@ -6,6 +6,13 @@ export const testimonials = [
   {
     id: genId(),
     type: 'visit-review',
+    name: '이** 님',
+    date: '2025년 7월',
+    content: '일전에 큰 도움이 되었습니다. 앞으로 해야 할 일에 대해 상담받고 싶습니다.'
+  },
+  {
+    id: genId(),
+    type: 'visit-review',
     name: '원** 님',
     date: '2025년 3월',
     content: '선녀님께서 기도많이 해주셔서 목 통증을 거의 못 느끼며 즐겁게 지냅니다. 너무 감사하고, 만나뵙 게 된 것이 제게 큰 행운입니다. 믿고 의지할 곳이 생긴것 같아서 저희 부부 앞길이 힘차고 활기찰 것 같네요.<br/>' +

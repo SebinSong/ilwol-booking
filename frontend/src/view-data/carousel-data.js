@@ -7,6 +7,13 @@ export const testimonials = [
     id: genId(),
     type: 'visit-review',
     name: '조** 님',
+    date: '2025년 9월',
+    content: '저번에 상담을 잘해주셔서 두번째 상담 예약했습니다~! 건강하게 뵈어요^^'
+  },
+  {
+    id: genId(),
+    type: 'visit-review',
+    name: '조** 님',
     date: '2025년 8월',
     content: '일전에 선녀님 덕에 가위눌림 해결 받은 사람입니다. 진로(취업)를 중심으로 앞으로의 마음가짐, 주의할 점을 여쭙고 싶습니다. 다시한번 잘 부탁드립니다!'
   },

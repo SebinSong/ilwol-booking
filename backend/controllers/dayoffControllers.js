@@ -39,12 +39,16 @@ const updateDayoffs = asyncHandler(async (req, res, next) => {
 })
 
 const getDayoffs = asyncHandler(async (req, res, next) => {
-  const { future } = req.query
+  const { future, year: qYear } = req.query
   const todayDateNum = dateObjToNum(new Date())
-  const allDocs = (await Dayoff.find({})) || []
+  const allDocs = (
+    await Dayoff.find({})
+  ) || []
   const data = {}
 
   for (const { year, values = [] } of allDocs) {
+    if (qYear && parseInt(year) < parseInt(qYear)) { continue }
+
     data[year] = Boolean(future) 
       ? values.filter(dateNum => dateNum >= todayDateNum)
       : values

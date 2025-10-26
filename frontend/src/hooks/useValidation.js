@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export function useValidation (targetState = {}, validationEntries = []) {
   const [formError, setFormError] = useState(null)
@@ -7,16 +7,6 @@ export function useValidation (targetState = {}, validationEntries = []) {
     for (const { key, check, errMsg } of validationEntries) {
       if (!check(targetState[key], targetState)) {
         setFormError({ errKey: key, errMsg })
-
-        const fieldEl = document.querySelector(`[data-vkey="${key}"]`)
-        
-        if (fieldEl) {
-          fieldEl.focus && fieldEl.focus()
-          fieldEl.scrollIntoView({
-            block: 'center',
-            inline: "nearest"
-          })
-        }
 
         return false
       }
@@ -34,6 +24,24 @@ export function useValidation (targetState = {}, validationEntries = []) {
       ? formError?.errKey === key
       : Boolean(formError)
   }
+
+  const focusOnError = (errKey = '') => {
+    const fieldEl = document.querySelector(`[data-vkey="${errKey}"]`)
+        
+    if (fieldEl) {
+      fieldEl.focus && fieldEl.focus()
+      fieldEl.scrollIntoView({
+        block: 'center',
+        inline: "nearest"
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (formError) {
+      focusOnError(formError.errKey)
+    }
+  }, [formError])
 
   return {
     formError,

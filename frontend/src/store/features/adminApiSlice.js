@@ -15,10 +15,12 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
 
       getDayoffs: builder.query({
-        query: () => ({
-          url: '/config/dayoffs',
-          method: 'GET'
-        }),
+        query: (year = '') => {
+          return {
+            url: '/config/dayoffs' + (year ? `?year=${year}` : ''),
+            method: 'GET'
+          }
+        },
         transformResponse: response => {
           return flattenDayoffsData(response)
         },
@@ -142,18 +144,6 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'POST',
           body: data
         })
-      }),
-
-      getDayoffs: builder.query({
-        query: () => ({
-          url: '/config/dayoffs',
-          method: 'GET'
-        }),
-        transformResponse: response => {
-          return flattenDayoffsData(response)
-        },
-        keepUnusedDataFor: 60, // seconds
-        providesTags: ['Dayoffs']
       }),
 
       getAllContacts: builder.query({

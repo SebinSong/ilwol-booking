@@ -17,6 +17,7 @@ const defaultState = () => ({
   timeSlot: null,
   personalDetails: null
 })
+
 const saveStoreToLocalStorage = state => {
   if (isDEV) {
     saveToLocalStorage(
@@ -27,9 +28,9 @@ const saveStoreToLocalStorage = state => {
 }
 
 const counselDetailsSlice = createSlice({
-  name: 'counselDetails',
+  name: 'counselDetails', // name field is used in action creator. eg) { type: 'counselDetails/*', payload: ... }
   initialState: isDEV
-    ?  checkAndParseFromLocalStorage(
+    ? checkAndParseFromLocalStorage(
         BOOKING_DETAILS_LOCAL_STORAGE_KEY,
         defaultState()
       )
@@ -70,6 +71,7 @@ const counselDetailsSlice = createSlice({
 
 // action creators
 export const {
+  // eg. calling addCounselOption({ id: 1}) generate { type: 'counselDetails/addCounselOption', payload: { id: 1 } }
   addCounselOption,
   addCounselDate,
   addCounselTimeSlot,

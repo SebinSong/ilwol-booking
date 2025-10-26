@@ -8,6 +8,7 @@ import React, {
 import {
   humanDate,
   compareArrays,
+  getCurrentYear,
   classNames as cn } from '@utils'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -73,6 +74,7 @@ export default function AdminDashboard ({
   // local-state
   const [dayOffs, setDayOffs] = useState([])
   const [selectedBookedDate, setSelectedBookedDate] = useState('')
+  const [showNoFeedback, setShowNoFeedback] = useState(false)
   const [bookedDates, setBookedDates] = useState(null)
   const [getDetailedReservationStatus, {
     data: bookingData,
@@ -83,7 +85,7 @@ export default function AdminDashboard ({
     data: dayOffsData,
     isLoading: isDayoffsLoading,
     isError: isDayoffsError
-  } = useGetDayoffs()
+  } = useGetDayoffs(getCurrentYear())
   const [updateDayoffs, {
     isLoading: isUpdatingDayoffs,
     isError: isDayoffUpdateError,
@@ -146,7 +148,7 @@ export default function AdminDashboard ({
         setBookedDates(Object.keys(data))
       }
 
-      return true
+      return data
     } catch (err) {
       console.error('AdminDashboard.jsx caught: ', err)
     }
@@ -154,8 +156,13 @@ export default function AdminDashboard ({
 
   const submitDayoffsUpdate = async () => {
     try {
+      setShowNoFeedback(true)
+      const reservationData = await fetchStatusData()
+      const reservationDates = Object.keys(reservationData)
+      const dayoffsToUpdate = dayOffs.filter(date => !reservationDates.includes(date))
+
       await updateDayoffs({
-        data: dayOffs,
+        data: dayoffsToUpdate,
         comparison: dayOffsData
       })
       addToastItem({
@@ -170,6 +177,8 @@ export default function AdminDashboard ({
         heading: '업데이트 오류!',
         content: '쉬는 날 업데이트 중 에러가 발생하였습니다. 다시 시도해 주세요.'
       })
+    } finally {
+      setShowNoFeedback(false)
     }
   }
 
@@ -200,99 +209,100 @@ export default function AdminDashboard ({
       <p className='admin-page-description'>쉬는 날을 설정하고, 구글 캘린더를 관리합니다.</p>
 
       {
-        feedbackEl ||
-        <>
-          <section className='admin-page-section'>
-            <h3 className='admin-page-section-title mb-10'>
-              <i className='icon-chevron-right-circle is-prefix'></i>
-              <span>예약현황 보기 / 쉬는날 업데이트</span>
-            </h3>
+        (!showNoFeedback && feedbackEl)
+          ? feedbackEl
+          : <>
+              <section className='admin-page-section'>
+                <h3 className='admin-page-section-title mb-10'>
+                  <i className='icon-chevron-right-circle is-prefix'></i>
+                  <span>예약현황 보기 / 쉬는날 업데이트</span>
+                </h3>
 
-            <p className='helper info mb-20'>
-              고객 예약 아이템, 관리자 생성 예약 아이템, 쉬는 날 현황을 한눈에 확인할 수 있는 달력입니다. <br />
-              날짜를 선택 또는 선택 취소하여, 쉬는 날을 업데이트 할 수 있습니다. 
-            </p>
+                <p className='helper info mb-20'>
+                  고객 예약 아이템, 관리자 생성 예약 아이템, 쉬는 날 현황을 한눈에 확인할 수 있는 달력입니다. <br />
+                  날짜를 선택 또는 선택 취소하여, 쉬는 날을 업데이트 할 수 있습니다. 
+                </p>
 
-            <div className='day-off-set-container'>
-              <div className='calendar-container'>
-                <Calendar classes='day-off-calendar'
-                  disallowBookedDate={true}
-                  onChange={onCalendarClick}
-                  onBookedDateClick={setSelectedBookedDate}
-                  allowMultiple={true}
-                  minDate={new Date()}
-                  bookedDates={bookedDates}
-                  value={dayOffs} />
+                <div className='day-off-set-container'>
+                  <div className='calendar-container'>
+                    <Calendar classes='day-off-calendar'
+                      disallowBookedDate={true}
+                      onChange={onCalendarClick}
+                      onBookedDateClick={setSelectedBookedDate}
+                      allowMultiple={true}
+                      minDate={new Date()}
+                      bookedDates={bookedDates}
+                      value={dayOffs} />
 
-                <div className='legends-container is-right-aligned mt-20'>
-                  {
-                    legendList.map(entry => (
-                      <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
-                        <span className='color-pad'></span>
-                        <span className='item-text'>{entry.text}</span>
+                    <div className='legends-container is-right-aligned mt-20'>
+                      {
+                        legendList.map(entry => (
+                          <div key={entry.text} className={`legend-item ${'is-' + entry.color}`}>
+                            <span className='color-pad'></span>
+                            <span className='item-text'>{entry.text}</span>
+                          </div>
+                        ))
+                      }
+                    </div>
+
+                    {
+                      isUpdateEnabled &&
+                      <div className='buttons-container is-right-aligned mt-30 mb-0'>
+                        <StateButton classes='is-primary'
+                          type='button'
+                          displayLoader={isUpdatingDayoffs}
+                          onClick={submitDayoffsUpdate}
+                        >쉬는날 업데이트</StateButton>
                       </div>
-                    ))
+                    }
+                  </div>
+
+                  { selectedBookedDate &&
+                    <div className='booking-preview-table'>
+                      <h3 className='mb-10'>
+                        <i className='icon-info-circle'></i>
+                        <span className='mr-4'>{ humanDate(selectedBookedDate, { month: 'short', day: 'numeric' }) }</span>
+                        <span>예약 항목</span>
+                      </h3>
+
+                      <div className='ilwol-table-container'>
+                        <div className='ilwol-table-inner'>
+                          <table className='ilwol-table'>
+                            <thead>
+                              <tr>
+                                <th className='th-time'>시간</th>
+                                <th className='th-name'>이름</th>
+                                <th className='th-status'>상태</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              {
+                                formatBookingData.map(entry => (
+                                  <tr key={entry.time}>
+                                    <td className='td-time'>{entry.time}</td>
+                                    <td className='td-name'
+                                      onClick={() => onPreviewItemClick(entry)}>{entry.name}</td>
+                                    <td className='td-status'>
+                                      <span className={cn('status-pill', getStatusClass(entry.status))}>{getStatusName(entry.status)}</span>
+                                    </td>
+                                    <td className='td-action'>
+                                      <button className='is-secondary is-table-btn'
+                                        onClick={() => onPreviewItemClick(entry)}>보기</button>
+                                    </td>
+                                  </tr>
+                                ))
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   }
                 </div>
-
-                {
-                  isUpdateEnabled &&
-                  <div className='buttons-container is-right-aligned mt-30 mb-0'>
-                    <StateButton classes='is-primary'
-                      type='button'
-                      displayLoader={isUpdatingDayoffs}
-                      onClick={submitDayoffsUpdate}
-                    >쉬는날 업데이트</StateButton>
-                  </div>
-                }
-              </div>
-
-              { selectedBookedDate &&
-                <div className='booking-preview-table'>
-                  <h3 className='mb-10'>
-                    <i className='icon-info-circle'></i>
-                    <span className='mr-4'>{ humanDate(selectedBookedDate, { month: 'short', day: 'numeric' }) }</span>
-                    <span>예약 항목</span>
-                  </h3>
-
-                  <div className='ilwol-table-container'>
-                    <div className='ilwol-table-inner'>
-                      <table className='ilwol-table'>
-                        <thead>
-                          <tr>
-                            <th className='th-time'>시간</th>
-                            <th className='th-name'>이름</th>
-                            <th className='th-status'>상태</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {
-                            formatBookingData.map(entry => (
-                              <tr key={entry.time}>
-                                <td className='td-time'>{entry.time}</td>
-                                <td className='td-name'
-                                  onClick={() => onPreviewItemClick(entry)}>{entry.name}</td>
-                                <td className='td-status'>
-                                  <span className={cn('status-pill', getStatusClass(entry.status))}>{getStatusName(entry.status)}</span>
-                                </td>
-                                <td className='td-action'>
-                                  <button className='is-secondary is-table-btn'
-                                    onClick={() => onPreviewItemClick(entry)}>보기</button>
-                                </td>
-                              </tr>
-                            ))
-                          }
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          </section>
-        </>
+              </section>
+            </>
       }
 
       <ManageGoogleCalendar />

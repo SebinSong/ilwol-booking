@@ -20,6 +20,10 @@ export function addDaysToDate (date, days) {
   return addTimeToDate(date, DAYS_MILLIS * days)
 }
 
+export function getCurrentYear () {
+  return new Date().getFullYear()
+}
+
 export function classNames (...args) {
   // simplified version of 'classnames' npm package (https://www.npmjs.com/package/classnames) 
   const isObjectLiteral = (val) => {

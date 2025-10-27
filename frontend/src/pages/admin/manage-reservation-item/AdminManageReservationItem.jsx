@@ -85,7 +85,7 @@ export default function AdminManageReservationItem () {
   // computed state
   const isAdminGenerated = data?.optionId === 'admin-generated'
   const pDetails = data?.personalDetails || {}
-  const hasContactDetails = Boolean(pDetails?.mobile?.number || pDetails?.email || pDetails?.kakaoId)
+  const hasContactDetails = Boolean(pDetails?.mobile?.number || pDetails?.kakaoId)
   const hasMobileNumber = Boolean(pDetails?.mobile?.number)
   const isNotifyMeOn = Boolean(data?.notifyEarlierDate)
 
@@ -396,17 +396,6 @@ export default function AdminManageReservationItem () {
                                 <i className='icon-mail'></i>
                               </button>
                             </span>
-                          : 'N/A'
-                      }</span>
-                    </div>
-
-                    <div className='summary-list__sub-item'>
-                      <span className='sub-label'>이메일</span>
-                      <span className='sub-value'>{
-                        pDetails?.email
-                          ? <CopyToClipboard textToCopy={pDetails?.email}>
-                              {pDetails?.email}
-                            </CopyToClipboard>
                           : 'N/A'
                       }</span>
                     </div>

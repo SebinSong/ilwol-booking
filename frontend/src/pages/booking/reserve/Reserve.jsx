@@ -215,17 +215,6 @@ export default function ConfirmAndPayment () {
               <span>{COUNSEL_METHOD_ID_NAME_MAP[personalDetails.method]}</span>
             </span>
           </div>
-
-          {
-            Boolean(personalDetails.email) &&
-            <div className='personal-details-item'>
-              <span className='sub-label'>E-mail</span>
-
-              <span className='sub-value'>
-                <span>{personalDetails.email}</span>
-              </span>
-            </div>
-          }
         </div>
       </div>
 

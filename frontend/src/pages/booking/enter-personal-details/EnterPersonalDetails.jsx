@@ -5,7 +5,6 @@ import { useImmer } from 'use-immer'
 import useCounselOptionSteps from '@hooks/useCounselOptionSteps'
 import {
   isStringNumberOnly,
-  validateEmail,
   isObject,
   classNames as cn
 } from '@utils'
@@ -75,7 +74,6 @@ export default function EnterPersonalDetails () {
       : detailsInStore?.method !== 'voice-talk'
         ? detailsInStore?.method || ''
         : '',
-    email: detailsInStore?.email || '',
     memo: detailsInStore?.memo || ''
     // *** NOTE: re-enable below if we decide to re-add DOB to the app.
     //
@@ -113,11 +111,6 @@ export default function EnterPersonalDetails () {
       key: 'name',
       check: val => val.length >= 2,
       errMsg: '이름은 2글자 이상 입력해야 합니다.'
-    },
-    {
-      key: 'email',
-      check: val => !val || validateEmail(val),
-      errMsg: '올바른 포맷의 이메일을 입력하세요.'
     },
     ENABLE_DOB && {
       key: 'dob',
@@ -449,22 +442,6 @@ export default function EnterPersonalDetails () {
             </div>
           </div>
         }
-
-        <div className='form-field'>
-          <label>
-            <span className='label'>
-              이메일
-              <span className='optional'>{'(선택사항)'}</span>
-            </span>
-
-            <input type='text' className='input'
-              value={details.email}
-              onInput={updateFactory('email')}
-              placeholder='이메일' />
-          </label>
-        </div>
-
-        <WarningMessage toggle={isErrorActive('email')} message={formError?.errMsg} />
 
         <div className='form-field'>
           <label>

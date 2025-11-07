@@ -103,11 +103,22 @@ export default function ConfirmAndPayment () {
           width={82} />
 
         <h3 className='is-title-2 is-sans step-title'>내용 확인 및 등록</h3>
+        
+        <Feedback type='error' classes='mt-20 mb-20'
+          showError={isError}
+          message={errFeebackMsg} />
 
-        <p className='is-accurate-question'>
-          <i className='icon-triangle-exclamation mr-4'></i>
-          입력하신 정보는 모두 정확합니까?
-        </p>
+        <div className='submit-cta-container mt-20'>
+          <p className='is-accurate-question'>
+            <i className='icon-triangle-exclamation mr-4'></i>
+            아래 입력하신 정보는 모두 정확합니까?
+          </p>
+          <StateButton type='button'
+            classes='is-primary reserve-btn'
+            onClick={onReserveClick}>
+            예약 등록
+          </StateButton>
+        </div>
       </div>
 
       <div className='confirm-page__details-table'>
@@ -220,24 +231,6 @@ export default function ConfirmAndPayment () {
             </span>
           </div>
         </div>
-      </div>
-
-      <Feedback type='error' classes='mt-20'
-        showError={isError}
-        message={errFeebackMsg} />
-
-      <div className='buttons-container mt-30 is-row'>
-        <button type='button'
-          className='is-secondary back-btn'
-          onClick={navigateFactory('/booking/personal-details')}>
-          뒤로 가기
-        </button>
-
-        <StateButton type='button'
-          classes='is-primary reserve-btn'
-          onClick={onReserveClick}>
-          예약 등록
-        </StateButton>
       </div>
     </div>
   )

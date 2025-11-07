@@ -226,11 +226,17 @@ export default function ConfirmAndPayment () {
         showError={isError}
         message={errFeebackMsg} />
 
-      <div className='buttons-container mt-30 is-right-aligned'>
+      <div className='buttons-container mt-30 is-row'>
+        <button type='button'
+          className='is-secondary back-btn'
+          onClick={navigateFactory('/booking/personal-details')}>
+          뒤로 가기
+        </button>
+
         <StateButton type='button'
           classes='is-primary reserve-btn'
           onClick={onReserveClick}>
-          예약 등록하기
+          예약 등록
         </StateButton>
       </div>
     </div>

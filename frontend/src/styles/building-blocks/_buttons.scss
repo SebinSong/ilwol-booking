@@ -163,10 +163,16 @@ button,
   gap: 2rem;
   align-items: center;
 
-  &.is-row {
+  &.is-row,
+  &.is-row-center {
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+  }
+
+  &.is-row-center {
+    justify-content: center;
+    column-gap: 1.6rem;
   }
 
   &.is-left-aligned {

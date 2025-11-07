@@ -43,6 +43,10 @@ export default function SelectBookingOption () {
         <span>상담 옵션 선택</span>
       </h3>
 
+      <p className='telephone-counsel-notice'>
+        <span className='has-text-bold'>- <span className='text-color-purple'>전화상담</span></span> 가능합니다. (추후 화면에서 선택)
+      </p>
+
       <div className='counsel-option-list'>
         {
           bookingOptions.map(

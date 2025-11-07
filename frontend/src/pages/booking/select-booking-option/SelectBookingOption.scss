@@ -1,4 +1,18 @@
-.counsel-option-container {
+.page-booking .counsel-option-container {
+  .page-section-title {
+    margin-bottom: 0.6rem;
+  }
+
+  .telephone-counsel-notice {
+    position: relative;
+    width: 100%;
+    color: $text_dark_grey;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding-left: 0.6rem;
+    margin-bottom: 4rem;
+  }
+
   .counsel-option-card:not(:last-child) {
     margin-bottom: 2rem;
   }

@@ -539,17 +539,17 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
   } else {
     const getUpdateObj = () => {
       return ({
-        'method': { 'personalDetails.method': updates.method },
-        'num-attendee': {
+        'method': () => ({ 'personalDetails.method': updates.method }),
+        'num-attendee': () => ({
           'personalDetails.numAttendee': updates.numAttendee,
           'totalPrice': computeReservationTotalPrice(doc.optionId, updates.numAttendee)
-        },
-        'counsel-option': {
+        }),
+        'counsel-option': () => ({
           'optionId': updates.optionId,
           'personalDetails.numAttendee': updates.numAttendee,
           'totalPrice': computeReservationTotalPrice(updates.optionId, updates.numAttendee)
-        }
-      })[type]
+        })
+      })[type]()
     }
     const getCustomerSMS = () => {
       switch (type) {

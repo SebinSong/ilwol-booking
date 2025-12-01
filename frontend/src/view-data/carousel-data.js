@@ -6,6 +6,13 @@ export const testimonials = [
   {
     id: genId(),
     type: 'visit-review',
+    name: '윤** 님',
+    date: '2025년 12월',
+    content: '약 2년전에 선생님 찾아뵙고 큰 힘 얻었던 93년생 30대 직장인입니다.<br />최근 회사 내 심적으로 힘든 일이 있어, 이직운 및 내년도 이야기를 듣고 싶습니다.'
+  },
+  {
+    id: genId(),
+    type: 'visit-review',
     name: '조** 님',
     date: '2025년 9월',
     content: '저번에 상담을 잘해주셔서 두번째 상담 예약했습니다~! 건강하게 뵈어요^^'

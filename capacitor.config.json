@@ -1,0 +1,9 @@
+{
+  "appId": "com.ilwolbooking.www",
+  "appName": "ilwol-booking",
+  "webDir": "dist",
+  "server": {
+    "url": "http://localhost:5173",
+    "cleartext": true
+  }
+}

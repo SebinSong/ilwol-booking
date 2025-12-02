@@ -32,6 +32,7 @@ $home-small-width: 420px;
     gap: 0.8rem;
     z-index: $zindex-toolbar;
     padding: 0 2rem;
+    padding-top: env(safe-area-inset-top);
 
     @include from ($desktop) {
       min-height: 7.2rem;
@@ -440,6 +441,7 @@ $home-small-width: 420px;
     position: fixed;
     right: 1.6rem;
     top: 1.6rem;
+    margin-top: calc(env(safe-area-inset-top) * 0.75);
     box-shadow: 0 0px 6px 1px rgba(5, 16, 55, 0.075);
     line-height: 1;
     border-radius: 0.8rem;

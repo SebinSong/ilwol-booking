@@ -64,6 +64,8 @@
   z-index: $zindex-navigation;
   height: 100%;
   width: 100vw;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 
   @include from ($large-phone) {
     top: unset;

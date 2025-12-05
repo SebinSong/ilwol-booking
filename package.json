@@ -14,7 +14,7 @@
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "generate-mobile-assets": "npx @capacitor/assets generate --ios --android --assetPath 'mobile-assets' --logoSplashScale 2.5 --iconBackgroundColor '#F7F4FB' --splashBackgroundColor '#F7F4FB'"
+    "generate-mobile-assets": "npx @capacitor/assets generate --ios --android --assetPath 'mobile-assets' --logoSplashScale 3.5 --iconBackgroundColor '#F7F4FB' --splashBackgroundColor '#F7F4FB' --iconBackgroundColorDark '#9C52C7' --splashBackgroundColorDark '#9C52C7'"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",

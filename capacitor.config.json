@@ -15,6 +15,10 @@
       "overlaysWebView": false,
       "backgroundColor": "#F7F4FB",
       "style": "light"
+    },
+    "SplashScreen": {
+      "backgroundColor": "#F7F4FB",
+      "showSpinner": false
     }
   }
 }

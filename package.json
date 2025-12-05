@@ -13,12 +13,15 @@
     "build": "npm install && vite build --mode production --emptyOutDir",
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-mobile-assets": "npx @capacitor/assets generate --ios --android --assetPath 'mobile-assets' --logoSplashScale 2.5 --iconBackgroundColor '#F7F4FB' --splashBackgroundColor '#F7F4FB'"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/core": "^7.4.4",
     "@capacitor/ios": "^7.4.4",
+    "@capacitor/splash-screen": "^7.0.3",
     "@capacitor/status-bar": "^7.0.3",
     "@google-cloud/local-auth": "^3.0.0",
     "@reduxjs/toolkit": "^1.9.5",

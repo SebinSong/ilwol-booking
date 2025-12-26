@@ -21,6 +21,8 @@ export default defineConfig(({ mode }) => {
     base: mode === 'staging' ? '/ilwol-booking/' : undefined,
     define: {
       '$TEST': '"test-string"',
+      '$IS_APP': process.env.IS_APP ? JSON.stringify(process.env.IS_APP) : '""',
+      '$MOBILE_API_URL': process.env.IS_APP ? JSON.stringify(env.VITE_MOBILE_API_URL || '') : '""',
       ...env_repl
     },
     css: {

@@ -47,9 +47,7 @@ export const COUNSEL_METHOD_ID_NAME_MAP = {
 }
 
 // API paths
-export const API_BASE_PATH = ['dev_mobile', 'prod_mobile'].includes(import.meta.env.MODE)
-  ? window.VITE_MOBILE_API_URL || '/api'
-  : '/api'
+export const API_BASE_PATH = $IS_APP ? $MOBILE_API_URL || '/api' : '/api'
 export const AUTH_PATH = '/auth'
 export const RESERVATION_PATH = '/reservation'
 export const INQUIRY_PATH = '/inquiry'

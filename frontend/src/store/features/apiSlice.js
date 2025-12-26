@@ -6,9 +6,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { API_BASE_PATH } from '@view-data/constants.js'
 
 const apiSlice = createApi({
-  reducerPath: API_BASE_PATH,
+  reducerPath: '/api',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
+    baseUrl: API_BASE_PATH,
     timeout: 60 * 1000 // 1mins
   }),
   tagTypes: [

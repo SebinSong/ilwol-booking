@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "754715755192",
+    "project_id": "ilwol-booking",
+    "storage_bucket": "ilwol-booking.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754715755192:android:9d66a52c71a566b8c72a4d",
+        "android_client_info": {
+          "package_name": "com.ilwolbooking.www"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWKw2t7Y_bq3iUd4ISzo1CPZDUq8QejDg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,13 +16,16 @@
     "deploy-staging": "vite build --mode staging --emptyOutDir && gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "generate-mobile-assets": "npx @capacitor/assets generate --ios --android --assetPath 'mobile-assets' --logoSplashScale 3.5 --iconBackgroundColor '#F7F4FB' --splashBackgroundColor '#F7F4FB' --iconBackgroundColorDark '#9C52C7' --splashBackgroundColorDark '#9C52C7'"
+    "prepare-mobile-assets": "npm run prepare-mobile-splash-screen",
+    "prepare-mobile-splash-screen": "npx @capacitor/assets generate --ios --android --assetPath 'mobile-assets' --logoSplashScale 3.5 --iconBackgroundColor '#F7F4FB' --splashBackgroundColor '#F7F4FB' --iconBackgroundColorDark '#9C52C7' --splashBackgroundColorDark '#9C52C7'"
   },
   "dependencies": {
+    "@capacitor-firebase/messaging": "^7.4.0",
     "@capacitor/android": "^7.4.4",
     "@capacitor/assets": "^3.0.5",
     "@capacitor/core": "^7.4.4",
     "@capacitor/ios": "^7.4.4",
+    "@capacitor/push-notifications": "^7.0.4",
     "@capacitor/splash-screen": "^7.0.3",
     "@capacitor/status-bar": "^7.0.3",
     "@google-cloud/local-auth": "^3.0.0",
@@ -33,6 +36,7 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.9",
     "express": "^4.18.2",
+    "firebase": "^11.10.0",
     "googleapis": "^129.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.2",

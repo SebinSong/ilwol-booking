@@ -214,6 +214,11 @@
             color: $primary-purple;
           }
 
+          &.is-revisit-memo {
+            background-color: $neautral-bg;
+            color: $text_dark_grey;
+          }
+
           &.is-youtube-feedback {
             background-color: $magenta-bg;
             color: $magenta;

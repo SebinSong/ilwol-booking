@@ -8,8 +8,18 @@ import { API_BASE_PATH } from '@view-data/constants.js'
 const apiSlice = createApi({
   reducerPath: API_BASE_PATH,
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
-    timeout: 60 * 1000 // 1mins
+    baseUrl: API_BASE_PATH,
+    timeout: 60 * 1000, // 1mins
+    prepareHeaders: (headers, api) => {
+      const state = api.getState()
+      const jwt = state.authDetails?.userInfo?.jwt
+
+      if (jwt && typeof jwt === 'string') {
+        headers.set('Authorization', `Bearer ${jwt}`)
+      }
+
+      return headers
+    }
   }),
   tagTypes: [
     'Users',

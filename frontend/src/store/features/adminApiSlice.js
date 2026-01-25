@@ -48,6 +48,7 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             body: { updates: createRequestPayload(data, comparison) }
           })
         },
+        onQueryStarted: handleClientErrors,
         invalidatesTags: ['Dayoffs']
       }),
 
@@ -84,7 +85,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           'ReservationStatus',
           'ReservationDetailedStatus',
           'Contacts'
-        ]
+        ],
+        onQueryStarted: handleClientErrors
       }),
 
       archiveOldReservations: builder.mutation({
@@ -95,7 +97,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         invalidatesTags: [
           'ArchivedReservations',
           'Contacts'
-        ]
+        ],
+        onQueryStarted: handleClientErrors
       }),
 
       getArchivedReservations: builder.query({
@@ -104,7 +107,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: `${RESERVATION_PATH}/archive`
         }),
         keepUnusedDataFor: 60, // seconds
-        providesTags: ['ArchivedReservations']
+        providesTags: ['ArchivedReservations'],
+        onQueryStarted: handleClientErrors
       }),
 
       createAdminReservation: builder.mutation({
@@ -113,7 +117,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           method: 'POST',
           body: data
         }),
-        invalidatesTags: ['Reservations']
+        invalidatesTags: ['Reservations'],
+        onQueryStarted: handleClientErrors
       }),
 
       adminDeleteReservation: builder.mutation({
@@ -121,21 +126,24 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: `${RESERVATION_PATH}/${reservationId}?admin=true`,
           method: 'DELETE' 
         }),
-        invalidatesTags: ['Reservations']
+        invalidatesTags: ['Reservations'],
+        onQueryStarted: handleClientErrors
       }),
 
       clearCalendar: builder.mutation({
         query: () => ({
           url: '/config/calendar',
           method: 'DELETE'
-        })
+        }),
+        onQueryStarted: handleClientErrors
       }),
 
       regenerateCalendar: builder.mutation({
         query: () => ({
           url: '/config/calendar/all',
           method: 'POST'
-        })
+        }),
+        onQueryStarted: handleClientErrors
       }),
 
       sendWebMessage: builder.mutation({
@@ -143,7 +151,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: '/config/sms',
           method: 'POST',
           body: data
-        })
+        }),
+        onQueryStarted: handleClientErrors
       }),
 
       getAllContacts: builder.query({
@@ -165,7 +174,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           return updatedResponse
         },
         providesTags: ['Contacts'],
-        keepUnusedDataFor: 60 // seconds
+        keepUnusedDataFor: 60, // seconds
+        onQueryStarted: handleClientErrors
       }),
 
       deleteContact: builder.mutation({
@@ -173,7 +183,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
           url: `${CONTACTS_PATH}/${contactId}`,
           method: 'DELETE' 
         }),
-        invalidatesTags: ['Contacts']
+        invalidatesTags: ['Contacts'],
+        onQueryStarted: handleClientErrors
       })
     }
   }

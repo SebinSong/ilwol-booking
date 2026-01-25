@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const { CLIENT_ERROR_TYPES } = require('../utils/constants.js')
+const { getTokenFromHeader } = require('../controllers/authControllers.js')
 
 const isAdmin = async (req, res, next) => {
-  const token = req.cookies.jwt
+  const token = getTokenFromHeader(req)
+
   const invalidTokenErr = () => {
     res.status(400)
     res.errObj = { errType: CLIENT_ERROR_TYPES.INVALID_TOKEN }

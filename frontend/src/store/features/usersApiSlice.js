@@ -22,6 +22,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             updates: { isPermitted: true }
           }
         }),
+        onQueryStarted: handleClientErrors,
         invalidatesTags: ['Users']
       }),
       deleteUser: builder.mutation({
@@ -29,6 +30,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           url: `${USERS_PATH}/${userId}`,
           method: 'DELETE'
         }),
+        onQueryStarted: handleClientErrors,
         invalidatesTags: ['Users']
       })
     }

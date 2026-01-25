@@ -44,7 +44,7 @@ UserSchema.statics.login = async function ({ email, password }) {
   const user = await this.findOne({ email })
 
   if (user) {
-    const matches = await user.matchPassword(password, user.password)
+    const matches = await user.matchPassword(password)
 
     if (matches) { return user }
   }

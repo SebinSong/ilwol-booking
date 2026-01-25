@@ -9,7 +9,17 @@ const apiSlice = createApi({
   reducerPath: '/api',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_PATH,
-    timeout: 60 * 1000 // 1mins
+    timeout: 60 * 1000, // 1mins
+    prepareHeaders: (headers, api) => {
+      const state = api.getState()
+      const jwt = state.authDetails?.userInfo?.jwt
+
+      if (jwt && typeof jwt === 'string') {
+        headers.set('Authorization', `Bearer ${jwt}`)
+      }
+
+      return headers
+    }
   }),
   tagTypes: [
     'Users',

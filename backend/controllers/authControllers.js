@@ -14,6 +14,11 @@ const {
 
 const isEnvProduction = process.env.NODE_ENV === 'production'
 
+const getTokenFromHeader = (req) => {
+  const authHeader = req.headers.authorization
+  return authHeader ? authHeader.split('Bearer ')[1] : null
+}
+
 const generateAndSendToken = (user, res) => {
   // reference (json web token): https://www.npmjs.com/package/jsonwebtoken
   const token = jwt.sign(
@@ -25,17 +30,19 @@ const generateAndSendToken = (user, res) => {
   )
 
   // reference (http Cookies): https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
-  res.cookie('jwt', token, {
-    httpOnly: true,
-    secure: isEnvProduction,
-    sameSite: 'strict',
-    maxAge: JWT_MAX_AGE // NOTE: has to be specified in milli-seconds (https://expressjs.com/en/5x/api.html#res.cookie)
-  })
+  // res.cookie('jwt', token, {
+  //   httpOnly: true,
+  //   secure: isEnvProduction,
+  //   sameSite: 'strict',
+  //   maxAge: JWT_MAX_AGE // NOTE: has to be specified in milli-seconds (https://expressjs.com/en/5x/api.html#res.cookie)
+  // })
+
   res.status(201).json({
     email: user.email,
     _id: user._id,
     userType: user.userType,
     isPermitted: user.isPermitted,
+    jwt: token,
     tokenExpires: Date.now() + (JWT_MAX_AGE - HOURS_MILLIS)
   })
 }
@@ -124,6 +131,8 @@ const login_post = asyncHandler(async (req, res, next) => {
 })
 
 const logout_get = asyncHandler((req, res, next) => {
+  const token = getTokenFromHeader(req)
+
   if (!req.cookies.jwt) {
     res.status(401)
     res.errObj = { errType: CLIENT_ERROR_TYPES.NO_TOKEN }
@@ -141,5 +150,6 @@ const logout_get = asyncHandler((req, res, next) => {
 module.exports = {
   signup_post,
   login_post,
-  logout_get
+  logout_get,
+  getTokenFromHeader
 }

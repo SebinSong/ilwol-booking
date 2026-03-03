@@ -7,7 +7,7 @@ export const testimonials = [
     id: genId(),
     type: 'revisit-memo',
     name: '윤** 님',
-    date: '2026년 1월',
+    date: '2026년 3월',
     content: '벌써3년째입니다. 잘 부탁드립니다.'
   },
   {

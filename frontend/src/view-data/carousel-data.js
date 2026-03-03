@@ -6,6 +6,13 @@ export const testimonials = [
   {
     id: genId(),
     type: 'revisit-memo',
+    name: '윤** 님',
+    date: '2026년 1월',
+    content: '벌써3년째입니다. 잘 부탁드립니다.'
+  },
+  {
+    id: genId(),
+    type: 'revisit-memo',
     name: '서** 님',
     date: '2026년 1월',
     content: '작년 이맘 때 뵌 적 있었습니다. 긴 겨울같던 오랜 시간을 보낸 후 작년 선생님 말씀에 용기를 얻었습니다. 제 사업관련 올해 및 가까운 미래 방향 여쭙고 싶어요.'

@@ -23,6 +23,20 @@
       transform: translateY(1px);
       margin-right: 0.6rem;
     }
+
+    &:has(+ .section-title-helper) {
+      margin-bottom: 0.6rem;
+    }
+  }
+
+  .section-title-helper {
+    position: relative;
+    width: 100%;
+    color: $text_dark_grey;
+    font-size: $size_6;
+    font-weight: 500;
+    padding-left: 0.6rem;
+    margin-bottom: 3rem;
   }
 
   .booking-stepper {

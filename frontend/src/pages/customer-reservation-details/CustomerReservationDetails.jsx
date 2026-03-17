@@ -211,7 +211,7 @@ export default function CustomerReservationDetails () {
                   onUpdateSuccess={refetch} />
               }
   
-              <div className='summary-list__item align-center'>
+              <div className='summary-list__item date-time-details'>
                 <span className='summary-list__label'>
                   <span>날짜/시간</span>
                   {
@@ -224,9 +224,13 @@ export default function CustomerReservationDetails () {
                     </button>
                   }
                 </span>
-                <span className='summary-list__value'>
-                  <span>{ humanDate(numericDateToString(data.counselDate), { month: 'short', day: 'numeric', year: 'numeric' }) }</span>
-                  <span className='ml-4'>{ data.timeSlot }</span>
+
+                <span className='summary-list__value is-column'>
+                  <span className='date-and-time-value'>
+                    <span>{ humanDate(numericDateToString(data.counselDate, '/'), { month: 'short', day: 'numeric', year: 'numeric' }) }</span>
+                    <span className='ml-4'>{ data.timeSlot }</span>
+                  </span>
+                  { isOverseasOption && <span className='korean-timezone'>(한국시간 기준)</span>}
                 </span>
               </div>
               

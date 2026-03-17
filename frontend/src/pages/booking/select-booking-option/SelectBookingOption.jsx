@@ -43,7 +43,7 @@ export default function SelectBookingOption () {
         <span>상담 옵션 선택</span>
       </h3>
 
-      <p className='telephone-counsel-notice'>
+      <p className='section-title-helper'>
         <span className='has-text-bold'>- <span className='text-color-purple'>전화상담</span></span> 가능합니다. (해당 화면에서 선택)
       </p>
 

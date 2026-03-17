@@ -141,9 +141,9 @@ export function dateObjToNumeric (date) {
   return dateToNumeric(stringifyDate(date))
 }
 
-export function numericDateToString (numericDate) {
+export function numericDateToString (numericDate, delimiter = '-') {
   const s = typeof numericDate === 'string' ? numericDate : numericDate.toString()
-  return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`
+  return `${s.slice(0,4)}${delimiter}${s.slice(4,6)}${delimiter}${s.slice(6,8)}`
 }
 
 export function randomIntBetweenRange (a, b) {

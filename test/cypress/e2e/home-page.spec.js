@@ -23,6 +23,7 @@ describe('Check Home page contains all necessary elements', () => {
 
     cy.getByDT('toolbar-title').click()
     cy.get('@bookingBtn').should('exist')
+    // wait for a random seconds.
     cy.wait(4000)
   })
 

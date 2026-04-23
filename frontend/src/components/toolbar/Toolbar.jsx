@@ -40,16 +40,18 @@ export default function Toolbar ({ hidden = false , classes = '' }) {
     <div className={cn('app-toolbar', classes)}>
       <div className='left-group'>
         <h1 className='is-title-4 is-serif toolbar-title'
-          onClick={() => navigate('/')}>
+          onClick={() => navigate('/')}
+          data-test='toolbar-title'>
           <IlwolLogo classes='toolbar-logo' width={16} />
           <span>일월선녀 해달별</span>
         </h1>
       </div>
-      <ul className='right-group'>
+      <ul data-test='toolbar-menu-list' className='right-group'>
         {
           navigationList.map(entry => (
             <li key={entry.id}
               className='nav-item'
+              data-test={`toolbar-menu-${entry.id}`}
               onClick={() => clickHandler(entry)}>
               <button className='is-unstyled is-serif'>{entry.name}</button>
             </li>

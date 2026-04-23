@@ -23,6 +23,7 @@ function CarouselYoutubeCard ({
 
   return (
     <div tabIndex={0}
+      data-test='carousel-youtube-card'
       data-index={index}
       className={cn('carousel-youtube-card', classes, loaded && 'is-loaded')}>
       <div className='video-container'>
@@ -40,7 +41,7 @@ function CarouselYoutubeCard ({
       <p className='video-title'>
         <span className='title-block'>
           <i className='icon-video'></i>
-          <span className='text'>{title}</span>
+          <span data-test='youtube-card-title' className='text'>{title}</span>
         </span>
         
         <span className='video-date'>{date}</span>

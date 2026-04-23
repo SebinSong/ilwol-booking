@@ -71,7 +71,7 @@ function CarouselSlider ({
   }
 
   return (
-    <div className={cn('carousel-slider', `is-type-${type}`, classes)}>
+    <div data-test='carousel-slider' className={cn('carousel-slider', `is-type-${type}`, classes)}>
       <div className='carousel-slider-content' ref={scrollContainerEl}
         onScroll={scrollHandler}>
         {

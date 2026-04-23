@@ -54,7 +54,7 @@ export default function Home () {
                 <div className='main-toolbar'>
                   <IlwolLogo classes='project-logo' width={isDesktop ? 18 : 16} />
             
-                  <h2 className='is-serif has-text-bold page-title'>일월선녀 해달별</h2>
+                  <h2 data-test='home-page-toolbar-title' className='is-serif has-text-bold page-title'>일월선녀 해달별</h2>
                 </div>
 
                 <div className='content-main'>
@@ -71,6 +71,7 @@ export default function Home () {
 
                     <div className='button-container'>
                       <button type='button'
+                        data-test='introduction-btn'
                         className='is-secondary introduction-btn'
                         onClick={() => setShowIntroduction(true)}>
                         <span className='icon-info-circle is-prefix'></span>
@@ -78,6 +79,7 @@ export default function Home () {
                       </button>
             
                       <button type='button'
+                        data-test='booking-btn'
                         className='booking-btn'
                         onClick={onReserveBtnClick}
                       >예약하기</button>

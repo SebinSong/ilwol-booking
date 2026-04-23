@@ -40,12 +40,12 @@ function HomeIntroduction ({
           : <>
               <div className='intro-details'>
                 <div className='intro-header mb-40'>
-                  <h3 className='home-intro-title'>
+                  <h3 data-test='introduction-title' className='home-intro-title'>
                     <i className='icon-info-circle is-prefix'></i>
                     선녀님 소개
                   </h3>
 
-                  <button type='button' className='is-secondary is-small'
+                  <button type='button' data-test='introduction-back-btn' className='is-secondary is-small'
                     onClick={backClickHandler}>
                     <span className='icon-chevron-left-circle is-prefix'></span>
                     <span>뒤로가기</span>

@@ -7,7 +7,7 @@ export default function IlwolLogo ({
   width = 46
 }) {
   return (
-    <div className={`ilwol-logo-wrapper ${classes}`}>
+    <div data-test='ilwol-logo' className={`ilwol-logo-wrapper ${classes}`}>
       <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 46.4 79.18"
         width={width} height={width * 1.74}>

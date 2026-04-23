@@ -45,6 +45,7 @@ function CarouselSlider ({
   }
   const onScrollEnd = () => {
     const containerEl = scrollContainerEl.current
+    if (!containerEl) return
     const scrollLeft = containerEl.scrollLeft
     const allChildren = Array.from(containerEl.querySelectorAll('[data-index]'))
       .map(childEl => ({ index: parseInt(childEl.dataset.index), left: childEl.offsetLeft }))

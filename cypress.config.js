@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
+  projectId: "frqnmb",
   viewportWidth: 1201,
   viewportHeight: 900,
   allowCypressEnv: false,
@@ -9,7 +10,9 @@ module.exports = defineConfig({
   downloadsFolder: 'test/cypress/downloads',
   videosFolder: 'test/cypress/videos',
   defaultCommandTimeout: 15000,
-  video: true,
+  trashAssetsBeforeRuns: true,
+  // Only capture video when recording (CI passes CYPRESS_RECORD_KEY via cypress.yml).
+  video: Boolean(process.env.CYPRESS_RECORD_KEY),
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

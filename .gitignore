@@ -27,3 +27,9 @@ credentials.json
 *.njsproj
 *.sln
 *.sw?
+
+# Cypress
+/test/cypress/videos
+/test/cypress/screenshots
+/test/cypress/cache/*
+!/test/cypress/cache/.gitkeep

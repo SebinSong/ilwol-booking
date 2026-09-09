@@ -54,6 +54,7 @@ export default function SelectDateAndTime () {
   const [timeSlot, setTimeSlot] = useState(counselTimeSlotInStore || '')
 
   // computed-state
+  const isOverseasCounsel = counselOptionInstore?.id === 'overseas-counsel'
   const occupiedTimeSlots = useMemo(
     () => reservedDays && date ? reservedDays[date] : [],
     [date, reservedDays]
@@ -133,6 +134,13 @@ export default function SelectDateAndTime () {
         <span>날짜/시간 선택</span>
       </h3>
 
+      {
+        isOverseasCounsel &&
+        <p className='section-title-helper'>
+          <span>- 한국시간 기준으로 예약됩니다.</span>
+        </p>
+      }
+
       <div className='legends-container is-right-aligned mt-40'>
         {
           legendList.map(entry => (
@@ -158,7 +166,7 @@ export default function SelectDateAndTime () {
             value={timeSlot}
             occupiedSlots={occupiedTimeSlots}
             onSelect={setTimeSlot}
-            isOverseasOption={counselOptionInstore?.id === 'overseas-counsel'} />
+            isOverseasOption={isOverseasCounsel} />
         </div>
       }
 

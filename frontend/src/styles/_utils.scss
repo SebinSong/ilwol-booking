@@ -161,6 +161,13 @@
     &.left-align {
       text-align: left;
     }
+
+    &.is-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      row-gap: 0.4rem;
+    }
   }
 }
 

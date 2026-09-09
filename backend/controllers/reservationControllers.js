@@ -215,7 +215,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
 
       await sendSMS({
         to: `${pDetails.mobile.prefix}${pDetails.mobile.number}`,
-        message: `예약내역 확인/변경/취소는 아래 링크를 통해 가능합니다.\r\n ${process.env.SITE_URL}/reservation-details/${newReservation._id}`,
+        message: `예약변경/취소 및 내역 확인은 아래 링크를 통해 가능합니다.\r\n ${process.env.SITE_URL}/reservation-details/${newReservation._id}`,
         delay: 2000
       })
 

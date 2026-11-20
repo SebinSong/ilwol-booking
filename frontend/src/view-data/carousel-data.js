@@ -227,18 +227,6 @@ export const testimonials = [
 
 export const youtubeData = [
   {
-    title: "2025년에 대통령이 탄핵될까?",
-    videoId: 'pBpv2dJ2Lsk',
-    id: 'pBpv2dJ2Lsk',
-    date: '2024.11.25'
-  },
-  {
-    title: "[탄핵시리즈2] 윤건희 부부 미래예측",
-    videoId: 'M-Vu2H9xtbw',
-    id: 'M-Vu2H9xtbw',
-    date: '2024.12.24'
-  },
-  {
     title: "수호신이 당신을 지켜주고 있다는 증거",
     videoId: 'Oi933a2e8gE',
     id: 'Oi933a2e8gE',
@@ -249,5 +237,11 @@ export const youtubeData = [
     videoId: 'Xhzp6LvXMiM',
     id: 'Xhzp6LvXMiM',
     date: ' 2025.01.20'
+  },
+  {
+    title: "2025년에 대통령이 탄핵될까?",
+    videoId: 'pBpv2dJ2Lsk',
+    id: 'pBpv2dJ2Lsk',
+    date: '2024.11.25'
   }
 ]

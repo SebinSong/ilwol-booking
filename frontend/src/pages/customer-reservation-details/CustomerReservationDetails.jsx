@@ -101,8 +101,8 @@ export default function CustomerReservationDetails () {
     refetch()
   }, [])
   const recomputeTotalPrice = useCallback(
-    (optionId, numAttendee) => computeReservationTotalPrice(optionId, numAttendee, data.useLatestPrice),
-    [data.useLatestPrice]
+    (optionId, numAttendee) => computeReservationTotalPrice(optionId, numAttendee, data.priceVersion),
+    [data.priceVersion]
   )
 
   // feedback component

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback, useMemo } from 're
 import { useImmer } from 'use-immer'
 import { useParams, useNavigate } from 'react-router-dom'
 import { COUNSEL_METHOD, EXTENDED_TIME_SLOTS, CLIENT_ERROR_TYPES } from '@view-data/constants.js'
-import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 
 // components
 import Calendar from '@components/calendar/Calendar'
@@ -31,22 +31,18 @@ import {
   numericDateToString,
   stringifyDate,
   checkDateAndTimeAvailable,
-  isMobileNumberValid
+  isMobileNumberValid,
+  computeReservationTotalPrice
 } from '@utils'
 
 import './UpdateReservationItem.scss'
+
+const COUNSEL_OPTIONS_LIST = getCounselOptionsList(true)
 
 // helpers
 const todayDateStr = stringifyDate(new Date())
 const combineMobile = mobile => mobile?.number ? `${mobile.prefix} ${mobile.number}` : ''
 const displayMoney = val => formatMoney(val, { minimumFractionDigits: 0 })
-const computeTotalPrice = (optionId, numAttendee) => {
-  const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
-  const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
-  const { price, additionalPrice } = option
-
-  return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
-}
 const legendList = [
   { color: 'purple', text: '선택됨' },
   { color: 'success', text: '오늘' },
@@ -102,7 +98,9 @@ export default function AdminUpdateReservationItem () {
   const isAdminGenerated = details?.optionId === 'admin-generated'
   const isFamilyCounsel = details?.optionId === 'family-counsel'
   const shouldShowNumAttendee = ['family-counsel', 'overseas-counsel'].includes(details.optionId)
-  const computedTotalPrice = !isAdminGenerated && details.optionId ? computeTotalPrice(details.optionId, details.numAttendee || 1) : 0
+  const computedTotalPrice = !isAdminGenerated && details.optionId
+    ? computeReservationTotalPrice(details.optionId, details.numAttendee || 1, data.priceVersion)
+    : 0
   const numAttendeeOptions = isFamilyCounsel ? [2, 3, 4, 5] : [1, 2, 3, 4, 5]
 
   // memoized computed props

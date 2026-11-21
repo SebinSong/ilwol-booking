@@ -2,9 +2,10 @@
 const {
   CLIENT_ERROR_TYPES,
   DAYS_MILLIS,
-  COUNSEL_OPTIONS_LIST,
   COUNSEL_METHOD
 } = require('./constants.js')
+const { getCounselOptionsList } = require('../../shared/counsel-options.js')
+const COUNSEL_OPTIONS_LIST = getCounselOptionsList(false)
 
 const sendBadRequestErr = (res, msg, errObj = null) => {
   res.status(400)
@@ -207,8 +208,9 @@ const getCustomerLinkById = (reservationid) => {
   return `${process.env.SITE_URL}/reservation-details/${reservationid}`
 }
 
-const computeReservationTotalPrice = (optionId, numAttendee) => {
-  const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
+const computeReservationTotalPrice = (optionId, numAttendee, version) => {
+  const counselOptions = getCounselOptionsList(false, version)
+  const option = counselOptions.find(x => x.id === optionId)
   const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
   const { price, additionalPrice } = option
 

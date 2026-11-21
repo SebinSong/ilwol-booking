@@ -43,7 +43,7 @@ const ReservationSchema = new mongoose.Schema({
     memo: String
   },
   totalPrice: { type: Number },
-  useLatestPrice: { type: Boolean },
+  priceVersion: { type: Number, default: 1 },
   status: {
     type: String,
     default: 'pending',

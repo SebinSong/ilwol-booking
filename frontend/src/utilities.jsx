@@ -1,14 +1,15 @@
 'use strict'
 
 import { isMobilePhone } from 'validator'
-import bookingOptions from '@view-data/booking-options.js'
 import { COUNSEL_METHOD, API_BASE_PATH, RESERVATION_PATH } from '@view-data/constants.js'
-import COUNSEL_OPTIONS_LIST from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 
 export const MINS_MILLIS = 60000
 export const HOURS_MILLIS = 60 * MINS_MILLIS
 export const DAYS_MILLIS = 24 * HOURS_MILLIS
 export const MONTHS_MILLIS = 30 * DAYS_MILLIS
+
+const COUNSEL_OPTIONS_LIST = getCounselOptionsList(true)
 
 export function addTimeToDate (date, timeMillis) {
   const d = new Date(date)
@@ -173,7 +174,7 @@ export function genArrayFromNumber(num, nonZero = false) {
 export function getCounselTypeNameById (targetId) {
   return targetId === 'admin-generated'
     ? '관리자생성 아이템'
-    : bookingOptions.find(x => x.id === targetId)?.name || ''
+    : COUNSEL_OPTIONS_LIST.find(x => x.id === targetId)?.name || ''
 }
 
 export function getCounselMethodNameById (targetId) {
@@ -319,14 +320,14 @@ export function debounce (func, wait, immediate) {
   return debounced
 }
 
-export function computeReservationTotalPrice (optionId, numAttendee, useLatestPrice = false) {
+// used in customer-facing area
+export function computeReservationTotalPrice (optionId, numAttendee, version) {
   if (optionId === 'admin-generated') return 'N/A'
 
-  const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
+  const counselOptions = getCounselOptionsList(false, version)
+  const option = counselOptions.find(x => x.id === optionId)
   const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
-  const { price, additionalPrice, oldPrice, oldAdditionalPrice } = option
+  const { price, additionalPrice } = option
 
-  return useLatestPrice
-    ? price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
-    : oldPrice + (additionalAttendee > 0 ? additionalAttendee * oldAdditionalPrice : 0)
+  return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
 }

@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
 const appSrc = path.resolve(__dirname, 'frontend/src')
+const sharedSrc = path.resolve(__dirname, 'shared')
 const resolvePath = relPath => path.join(appSrc, relPath)
 
 // https://vitejs.dev/config/
@@ -41,7 +42,8 @@ export default defineConfig(({ mode }) => {
         '@view-data': resolvePath('view-data'),
         '@styles': resolvePath('styles'),
         '@store': resolvePath('store'),
-        '@hooks': resolvePath('hooks')
+        '@hooks': resolvePath('hooks'),
+        '@shared': sharedSrc
       }
     },
     build: {

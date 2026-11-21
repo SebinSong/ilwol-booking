@@ -9,8 +9,9 @@ const {
 } = require('./utils/helpers.js')
 const {
   DEFAULT_TIME_SLOTS,
-  COUNSEL_OPTIONS_LIST
 } = require('./utils/constants')
+const { getCounselOptionsList, CURRENT_PRICE_VERSION } = require('../shared/counsel-options.js')
+const COUNSEL_OPTIONS_LIST = getCounselOptionsList(true) // exclude the 'admin-generated' option
 
 const clearAllReservations = async () => {
   const result = await Reservation.deleteMany()
@@ -46,6 +47,7 @@ const addDummyReservations = async (entryCount = 5) => {
       counselDate: dateObjToNum(addDaysToDate(today, dOffset)),
       timeSlot: tSlot,
       totalPrice: option.price,
+      priceVersion: CURRENT_PRICE_VERSION,
       personalDetails: {
         name: `테스트유저-${randomIntBetweenRange(1001, 9999)}`,
         gender: randomFromArray(['male', 'femaile']),

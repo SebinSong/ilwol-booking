@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import StateButton from '@components/state-button/StateButton'
 
 // utils
-import bookingOptions from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 import { formatMoney } from '@utils'
 
 // hooks
@@ -13,6 +13,7 @@ import { useUpdateReservationDetailsByCustomer } from '@store/features/reservati
 import { ToastContext } from '@hooks/useToast.js'
 
 // helpers
+const bookingOptions = getCounselOptionsList(true)
 const priceDisplay = price => formatMoney(price, { minimumFractionDigits: 0 })
 const numAttendeeOptionMap = {
   'family-counsel': [2, 3, 4, 5],

@@ -27,11 +27,11 @@ const {
   getCustomerLinkById,
   computeReservationTotalPrice
 } = require('../utils/helpers')
+const { CURRENT_PRICE_VERSION, getCounselOptionsList } = require('../../shared/counsel-options.js')
 const {
   CLIENT_ERROR_TYPES,
   DEFAULT_TIME_SLOTS,
   RESERVATION_STATUS_VALUE,
-  COUNSEL_OPTIONS_LIST
 } = require('../utils/constants')
 
 // helper
@@ -53,6 +53,7 @@ const archiveOldReservation = asyncHandler(async (req, res, next) => {
           optionId: entry.optionId,
           status: entry.status,
           totalPrice: entry.totalPrice || 0,
+          priceVersion: entry.priceVersion || 1,
           originalReservationId: entry._id || '',
           originalCreatedAt: entry.createdAt || ''
         }
@@ -195,6 +196,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
         counselDate: counselDateNumeric,
         timeSlot,
         personalDetails: pDetails,
+        priceVersion: CURRENT_PRICE_VERSION,
         status: 'pending'
       })
     : await Reservation.create({
@@ -203,6 +205,7 @@ const postReservation = asyncHandler(async (req, res, next) => {
         timeSlot,
         personalDetails: pDetails,
         totalPrice,
+        priceVersion: CURRENT_PRICE_VERSION,
         status: 'pending'
       })
 
@@ -547,12 +550,12 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
         'method': () => ({ 'personalDetails.method': updates.method }),
         'num-attendee': () => ({
           'personalDetails.numAttendee': updates.numAttendee,
-          'totalPrice': computeReservationTotalPrice(doc.optionId, updates.numAttendee)
+          'totalPrice': computeReservationTotalPrice(doc.optionId, updates.numAttendee, doc.priceVersion)
         }),
         'counsel-option': () => ({
           'optionId': updates.optionId,
           'personalDetails.numAttendee': updates.numAttendee,
-          'totalPrice': computeReservationTotalPrice(updates.optionId, updates.numAttendee)
+          'totalPrice': computeReservationTotalPrice(updates.optionId, updates.numAttendee, doc.priceVersion)
         })
       })[type]()
     }
@@ -566,7 +569,7 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
 
           if (diff > 0) {
             // 'num-attendee' updates never change optionId, so the per-person rate comes from the reservation's current option.
-            const { additionalPrice = 0 } = COUNSEL_OPTIONS_LIST.find(x => x.id === doc.optionId) || {}
+            const { additionalPrice = 0 } = getCounselOptionsList(false, doc.priceVersion).find(x => x.id === doc.optionId) || {}
 
             return `${pDetails.name}님, 상담 인원 ${diff}명을 추가하셨습니다. ` +
               `${diff * additionalPrice}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
@@ -578,7 +581,7 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
         }
         case 'counsel-option': {
           const newOptionName = getCounselTypeNameById(updates.optionId)
-          const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee) - doc.totalPrice
+          const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee, doc.priceVersion) - doc.totalPrice
           const defaultText = `${pDetails.name}님, 상담 옵션이 ${newOptionName}으로 변경되었습니다. `
 
           return totalPriceDiff > 0
@@ -614,7 +617,7 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
           }
         }
         case 'counsel-option': {
-          const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee) - doc.totalPrice
+          const totalPriceDiff = computeReservationTotalPrice(updates.optionId, updates.numAttendee, doc.priceVersion) - doc.totalPrice
           const currentOptionName = `${getCounselTypeNameById(doc.optionId)}${pDetails.numAttendee > 1 ? `,${pDetails.numAttendee}명` : ''}`
           const newOptionName = `${getCounselTypeNameById(updates.optionId)}${updates.numAttendee && updates.numAttendee > 1 ? `,${updates.numAttendee}명` : ''}`
 

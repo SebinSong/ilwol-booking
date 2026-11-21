@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import bookingOptions from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 import {
   checkAndParseFromLocalStorage,
   saveToLocalStorage,
   removeFromLocalStorage,
   cloneDeep
 } from '@utils'
+
+const bookingOptions = getCounselOptionsList(true)
 
 // helper
 export const BOOKING_DETAILS_LOCAL_STORAGE_KEY = 'ilwol-booking.counsel-details'

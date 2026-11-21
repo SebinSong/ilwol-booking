@@ -55,7 +55,7 @@ There is no automated test runner. `backend/external-services/*.test.js` are ad-
 `shared/counsel-options.js` is the single source for counsel options and prices:
 
 - `COUNSEL_OPTIONS_LIST`: option metadata (name, id, description, duration) without prices. Includes an `admin-generated` entry that has no price.
-- `OPTIONS_PRICES`: price tables keyed by version, `{ [version]: { [optionId]: { price, additionalPrice } } }`.
+- `PRICE_OPTIONS`: price tables keyed by version, `{ [version]: { [optionId]: { price, additionalPrice } } }`.
 - `CURRENT_PRICE_VERSION`: the version applied to new bookings.
 - `getCounselOptionsList(customerFacing, version)`: options merged with the prices of `version` (default: current). `customerFacing = true` drops `admin-generated`; use it for anything customers see or choose from.
 
@@ -64,7 +64,7 @@ There is no automated test runner. `backend/external-services/*.test.js` are ad-
 - Each reservation stores `priceVersion`. New bookings get `CURRENT_PRICE_VERSION` in `postReservation`.
 - The model has `priceVersion: { type: Number, default: 1 }`. Reservations made before versioning have no stored value and read as `1` through the Mongoose default. **The default must stay `1`**; never change it to the current version. `.lean()` queries skip defaults, so treat a missing version as `1` there.
 - Any recalculation for an existing reservation (headcount or option change, by the customer or the admin) must use the reservation's own `priceVersion`, not the current one. Only new bookings and the option cards use the current prices.
-- To change prices: add a new version to `OPTIONS_PRICES`, bump `CURRENT_PRICE_VERSION`, and update the price wording in the option `description`s (e.g. `5만원`). Never edit an existing version's numbers. Also check that the family price breakdown text in `Reserve.jsx` still reads well with the new amounts.
+- To change prices: add a new version to `PRICE_OPTIONS`, bump `CURRENT_PRICE_VERSION`, and update the price wording in the option `description`s (e.g. `5만원`). Never edit an existing version's numbers. Also check that the family price breakdown text in `Reserve.jsx` still reads well with the new amounts. Step-by-step instructions: `shared/PRICE_UPDATE.md`.
 - Known limitation: a browser tab loaded before a price-version deploy still has the old bundle, so it can send an old-price `totalPrice` that gets stored under the new version. Reload admin tabs after such a deploy.
 
 ### Price formula

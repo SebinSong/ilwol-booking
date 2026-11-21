@@ -27,7 +27,10 @@ const COUNSEL_OPTIONS_LIST = [
   }
 ]
 
-const OPTIONS_PRICES = {
+// Price tables by version: { [priceVersion]: { [optionId]: { price, additionalPrice } } }.
+// The top-level key is the price version, stored on each reservation as `priceVersion`.
+// See PRICE_UPDATE.md in this folder before changing prices.
+const PRICE_OPTIONS = {
   '1': {
     'individual-counsel': {
       price: 100000,
@@ -49,7 +52,7 @@ const CURRENT_PRICE_VERSION = 1
 const getCounselOptionsList = (customerFacing = false, version) => {
   version = version || CURRENT_PRICE_VERSION
   let list = COUNSEL_OPTIONS_LIST.map(option => {
-    const priceOpts = OPTIONS_PRICES[version]?.[option.id] || {}
+    const priceOpts = PRICE_OPTIONS[version]?.[option.id] || {}
     return {
       ...option,
       ...priceOpts

@@ -319,12 +319,14 @@ export function debounce (func, wait, immediate) {
   return debounced
 }
 
-export function computeReservationTotalPrice (optionId, numAttendee) {
+export function computeReservationTotalPrice (optionId, numAttendee, useLatestPrice = false) {
   if (optionId === 'admin-generated') return 'N/A'
 
   const option = COUNSEL_OPTIONS_LIST.find(x => x.id === optionId)
   const additionalAttendee = numAttendee - (optionId === 'family-counsel' ? 2 : 1)
-  const { price, additionalPrice } = option
+  const { price, additionalPrice, oldPrice, oldAdditionalPrice } = option
 
-  return price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
+  return useLatestPrice
+    ? price + (additionalAttendee > 0 ? additionalAttendee * additionalPrice : 0)
+    : oldPrice + (additionalAttendee > 0 ? additionalAttendee * oldAdditionalPrice : 0)
 }

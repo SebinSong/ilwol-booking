@@ -6,7 +6,7 @@ import StateButton from '@components/state-button/StateButton'
 
 // utils
 import bookingOptions from '@view-data/booking-options.js'
-import { formatMoney, computeReservationTotalPrice } from '@utils'
+import { formatMoney } from '@utils'
 
 // hooks
 import { useUpdateReservationDetailsByCustomer } from '@store/features/reservationApiSlice.js'
@@ -25,7 +25,8 @@ function BookingOptionRow ({
   disableUpdate = false,
   currentTotalPrice = 0,
   onUpdateModeChange = null,
-  onUpdateSuccess = () => {}
+  onUpdateSuccess = () => {},
+  recomputeTotalPrice = () => 0
 }) {
   const { id: reservationId } = useParams()
   const { addToastItem } = useContext(ToastContext)
@@ -51,8 +52,8 @@ function BookingOptionRow ({
     () => {
       return updatedOption === 'admin-generated'
         ? 'N/A'
-        : computeReservationTotalPrice(updatedOption, updatedNumAttendee)
-    }, [updatedNumAttendee, updatedOption]
+        : recomputeTotalPrice(updatedOption, updatedNumAttendee)
+    }, [updatedNumAttendee, updatedOption, recomputeTotalPrice]
   )
   const enableUpdateBtn = useMemo(
     () => {

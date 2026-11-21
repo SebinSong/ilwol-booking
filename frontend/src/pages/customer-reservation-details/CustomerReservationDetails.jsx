@@ -6,6 +6,7 @@ import {
   formatMoney,
   getStatusName,
   getCounselMethodNameById,
+  computeReservationTotalPrice,
   classNames as cn
 } from '@utils'
 
@@ -99,6 +100,10 @@ export default function CustomerReservationDetails () {
     setSelfUpdateItem(null)
     refetch()
   }, [])
+  const recomputeTotalPrice = useCallback(
+    (optionId, numAttendee) => computeReservationTotalPrice(optionId, numAttendee, data.useLatestPrice),
+    [data.useLatestPrice]
+  )
 
   // feedback component
   let feedbackEl = isDeleted
@@ -186,6 +191,7 @@ export default function CustomerReservationDetails () {
               <BookingOptionRow currentOptionId={data.optionId}
                 rowId='booking-option'
                 onUpdateModeChange={setSelfUpdateItem}
+                recomputeTotalPrice={recomputeTotalPrice}
                 currentTotalPrice={data.totalPrice}
                 currentNumAttendee={pDetails.numAttendee}
                 onUpdateSuccess={refetch}
@@ -199,6 +205,7 @@ export default function CustomerReservationDetails () {
                   numAttendee={pDetails.numAttendee}
                   currentTotalPrice={data.totalPrice}
                   onUpdateModeChange={setSelfUpdateItem}
+                  recomputeTotalPrice={recomputeTotalPrice}
                   onUpdateSuccess={refetch} />
               }
 

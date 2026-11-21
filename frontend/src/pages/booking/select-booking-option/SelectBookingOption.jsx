@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import bookingOptions from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 import { selectCounselOption, addCounselOption } from '@store/features/counselDetailsSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 
@@ -9,6 +9,8 @@ import { ToastContext } from '@hooks/useToast.js'
 import OptionCard from '@components/option-card/OptionCard'
 
 import './SelectBookingOption.scss'
+
+const bookingOptions = getCounselOptionsList(true)
 
 export default function SelectBookingOption () {
   const dispatch = useDispatch()

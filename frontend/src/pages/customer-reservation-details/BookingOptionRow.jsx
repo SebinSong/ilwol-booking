@@ -5,14 +5,15 @@ import { useParams } from 'react-router-dom'
 import StateButton from '@components/state-button/StateButton'
 
 // utils
-import bookingOptions from '@view-data/booking-options.js'
-import { formatMoney, computeReservationTotalPrice } from '@utils'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
+import { formatMoney } from '@utils'
 
 // hooks
 import { useUpdateReservationDetailsByCustomer } from '@store/features/reservationApiSlice.js'
 import { ToastContext } from '@hooks/useToast.js'
 
 // helpers
+const bookingOptions = getCounselOptionsList(true)
 const priceDisplay = price => formatMoney(price, { minimumFractionDigits: 0 })
 const numAttendeeOptionMap = {
   'family-counsel': [2, 3, 4, 5],
@@ -25,7 +26,8 @@ function BookingOptionRow ({
   disableUpdate = false,
   currentTotalPrice = 0,
   onUpdateModeChange = null,
-  onUpdateSuccess = () => {}
+  onUpdateSuccess = () => {},
+  recomputeTotalPrice = () => 0
 }) {
   const { id: reservationId } = useParams()
   const { addToastItem } = useContext(ToastContext)
@@ -51,8 +53,8 @@ function BookingOptionRow ({
     () => {
       return updatedOption === 'admin-generated'
         ? 'N/A'
-        : computeReservationTotalPrice(updatedOption, updatedNumAttendee)
-    }, [updatedNumAttendee, updatedOption]
+        : recomputeTotalPrice(updatedOption, updatedNumAttendee)
+    }, [updatedNumAttendee, updatedOption, recomputeTotalPrice]
   )
   const enableUpdateBtn = useMemo(
     () => {

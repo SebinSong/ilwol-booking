@@ -7,7 +7,7 @@ import {
   getStatusName,
   getStatusClass
 } from '@utils'
-import bookingOptions from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
 
 // components
@@ -18,6 +18,8 @@ import Checkbox from '@components/checkbox/Checkbox.jsx'
 import './AdminReservationTable.scss'
 
 // helpers
+const bookingOptions = getCounselOptionsList(false)
+
 const displayDate = date => {
   const dateStr = numericDateToString(date)
   return humanDate(dateStr, { month: 'short', day: 'numeric', year: 'numeric' })

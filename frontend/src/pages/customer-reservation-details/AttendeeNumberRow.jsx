@@ -10,8 +10,7 @@ import { ToastContext } from '@hooks/useToast.js'
 
 // utils
 import {
-  formatMoney,
-  computeReservationTotalPrice
+  formatMoney
 } from '@utils'
 
 // helpers
@@ -29,7 +28,8 @@ function AttendeeNumberRow ({
   disableUpdate = false,
   currentTotalPrice = 0,
   onUpdateModeChange = null,
-  onUpdateSuccess = () => {}
+  onUpdateSuccess = () => {},
+  recomputeTotalPrice = () => 0
 }) {
   const { id: reservationId } = useParams()
   const { addToastItem } = useContext(ToastContext)
@@ -146,7 +146,7 @@ function AttendeeNumberRow ({
             <span className='current-price'>{priceDisplay(currentTotalPrice)}</span>
             <i className='icon-arrow-right'></i>
             <span className='new-price'>
-              {priceDisplay(computeReservationTotalPrice(optionId, updatedValue))}
+              {priceDisplay(recomputeTotalPrice(optionId, updatedValue))}
             </span>
           </span>
         </div>

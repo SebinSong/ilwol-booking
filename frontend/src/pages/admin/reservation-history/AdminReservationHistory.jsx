@@ -12,7 +12,7 @@ import TableNavigation from '@components/table-navigation/TableNavigation.jsx'
 import { useGetArchivedReservations } from '@store/features/adminApiSlice.js'
 
 // utils
-import bookingOptions from '@view-data/booking-options.js'
+import { getCounselOptionsList } from '@shared/counsel-options.js'
 import { COUNSEL_METHOD } from '@view-data/constants.js'
 import {
   classNames as cn,
@@ -28,6 +28,7 @@ import {
 import './AdminReservationHistory.scss'
 
 // helpers
+const bookingOptions = getCounselOptionsList(false)
 const filterTypesList = () => ['pending', 'confirmed', 'cancelled', 'on-site-payment']
 const displayDate = date => {
   const dateStr = numericDateToString(date)

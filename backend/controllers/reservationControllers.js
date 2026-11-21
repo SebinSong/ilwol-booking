@@ -27,7 +27,12 @@ const {
   getCustomerLinkById,
   computeReservationTotalPrice
 } = require('../utils/helpers')
-const { CLIENT_ERROR_TYPES, DEFAULT_TIME_SLOTS, RESERVATION_STATUS_VALUE } = require('../utils/constants') 
+const {
+  CLIENT_ERROR_TYPES,
+  DEFAULT_TIME_SLOTS,
+  RESERVATION_STATUS_VALUE,
+  COUNSEL_OPTIONS_LIST
+} = require('../utils/constants')
 
 // helper
 const archiveOldReservation = asyncHandler(async (req, res, next) => {
@@ -560,8 +565,11 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
           const diff = updates.numAttendee - pDetails.numAttendee
 
           if (diff > 0) {
+            // 'num-attendee' updates never change optionId, so the per-person rate comes from the reservation's current option.
+            const { additionalPrice = 0 } = COUNSEL_OPTIONS_LIST.find(x => x.id === doc.optionId) || {}
+
             return `${pDetails.name}님, 상담 인원 ${diff}명을 추가하셨습니다. ` +
-              `${diff * 50000}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
+              `${diff * additionalPrice}원의 상담료가 추가됩니다. <우리은행 심순애 1002-358-833662>`
           } else {
             return doc.status === 'confirmed'
               ? `${pDetails.name}님, 상담인원이 ${updates.numAttendee}명으로 변경되었습니다. 관리자가 확인 후, 상담료 초과분을 환불드리겠습니다. 환불 받으실 계좌를 보내주세요.`
@@ -583,6 +591,7 @@ const updateReservationByCustomer = asyncHandler(async (req, res, next) => {
           return  `${pDetails.name}님, 상담내역이 성공적으로 변경되었습니다.`
       }
     }
+
     const getAdminSMS = () => {
       const isStatusConfirmed = doc.status === 'confirmed'
       const dateAndTime = `${numericDateToString(doc.counselDate)} ${doc.timeSlot}`
